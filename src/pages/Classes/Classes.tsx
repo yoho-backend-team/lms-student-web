@@ -5,6 +5,7 @@ import Upcomingclass from '@/components/classes/Upcomingclass';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import React from 'react';
+import ClassId from '../ClassId/ClassId';
 
 const Classes = () => {
 	return <div>
@@ -31,6 +32,7 @@ const Classes = () => {
 		{/* <Liveclass /> */}
 		{/* <Upcomingclass /> */}
 		<Completedclass />
+		{/* <ClassId /> */}
 	</div>;
 
 };
