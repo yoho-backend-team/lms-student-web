@@ -9,7 +9,7 @@ const MainLayout = () => {
 				<div className='flex flex-col justify-center h-[90px]'>
 					<Navbar />
 				</div>
-				<div className='relative h-[100vh] overflow-y-auto px-6'>
+				<div className='relative h-[100vh] overflow-y-auto px-6 bg-[#ebeff3]'>
 					<Outlet />
 				</div>
 				<div className='h-[70px]'>
