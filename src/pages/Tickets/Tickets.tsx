@@ -14,16 +14,16 @@ const Tickets = () => {
         <Button className="bg-[#ebeff3]"variant="outline"
          style={{
                         boxShadow: `
-       5px 5px 4px rgba(255, 255, 255, 0.7),      /* Light shadow to bottom-right */
-      -4px -4px 4px rgba(189, 194, 199, 0.75)     /* Dark shadow to top-left */
+      rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      rgba(189, 194, 199, 0.75) 2px 2px 3px inset
     `,
                       }}
                     >Open</Button>
         <Button className="bg-[#ebeff3]" variant="outline"
          style={{
                         boxShadow: `
-       5px 5px 4px rgba(255, 255, 255, 0.7),      /* Light shadow to bottom-right */
-      -4px -4px 4px rgba(189, 194, 199, 0.75)     /* Dark shadow to top-left */
+      rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      rgba(189, 194, 199, 0.75) 2px 2px 3px inset
     `,
                       }}
                     >Close</Button>
@@ -105,7 +105,7 @@ const Tickets = () => {
 
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
@@ -173,7 +173,7 @@ const Tickets = () => {
 
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
@@ -240,7 +240,7 @@ const Tickets = () => {
           </CardFooter>
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
