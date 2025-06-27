@@ -22,7 +22,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 }) => {
   return (
     <div 
-      className="w-64 min-p-2 rounded-r-lg" 
+      className="w-64 min-p-2 rounded-r-lg flex flex-col overflow-hidden" 
       style={{
         backgroundColor: '#EBEFF3', 
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
@@ -34,19 +34,25 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
         width: '20%'
       }}
     >
-      <ProfileHeader 
-        name={name}
-        traineeId={traineeId}
-        profileImage={profileImage}
-      />
+      {/* Profile Header - Fixed at top */}
+      <div className="flex-shrink-0 p-4">
+        <ProfileHeader 
+          name={name}
+          traineeId={traineeId}
+          profileImage={profileImage}
+        />
+      </div>
       
-      <ProfileMenu 
-        activeItem={activeMenuItem}
-        onMenuItemClick={onMenuItemClick}
-      />
+      {/* Menu - Flexible middle section */}
+      <div className="flex-1 overflow-y-auto px-4">
+        <ProfileMenu 
+          activeItem={activeMenuItem}
+          onMenuItemClick={onMenuItemClick}
+        />
+      </div>
 
-      {/* Go Back Button */}
-      <div className="mt-auto pt-8">
+      {/* Go Back Button - Fixed at bottom */}
+      <div className="flex-shrink-0 p-4">
         <button 
           className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg py-3 px-4 flex items-center justify-center space-x-2 font-medium transition-all duration-200" 
           style={{
