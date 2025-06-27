@@ -184,3 +184,15 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+.custom-inset-shadow {
+  border: 1px solid #EBEFF3;
+  border-radius: 12px;
+  color: #6a7282 ;
+  background-color: #EBEFF3;
+  box-shadow:
+    2px 2px 3px 0.3px #BDC2C7BF inset,
+    2px 7px 10px 0.4px #FFFFFFBF;
+}
