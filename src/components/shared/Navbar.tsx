@@ -10,7 +10,9 @@ const Navbar = () => {
 					<img src={Logo} alt='logo' className='cursor-pointer' />
 				</div>
 				<div className='flex gap-10'>
-					<Link to='/'>Dashboard</Link>
+					<Link to='/'>
+						Dashboard
+					</Link>
 					<Link to='classes'>Classes</Link>
 					<Link to='courses'>Courses</Link>
 					<Link to='attendance'>Attendance</Link>
