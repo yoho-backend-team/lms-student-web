@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
+import { COLORS, FONTS } from '@/constants/uiConstants';
 
 const ProfileInformation: React.FC = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('profile');
@@ -113,7 +114,7 @@ const ProfileInformation: React.FC = () => {
   };
 
   return (
-    <div className="min-h-fit font-['Quicksand']">
+    <div className="min-h-fit" style={{ fontFamily: FONTS.para_01.fontFamily }}>
       <div className="flex flex-col lg:flex-row gap-4 p-4 max-w-7xl mx-auto">
         {/* Sidebar - Fixed width */}
         <div className="flex-shrink-0">

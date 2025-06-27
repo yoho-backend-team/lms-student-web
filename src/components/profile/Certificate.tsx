@@ -219,41 +219,41 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
           {/* Summary Stats */}
           {certificatesData.length > 0 && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-[#ebeff3] rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] font-['Quicksand']">
+              <div className="rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily }}>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-[#7b00ff] rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.light_blue }}>
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: COLORS.white }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
-                  <p className="font-bold text-gray-900 font-['Quicksand'] text-3xl mb-2">{certificatesData.length}</p>
-                  <p className="text-gray-600 font-['Quicksand'] font-medium">Total Certificates</p>
+                  <p className="font-bold text-3xl mb-2" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily }}>{certificatesData.length}</p>
+                  <p className="font-medium" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>Total Certificates</p>
                 </div>
               </div>
 
-              <div className="bg-[#ebeff3] rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] font-['Quicksand']">
+              <div className="rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily }}>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-[#7b00ff] rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.light_blue }}>
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: COLORS.white }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <p className="font-bold text-gray-900 font-['Quicksand'] text-3xl mb-2">{certificatesData.filter(cert => cert.grade.includes('A')).length}</p>
-                  <p className="text-gray-600 font-['Quicksand'] font-medium">Grade A & Above</p>
+                  <p className="font-bold text-3xl mb-2" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily }}>{certificatesData.filter(cert => cert.grade.includes('A')).length}</p>
+                  <p className="font-medium" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>Grade A & Above</p>
                 </div>
               </div>
 
-              <div className="bg-[#ebeff3] rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] font-['Quicksand']">
+              <div className="rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily }}>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-[#7b00ff] rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.light_blue }}>
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: COLORS.white }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <p className="font-bold text-gray-900 font-['Quicksand'] text-3xl mb-2">
+                  <p className="font-bold text-3xl mb-2" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily }}>
                     {Math.round(certificatesData.reduce((acc, cert) => acc + parseInt(cert.duration.split(' ')[0]), 0) / certificatesData.length) || 0}
                   </p>
-                  <p className="text-gray-600 font-['Quicksand'] font-medium">Avg Duration (Months)</p>
+                  <p className="font-medium" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>Avg Duration (Months)</p>
                 </div>
               </div>
             </div>

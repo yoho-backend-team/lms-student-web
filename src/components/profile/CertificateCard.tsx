@@ -1,5 +1,6 @@
 import React from 'react';
 import { Download, Award, Calendar, Clock } from 'lucide-react';
+import { COLORS, FONTS } from '@/constants/uiConstants';
 
 interface CertificateData {
   studentName: string;
@@ -48,8 +49,9 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
 
   return (
     <div className="w-full">
-      <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] font-['Quicksand'] flex flex-col"
+      <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
         style={{ 
+          fontFamily: FONTS.para_01.fontFamily,
           width: '110%',
           marginTop: '1rem',
           height: '73vh',
@@ -58,7 +60,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
         {/* Header */}
         <div className="p-6 border-b border-gray-200">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold text-gray-900 font-['Quicksand'] text-2xl leading-none">
+            <h2 className="font-bold text-2xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily, fontWeight: FONTS.heading_01.fontWeight }}>
               Course Certificate
             </h2>
           </div>
@@ -67,9 +69,9 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
         <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
           {/* Certificate Preview */}
           <div className="mb-8 flex justify-center">
-            <div className="w-96 h-[550px] bg-gradient-to-br from-[#7b00ff] to-[#9333ea] rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] relative overflow-hidden">
+            <div className="w-96 h-[550px] rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] relative overflow-hidden" style={{ background: `linear-gradient(to bottom right, ${COLORS.light_blue}, ${COLORS.purple_01})` }}>
               {/* Certificate Front */}
-              <div className="h-full p-8 text-white relative flex flex-col">
+              <div className="h-full p-8 relative flex flex-col" style={{ color: COLORS.white }}>
                 {/* Decorative border */}
                 <div className="absolute inset-4 border-2 border-white/30 rounded-xl"></div>
                 <div className="absolute inset-6 border border-white/20 rounded-lg"></div>
@@ -79,22 +81,22 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
                   <div className="flex justify-center mb-3">
                     <Award className="w-12 h-12 text-yellow-300" />
                   </div>
-                  <h3 className="text-2xl font-bold font-['Quicksand'] mb-2">CERTIFICATE</h3>
-                  <p className="text-lg font-['Quicksand'] opacity-90">OF COMPLETION</p>
+                  <h3 className="text-2xl font-bold mb-2" style={{ fontFamily: FONTS.heading_01.fontFamily }}>CERTIFICATE</h3>
+                  <p className="text-lg opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>OF COMPLETION</p>
                   <div className="w-24 h-0.5 bg-white/50 mx-auto mt-3"></div>
                 </div>
 
                 {/* Institution */}
                 <div className="text-center mb-6 relative z-10">
-                  <p className="text-sm font-['Quicksand'] opacity-80">This is to certify that</p>
-                  <h4 className="text-xl font-bold font-['Quicksand'] mt-2 mb-2">{certificateData.studentName}</h4>
-                  <p className="text-sm font-['Quicksand'] opacity-80">has successfully completed the course</p>
+                  <p className="text-sm opacity-80" style={{ fontFamily: FONTS.para_01.fontFamily }}>This is to certify that</p>
+                  <h4 className="text-xl font-bold mt-2 mb-2" style={{ fontFamily: FONTS.heading_03.fontFamily }}>{certificateData.studentName}</h4>
+                  <p className="text-sm opacity-80" style={{ fontFamily: FONTS.para_01.fontFamily }}>has successfully completed the course</p>
                 </div>
 
                 {/* Course Info */}
                 <div className="text-center mb-6 relative z-10">
                   <div className="bg-white/10 rounded-lg p-4 backdrop-blur-sm">
-                    <h5 className="text-lg font-bold font-['Quicksand'] mb-2">{certificateData.courseName}</h5>
+                    <h5 className="text-lg font-bold mb-2" style={{ fontFamily: FONTS.heading_04.fontFamily }}>{certificateData.courseName}</h5>
                     <div className="flex justify-center items-center gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
@@ -112,12 +114,12 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
                 <div className="mt-auto relative z-10">
                   <div className="flex justify-between items-end">
                     <div className="text-left">
-                      <p className="text-xs font-['Quicksand'] opacity-80">Issued by</p>
-                      <p className="font-semibold font-['Quicksand']">{certificateData.institution}</p>
+                      <p className="text-xs opacity-80" style={{ fontFamily: FONTS.para_01.fontFamily }}>Issued by</p>
+                      <p className="font-semibold" style={{ fontFamily: FONTS.heading_06.fontFamily }}>{certificateData.institution}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-['Quicksand'] opacity-80">Certificate ID</p>
-                      <p className="font-semibold font-['Quicksand'] text-xs">{certificateData.certificateId}</p>
+                      <p className="text-xs opacity-80" style={{ fontFamily: FONTS.para_01.fontFamily }}>Certificate ID</p>
+                      <p className="font-semibold text-xs" style={{ fontFamily: FONTS.heading_06.fontFamily }}>{certificateData.certificateId}</p>
                     </div>
                   </div>
                 </div>
@@ -142,79 +144,79 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
 
           {/* Certificate Details */}
           <div className="mb-8">
-            <h3 className="font-bold text-gray-900 mb-6 font-['Quicksand'] text-xl leading-none">
+            <h3 className="font-bold mb-6 text-xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_02.fontFamily, fontWeight: FONTS.heading_02.fontWeight }}>
               Certificate Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Student Name
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.studentName}
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Course Name
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.courseName}
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Completion Date
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.completionDate}
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Duration
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.duration}
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Certificate ID
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.certificateId}
                 </div>
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Grade
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.grade || 'Not provided'}
                 </div>
               </div>
 
               <div className="md:col-span-2">
-                <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Institution
                 </label>
-                <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                   {certificateData.institution}
                 </div>
               </div>
 
               {certificateData.instructor && (
                 <div className="md:col-span-2">
-                  <label className="block font-medium text-gray-700 mb-2 font-['Quicksand'] text-sm leading-relaxed">
+                  <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                     Instructor
                   </label>
-                  <div className="bg-[#ebeff3] rounded-lg px-4 py-3 font-['Quicksand'] text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center text-gray-600">
+                  <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
                     {certificateData.instructor}
                   </div>
                 </div>
