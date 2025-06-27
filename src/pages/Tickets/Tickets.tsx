@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { DialogTrigger } from '@/components/ui/dialog';
-import { Dialog } from '@radix-ui/react-dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 
 const Tickets = () => {
@@ -15,16 +14,16 @@ const Tickets = () => {
         <Button className="bg-[#ebeff3]"variant="outline"
          style={{
                         boxShadow: `
-       5px 5px 4px rgba(255, 255, 255, 0.7),      /* Light shadow to bottom-right */
-      -4px -4px 4px rgba(189, 194, 199, 0.75)     /* Dark shadow to top-left */
+      rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      rgba(189, 194, 199, 0.75) 2px 2px 3px inset
     `,
                       }}
                     >Open</Button>
         <Button className="bg-[#ebeff3]" variant="outline"
          style={{
                         boxShadow: `
-       5px 5px 4px rgba(255, 255, 255, 0.7),      /* Light shadow to bottom-right */
-      -4px -4px 4px rgba(189, 194, 199, 0.75)     /* Dark shadow to top-left */
+      rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      rgba(189, 194, 199, 0.75) 2px 2px 3px inset
     `,
                       }}
                     >Close</Button>
@@ -34,7 +33,7 @@ const Tickets = () => {
       <div className="grid  md:grid-cols-2 gap-6 w-full">
 
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
@@ -106,7 +105,7 @@ const Tickets = () => {
 
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
@@ -174,7 +173,7 @@ const Tickets = () => {
 
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
@@ -241,7 +240,7 @@ const Tickets = () => {
           </CardFooter>
         </Card>
         <Card
-          className="relative bg-[#ebeff3]"
+          className="relative bg-[#ebeff3] h-[231px]"
           style={{
             boxShadow: `
    
