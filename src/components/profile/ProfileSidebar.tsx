@@ -22,19 +22,19 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
 }) => {
   return (
     <div 
-      className="w-64 min-p-2 rounded-r-lg flex flex-col overflow-hidden" 
+      className="w-80 min-p-2 rounded-r-lg flex flex-col overflow-hidden" 
       style={{
         backgroundColor: '#EBEFF3', 
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        height: '75vh',
-        marginTop: '2rem',
+        height: '90vh',
+        marginTop: '1rem',
         marginLeft: '1rem',
         position: 'sticky',
-        width: '20%'
+        width: '25%'
       }}
     >
-      {/* Profile Header - Fixed at top */}
+      {/* Profile Header Card - Fixed at top */}
       <div className="flex-shrink-0 p-4">
         <ProfileHeader 
           name={name}
@@ -54,9 +54,8 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
       {/* Go Back Button - Fixed at bottom */}
       <div className="flex-shrink-0 p-4">
         <button 
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg py-3 px-4 flex items-center justify-center space-x-2 font-medium transition-all duration-200" 
+          className="w-full bg-[#7b00ff] text-white rounded-lg py-3 px-4 flex items-center justify-center space-x-2 font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]" 
           style={{
-            boxShadow: '0 10px 15px -3px rgba(139, 69, 255, 0.4), 0 4px 6px -2px rgba(139, 69, 255, 0.05)', 
             fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
             fontSize: '14px'
           }}
