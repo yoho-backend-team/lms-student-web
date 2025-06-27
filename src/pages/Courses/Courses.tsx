@@ -1,4 +1,5 @@
 import MainCourse from '@/components/courses/MainCourse';
+
 import React from 'react';
 
 const Courses = () => {
