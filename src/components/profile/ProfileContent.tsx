@@ -28,10 +28,12 @@ const ProfileContent: React.FC<ProfileContentProps> = ({ personalInfo, institute
   return (
     <div className="flex-1 p-6">
       <div 
-        className="rounded-lg p-6" 
+        className="relative bg-[#ebeff3] rounded-lg p-6" 
         style={{
-          backgroundColor: '#EBEFF3', 
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: `
+            rgba(255, 255, 255, 0.7) -4px -4px 4px, 
+            rgba(189, 194, 199, 0.75) 5px 5px 4px
+          `,
           fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
       >

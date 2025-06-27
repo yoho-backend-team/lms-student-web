@@ -47,13 +47,15 @@ const InstituteInformation: React.FC<InstituteInformationProps> = ({ data }) => 
               {field.label}
             </label>
             <div 
-              className="rounded-lg px-3 py-2 text-gray-500" 
+              className="relative bg-[#ebeff3] rounded-lg px-3 py-2 text-gray-500" 
               style={{
-                backgroundColor: '#D1D5DB', 
                 fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 fontSize: '14px', 
                 lineHeight: '1.4', 
-                boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)'
+                boxShadow: `
+                  rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+                  rgba(189, 194, 199, 0.75) 2px 2px 3px inset
+                `
               }}
             >
               {field.value}

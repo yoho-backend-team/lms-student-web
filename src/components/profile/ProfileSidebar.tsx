@@ -27,7 +27,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
         backgroundColor: '#EBEFF3', 
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        height: '85vh',
+        height: '75vh',
         marginTop: '2rem',
         marginLeft: '1rem',
         position: 'sticky',
