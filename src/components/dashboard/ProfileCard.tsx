@@ -54,7 +54,7 @@ const ProfileCard: React.FC = () => {
                     </div>
                 </div>
                 <button type="button"
-                    style={{ fontFamily: FONTS.para_01.fontFamily, fontWeight: FONTS.para_01.fontWeight }}
+                    style={{ fontFamily: FONTS.heading_06.fontFamily, fontWeight: FONTS.heading_06.fontWeight }}
                     className='items-center w-[104px] h-[48px] rounded-xl btnshadow text-[#716F6F] text-[14px]'
                 >View Profile</button>
             </div>
