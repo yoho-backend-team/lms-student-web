@@ -56,6 +56,12 @@ export const FONTS = {
 		fontSize: '16px',
 		color: COLORS.text_desc,
 	},
+	heading_07: {
+		fontFamily: 'Quicksand',
+		fontWeight: 700,
+		fontSize: '14px',
+		color: COLORS.text_desc,
+	},
 	para_01: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
