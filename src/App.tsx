@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import './App.css'
-import { Button } from "@/components/ui/button"
+import { BrowserRouter } from 'react-router-dom';
+import './App.css';
+import { Button } from '@/components/ui/button';
+import AppRoutes from './routes/AppRoutes';
 function App() {
-
-  return (
-    <>
-      <div>
-        <Button className="bg-secondary text-secondary-foreground shadow-xs hover:bg-primary/50">Click Me</Button>
-      </div>
-    </>
-  )
+	return (
+		<>
+			<BrowserRouter>
+				<AppRoutes />
+			</BrowserRouter>
+		</>
+	);
 }
 
-export default App
+export default App;
