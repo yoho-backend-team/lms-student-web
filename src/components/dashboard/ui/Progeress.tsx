@@ -87,8 +87,8 @@ const CircularProgress = ({
     );
 };
 
-export default function CircularProgressWithLabelDemo() {
-    const [progress, setProgress] = React.useState([67]);
+export const CircularProgressWithLabelDemo: React.FC<{ value: number }> = ({ value }) => {
+    const progress: number[] = [value ?? 0];
 
     return (
         <div className="max-w-xs mx-auto w-full flex flex-col items-center">

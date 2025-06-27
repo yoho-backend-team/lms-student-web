@@ -1,7 +1,6 @@
-"use client"
 
-import { Moon, Sun } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+// import { Moon, Sun } from "lucide-react"
+// import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 export default function Progress3D() {
@@ -24,7 +23,7 @@ export default function Progress3D() {
                         strokeWidth="20"
                         strokeDasharray=""
                         // className="opacity-100"
-                        className={cn("stroke-gray-100")}
+                        className={cn("stroke-gray-100 ")}
                     />
 
                     {/* Dashed inner ring with more presence */}
