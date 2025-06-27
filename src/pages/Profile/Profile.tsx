@@ -1,8 +1,8 @@
 import React from 'react';
-import EnhancedProfile from './EnhancedProfile';
+import ProfilePage from '../../components/profile/profile';
 
 const Profile = () => {
-	return <EnhancedProfile />;
+	return <ProfilePage />;
 };
 
 export default Profile;

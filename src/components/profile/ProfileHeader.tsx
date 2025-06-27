@@ -1,69 +1,104 @@
-import React from 'react';
-import { Edit } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Edit, Camera } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { COLORS, FONTS } from '@/constants/uiConstants';
 
 interface ProfileHeaderProps {
   name: string;
   traineeId: string;
   profileImage: string;
+  onEditClick?: () => void;
+  onImageChange?: (imageFile: File) => void;
+  isEditing?: boolean;
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ name, traineeId, profileImage }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ 
+  name, 
+  traineeId, 
+  profileImage, 
+  onEditClick, 
+  onImageChange, 
+  isEditing = false 
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageClick = () => {
+    if (isEditing) {
+      fileInputRef.current?.click();
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onImageChange?.(file);
+    }
+  };
+
   return (
-    <Card className="bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] border-none">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between">
+    <Card className="shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] border-none w-full" style={{ backgroundColor: COLORS.bg_Colour }}>
+      <CardContent className="p-3">
+        <div className="flex items-center justify-between gap-3">
           {/* Left side - Image and details */}
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="flex-shrink-0 relative">
+              <div 
+                className={`w-14 h-14 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] ${isEditing ? 'cursor-pointer group' : ''}`}
+                onClick={handleImageClick}
+              >
                 <img 
                   src={profileImage}
                   alt={name}
-                  className="w-full h-full object-cover"
+                  className={`w-full h-full object-cover ${isEditing ? 'transition-all duration-200 group-hover:opacity-80' : ''}`}
                 />
+                {/* Camera overlay - only show when editing */}
+                {isEditing && (
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <Camera className="w-4 h-4 text-white" />
+                  </div>
+                )}
               </div>
+              
+              {/* Hidden file input */}
+              {isEditing && (
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              )}
             </div>
             
-            {/* Name and ID below image area */}
-            <div className="flex flex-col justify-center">
-              <h3 
-                className="font-bold text-gray-900 mb-1" 
-                style={{
-                  fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '18px',
-                  lineHeight: '1.2',
-                  letterSpacing: '0px'
-                }}
-              >
+            {/* Name and ID */}
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <h3 className="font-bold mb-1 text-base leading-tight truncate" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_05.fontFamily, fontWeight: FONTS.heading_05.fontWeight }}>
                 {name}
               </h3>
-              <p 
-                className="text-gray-600" 
-                style={{
-                  fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                  fontSize: '12px', 
-                  lineHeight: '1.4'
-                }}
-              >
+              <p className="text-xs leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                 ID: {traineeId}
               </p>
             </div>
           </div>
 
-          {/* Right side - Edit button in input style */}
+          {/* Right side - Edit button */}
           <div className="flex-shrink-0">
             <button 
-              className="bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] border-none rounded-md px-3 py-2 flex items-center gap-2 text-gray-700 hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] transition-all duration-200"
+              onClick={onEditClick}
+              className={`border-none rounded-md px-2 py-2 flex items-center gap-1 text-xs font-medium transition-all duration-200 ${
+                isEditing 
+                  ? 'shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]' 
+                  : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
+              }`}
               style={{
-                fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                fontSize: '12px',
-                fontWeight: 500
+                backgroundColor: COLORS.bg_Colour,
+                fontFamily: FONTS.para_01.fontFamily,
+                color: isEditing ? COLORS.light_blue : COLORS.text_desc
               }}
             >
               <Edit className="w-3 h-3" />
-              <span>Edit</span>
+              <span className="hidden lg:inline">{isEditing ? 'Done' : 'Edit'}</span>
             </button>
           </div>
         </div>
