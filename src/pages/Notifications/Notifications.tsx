@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import bellImg from '../../assets/icons/notifications/image 90.png';
 
 interface Notification {
 	id: string;
@@ -109,7 +110,7 @@ const Notifications = () => {
 	};
 
 	return (
-		<div className='py-8'>
+		<div className='py-4'>
 			<div className='flex items-center gap-6'>
 				<div
 					className='cursor-pointer p-2 rounded-md'
@@ -129,9 +130,9 @@ const Notifications = () => {
 				</span>
 			</div>
 
-			<div className='grid md:grid-cols-2 gap-6 w-full mt-6'>
+			<div className='grid md:grid-cols-2 gap-6 w-full mt-4'>
 				<Card
-					className='relative bg-[#ebeff3] px-5 overflow-y-auto'
+					className='relative bg-[#ebeff3] px-5 h-[510px]'
 					style={{
 						boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px, 
@@ -139,7 +140,7 @@ const Notifications = () => {
             `,
 					}}
 				>
-					<div className='relative mt-4 mb-4'>
+					<div className='relative'>
 						<Input
 							type='text'
 							style={{
@@ -160,12 +161,12 @@ const Notifications = () => {
 								className='absolute right-3 top-1/2 transform -translate-y-1/2'
 								aria-label='Clear search'
 							>
-								<X className='h-5 w-5 text-gray-500' />
+								<X className='h-5 w-5 text-gray-500 cursor-pointer' />
 							</button>
 						)}
 					</div>
 
-					<div className='flex flex-row gap-3 mb-4'>
+					<div className='flex flex-row gap-3'>
 						{['all', 'read', 'unread'].map((label) => (
 							<Button
 								key={label}
@@ -186,7 +187,7 @@ const Notifications = () => {
 						))}
 					</div>
 
-					<div className='flex flex-col w-full gap-3 pb-4'>
+					<div className='flex flex-col w-full gap-3 px-2 py-3 overflow-y-auto hide-scrollbar'>
 						{filteredNotifications?.length > 0 ? (
 							filteredNotifications?.map((notification) => (
 								<Card
@@ -221,7 +222,7 @@ const Notifications = () => {
 										</div>
 									</CardHeader>
 									<CardContent>
-										<p style={{ ...FONTS.para_02 }}>
+										<p style={{ ...FONTS.heading_07 }}>
 											{notification?.description}
 										</p>
 									</CardContent>
@@ -236,7 +237,7 @@ const Notifications = () => {
 				</Card>
 
 				<Card
-					className='relative bg-[#ebeff3] h-[235px]'
+					className='relative bg-[#ebeff3] h-[510px]'
 					style={{
 						boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px, 
@@ -249,7 +250,7 @@ const Notifications = () => {
 							<div>
 								<div className='flex items-center justify-between'>
 									<h4 style={{ ...FONTS.heading_02 }} className='mb-2'>
-										{selectedNotification.title}
+										{selectedNotification?.title}
 									</h4>
 									<Button
 										className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
@@ -260,7 +261,7 @@ const Notifications = () => {
 								</div>
 								<div className='my-3'>
 									<p style={{ ...FONTS.heading_06 }}>
-										{selectedNotification.description}
+										{selectedNotification?.description}
 									</p>
 								</div>
 								<div className='flex justify-end mt-5'>
@@ -273,10 +274,15 @@ const Notifications = () => {
 									</Button>
 								</div>
 							</div>
-						) : filteredNotifications.length > 0 ? (
-							<p style={{ ...FONTS.para_01 }}>
-								Select a notification to view details
-							</p>
+						) : filteredNotifications?.length > 0 ? (
+							<div className='relative'>
+								<p style={{ ...FONTS.para_01 }}>
+									Select a notification to view details
+								</p>
+								<div className='absolute top-32 left-44'>
+									<img src={bellImg} alt='notifications' />
+								</div>
+							</div>
 						) : (
 							<p style={{ ...FONTS.para_01 }}>
 								No notifications available to display
