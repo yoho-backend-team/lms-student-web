@@ -20,7 +20,7 @@ const ticketData = [
 
 const Tickets = () => {
   return (
-    <div className="flex min-h-screen flex-col items-start justify-start px-8 py-10 bg-[#ebeff3]">
+    <div className="flex min-h-screen flex-col items-start justify-start px-8 py-10 ">
       <h1 className="text-2xl font-bold mb-6">Ticket</h1>
 
      
