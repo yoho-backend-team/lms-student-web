@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import { useToast } from '@/components/ui/toast';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 
 const ProfileInformation: React.FC = () => {
   const [activeMenuItem, setActiveMenuItem] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const { showToast } = useToast();
 
   // Sample data - replace with actual data from props or API
   const [profileData, setProfileData] = useState({
@@ -36,6 +41,10 @@ const ProfileInformation: React.FC = () => {
   const [originalProfileImage, setOriginalProfileImage] = useState(profileData.profileImage);
 
   const handleMenuItemClick = (itemId: string) => {
+    // If switching away from profile section while editing, exit edit mode
+    if (isEditing && itemId !== 'profile') {
+      setIsEditing(false);
+    }
     setActiveMenuItem(itemId);
   };
 
@@ -78,31 +87,44 @@ const ProfileInformation: React.FC = () => {
     return personalInfoChanged || imageChanged;
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!hasChanges()) {
-      alert('No changes detected to save.');
+      showToast('No changes detected to save.', 'info');
       return;
     }
 
-    // Here you would typically save all data to your backend
+    setIsSaving(true);
     
-    // Update original data after successful save
-    setOriginalPersonalInfo(personalInfo);
-    setOriginalProfileImage(profileData.profileImage);
-    
-    // Show success message
-    alert('Profile updated successfully!');
-    setIsEditing(false);
+    try {
+      // Here you would typically save all data to your backend
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Update original data after successful save
+      setOriginalPersonalInfo(personalInfo);
+      setOriginalProfileImage(profileData.profileImage);
+      
+      // Show success message
+      showToast('Profile updated successfully!', 'success');
+      setIsEditing(false);
+    } catch (error) {
+      // Handle error
+      showToast('Failed to update profile. Please try again.', 'error');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleCancel = () => {
     if (hasChanges()) {
-      const confirmCancel = window.confirm('You have unsaved changes. Are you sure you want to cancel?');
-      if (!confirmCancel) {
-        return;
-      }
+      setShowCancelDialog(true);
+      return;
     }
+    
+    setIsEditing(false);
+  };
 
+  const confirmCancel = () => {
     // Restore original data
     setPersonalInfo(originalPersonalInfo);
     setProfileData(prev => ({ ...prev, 
@@ -111,6 +133,7 @@ const ProfileInformation: React.FC = () => {
     }));
     
     setIsEditing(false);
+    setShowCancelDialog(false);
   };
 
   return (
@@ -142,9 +165,22 @@ const ProfileInformation: React.FC = () => {
             onSave={handleSave}
             onCancel={handleCancel}
             activeMenuItem={activeMenuItem}
+            isSaving={isSaving}
           />
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <ConfirmationDialog
+        isOpen={showCancelDialog}
+        onClose={() => setShowCancelDialog(false)}
+        onConfirm={confirmCancel}
+        title="Discard Changes"
+        description="You have unsaved changes. Are you sure you want to discard them?"
+        confirmText="Discard"
+        cancelText="Keep Editing"
+        type="warning"
+      />
     </div>
   );
 };

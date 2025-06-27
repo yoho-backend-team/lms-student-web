@@ -10,6 +10,7 @@ interface ProfileHeaderProps {
   onEditClick?: () => void;
   onImageChange?: (imageFile: File) => void;
   isEditing?: boolean;
+  showEditButton?: boolean;
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ 
@@ -18,12 +19,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   profileImage, 
   onEditClick, 
   onImageChange, 
-  isEditing = false 
+  isEditing = false,
+  showEditButton = true
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageClick = () => {
-    if (isEditing) {
+    if (isEditing && showEditButton) {
       fileInputRef.current?.click();
     }
   };
@@ -43,16 +45,16 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className="flex-shrink-0 relative">
               <div 
-                className={`w-14 h-14 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] ${isEditing ? 'cursor-pointer group' : ''}`}
+                className={`w-14 h-14 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] ${isEditing && showEditButton ? 'cursor-pointer group' : ''}`}
                 onClick={handleImageClick}
               >
                 <img 
                   src={profileImage}
                   alt={name}
-                  className={`w-full h-full object-cover ${isEditing ? 'transition-all duration-200 group-hover:opacity-80' : ''}`}
+                  className={`w-full h-full object-cover ${isEditing && showEditButton ? 'transition-all duration-200 group-hover:opacity-80' : ''}`}
                 />
-                {/* Camera overlay - only show when editing */}
-                {isEditing && (
+                {/* Camera overlay - only show when editing and edit button is visible */}
+                {isEditing && showEditButton && (
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <Camera className="w-4 h-4 text-white" />
                   </div>
@@ -60,7 +62,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </div>
               
               {/* Hidden file input */}
-              {isEditing && (
+              {isEditing && showEditButton && (
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -83,24 +85,26 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           </div>
 
           {/* Right side - Edit button */}
-          <div className="flex-shrink-0">
-            <button 
-              onClick={onEditClick}
-              className={`border-none rounded-md px-2 py-2 flex items-center gap-1 text-xs font-medium transition-all duration-200 ${
-                isEditing 
-                  ? 'shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]' 
-                  : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
-              }`}
-              style={{
-                backgroundColor: COLORS.bg_Colour,
-                fontFamily: FONTS.para_01.fontFamily,
-                color: isEditing ? COLORS.light_blue : COLORS.text_desc
-              }}
-            >
-              <Edit className="w-3 h-3" />
-              <span className="hidden lg:inline">{isEditing ? 'Done' : 'Edit'}</span>
-            </button>
-          </div>
+          {showEditButton && (
+            <div className="flex-shrink-0">
+              <button 
+                onClick={onEditClick}
+                className={`border-none rounded-md px-2 py-2 flex items-center gap-1 text-xs font-medium transition-all duration-200 ${
+                  isEditing 
+                    ? 'shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]' 
+                    : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
+                }`}
+                style={{
+                  backgroundColor: COLORS.bg_Colour,
+                  fontFamily: FONTS.para_01.fontFamily,
+                  color: isEditing ? COLORS.light_blue : COLORS.text_desc
+                }}
+              >
+                <Edit className="w-3 h-3" />
+                <span className="hidden lg:inline">{isEditing ? 'Close' : 'Edit'}</span>
+              </button>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

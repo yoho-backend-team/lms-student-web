@@ -50,6 +50,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
           onEditClick={onEditClick}
           onImageChange={onImageChange}
           isEditing={isEditing}
+          showEditButton={activeMenuItem === 'profile'}
         />
       </div>
       

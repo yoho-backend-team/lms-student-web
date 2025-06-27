@@ -31,6 +31,7 @@ interface ProfileContentProps {
   onSave?: () => void;
   onCancel?: () => void;
   activeMenuItem?: string;
+  isSaving?: boolean;
 }
 
 const ProfileContent: React.FC<ProfileContentProps> = ({ 
@@ -41,7 +42,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
   isEditing = false,
   onSave,
   onCancel,
-  activeMenuItem = 'profile'
+  activeMenuItem = 'profile',
+  isSaving = false
 }) => {
   // Render content based on active menu item
   const renderContent = () => {
@@ -74,7 +76,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                 <div className="flex justify-end gap-3 p-4 border-b border-gray-200">
                   <button
                     onClick={onCancel}
-                    className="px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] text-sm"
+                    disabled={isSaving}
+                    className="px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{
                       backgroundColor: COLORS.bg_Colour,
                       color: COLORS.text_desc,
@@ -86,7 +89,8 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                   </button>
                   <button
                     onClick={onSave}
-                    className="px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] text-sm"
+                    disabled={isSaving}
+                    className="px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                     style={{
                       backgroundColor: COLORS.light_blue,
                       color: COLORS.white,
@@ -94,7 +98,10 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
                       fontSize: FONTS.para_01.fontSize
                     }}
                   >
-                    Save Changes
+                    {isSaving && (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    )}
+                    {isSaving ? 'Saving...' : 'Save Changes'}
                   </button>
                 </div>
               )}
