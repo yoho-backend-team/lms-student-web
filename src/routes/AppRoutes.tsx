@@ -27,7 +27,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 const AppRoutes = () => {
 	// const { isAuthenticated } = useAuth();
-	const isAuthenticated = true;
+	const isAuthenticated = false;
 
 	const AuthRoutes = () => (
 		<Routes>
