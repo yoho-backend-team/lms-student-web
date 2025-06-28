@@ -116,7 +116,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
           {/* Course-wise Certificate Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 sm:gap-6">
             {certificatesData.map((certificate, index) => (
-              <div key={index} className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden" style={{ backgroundColor: COLORS.white, fontFamily: FONTS.para_01.fontFamily }}>
+              <div key={index} className="rounded-lg p-6 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] overflow-hidden" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily }}>
                 {/* Course Image */}
                 <div className="h-48 relative overflow-hidden" style={{ background: `linear-gradient(to bottom right, ${COLORS.light_blue}, ${COLORS.purple_01})` }}>
                   {certificate.courseImage ? (
