@@ -121,19 +121,19 @@ export const Attendance = () => {
             {/* Month Dropdown */}
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger
-                className="w-[160px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                className="w-[100px] rounded-sm border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
                 style={{ ...FONTS.para_02 }}
               >
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] ">
+              <SelectContent className="bg-[#ebeff3] rounded-sm  w-[80px] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] ">
                 {months.map((month) => (
                   <SelectItem
                     key={month}
                     value={month}
                     className={`
-                      cursor-pointer px-4 py-2  text-gray-700 
-                      rounded-[12px] 
+                      cursor-pointer   text-gray-700 w-[100px]
+                      rounded-sm 
                       bg-[#ebeff3]
                     shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] 
                       data-[state=checked]:bg-gradient-to-r 
@@ -153,19 +153,19 @@ export const Attendance = () => {
             {/* Year Dropdown */}
             <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
               <SelectTrigger
-                className="w-[120px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                className="w-[100px] rounded-sm border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
                 style={{ ...FONTS.para_02 }}
               >
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
+              <SelectContent className="bg-[#ebeff3] rounded-sm p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
                 {years.map((year) => (
                   <SelectItem
                     key={year}
                     value={year.toString()}
                     className={`
-                      cursor-pointer px-4 py-2 text-gray-700 
-                      rounded-[12px] 
+                      cursor-pointer px-2 py-2 text-gray-700 
+                      rounded-sm 
                       bg-[#ebeff3]
                       shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.8),inset_2px_2px_4px_rgba(189,194,199,0.6)]
                       data-[state=checked]:bg-gradient-to-r 
