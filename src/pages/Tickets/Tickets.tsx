@@ -38,8 +38,13 @@ const Tickets = () => {
       <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
         <h1 className="text-xl md:text-2xl font-bold" style={FONTS.heading_01}>Ticket</h1>
         <Button
-          className="bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white cursor-pointer"
-          style={FONTS.heading_06}
+          className="
+									  bg-gradient-to-l from-[#7B00FF] to-[#B200FF] 
+									  !text-white
+									  rounded-sm 
+									  shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] py-5
+									 "
+          style={FONTS.heading_07}
           variant="outline"
           onClick={handleCreate}
         >
@@ -50,18 +55,20 @@ const Tickets = () => {
       <div className="flex flex-wrap gap-3 mb-8">
         {["all", "open", "closed"].map((label) => (
           <Button
-            key={label}
-            className={`cursor-pointer ${
-              filter === label
-                ? "bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white"
-                : "bg-[#ebeff3] !text-black hover:bg-[#ebeff3] hover:text-black"
-            } shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]`}
-            style={FONTS.heading_05}
-            variant="outline"
-            onClick={() => setFilter(label)}
-          >
-            {label.charAt(0).toUpperCase() + label.slice(1)}
-          </Button>
+  key={label}
+  className={`cursor-pointer rounded-sm
+    ${
+      filter === label
+        ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]"
+        : "bg-[#ebeff3] !text-black hover:bg-[#ebeff3] hover:text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+    }`}
+  style={FONTS.heading_05}
+  variant="outline"
+  onClick={() => setFilter(label)}
+>
+  {label.charAt(0).toUpperCase() + label.slice(1)}
+</Button>
+
         ))}
       </div>
 
@@ -118,16 +125,18 @@ const Tickets = () => {
                   <Dialog>
                     <DialogTrigger className="text-sm font-medium text-primary">
                       <Button
-                        className={`${
-                          ticket.status === "open"
-                            ? "bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white"
-                            : "bg-[#ebeff3] !text-black"
-                        } shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]`}
-                        style={FONTS.heading_04}
-                        variant="outline"
-                      >
-                        {ticket.status}
-                      </Button>
+  className={`rounded-sm
+    ${
+      ticket.status === "open"
+        ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]"
+        : "bg-[#ebeff3] !text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+    }`}
+  style={FONTS.heading_04}
+  variant="outline"
+>
+  {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+</Button>
+
                     </DialogTrigger>
                   </Dialog>
                 </CardAction>
