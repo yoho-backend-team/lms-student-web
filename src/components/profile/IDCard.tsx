@@ -50,14 +50,14 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
     <div className="w-full">
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
         style={{ 
-          width: '110%',
+          width: '100%',
           marginTop: '1rem',
-          height: '73vh',
+          height: '75vh',
           fontFamily: FONTS.para_01.fontFamily
         }}>
         
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-2xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily, fontWeight: FONTS.heading_01.fontWeight }}>
               Student ID Card
@@ -65,10 +65,10 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 scrollbar-hide">
           {/* ID Card Preview */}
           <div className="mb-8 flex justify-center">
-            <div className="relative w-80 h-[500px]" style={{ perspective: '1000px' }}>
+            <div className="relative w-full max-w-80 h-[500px]" style={{ perspective: '1000px' }}>
               <div 
                 className="relative w-full h-full transition-transform duration-700 cursor-pointer"
                 onClick={handleCardClick}
@@ -78,7 +78,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 }}
               >
                 {/* Card Front */}
-                <div className="absolute inset-0 w-full h-full rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
+                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
                   {/* Half Color Design */}
                   <div className="h-full relative">
                     {/* Top Half - Colored */}
@@ -168,7 +168,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 </div>
 
                 {/* Card Back */}
-                <div className="absolute inset-0 w-full h-full rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
                   <div className="h-full relative" style={{ background: `linear-gradient(135deg, ${COLORS.purple_01}, ${COLORS.light_blue})`, color: COLORS.white }}>
                     {/* Header */}
                     <div className="text-center p-6 border-b border-white/20">
@@ -204,7 +204,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
             <h3 className="font-bold mb-6 text-xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_02.fontFamily, fontWeight: FONTS.heading_02.fontWeight }}>
               ID Card Details
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Student Name

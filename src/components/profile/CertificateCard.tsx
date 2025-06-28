@@ -52,13 +52,13 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
         style={{ 
           fontFamily: FONTS.para_01.fontFamily,
-          width: '110%',
+          width: '100%',
           marginTop: '1rem',
-          height: '73vh',
+          height: '75vh',
         }}>
         
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-2xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily, fontWeight: FONTS.heading_01.fontWeight }}>
               Course Certificate
@@ -66,7 +66,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({ data }) => {
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 scrollbar-hide">
           {/* Certificate Preview */}
           <div className="mb-8 flex justify-center">
             <div className="w-96 h-[550px] rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] relative overflow-hidden" style={{ background: `linear-gradient(to bottom right, ${COLORS.light_blue}, ${COLORS.purple_01})` }}>

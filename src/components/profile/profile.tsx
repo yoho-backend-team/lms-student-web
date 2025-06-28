@@ -138,9 +138,9 @@ const ProfileInformation: React.FC = () => {
 
   return (
     <div className="min-h-fit" style={{ fontFamily: FONTS.para_01.fontFamily }}>
-      <div className="flex flex-col lg:flex-row gap-4 p-4 max-w-7xl mx-auto">
-        {/* Sidebar - Fixed width */}
-        <div className="flex-shrink-0">
+      <div className="flex flex-col xl:flex-row gap-4 p-2 sm:p-4 max-w-[1400px] mx-auto">
+        {/* Sidebar - Responsive width */}
+        <div className="w-full xl:w-[320px] 2xl:w-[380px] flex-shrink-0">
           <ProfileSidebar
             name={profileData.name}
             traineeId={profileData.traineeId}
@@ -155,7 +155,7 @@ const ProfileInformation: React.FC = () => {
         </div>
         
         {/* Content - Takes remaining space */}
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <ProfileContent
             personalInfo={personalInfo}
             instituteInfo={instituteInfo}
