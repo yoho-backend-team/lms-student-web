@@ -3,7 +3,7 @@ import Liveclass from '@/components/classes/Liveclass';
 import Upcomingclass from '@/components/classes/Upcomingclass';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
 
 const Classes = () => {

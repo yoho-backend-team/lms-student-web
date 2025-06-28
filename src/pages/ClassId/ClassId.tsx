@@ -1,8 +1,6 @@
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import classImg from '../../assets/classes/Mask group.png'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backImg from '../../assets/classes/back.png'
 

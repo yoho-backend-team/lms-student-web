@@ -1,9 +1,10 @@
-import React from 'react'
+import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import filterImg from '../../assets/classes/filter.png'
 import { useNavigate } from 'react-router-dom'
+import { ChevronDown } from 'lucide-react'
 
 interface CompletedItem {  
   title: string;
@@ -12,6 +13,17 @@ interface CompletedItem {
   duration: string;
   id: string;
 }
+
+interface DropdownOption {
+  value: string;
+  label: string;
+}
+
+interface FilterGroup {
+  title: string;
+  options: DropdownOption[];
+}
+
 
 const Completedclass = () => {
   const completed: CompletedItem[] = [
@@ -38,6 +50,38 @@ const Completedclass = () => {
     }
   ];
 
+   const months: DropdownOption[] = [
+    { value: 'jan', label: 'January' },
+    { value: 'feb', label: 'February' },
+    { value: 'mar', label: 'March' },
+    { value: 'apr', label: 'April' },
+  ];
+
+  const years: DropdownOption[] = Array.from({ length: 5 }, (_, i) => ({
+    value: (2015 + i).toString(),
+    label: (2015 + i).toString()
+  }));
+
+  const courses: DropdownOption[] = [
+    { value: 'html', label: 'HTML' },
+    { value: 'js', label: 'JAVA SCRIPT' },
+    { value: 'css', label: 'CSS' },
+    { value: 'react', label: 'React' },
+
+  ];
+
+  const classes: DropdownOption[] = Array.from({ length: 4 }, (_, i) => ({
+    value: `class-${i+1}`,
+    label: `class ${i+1}`
+  }));
+
+  const filterGroups: FilterGroup[] = [
+    { title: 'Month', options: months },
+    { title: 'Year', options: years },
+    { title: 'Courses', options: courses },
+    { title: 'Classes', options: classes }
+  ];
+
   const navigate = useNavigate();
   const headers = ['Title', 'Start Date', 'Start Time', 'Duration', 'Action']; // lowercase for const
 
@@ -45,15 +89,79 @@ const Completedclass = () => {
     navigate(`/class/${id}`);
   };
 
+const [showFilters, setShowFilters] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+    setOpenDropdown(null); // Close any open dropdowns when toggling filters
+  };
+
+  const toggleDropdown = (title: string) => {
+    setOpenDropdown(openDropdown === title ? null : title);
+  };
+
+  const selectOption = (groupTitle: string, value: string) => {
+    setSelectedFilters(prev => ({ ...prev, [groupTitle]: value }));
+    setOpenDropdown(null); // Close dropdown after selection
+  };
+  
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mb-4'>
-      <div className='flex flex-row justify-end m-3 items-center'>
+
+        <Card style={{ backgroundColor: COLORS.bg_Colour }} className='flex flex-row justify-between px-8 mb-4'>
+      {/* Filter buttons - only shown when showFilters is true */}
+      {showFilters && (
+        <div className='grid grid-cols-4 justify-between gap-3'>
+          {filterGroups.map((group) => (
+            <div key={group.title} className="relative">
+              <Button
+                style={{...FONTS.heading_07}}
+                variant="outline"
+                className="w-[120px] justify-between bg-[#ebeff3] 
+                          shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]"
+                onClick={() => toggleDropdown(group.title)}
+              >
+                {selectedFilters[group.title] || group.title}
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+
+              {/* Dropdown items - only shown when this dropdown is open */}
+              {openDropdown === group.title && (
+                <div className="absolute z-50 w-[120px] mt-1 bg-[#ebeff3] 
+                            shadow-[2px_2px_3px_rgba(189,194,199,0.75)_inset] rounded-md p-1">
+                  {group.options.map((option) => (
+                    <div
+                      key={option.value}
+                      className={`p-2 mb-1 cursor-pointer rounded-sm
+                                ${selectedFilters[group.title] === option.value 
+                                  ? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white' 
+                                  : 'bg-[#ebeff3] hover:bg-[#dde1e5]'}
+                                shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]`}
+                      onClick={() => selectOption(group.title, option.value)}
+                    >
+                      {option.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Filter image - always visible */}
+      <div>
         <img 
-          className='p-2 rounded-lg bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] cursor-pointer' 
           src={filterImg} 
           alt="filter" 
+          className="cursor-pointer p-2 rounded-lg bg-[#ebeff3] 
+                  shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]"
+          onClick={toggleFilters}
         />
       </div>
+    </Card>
 
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         {/* Header Row */}
@@ -71,12 +179,16 @@ const Completedclass = () => {
 
         {completed.map((item) => (
           <Card 
-            key={item.id}
-            className="bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4 mb-4
-                      transition-all duration-300 ease-in-out
-                      hover:-translate-y-1 hover:shadow-lg cursor-pointer"
-            onClick={() => handleClassDetailPage(item.id)}
-          >
+              key={item.id}
+              className="bg-[#ebeff3] 
+                        shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] 
+                        text-black mx-4 p-4 mb-4
+                        transition-all duration-300 ease-in-out
+                        hover:-translate-y-1 
+                        hover:shadow-[6px_6px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.8)]
+                        cursor-pointer"
+              onClick={() => handleClassDetailPage(item.id)}
+            >
             <table className="w-full">
               <tbody>
                 <tr className="flex justify-around items-center" style={{ ...FONTS.heading_06 }}>
