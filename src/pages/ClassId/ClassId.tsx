@@ -13,7 +13,7 @@ const ClassId = () => {
 
 	const navigate = useNavigate();
 	const handleBackPage = () => {
-		navigate(-1);
+		navigate('/classes');
 	}
 
 	return(
