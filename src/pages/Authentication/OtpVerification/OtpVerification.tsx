@@ -44,6 +44,7 @@ const OtpVerification = () => {
 			setShowError(true);
 		}
 		try {
+			navigate('/change-password');
 		} catch (error) {
 			console.error('OTP verify error:', error);
 		}
