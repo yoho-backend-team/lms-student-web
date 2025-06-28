@@ -62,7 +62,7 @@ const Navbar = () => {
 		<nav>
 			<div className='flex justify-between gap-3 px-6'>
 				<Card
-					className='bg-[#ebeff3] w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-pointer'
+					className='bg-[#ebeff3] min-w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-pointer'
 					style={{
 						boxShadow: `
 					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
@@ -77,7 +77,7 @@ const Navbar = () => {
 					<img src={Logo} alt='logo' />
 				</Card>
 
-				<div className='flex gap-10'>
+				<div className='flex lg:gap-10 md:gap-5'>
 					{navItems.map((item) => (
 						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
 							<Card
