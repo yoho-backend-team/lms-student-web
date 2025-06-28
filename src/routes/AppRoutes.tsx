@@ -1,3 +1,4 @@
+import { Createtickets } from '@/components/Tickets/Createtickets';
 import { useAuth } from '@/context/AuthContext/AuthContext';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
@@ -22,6 +23,7 @@ import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
 import { Routes, Route, Navigate } from 'react-router-dom';
+
 
 const AppRoutes = () => {
 	// const { isAuthenticated } = useAuth();
@@ -48,6 +50,7 @@ const AppRoutes = () => {
 				<Route path='activity-logs' element={<ActivityLogs />} />
 				<Route path='tickets' element={<Tickets />} />
 				<Route path='ticket/:id' element={<TicketId />} />
+				<Route path='/tickets/create-ticket' element={<Createtickets />} />
 				<Route path='profile' element={<Profile />} />
 				<Route path='help-center' element={<HelpCenter />} />
 				<Route path='faqs' element={<FAQs />} />

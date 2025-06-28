@@ -127,7 +127,7 @@ const Payment = () => {
 										6 Modules
 									</h2>
 								</section>
-								<section className='mt-5'>
+								<section className='mt-5 flex flex-col justify-center'>
 									<div className=' flex items-center gap-1'>
 										<div className=' flex justify-end items-center '>
 											<img src={Star} alt='Star' className='' />
@@ -136,10 +136,10 @@ const Payment = () => {
 											<img src={Star} alt='Star' className='' />
 											<img src={Star} alt='Star' className='' />
 										</div>
-										<p style={{ ...FONTS.heading_05 }}>4.5</p>
+										<p style={{ ...FONTS.heading_06 }}>4.5</p>
 									</div>
 									<p
-										className='text-end font-semibold'
+										className='text-end font-semibold mt-1'
 										style={{ ...FONTS.heading_05, color: COLORS.light_green }}
 									>
 										&#8377; 500000
@@ -195,10 +195,10 @@ const Payment = () => {
 								}}
 							>
 								<h1>Description</h1>
-								<h1>Amount</h1>
+								<h1>Amount (INR)</h1>
 							</section>
 
-							<div>
+							<div className='flex flex-col gap-1'>
 								<section
 									className='flex justify-between'
 									style={{ ...FONTS.heading_06 }}
@@ -258,7 +258,7 @@ const Payment = () => {
 						<section className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
 							<h1
 								style={{
-									...FONTS.heading_05,
+									...FONTS.heading_06,
 								}}
 							>
 								21 June 2025

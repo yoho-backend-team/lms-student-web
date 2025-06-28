@@ -17,7 +17,6 @@ import { Calendar } from '@/components/ui/calendar'
 import filter from '../../assets/icons/common/Mask group.png'
 import { startOfMonth, setMonth, setYear } from 'date-fns'
 
-// ✅ shadcn Select
 import {
   Select,
   SelectContent,
@@ -74,6 +73,8 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
+  const current = new Date()
+
   const handleMonthChange = (newMonth: string) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
@@ -103,47 +104,43 @@ export const Attendance = () => {
         <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
         <div className="relative flex items-center">
-          {/* Filter Toggle Button */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 rounded-full  shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
-            style={{backgroundColor:COLORS.bg_Colour}}
+            className="p-2 rounded-full shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
+            style={{ backgroundColor: COLORS.bg_Colour }}
           >
             <img src={filter} alt="Filter" className="w-6 h-6" />
           </button>
 
-          {/* Filters Panel */}
           <div
             className={`absolute right-full top-1/2 transform -translate-y-1/2 mr-4 flex gap-4 ${
               showFilters ? 'opacity-100 max-w-[400px]' : 'opacity-0 max-w-0 overflow-hidden'
             }`}
           >
-            {/* Month Dropdown */}
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger
-                className="w-[160px] rounded-[12px] border-0  px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
-                style={{ ...FONTS.para_02 , backgroundColor:COLORS.bg_Colour }}
+                style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
+                className="w-[100px] rounded-sm border-0 px-2 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
               >
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
-              <SelectContent className=" rounded-[16px] p-2  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] "style={{backgroundColor:COLORS.bg_Colour}}>
+              <SelectContent className="bg-[#ebeff3] rounded-sm w-[40px] px-2 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
                 {months.map((month) => (
                   <SelectItem
                     key={month}
                     value={month}
                     className={`
-                      cursor-pointer px-4 py-2  text-gray-700 
-                      rounded-[12px] 
-                    shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] 
+                      cursor-pointer text-gray-700 w-[100px]
+                      rounded-sm 
+                      bg-[#ebeff3]
+                      shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] 
                       data-[state=checked]:bg-gradient-to-r 
                       data-[state=checked]:from-purple-500 
                       data-[state=checked]:to-purple-700 
                       data-[state=checked]:text-white
-                      mb-2
-                      transition
-                      
+                      mb-2 transition
                     `}
-                    style={{backgroundColor:COLORS.bg_Colour}}
+                    style={{ backgroundColor: COLORS.bg_Colour }}
                   >
                     {month}
                   </SelectItem>
@@ -151,32 +148,30 @@ export const Attendance = () => {
               </SelectContent>
             </Select>
 
-            {/* Year Dropdown */}
             <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
               <SelectTrigger
-                className="w-[120px] rounded-[12px] border-0  px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
-                style={{ ...FONTS.para_02 , backgroundColor:COLORS.bg_Colour }}
+                className="w-[100px] rounded-sm border-0 px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
+                style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
               >
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
-              <SelectContent className=" rounded-[16px] p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]" style={{backgroundColor:COLORS.bg_Colour}}>
+              <SelectContent className="bg-[#ebeff3] rounded-sm p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
                 {years.map((year) => (
                   <SelectItem
                     key={year}
                     value={year.toString()}
                     className={`
-                      cursor-pointer px-4 py-2 text-gray-700 
-                      rounded-[12px] 
+                      cursor-pointer px-2 py-2 text-gray-700 
+                      rounded-sm 
+                      bg-[#ebeff3]
                       shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.8),inset_2px_2px_4px_rgba(189,194,199,0.6)]
                       data-[state=checked]:bg-gradient-to-r 
                       data-[state=checked]:from-purple-500 
                       data-[state=checked]:to-purple-700 
                       data-[state=checked]:text-white
-                         mb-2
-                      transition
-                   
+                      mb-2 transition
                     `}
-                    style={{backgroundColor:COLORS.bg_Colour}}
+                    style={{ backgroundColor: COLORS.bg_Colour }}
                   >
                     {year}
                   </SelectItem>
@@ -187,13 +182,12 @@ export const Attendance = () => {
         </div>
       </div>
 
-      {/* Cards */}
       <div className="flex flex-row gap-4 justify-center pt-6">
         {attendanceCards.map((card) => (
           <Card
             key={card.label}
-            className="relative w-[440px] h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
-            style={{backgroundColor:COLORS.bg_Colour}}
+            className="relative w-full h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
+            style={{ backgroundColor: COLORS.bg_Colour }}
           >
             <CardHeader>
               <div className="flex justify-between">
@@ -204,16 +198,15 @@ export const Attendance = () => {
                 </span>
               </div>
 
-              <ChartContainer config={chartConfig} style={{...FONTS.para_03}} >
+              <ChartContainer config={chartConfig} style={{ ...FONTS.para_03 }}>
                 <ResponsiveContainer width="100%" height={70}>
                   <LineChart data={chartData} margin={{ left: 0, right: 0 }}>
                     <XAxis dataKey="month" hide />
-                    <ChartTooltip  cursor={false} content={<ChartTooltipContent hideLabel  />} />
+                    <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                     <Line
                       dataKey="desktop"
                       type="monotone"
                       stroke={card.color}
-                     
                       strokeWidth={2.5}
                       dot={true}
                     />
@@ -225,8 +218,7 @@ export const Attendance = () => {
         ))}
       </div>
 
-      {/* Calendar + Day Overview */}
-      <div className="flex gap-6 pt-6">
+      <div className="flex flex-row gap-6 pt-6">
         <div className="flex flex-col">
           <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
           <Calendar
@@ -236,16 +228,21 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className=" border w-[500px] **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-            style={{ ...FONTS.heading_02 , backgroundColor:COLORS.bg_Colour}}
+            className="border **:gap-5 **:py-0.5 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+            modifiers={{ current: current }}
+            modifiersClassNames={{
+              current: "text-[#A32AF3] font-bold" ,
+              selected: "text-white",
+            }}
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <h3 className="text-lg font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>
             Day Overview
           </h3>
-          <div className="flex flex-col justify-between  rounded-md p-6 w-[830px] h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]" style={{backgroundColor:COLORS.bg_Colour}}>
+          <div className="flex flex-col justify-between rounded-md p-6  h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour }}>
             <div>
               <p className="text-sm mb-4 text-gray-700">
                 {selectedDate ? selectedDate.toDateString() : "Select a date"}
@@ -258,8 +255,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="mt-4 self-start px-4 py-2 rounded-md  text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
-              style={{ ...FONTS.heading_06 ,backgroundColor:COLORS.bg_Colour}}
+              className="mt-4 self-start px-4 py-2 rounded-md text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              style={{ ...FONTS.heading_06, backgroundColor: COLORS.bg_Colour }}
             >
               View Details
             </button>
