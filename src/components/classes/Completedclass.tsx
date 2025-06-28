@@ -110,16 +110,16 @@ const [showFilters, setShowFilters] = useState(false);
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mb-4'>
 
-        <Card style={{ backgroundColor: COLORS.bg_Colour }} className='flex flex-row justify-between px-8 mb-4'>
+        <Card style={{ backgroundColor: COLORS.bg_Colour }} className='h-[80px]' >
       {/* Filter buttons - only shown when showFilters is true */}
       {showFilters && (
-        <div className='grid grid-cols-4 justify-between gap-3'>
+        <div className='ml-6 grid grid-cols-8  justify-between gap-3'>
           {filterGroups.map((group) => (
             <div key={group.title} className="relative">
               <Button
                 style={{...FONTS.heading_07}}
                 variant="outline"
-                className="w-[120px] justify-between bg-[#ebeff3] 
+                className=" w-[120px] justify-between bg-[#ebeff3] 
                           shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]"
                 onClick={() => toggleDropdown(group.title)}
               >
@@ -129,13 +129,13 @@ const [showFilters, setShowFilters] = useState(false);
 
               {/* Dropdown items - only shown when this dropdown is open */}
               {openDropdown === group.title && (
-                <div className="absolute z-50 w-[120px] mt-1 bg-[#ebeff3] 
+                <div className="absolute z-50 w-[120px] mt-2 bg-[#ebeff3] 
                             shadow-[2px_2px_3px_rgba(189,194,199,0.75)_inset] rounded-md p-1">
                   {group.options.map((option) => (
                     <div
                     style={{...FONTS.heading_06}}
                       key={option.value}
-                      className={`p-2 mb-1 cursor-pointer rounded-sm
+                      className={`p-2 m-2 cursor-pointer rounded-sm
                                 ${selectedFilters[group.title] === option.value 
                                   ? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white' 
                                   : 'bg-[#ebeff3] hover:bg-[#dde1e5]'}
@@ -157,7 +157,7 @@ const [showFilters, setShowFilters] = useState(false);
         <img 
           src={filterImg} 
           alt="filter" 
-          className="cursor-pointer p-2 rounded-lg bg-[#ebeff3] 
+          className="absolute right-[60px] top-[255px] cursor-pointer p-2 rounded-lg bg-[#ebeff3] 
                   shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]"
           onClick={toggleFilters}
         />
@@ -181,13 +181,11 @@ const [showFilters, setShowFilters] = useState(false);
         {completed.map((item) => (
           <Card 
               key={item.id}
-              className="bg-[#ebeff3] 
-                        shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] 
-                        text-black mx-4 p-4 mb-4
+              className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
                         transition-all duration-300 ease-in-out
                         hover:-translate-y-1 
                         hover:shadow-[6px_6px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.8)]
-                        cursor-pointer"
+                        cursor-pointer"'
               onClick={() => handleClassDetailPage(item.id)}
             >
             <table className="w-full">
