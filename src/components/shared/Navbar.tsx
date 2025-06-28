@@ -6,7 +6,6 @@ import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import { icons } from 'lucide-react';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -101,7 +100,7 @@ const Navbar = () => {
 											: item.iconInactive
 									}
 									alt='nav-icon'
-									title={item.path}
+									title={item.name}
 									style={{ width: 24, height: 24 }}
 								/>
 							</Card>
