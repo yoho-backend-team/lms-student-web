@@ -75,8 +75,11 @@ const Tickets = () => {
 
 			<div className="grid md:grid-cols-2 gap-6 w-full">
 				{filteredTickets.map((ticket) => (
+					
 					<Card
 						key={ticket.id}
+						
+      onClick={() => navigate(`/ticket/${ticket.id}`)}
 						className="relative bg-[#ebeff3] h-[231px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]"
 					>
 						<CardHeader>
