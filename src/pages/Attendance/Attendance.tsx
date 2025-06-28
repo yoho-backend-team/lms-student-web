@@ -1,3 +1,5 @@
+'use client'
+
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
 import {
@@ -14,6 +16,15 @@ import { useState } from 'react'
 import { Calendar } from '@/components/ui/calendar'
 import filter from '../../assets/icons/common/Mask group.png'
 import { startOfMonth, setMonth, setYear } from 'date-fns'
+
+// ✅ shadcn Select
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const chartData = [
   { month: 'January', desktop: 10 },
@@ -52,85 +63,128 @@ const attendanceCards = [
   },
 ]
 
+const months = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+]
+
 export const Attendance = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [selectedMonth, setSelectedMonth] = useState<number>(selectedDate.getMonth())
+  const [selectedMonth, setSelectedMonth] = useState<string>(months[selectedDate.getMonth()])
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
-  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newMonth = Number(e.target.value)
+  const handleMonthChange = (newMonth: string) => {
+    const monthIndex = months.indexOf(newMonth)
+    const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
     setSelectedMonth(newMonth)
-    const updatedDate = startOfMonth(setMonth(selectedDate, newMonth))
     setSelectedDate(updatedDate)
   }
 
-  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newYear = Number(e.target.value)
-    setSelectedYear(newYear)
-    const updatedDate = startOfMonth(setYear(selectedDate, newYear))
+  const handleYearChange = (newYear: string) => {
+    const numericYear = parseInt(newYear, 10)
+    const updatedDate = startOfMonth(setYear(selectedDate, numericYear))
+    setSelectedYear(numericYear)
     setSelectedDate(updatedDate)
   }
 
   const handleCalendarMonthChange = (newMonth: Date) => {
     setSelectedDate(newMonth)
-    setSelectedMonth(newMonth.getMonth())
+    setSelectedMonth(months[newMonth.getMonth()])
     setSelectedYear(newMonth.getFullYear())
   }
+
+  const years = Array.from({ length: 36 }, (_, i) => 2000 + i)
 
   return (
     <div className="p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-  <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_02 }}>Attendance</h2>
+        <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
-  <div className="relative flex items-center">
-    {/* Filter Toggle Button */}
-    <button
-      onClick={() => setShowFilters(!showFilters)}
-      className="p-2 rounded-full bg-[#ebeff3] shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
-    >
-      <img src={filter} alt="Filter" className="w-6 h-6" />
-    </button>
+        <div className="relative flex items-center">
+          {/* Filter Toggle Button */}
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="p-2 rounded-full  shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
+            style={{backgroundColor:COLORS.bg_Colour}}
+          >
+            <img src={filter} alt="Filter" className="w-6 h-6" />
+          </button>
 
-    {/* Filters Panel - absolutely positioned inside the relative parent */}
-    <div
-      className={`absolute right-full top-1/2 transform -translate-y-1/2 mr-4 flex gap-2 ${
-        showFilters ? 'opacity-100 max-w-[400px]' : 'opacity-0 max-w-0 overflow-hidden'
-      }`}
-    >
-      <select
-        className="px-2 py-2 text-sm rounded-md bg-[#ebeff3] text-gray-700 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
-        style={{ ...FONTS.para_02 }}
-        value={selectedMonth}
-        onChange={handleMonthChange}
-      >
-        {[
-          "January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
-        ].map((month, index) => (
-          <option key={month} value={index}>
-            {month}
-          </option>
-        ))}
-      </select>
+          {/* Filters Panel */}
+          <div
+            className={`absolute right-full top-1/2 transform -translate-y-1/2 mr-4 flex gap-4 ${
+              showFilters ? 'opacity-100 max-w-[400px]' : 'opacity-0 max-w-0 overflow-hidden'
+            }`}
+          >
+            {/* Month Dropdown */}
+            <Select value={selectedMonth} onValueChange={handleMonthChange}>
+              <SelectTrigger
+                className="w-[160px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                style={{ ...FONTS.para_02 }}
+              >
+                <SelectValue placeholder="Select month" />
+              </SelectTrigger>
+              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] ">
+                {months.map((month) => (
+                  <SelectItem
+                    key={month}
+                    value={month}
+                    className={`
+                      cursor-pointer px-4 py-2  text-gray-700 
+                      rounded-[12px] 
+                      bg-[#ebeff3]
+                    shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] 
+                      data-[state=checked]:bg-gradient-to-r 
+                      data-[state=checked]:from-purple-500 
+                      data-[state=checked]:to-purple-700 
+                      data-[state=checked]:text-white
+                      mb-2
+                      transition
+                    `}
+                  >
+                    {month}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-      <select
-        className="px-2 py-2 text-sm rounded-md bg-[#ebeff3] text-gray-700 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
-        style={{ ...FONTS.para_02 }}
-        value={selectedYear}
-        onChange={handleYearChange}
-      >
-        {Array.from({ length: 36 }, (_, i) => 2000 + i).map((year) => (
-          <option key={year} value={year}>
-            {year}
-          </option>
-        ))}
-      </select>
-    </div>
-  </div>
-</div>
-
+            {/* Year Dropdown */}
+            <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
+              <SelectTrigger
+                className="w-[120px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                style={{ ...FONTS.para_02 }}
+              >
+                <SelectValue placeholder="Select year" />
+              </SelectTrigger>
+              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
+                {years.map((year) => (
+                  <SelectItem
+                    key={year}
+                    value={year.toString()}
+                    className={`
+                      cursor-pointer px-4 py-2 text-gray-700 
+                      rounded-[12px] 
+                      bg-[#ebeff3]
+                      shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.8),inset_2px_2px_4px_rgba(189,194,199,0.6)]
+                      data-[state=checked]:bg-gradient-to-r 
+                      data-[state=checked]:from-purple-500 
+                      data-[state=checked]:to-purple-700 
+                      data-[state=checked]:text-white
+                         mb-2
+                      transition
+                   
+                    `}
+                  >
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
 
       {/* Cards */}
       <div className="flex flex-row gap-4 justify-center pt-6">
@@ -148,15 +202,16 @@ export const Attendance = () => {
                 </span>
               </div>
 
-              <ChartContainer config={chartConfig}>
+              <ChartContainer config={chartConfig} style={{...FONTS.para_03}} >
                 <ResponsiveContainer width="100%" height={70}>
                   <LineChart data={chartData} margin={{ left: 0, right: 0 }}>
                     <XAxis dataKey="month" hide />
-                    <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                    <ChartTooltip  cursor={false} content={<ChartTooltipContent hideLabel  />} />
                     <Line
                       dataKey="desktop"
                       type="monotone"
                       stroke={card.color}
+                     
                       strokeWidth={2.5}
                       dot={true}
                     />
@@ -179,7 +234,7 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className="bg-[#ebeff3] rounded-lg border w-[500px]  **:gap-5 **:py-0.5  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            className="bg-[#ebeff3] border w-[500px] **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
             style={{ ...FONTS.heading_02 }}
           />
         </div>
