@@ -61,7 +61,7 @@ const Assesments = () => {
                 {/* Bubble showing percentage */}
                 {
                     selected == "average" &&
-                    <div className="absolute left-16 -bottom-7 flex flex-col items-center">
+                    <div className="absolute ml-10 -bottom-7 flex flex-col items-center">
                         <div className="h-14 w-3 bg-gray-300 mt-2 rounded-full"></div>
                         <div className="w-16 h-16 bg-gradient-to-br from-green-200 to-green-400 text-black rounded-full flex items-center justify-center text-lg font-bold shadow-md">
                             4%
@@ -71,7 +71,7 @@ const Assesments = () => {
 
                 {
                     selected == "exam" &&
-                    <div className="absolute left-60 -bottom-7 flex flex-col items-center">
+                    <div className="absolute ml-60 -bottom-7 flex flex-col items-center">
                         <div className="h-18 w-3 bg-gray-300 mt-2 rounded-full"></div>
                         <div className="w-16 h-16 bg-gradient-to-br from-green-200 to-green-400 text-black rounded-full flex items-center justify-center text-lg font-bold shadow-md">
                             4%
