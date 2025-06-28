@@ -57,7 +57,7 @@ const Completedclass = () => {
 
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         {/* Header Row */}
-        <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white mx-4 p-4">
+        <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white mx-2 p-4">
           <table className="w-full">
             <thead>
               <tr className="flex justify-around items-center !text-white" style={{ ...FONTS.heading_03 }}>
@@ -79,7 +79,7 @@ const Completedclass = () => {
           >
             <table className="w-full">
               <tbody>
-                <tr className="flex justify-around items-center" style={{ ...FONTS.heading_06 }}>
+                <tr className="flex justify-around items-center my-1" style={{ ...FONTS.heading_06 }}>
                   <td>{item.title}</td>
                   <td>{item.date}</td>
                   <td>{item.time}</td>

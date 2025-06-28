@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import classImg from '../../assets/classes/Mask group.png'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card,  CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backImg from '../../assets/classes/back.png'
 
@@ -17,7 +16,7 @@ const ClassId = () => {
 	}
 
 	return(
-	 <div className='mb-4'>
+	 <div className='my-2 py-2 '>
 		{/* title section */}
 		<div className='my-4 flex flex-row justify-start items-center gap-5'>
 		<div onClick={handleBackPage} className='p-2 rounded-lg bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'>
@@ -27,7 +26,7 @@ const ClassId = () => {
 		</div>
 
 		{/* card section */}
-	<div className='grid grid-cols-2 justify-between gap-10'>
+	<div className='grid grid-cols-2 justify-between gap-10 py-2'>
         {/* Left side card */}
         <Card style={{backgroundColor:COLORS.bg_Colour}} className='px-4 py-1 h-[400px]'>
             <CardHeader>
