@@ -17,6 +17,7 @@ const Classes = () => {
 		<h2 style={{...FONTS.heading_02}} className='ml-6'>Online Classes</h2>
 		<div className='grid grid-cols-8 items-start mb-2 px-6 gap-4'>
         <Button 
+		  style={{...FONTS.heading_07, color: activeTab === 'live' ? COLORS.white : undefined}}
           onClick={() => setActiveTab('live')}
           className={`px-5 min-w-[120px] rounded-[6px]  ${
             activeTab === 'live' 
@@ -28,6 +29,7 @@ const Classes = () => {
           Live Class
         </Button>
         <Button 
+		style={{...FONTS.heading_07, color: activeTab === 'upcoming' ? COLORS.white : undefined}}
           onClick={() => setActiveTab('upcoming')}
           className={`px-5 min-w-[120px] ${
             activeTab === 'upcoming'
@@ -39,6 +41,7 @@ const Classes = () => {
           Upcoming Classes
         </Button>
         <Button 
+		style={{...FONTS.heading_07, color: activeTab === 'completed' ? COLORS.white : undefined}}
           onClick={() => setActiveTab('completed')}
           className={`px-5 min-w-[120px] ${
             activeTab === 'completed'
