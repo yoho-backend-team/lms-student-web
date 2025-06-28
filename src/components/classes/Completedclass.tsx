@@ -133,10 +133,11 @@ const [showFilters, setShowFilters] = useState(false);
                             shadow-[2px_2px_3px_rgba(189,194,199,0.75)_inset] rounded-md p-1">
                   {group.options.map((option) => (
                     <div
+                    style={{...FONTS.heading_06}}
                       key={option.value}
                       className={`p-2 mb-1 cursor-pointer rounded-sm
                                 ${selectedFilters[group.title] === option.value 
-                                  ? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white' 
+                                  ? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white' 
                                   : 'bg-[#ebeff3] hover:bg-[#dde1e5]'}
                                 shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]`}
                       onClick={() => selectOption(group.title, option.value)}
