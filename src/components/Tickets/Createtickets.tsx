@@ -18,7 +18,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { COLORS, FONTS } from "@/constants/uiConstants";
+import {  FONTS } from "@/constants/uiConstants";
 
 export const Createtickets = () => {
   const navigate = useNavigate();

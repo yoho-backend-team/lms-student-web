@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ticketicon from '../../assets/icons/Tickets/back.png';
 import messageicon from '../../assets/icons/Tickets/Frame 301.png';
@@ -36,10 +35,10 @@ const TicketId = () => {
 						className="w-12 h-12 cursor-pointer"
 						onClick={handleBack}
 					/>
-					<h1 className="text-2xl font-semibold" style={{...FONTS.heading_01}}>Ticket</h1>
+					<h1 className="text-2xl font-semibold" style={{ ...FONTS.heading_01 }}>Ticket</h1>
 				</div>
 
-				<h2 className="text-lg font-semibold text-gray-700" style={{...FONTS.heading_04 , color: COLORS.blue_02 , fontSize:'24px'}}>
+				<h2 className="text-lg font-semibold text-gray-700" style={{ ...FONTS.heading_04, color: COLORS.blue_02, fontSize: '24px' }}>
 					TICKET ID: Ticket #{id}
 				</h2>
 			</div>
@@ -47,7 +46,7 @@ const TicketId = () => {
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-				<Card className="bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] " style={{...FONTS.heading_04}}>
+				<Card className="bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] " style={{ ...FONTS.heading_04 }}>
 					<CardHeader>
 						<CardTitle>
 							<h1> #{id} This Ticket Created From Student Mobile App </h1>
@@ -57,42 +56,31 @@ const TicketId = () => {
 					</CardHeader>
 
 					<div className="flex flex-col gap-4">
-
-
-
-
 						<Card className="self-end w-[250px] mr-10 h-30  bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]">
 							<CardContent className="pb-3">
 								<div className="flex justify-between items-center mb-2">
-									<p className="text-sm !text-gray-800 font-medium"style={{...FONTS.para_01,fontSize:'15px'}}>Surya</p>
-									<p className="text-xs !text-gray-500"style={{...FONTS.para_01,fontSize:'12px'}}>10 May 2025</p>
+									<p className="text-sm !text-gray-800 font-medium" style={{ ...FONTS.para_01, fontSize: '15px' }}>Surya</p>
+									<p className="text-xs !text-gray-500" style={{ ...FONTS.para_01, fontSize: '12px' }}>10 May 2025</p>
 								</div>
-								<p className="text-sm !text-gray-700 text-right pt-6 pl-6"style={{...FONTS.para_01,fontSize:'14px'}}>I have attendance issue</p>
+								<p className="text-sm !text-gray-700 text-right pt-6 pl-6" style={{ ...FONTS.para_01, fontSize: '14px' }}>I have attendance issue</p>
 							</CardContent>
 						</Card>
-
-
-						 <Card className="self-start w-[250px] ml-10 h-30  bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]">
-        <CardContent className="pb-3">
-          <div className="flex justify-between items-center mb-2">
-            <p className="text-sm !text-gray-800 font-medium"style={{...FONTS.para_01,fontSize:'15px'}}>Oliver Smith</p>
-            <p className="text-xs !text-gray-500"style={{...FONTS.para_01,fontSize:'12px'}}>10 May 2025</p>
-          </div>
-          <div className="flex justify-end pt-6 pl-6">
-            <Button className="text-xs px-4 py-1 rounded-md !bg-[#7b00ff] !text-white !hover:bg-[#6a00e0]"style={{...FONTS.para_01,fontSize:'13px'}}>
-              Problem Solved
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-	  
+						<Card className="self-start w-[250px] ml-10 h-30  bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]">
+							<CardContent className="pb-3">
+								<div className="flex justify-between items-center mb-2">
+									<p className="text-sm !text-gray-800 font-medium" style={{ ...FONTS.para_01, fontSize: '15px' }}>Oliver Smith</p>
+									<p className="text-xs !text-gray-500" style={{ ...FONTS.para_01, fontSize: '12px' }}>10 May 2025</p>
+								</div>
+								<div className="flex justify-end pt-6 pl-6">
+									<Button className="text-xs px-4 py-1 rounded-md !bg-[#7b00ff] !text-white !hover:bg-[#6a00e0]" style={{ ...FONTS.para_01, fontSize: '13px' }}>
+										Problem Solved
+									</Button>
+								</div>
+							</CardContent>
+						</Card>
 					</div>
-
-
 					<CardFooter className="mt-30 px-4">
 						<div className="flex items-center w-full gap-3">
-
-
 							<div className="p-2 bg-[#ebeff3] rounded-md ">
 								<img
 									src={messageicon}
@@ -102,7 +90,7 @@ const TicketId = () => {
 							</div>
 
 
-							<div className="flex-1 bg-[#ebeff3] rounded-md shadow-[inset_2px_2px_5px_rgba(189,194,199,0.75),3px_3px_5px_rgba(255,255,255,0.7)] px-3 py-2"style={{...FONTS.para_01,fontSize:'15px'}}>
+							<div className="flex-1 bg-[#ebeff3] rounded-md shadow-[inset_2px_2px_5px_rgba(189,194,199,0.75),3px_3px_5px_rgba(255,255,255,0.7)] px-3 py-2" style={{ ...FONTS.para_01, fontSize: '15px' }}>
 								<input
 									type="text"
 									placeholder="Say Something..."
@@ -131,34 +119,34 @@ const TicketId = () => {
 					<CardContent className="space-y-4">
 
 						<div>
-							<label className="text-sm font-medium !text-gray-800 block mb-1"style={{...FONTS.para_01,fontSize:'15px'}}>Issue Description</label>
-							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] "style={{...FONTS.para_01,fontSize:'14px'}}>
+							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Issue Description</label>
+							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] " style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								If you can this yes successfully mobile app on Android
 							</div>
 						</div>
 
 
 						<div>
-							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{...FONTS.para_01,fontSize:'15px'}}>Issue Category</label>
-							<div className="bg-[#ebeff3] text-sm mt-5 !text-gray-700 rounded-md p-3  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"style={{...FONTS.para_01,fontSize:'14px'}}>
+							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Issue Category</label>
+							<div className="bg-[#ebeff3] text-sm mt-5 !text-gray-700 rounded-md p-3  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								Feedback
 							</div>
 						</div>
 
 
 						<div>
-							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{...FONTS.para_01,fontSize:'15px'}}>Attachments</label>
-							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3  flex justify-between items-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"style={{...FONTS.para_01,fontSize:'14px'}}>
+							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Attachments</label>
+							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3  flex justify-between items-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								<span>sbsxd-rcfvgbh-nj34-56tsdxf-cgvhb-jpeg.</span>
-								<a href="#" className="!text-[#7b00ff] text-sm font-medium hover:underline "style={{...FONTS.para_01,fontSize:'14px'}}>View</a>
+								<a href="#" className="!text-[#7b00ff] text-sm font-medium hover:underline " style={{ ...FONTS.para_01, fontSize: '14px' }}>View</a>
 							</div>
 						</div>
 
 
 						<div>
-							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{...FONTS.para_01,fontSize:'15px'}}>Status</label>
+							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Status</label>
 							<div className="bg-[#ebeff3] rounded-md p-2 mt-5 w-full shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-								<Button className="px-5 py-2 !text-white rounded-md bg-gradient-to-r !bg-[#7b00ff] !hover:bg-[#6a00e0]   text-sm font-medium"style={{...FONTS.para_01,fontSize:'14px'}}>
+								<Button className="px-5 py-2 !text-white rounded-md bg-gradient-to-r !bg-[#7b00ff] !hover:bg-[#6a00e0]   text-sm font-medium" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 									Opened
 								</Button>
 							</div>
@@ -166,8 +154,8 @@ const TicketId = () => {
 
 
 						<div>
-							<label className="text-sm font-medium !text-gray-800 block mb-1"style={{...FONTS.para_01,fontSize:'15px'}}>Attempt</label>
-							<div className="bg-[#ebeff3] text-sm !text-gray-700 rounded-md mt-5 p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"style={{...FONTS.para_01,fontSize:'14px'}}>
+							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Attempt</label>
+							<div className="bg-[#ebeff3] text-sm !text-gray-700 rounded-md mt-5 p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								1
 							</div>
 						</div>
