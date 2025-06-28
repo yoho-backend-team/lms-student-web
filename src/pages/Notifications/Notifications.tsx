@@ -14,6 +14,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import bellImg from '../../assets/icons/notifications/image 90.png';
+import { useNavigate } from 'react-router-dom';
 
 interface Notification {
 	id: string;
@@ -79,6 +80,7 @@ const Notifications = () => {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedNotification, setSelectedNotification] =
 		useState<Notification | null>(null);
+	const navigate = useNavigate();
 
 	const filteredNotifications = notificationData
 		.filter((notification) => {
@@ -121,7 +123,7 @@ const Notifications = () => {
             `,
 					}}
 				>
-					<img src={backImg} alt='back' />
+					<img src={backImg} alt='back' onClick={() => navigate(-1)} />
 				</div>
 				<p style={{ ...FONTS.heading_01 }}>Notification</p>
 				<span style={{ ...FONTS.heading_06, marginLeft: 'auto' }}>
@@ -170,10 +172,10 @@ const Notifications = () => {
 						{['all', 'read', 'unread'].map((label) => (
 							<Button
 								key={label}
-								className={`
+								className={`w-[75px]
                   ${
 										filter === label
-											? 'bg-[#7b00ff] text-white hover:bg-[#7b00ff] hover:text-white'
+											? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white'
 											: 'bg-[#ebeff3] text-black hover:bg-[#ebeff3] hover:text-black'
 									} 
                   shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]
@@ -187,7 +189,7 @@ const Notifications = () => {
 						))}
 					</div>
 
-					<div className='flex flex-col w-full gap-3 px-2 py-3 overflow-y-auto hide-scrollbar'>
+					<div className='flex flex-col w-full gap-3 px-2 py-3 scrollbar-hide'>
 						{filteredNotifications?.length > 0 ? (
 							filteredNotifications?.map((notification) => (
 								<Card
@@ -266,9 +268,9 @@ const Notifications = () => {
 								</div>
 								<div className='flex justify-end mt-5'>
 									<Button
-										className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
+										className='bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white'
 										variant='outline'
-										style={{ color: COLORS.light_blue }}
+										style={{ color: COLORS.white }}
 									>
 										Status: {selectedNotification?.status}
 									</Button>
