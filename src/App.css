@@ -1,0 +1,10 @@
+.btnshadow{
+    box-shadow:rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+    rgba(189, 194, 199, 0.75) 2px 2px 3px inset;
+}
+
+.divshadow{
+    background-color:#ebeff3 ;
+    box-shadow:rgba(255, 255, 255, 0.7) -4px -4px 4px, 
+    rgba(189, 194, 199, 0.75) 5px 5px 4px;
+}
