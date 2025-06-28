@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import humanimg from "../../assets/courses icons/demo human.png"
 import threebox from "../../assets/courses icons/threebox.svg"
 import timer from "../../assets/courses icons/timer.svg"
+import Mainbutton from './button'
 
 
 const AboutCourse = () => {
@@ -10,7 +11,10 @@ const AboutCourse = () => {
     <div className="px-4 py-6 ">
       <h1 className="text-black text-2xl font-semibold mb-6">About</h1>
 
-       <div className="flex flex-row gap-3  mb-12">
+<Mainbutton />
+   
+
+       {/* <div cla  ssName="flex flex-row gap-3  mb-12">
         <Button className="bg-[#7b00ff]" variant="outline">
           About
         </Button>
@@ -23,7 +27,7 @@ const AboutCourse = () => {
          <Button className="bg-[#EBEFF3]" variant="outline">
         Course Tracking
         </Button>
-        </div>
+        </div> */}
 
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-screen-xl mx-auto items-start">
 

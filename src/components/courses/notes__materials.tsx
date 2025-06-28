@@ -4,8 +4,11 @@ import { Button } from '../ui/button'
 import pdfimage from '../../assets/icons/notes/image 59.png'
 import downloadimg from '../../assets/icons/notes/Download.png'
 import { FONTS } from '@/constants/uiConstants';
+import Mainbutton from './button'
 
 const NotesMaterials = () => {
+
+
 
   const notesData = [
     { date: '12-06-2025', time: '09.00 AM' },
@@ -21,8 +24,20 @@ const NotesMaterials = () => {
   ]
 
   return (
+        // <div className="px-4 py-6 ">
+     
     <div className="w-full mx-auto p-4">
+
+      <h1 className="text-black text-2xl font-semibold mb-6"> Class notes & materials</h1>
+
+
+   <Mainbutton />
+
+
+ <h1 className="text-black text-2xl font-semibold mb-6">Upload Notes</h1>
+ 
       <Card className="overflow-hidden">
+
         <div className="flex flex-col">
           <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 sticky top-0 z-10 ml-4 mr-4 mb-4">
             <div className="grid grid-cols-4 gap-4">

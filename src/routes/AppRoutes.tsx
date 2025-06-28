@@ -13,6 +13,7 @@ import Community from '@/pages/Community/Community';
 import CommunityId from '@/pages/CommunityId/CommunityId';
 import CourseId from '@/pages/CourseId/CourseId';
 import Courses from '@/pages/Courses/Courses';
+import NotesMaterials from '@/components/courses/notes__materials';
 import Dashboard from '@/pages/Dashboard/Dashboard';
 import FAQs from '@/pages/FAQs/FAQs';
 import HelpCenter from '@/pages/HelpCenter/HelpCenter';
@@ -22,6 +23,8 @@ import Placement from '@/pages/Placement/Placement';
 import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
+import Taskprojects from '@/components/courses/Task_projects';
+
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 const AppRoutes = () => {
@@ -59,6 +62,8 @@ const AppRoutes = () => {
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
 				<Route path='about' element={<AboutCourse />} />
+				<Route path='note_materials' element={<NotesMaterials />}/>
+				<Route path='task_projects' element={<Taskprojects />}/>
 			</Route>
 		</Routes>
 	);
