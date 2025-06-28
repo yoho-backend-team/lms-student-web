@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
+<<<<<<< HEAD
     "@radix-ui/react-select": "^2.2.5",
+=======
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
+>>>>>>> 6ff1aab6dbf7030d7b3ddbcae73e0ef0b3325438
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.10.0",
