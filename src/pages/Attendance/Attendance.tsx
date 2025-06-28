@@ -191,7 +191,7 @@ export const Attendance = () => {
         {attendanceCards.map((card) => (
           <Card
             key={card.label}
-            className="relative bg-[#ebeff3] w-[440px] h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
+            className="relative bg-[#ebeff3] w-full h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
           >
             <CardHeader>
               <div className="flex justify-between">
@@ -224,7 +224,7 @@ export const Attendance = () => {
       </div>
 
       {/* Calendar + Day Overview */}
-      <div className="flex gap-6 pt-6">
+      <div className="flex flex-row gap-6 pt-6">
         <div className="flex flex-col">
           <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
           <Calendar
@@ -234,16 +234,16 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className="bg-[#ebeff3] border w-[500px] **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            className="bg-[#ebeff3] border  **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
             style={{ ...FONTS.heading_02 }}
           />
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <h3 className="text-lg font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>
             Day Overview
           </h3>
-          <div className="flex flex-col justify-between bg-[#ebeff3] rounded-md p-6 w-[830px] h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
+          <div className="flex flex-col w-full justify-between bg-[#ebeff3] rounded-md p-6  h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
             <div>
               <p className="text-sm mb-4 text-gray-700">
                 {selectedDate ? selectedDate.toDateString() : "Select a date"}

@@ -29,7 +29,7 @@ const ClassId = () => {
         {/* Left side card */}
         <Card style={{backgroundColor:COLORS.bg_Colour}} className='px-4 py-1 h-[400px]'>
             <CardHeader>
-                <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] mb-4'> Batch No: #13</CardTitle>
+                <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] my-4'> Batch No: #13</CardTitle>
                 <CardDescription>
                     <h2 style={{...FONTS.heading_02}} className='text-[#2A2A2A] mb-2'>The Path Of MERN Stack</h2>
                     <p style={{...FONTS.para_02}} >The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
@@ -61,7 +61,7 @@ const ClassId = () => {
         </Card>
         <Card style={{backgroundColor:COLORS.bg_Colour}} className='px-4 h-[400px]'>
             <CardTitle style={{...FONTS.heading_02}} >Session Materials</CardTitle>
-            <Card style={{...FONTS.para_02}}  className='py-1 px-3 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
+            <Card style={{...FONTS.para_02}}  className='py-2 px-3 rounded-sm bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
                 Once Class finished study material videos will be upload
             </Card>
             <div className='mx-auto my-auto'>
