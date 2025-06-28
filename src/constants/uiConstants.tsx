@@ -84,3 +84,7 @@ export const FONTS = {
 		lineHeight: '24px',
 	},
 };
+
+export const greenbtnHover = "bg-gradient-to-r from-[#6AE1B7] via-[#6AE1B7EB] to-[#6AE1B7] text-white rounded-xl py-2 shadow-md"
+
+export const bluebtnHover = "hover:bg-gradient-to-r hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white hover:text-white hover:shadow-md"

@@ -7,7 +7,8 @@ import Attendance from '@/components/dashboard/Attendance';
 import Payment from '@/components/dashboard/Payment';
 import Assesments from '@/components/dashboard/Assesments';
 import Updates from '@/components/dashboard/Updates';
-import Calendar from '@/components/dashboard/Calendar';
+import CalendarDash from '@/components/dashboard/Calendar';
+import { FONTS } from '@/constants/uiConstants';
 
 const Dashboard: React.FC = () => {
 	return (
@@ -42,7 +43,16 @@ const Dashboard: React.FC = () => {
 						<Updates />
 					</div>
 					<div>
-						<Calendar />
+						<CalendarDash />
+					</div>
+				</div>
+
+				<div className="flex flex-row justify-between">
+					<div className='divshadow p-2 rounded-xl'>
+						<p style={{ ...FONTS.heading_06 }}>Course Name: <span style={{ ...FONTS.heading_04 }}>MEARN STACK 2024</span></p>
+					</div>
+					<div className='divshadow p-2 rounded-xl'>
+						<p style={{ ...FONTS.heading_06 }}>Projects: <span style={{ ...FONTS.heading_04 }}>Web Development</span></p>
 					</div>
 				</div>
 			</div>
