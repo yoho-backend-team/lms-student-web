@@ -44,7 +44,7 @@ const Tickets = () => {
 				<h1 className="text-2xl font-bold"
 					style={FONTS.heading_01}>Ticket</h1>
 				<Button
-					className="bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white"
+					className="bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white cursor-pointer"
 					style={FONTS.heading_06}
 					variant="outline"
 					onClick={handleCreate}
@@ -56,17 +56,19 @@ const Tickets = () => {
 			<div className="flex flex-row gap-3 mb-8 ">
 				{["all", "open", "closed"].map((label) => (
 					<Button
-						key={label}
-						className={`${filter === label
-								? "bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white"
-								: "bg-[#ebeff3] !text-black hover:bg-[#ebeff3] hover:text-black"
-							} shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]`}
-						style={FONTS.heading_05}
-						variant="outline"
-						onClick={() => setFilter(label as "all" | "open" | "closed")}
-					>
-						{label.charAt(0).toUpperCase() + label.slice(1)}
-					</Button>
+	key={label}
+	className={`cursor-pointer ${
+		filter === label
+			? "bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white"
+			: "bg-[#ebeff3] !text-black hover:bg-[#ebeff3] hover:text-black"
+	} shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]`}
+	style={FONTS.heading_05}
+	variant="outline"
+	onClick={() => setFilter(label as "all" | "open" | "closed")}
+>
+	{label.charAt(0).toUpperCase() + label.slice(1)}
+</Button>
+
 
 
 				))}
