@@ -1,4 +1,5 @@
 import AboutCourse from '@/components/courses/AboutCourse';
+import Notes_Materials from '@/components/courses/Notes_Materials';
 import { useAuth } from '@/context/AuthContext/AuthContext';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
@@ -58,7 +59,8 @@ const AppRoutes = () => {
 				<Route path='attendance' element={<Attendance />} />
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
-				<Route path='about' element={<AboutCourse />} />
+				<Route path='/about/:course' element={<AboutCourse />} />
+				<Route path='notes_materials' element={<Notes_Materials />} />
 			</Route>
 		</Routes>
 	);
