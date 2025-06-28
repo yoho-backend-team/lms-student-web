@@ -3,6 +3,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import pdfimage from '../../assets/icons/notes/image 59.png'
 import downloadimg from '../../assets/icons/notes/Download.png'
+import { FONTS } from '@/constants/uiConstants';
 
 const NotesMaterials = () => {
 
@@ -23,12 +24,12 @@ const NotesMaterials = () => {
     <div className="w-full mx-auto p-4">
       <Card className="overflow-hidden">
         <div className="flex flex-col">
-          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 sticky top-0 z-10">
+          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 sticky top-0 z-10 ml-4 mr-4 mb-4">
             <div className="grid grid-cols-4 gap-4">
-              <div className="text-center">File</div>
-              <div className="text-center">Name</div>
-              <div className="text-center">Chapter</div>
-              <div className="text-center">PDF Download</div>
+              <div className="text-center !text-white" style={{...FONTS.heading_02}}>File</div>
+              <div className="text-center !text-white" style={{...FONTS.heading_02}}>Name</div>
+              <div className="text-center !text-white" style={{...FONTS.heading_02}}>Chapter</div>
+              <div className="text-center !text-white" style={{...FONTS.heading_02}}>PDF Download</div>
             </div>
           </Card>
 
@@ -42,8 +43,8 @@ const NotesMaterials = () => {
                   <div className="flex justify-center">
                     <img src={pdfimage} className="w-10 h-12" alt="PDF icon"/>
                   </div>
-                  <div className="text-center">{note.date}</div>
-                  <div className="text-center">{note.time}</div>
+                  <div className="text-center !text-gray-600" style={{...FONTS.para_01}}>{note.date}</div>
+                  <div className="text-center !text-gray-600" style={{...FONTS.para_01}}>{note.time}</div>
                   <div className="flex justify-center">
                     <Button 
                       className="bg-[#EBEFF3] w-20 h-14 hover:bg-[#EBEFF3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]" 
