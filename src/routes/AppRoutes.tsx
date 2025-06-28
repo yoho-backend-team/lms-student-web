@@ -25,8 +25,8 @@ import Tickets from '@/pages/Tickets/Tickets';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 const AppRoutes = () => {
-	// const { isAuthenticated } = useAuth();
-	const isAuthenticated = true;
+	const { isAuthenticated } = useAuth();
+	// const isAuthenticated = false;
 
 	const AuthRoutes = () => (
 		<Routes>

@@ -65,7 +65,7 @@ const EmailVerification = () => {
 								<label style={{ ...FONTS.heading_04 }}>Email Or Username</label>
 								<input
 									type='email'
-									style={{ ...FONTS.heading_03 }}
+									style={{ ...FONTS.heading_06 }}
 									{...register('email', { required: 'Email is required' })}
 									className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none'
 								/>

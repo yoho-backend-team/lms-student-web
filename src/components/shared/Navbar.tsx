@@ -5,45 +5,54 @@ import { NavbarIcons } from '@/assets/icons/navbar';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext/AuthContext';
 
 const Navbar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [showProfileSection, setshowProfileSection] = useState(false);
+	const { logout } = useAuth();
 
 	const navItems = [
 		{
 			path: '',
+			name: 'Dashboard',
 			iconActive: NavbarIcons.DashboardActiveImg,
 			iconInactive: NavbarIcons.DashboardInActiveImg,
 		},
 		{
 			path: 'classes',
+			name: 'Classes',
 			iconActive: NavbarIcons.ClassActiveImg,
 			iconInactive: NavbarIcons.ClassInActiveImg,
 		},
 		{
 			path: 'courses',
+			name: 'Courses',
 			iconActive: NavbarIcons.CourseActiveImg,
 			iconInactive: NavbarIcons.CourseInActiveImg,
 		},
 		{
 			path: 'attendance',
+			name: 'Attendance',
 			iconActive: NavbarIcons.AttendanceActiveImg,
 			iconInactive: NavbarIcons.AttendanceInActiveImg,
 		},
 		{
 			path: 'payment',
+			name: 'Payment',
 			iconActive: NavbarIcons.PaymentActiveImg,
 			iconInactive: NavbarIcons.PaymentInActiveImg,
 		},
 		{
 			path: 'community',
+			name: 'Community',
 			iconActive: NavbarIcons.CommunityActiveImg,
 			iconInactive: NavbarIcons.CommunityInActiveImg,
 		},
 		{
 			path: 'placement',
+			name: 'Placement',
 			iconActive: NavbarIcons.PlacementActiveImg,
 			iconInactive: NavbarIcons.PlacementInActiveImg,
 		},
@@ -157,7 +166,11 @@ const Navbar = () => {
 							>
 								<div
 									className='flex gap-2'
-									onClick={() => setshowProfileSection(false)}
+									onClick={() => {
+										setshowProfileSection(false);
+										logout();
+										navigate('/login');
+									}}
 								>
 									<img
 										src={NavbarIcons.LoginImg}

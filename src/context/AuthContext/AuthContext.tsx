@@ -10,21 +10,20 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
 	useEffect(() => {
 		const token = localStorage.getItem('authToken');
 		setIsAuthenticated(!!token);
 	}, []);
 
-	// const login = (data: string) => {
-	// 	localStorage.setItem('authToken', data);
-	// 	setIsAuthenticated(true);
-	// };
-
-	const login = () => {
-		localStorage.setItem('authToken', 'dummy-token');
-		setIsAuthenticated(true);
+	const login = (data: string) => {
+		try {
+			localStorage.setItem('authToken', 'dummy-token');
+			setIsAuthenticated(true);
+		} catch (error) {
+			console.error('Login failed:', error);
+		}
 	};
 
 	const logout = () => {

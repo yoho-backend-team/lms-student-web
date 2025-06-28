@@ -3,9 +3,9 @@ import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { BsInfoCircle } from 'react-icons/bs';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 type ChangePassword = {
 	newPassword: string;
@@ -24,10 +24,9 @@ const Login = () => {
 	const onSubmit = async (data: ChangePassword) => {
 		try {
 			if (data.newPassword === data.confirmPassword) {
-				console.log(data, 'NewPassword data');
-			}
-			else {
-				console.log("Credentials Not-Matched")
+				navigate('/login');
+			} else {
+				console.log('Credentials Not-Matched');
 			}
 		} catch (error: any) {
 			console.log('error', error);
@@ -59,19 +58,17 @@ const Login = () => {
 							<img src={Logo} alt='logo' style={{ width: 20, height: 20 }} />
 						</Card>
 
-
 						<p className='text-center my-3' style={{ ...FONTS.heading_02 }}>
 							Change Password
 						</p>
 
 						<form onSubmit={handleSubmit(onSubmit)} className='w-full my-4'>
-
 							{/* New Password */}
 							<div className='flex flex-col space-y-2'>
 								<label style={{ ...FONTS.heading_04 }}>New Password</label>
 								<div className='relative'>
 									<input
-										style={{ ...FONTS.heading_03 }}
+										style={{ ...FONTS.heading_06 }}
 										type={showPassword ? 'text' : 'password'}
 										{...register('newPassword', {
 											required: 'Please Enter Your New Password',
@@ -90,7 +87,7 @@ const Login = () => {
 									</span>
 								</div>
 								{errors.newPassword && (
-									<span className='text-red-500 text-sm'>
+									<span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
 										{errors.newPassword.message}
 									</span>
 								)}
@@ -102,7 +99,7 @@ const Login = () => {
 								<label style={{ ...FONTS.heading_04 }}>Confirm Password</label>
 								<div className='relative'>
 									<input
-										style={{ ...FONTS.heading_03 }}
+										style={{ ...FONTS.heading_06 }}
 										type={showPassword ? 'text' : 'password'}
 										{...register('confirmPassword', {
 											required: 'Enter Same as New Password',
@@ -121,22 +118,29 @@ const Login = () => {
 									</span>
 								</div>
 								{errors.confirmPassword && (
-									<span className='text-red-500 text-sm'>
+									<span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
 										{errors.confirmPassword.message}
 									</span>
 								)}
 							</div>
 
-
 							{/* Submit */}
 							<button
 								type='submit'
-								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition`}
+								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition cursor-pointer`}
 								style={{ ...FONTS.heading_04, color: COLORS.white }}
 							>
 								Submit
 							</button>
-
+							<div
+								className='flex items-center gap-2 justify-center'
+								onClick={() => navigate('/login')}
+							>
+								<IoMdArrowRoundBack color={COLORS.blue_02} />
+								<p style={{ ...FONTS.heading_06, color: COLORS.blue_02 }}>
+									Back to Login
+								</p>
+							</div>
 						</form>
 					</div>
 				</Card>

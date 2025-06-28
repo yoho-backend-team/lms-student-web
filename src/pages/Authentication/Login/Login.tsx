@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
+import { useAuth } from '@/context/AuthContext/AuthContext';
 
 type LoginData = {
 	email: string;
@@ -20,10 +21,15 @@ const Login = () => {
 	} = useForm<LoginData>({});
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const onSubmit = async (data: LoginData) => {
 		try {
 			console.log(data, 'login data');
+			if (data.email) {
+				login(data.email);
+				navigate('/');
+			}
 		} catch (error: any) {
 			console.log('error', error);
 		}
@@ -62,7 +68,7 @@ const Login = () => {
 								<label style={{ ...FONTS.heading_04 }}>Email Or Username</label>
 								<input
 									type='email'
-									style={{ ...FONTS.heading_03 }}
+									style={{ ...FONTS.heading_06 }}
 									{...register('email', { required: 'Email is required' })}
 									className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none'
 								/>
@@ -78,7 +84,7 @@ const Login = () => {
 								<label style={{ ...FONTS.heading_04 }}>Password</label>
 								<div className='relative'>
 									<input
-										style={{ ...FONTS.heading_03 }}
+										style={{ ...FONTS.heading_06 }}
 										type={showPassword ? 'text' : 'password'}
 										{...register('password', {
 											required: 'Password is required',
@@ -116,7 +122,7 @@ const Login = () => {
 							{/* Submit */}
 							<button
 								type='submit'
-								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition`}
+								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition cursor-pointer`}
 								style={{ ...FONTS.heading_04, color: COLORS.white }}
 							>
 								Sign In
