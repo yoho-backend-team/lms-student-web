@@ -179,7 +179,7 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className="bg-[#ebeff3] border w-[500px]  **:gap-5 **:py-0.5  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            className="bg-[#ebeff3] rounded-lg border w-[500px]  **:gap-5 **:py-0.5  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
             style={{ ...FONTS.heading_02 }}
           />
         </div>
