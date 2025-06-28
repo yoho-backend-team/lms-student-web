@@ -6,6 +6,7 @@ import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
+import { icons } from 'lucide-react';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -79,20 +80,20 @@ const Navbar = () => {
 
 				<div className='flex gap-10'>
 					{navItems.map((item) => (
-						<Card
-							key={item.path}
-							className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
-							style={{
-								boxShadow:
-									location.pathname === `/${item.path}`
-										? `
+						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
+							<Card
+								key={item.path}
+								className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
+								style={{
+									boxShadow:
+										location.pathname === `/${item.path}`
+											? `
 					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
 					  rgba(189, 194, 199, 0.75) 5px 5px 4px
 					`
-										: undefined,
-							}}
-						>
-							<Link to={item.path} onClick={() => setshowProfileSection(false)}>
+											: undefined,
+								}}
+							>
 								<img
 									src={
 										location.pathname === `/${item.path}`
@@ -100,32 +101,33 @@ const Navbar = () => {
 											: item.iconInactive
 									}
 									alt='nav-icon'
+									title={item.path}
 									style={{ width: 24, height: 24 }}
 								/>
-							</Link>
-						</Card>
+							</Card>
+						</Link>
 					))}
 				</div>
 
 				<div className='flex gap-6'>
-					<Card
-						className='bg-[#ebeff3] w-[48px] h-[48px] rounded-full flex items-center justify-center'
-						style={{
-							boxShadow: `
+					<Link to='notifications'>
+						<Card
+							className='bg-[#ebeff3] w-[48px] h-[48px] rounded-full flex items-center justify-center'
+							style={{
+								boxShadow: `
                 rgba(255, 255, 255, 0.7) -4px -4px 4px, 
                 rgba(189, 194, 199, 0.75) 5px 5px 4px
               `,
-						}}
-					>
-						<Link to='notifications'>
+							}}
+						>
 							<img
 								src={NavbarIcons.NotificationImg}
 								alt='notification-bell'
 								className='cursor-pointer'
 								style={{ width: 24, height: 24 }}
 							/>
-						</Link>
-					</Card>
+						</Card>
+					</Link>
 					<div
 						className='cursor-pointer'
 						onClick={() => setshowProfileSection(!showProfileSection)}
@@ -143,9 +145,9 @@ const Navbar = () => {
             `,
 							}}
 						>
-							<Card className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] flex justify-center cursor-pointer'>
+							<Card className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] cursor-pointer flex gap-2 justify-center'>
 								<Link
-									className='flex gap-2 justify-center'
+									className=' flex justify-center gap-2'
 									to='profile'
 									onClick={() => setshowProfileSection(false)}
 								>
