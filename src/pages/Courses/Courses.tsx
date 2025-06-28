@@ -5,15 +5,15 @@ import React from 'react';
 
 const Courses = () => {
 	return (
-	
-	<div>
-		<MainCourse/>
-		<Notes/>
-		<Taskprojects/>
-	</div>
+
+		<div>
+			<MainCourse />
+			<Notes />
+			<Taskprojects />
+		</div>
 
 	)
-	
+
 };
 
 export default Courses;
