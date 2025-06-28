@@ -5,6 +5,7 @@ import User from '../../assets/icons/activitylog/User.png';
 import filter from '../../assets/icons/common/filter.png';
 import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
+import { useNavigate } from 'react-router-dom';
 
 
 const ActivityLogs = () => {
@@ -13,6 +14,7 @@ const ActivityLogs = () => {
 	const [date, setDate] = useState<Date | undefined>(undefined);
 	const [showFromCalendar, setShowFromCalendar] = useState(false);
 	const [showToCalendar, setShowToCalendar] = useState(false);
+	const navigate = useNavigate()
 	const activityLogs = [
 		{
 			id: 1,
@@ -40,6 +42,8 @@ const ActivityLogs = () => {
 		},
 	]
 
+	
+
 
 	return (
 		<div className='py-6 flex gap-6'>
@@ -47,12 +51,14 @@ const ActivityLogs = () => {
 			<div className='w-3/4'>
 
 				<nav className='flex items-center gap-6'>
-					<div className='p-2 rounded-lg'
+					<div className='p-2 rounded-lg cursor-pointer'
 						style={{
 							boxShadow: `
       							rgba(255, 255, 255, 0.7) 5px 5px 4px, 
       							rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-						}}>
+						}}
+						onClick={()=>navigate(-1)}
+						>
 						<img src={backBtn} alt="BackBtn" />
 					</div>
 					<h1 style={{ ...FONTS.heading_01 }}>Activity Log</h1>

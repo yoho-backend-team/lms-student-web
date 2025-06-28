@@ -69,20 +69,17 @@ export const FONTS = {
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '20px',
-		lineHeight: '24px',
 	},
 	para_02: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '12px',
-		lineHeight: '24px',
 	},
 	para_03: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_title,
 		fontSize: '12px',
-		lineHeight: '24px',
 	},
 };

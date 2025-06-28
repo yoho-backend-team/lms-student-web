@@ -11,47 +11,47 @@ import { COLORS, FONTS } from "@/constants/uiConstants"
 
 const Payment = () => {
 	return (
-		<div className=" flex gap-8 mb-2">
+		<div className=" lg:flex md:grid gap-8 mb-2">
 
-			<div className="w-1/4">
-				<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_01 }}>Payment</h1>
-				<div className="p-5 grid gap-6 custom-inset-shadow">
-					<section className="custom-inset-shadow p-3 grid gap-4">
+			<div className="lg:w-1/4 md">
+				<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_02 }}>Payment</h1>
+				<div className="p-5 lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow">
+					<section className="custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4">
 						<div className="flex gap-3">
 							<img src={Profile1} alt="Profile" />
-							<p style={{ ...FONTS.para_02 }}>Course Fees</p>
+							<p style={{ ...FONTS.heading_07 }}>Course Fees</p>
 						</div>
 						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.light_green_01 }}>&#8377; 100000</p>
 					</section>
 
-					<section className="custom-inset-shadow p-3 grid gap-4">
+					<section className="custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4">
 						<div className="flex gap-3">
 							<img src={Profile2} alt="Profile" />
-							<p style={{ ...FONTS.para_02 }}>Amount Paid</p>
+							<p style={{ ...FONTS.heading_07 }}>Amount Paid</p>
 						</div>
 						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.light_green }}>&#8377; 100000</p>
 					</section>
 
-					<section className="custom-inset-shadow p-3 grid gap-4">
+					<section className="custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4">
 						<div className="flex gap-3">
 							<img src={Profile3} alt="Profile" />
-							<p style={{ ...FONTS.para_02 }}>Pending Amount</p>
+							<p style={{ ...FONTS.heading_07 }}>Pending Amount</p>
 						</div>
 						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.light_red }}>&#8377; 100000</p>
 					</section>
 
-					<section className="custom-inset-shadow p-3 grid gap-4">
+					<section className="custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4">
 						<div className="flex gap-3">
 							<img src={Profile4} alt="Profile" />
-							<p style={{ ...FONTS.para_02 }}>Status</p>
+							<p style={{ ...FONTS.heading_07 }}>Status</p>
 						</div>
-						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}>Payment Empty</p>
+						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}>Pending</p>
 					</section>
 
-					<section className="custom-inset-shadow p-3 grid gap-4">
+					<section className="custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4">
 						<div className="flex gap-3">
 							<img src={Profile5} alt="Profile" />
-							<p style={{ ...FONTS.para_02 }}>Payment Method</p>
+							<p style={{ ...FONTS.heading_07 }}>Payment Method</p>
 						</div>
 						<p className="text-end" style={{ ...FONTS.heading_03, color: COLORS.light_orange }}>&#8377; 100000</p>
 					</section>
@@ -59,10 +59,10 @@ const Payment = () => {
 				</div>
 			</div>
 
-			<div className="w-3/4 flex gap-8">
+			<div className="lg:w-3/4 flex gap-8">
 				<div className="w-1/2">
 					<div>
-						<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_01 }}>Courses Details</h1>
+						<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_02 }}>Courses Details</h1>
 						<div className="p-5 grid gap-2 custom-inset-shadow">
 							<section className="custom-inset-shadow">
 								<img src={Group} alt="Group" className="m-auto" />
@@ -90,7 +90,7 @@ const Payment = () => {
 											<img src={Star} alt="Star" className="" />
 
 										</div>
-										<p style={{ ...FONTS.heading_05 }}>4.5</p>
+										<p style={{ ...FONTS.heading_06 }}>4.5</p>
 									</div>
 									<p className="text-end font-semibold" style={{ ...FONTS.heading_05, color: COLORS.light_green }}>&#8377; 500000</p>
 								</section>
@@ -102,7 +102,7 @@ const Payment = () => {
 
 					<div className="mt-3">
 						<section className="flex justify-between items-center py-6">
-							<h1 className="font-semibold text-2xl" style={{ ...FONTS.heading_01 }}>Fees Details</h1>
+							<h1 className="font-semibold text-2xl" style={{ ...FONTS.heading_02 }}>Fees Details</h1>
 							<button className="p-2 px-4 rounded-lg cursor-pointer" style={{
 								...FONTS.para_02,
 								boxShadow: `
@@ -172,7 +172,7 @@ const Payment = () => {
 
 
 				<div className="w-1/2">
-					<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_01 }}>Payment History</h1>
+					<h1 className="font-semibold text-2xl py-6" style={{ ...FONTS.heading_02 }}>Payment History</h1>
 					<div className="p-5 flex flex-col gap-2 custom-inset-shadow min-h-[100vh]">
 
 						<h1 className="font-semibold" style={{ ...FONTS.heading_05 }}>View PDF</h1>
