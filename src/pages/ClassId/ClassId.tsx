@@ -1,27 +1,47 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import classImg from '../../assets/classes/Mask group.png'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { COLORS, FONTS } from '@/constants/uiConstants';
+import backImg from '../../assets/classes/back.png'
 
 const ClassId = () => {
 	const { id } = useParams();
-	return <div>ClassId -{id}
+
+	// handle backpage button function
+
+	const navigate = useNavigate();
+	const handleBackPage = () => {
+		navigate(-1);
+	}
+
+	return(
+	 <div>
+		{/* title section */}
+		<div className='my-4 flex flex-row justify-start items-center gap-5'>
+		<div onClick={handleBackPage} className='p-2 rounded-lg bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'>
+			<img onClick={handleBackPage} src={backImg} alt="back-img" />
+		</div>	
+		<h1 style={{...FONTS.heading_01}} >Class Details  -{id}</h1>
+		</div>
+
+		{/* card section */}
 	<div className='grid grid-cols-2 justify-between gap-10'>
         {/* Left side card */}
-        <Card className='p-4'>
+        <Card style={{backgroundColor:COLORS.bg_Colour}} className='p-4 mb-2'>
             <CardHeader>
-                <CardTitle className='text-[#7B00FF]'> Batch No: #13</CardTitle>
+                <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] mb-4'> Batch No: #13</CardTitle>
                 <CardDescription>
-                    <h2 className='text-[#2A2A2A] font-700'>The Path Of MERN Stack</h2>
-                    <p>The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
+                    <h2 style={{...FONTS.heading_02}} className='text-[#2A2A2A] mb-2'>The Path Of MERN Stack</h2>
+                    <p style={{...FONTS.para_01}} >The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
                 </CardDescription>
             </CardHeader>
 
-            <Card className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'>
+            <Card className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] mx-4'>
                 <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-4 mx-4">
-                    <table className='w-full table-fixed text-center'>
-                        <thead>
+                    <table  className='w-full table-fixed text-center'>
+                        <thead style={{...FONTS.para_01}} className='!text-[#ffffff]'>
                             <tr>
                                 <td>Date</td>
                                 <td>Start At</td>
@@ -29,7 +49,7 @@ const ClassId = () => {
                                 <td>Duration</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{...FONTS.heading_04}} className='!text-[#ffffff]'>
                             <tr>
                                 <td>10 Mar 2025</td>
                                 <td>9.30 Am</td>
@@ -42,11 +62,11 @@ const ClassId = () => {
             </Card>
 
             <CardContent>
-                <h3 className='text-[#0d6efd]'>Class Meeting Link</h3>
-                <h2 className='text-[#2a2a2a]'>Join The Class @9.30 AM</h2>
+                <h3 style={{...FONTS.heading_02}} className='!text-[#0d6efd] mb-4'>Class Meeting Link</h3>
+                <h2 style={{...FONTS.heading_02}} className='text-[#2a2a2a] mb-3'>Join The Class @9.30 AM</h2>
                 <div className='grid grid-cols-2'>
                     <div>
-                        <Button className="px-5
+                        <Button className="px-5 mb-2
                           bg-gradient-to-l from-[#7B00FF] to-[#B200FF] 
                           text-white
                           rounded-[6px] 
@@ -54,26 +74,26 @@ const ClassId = () => {
                         ">
                           Upcoming
                         </Button>
-                        <p>Make sure your presence in the class & if you are unable to attend, please inform to the coordinator</p>
+                        <p style={{...FONTS.para_01}}>Make sure your presence in the class & if you are unable to attend, please inform to the coordinator</p>
                     </div>
 
                     <div>
-                        <Button className="bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]" variant="outline">
+                        <Button className="mb-2 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]" variant="outline">
                         Completed
                         </Button>
-                        <p>If you are faced any issue on durating class please raise a ticket to solve.</p>
+                        <p style={{...FONTS.para_01}}>If you are faced any issue on durating class please raise a ticket to solve.</p>
                     </div>
                 </div>
             </CardContent>
 
-            <h2>Session Notes</h2>
-            <Card className='py-2 px-3 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
+            <h2 style={{...FONTS.heading_02}} >Session Notes</h2>
+            <Card style={{...FONTS.para_01}} className='py-2 px-3 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
                 Once Class finished Notes will be upload
             </Card>
         </Card>
-        <Card className='p-4'>
-            <CardTitle>Study Materials</CardTitle>
-            <Card className='py-2 px-3 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
+        <Card style={{backgroundColor:COLORS.bg_Colour}} className='p-4 mb-2'>
+            <CardTitle style={{...FONTS.heading_02}} >Study Materials</CardTitle>
+            <Card style={{...FONTS.para_01}}  className='py-2 px-3 bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '>
                 Once Class finished study material videos will be upload
             </Card>
             <div>
@@ -81,7 +101,8 @@ const ClassId = () => {
             </div>
         </Card>
     </div>
-</div>;
+</div>
+	)
 };
 
 export default ClassId;
