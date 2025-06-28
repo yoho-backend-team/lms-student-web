@@ -25,7 +25,7 @@ const FAQSupport: React.FC<FAQSupportProps> = ({ onContactSupport }) => {
           color: COLORS.text_desc,
           fontFamily: FONTS.para_01.fontFamily,
           fontSize: FONTS.para_01.fontSize,
-          lineHeight: FONTS.para_01.lineHeight
+          // lineHeight: FONTS.para_01.lineHeight
         }}
       >
         If You Have Any Further Questions, Feel Free To Reach Out To Our Support Team.
