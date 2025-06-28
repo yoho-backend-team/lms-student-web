@@ -16,7 +16,7 @@ export const COLORS = {
 	light_red: '#C63028',
 	light_orange: '#E67123',
 	light_pink: '#DF23E6',
-    shadow_01: '#BDC2C7BF',
+	shadow_01: '#BDC2C7BF',
 };
 
 export const FONTS = {
@@ -56,14 +56,27 @@ export const FONTS = {
 		fontSize: '16px',
 		color: COLORS.text_desc,
 	},
+	heading_07: {
+		fontFamily: 'Quicksand',
+		fontWeight: 700,
+		fontSize: '14px',
+		color: COLORS.text_desc,
+	},
 	para_01: {
+		fontFamily: 'Quicksand',
+		fontWeight: 500,
+		color: COLORS.text_desc,
+		fontSize: '20px',
+		lineHeight: '24px',
+	},
+	para_02: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '12px',
 		lineHeight: '24px',
 	},
-	para_02: {
+	para_03: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_title,

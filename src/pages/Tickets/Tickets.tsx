@@ -1,24 +1,24 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-	Card,
-	CardAction,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ticketicon from '../../assets/icons/Tickets/Mask group.png';
 import { COLORS, FONTS } from "@/constants/uiConstants";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ticketData = [
-	{ id: "ANTITS01", date: "28 April", count: 1, status: "open" },
-	{ id: "ANTITS02", date: "30 June", count: 1, status: "closed" },
-	{ id: "ANTITS03", date: "2 July", count: 1, status: "closed" },
-	{ id: "ANTITS04", date: "14 July", count: 1, status: "open" },
+  { id: "ANTITS01", date: "28 April", count: 1 , status: "open"},
+  { id: "ANTITS02", date: "30 June", count: 1  , status: "closed"},
+  { id: "ANTITS03", date: "2 July", count: 1  , status: "closed"},
+  { id: "ANTITS04", date: "14 July", count: 1  , status: "open"},
 ];
 
 
