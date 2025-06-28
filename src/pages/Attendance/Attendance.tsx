@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+
 const chartData = [
   { month: 'January', desktop: 10 },
   { month: 'February', desktop: 11.5 },
@@ -73,7 +74,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
-  const current = new Date()
+  // const current = new Date()
 
   const handleMonthChange = (newMonth: string) => {
     const monthIndex = months.indexOf(newMonth)
@@ -95,7 +96,7 @@ export const Attendance = () => {
     setSelectedYear(newMonth.getFullYear())
   }
 
-  const years = Array.from({ length: 36 }, (_, i) => 2000 + i)
+  const years = Array.from({ length: 5 }, (_, i) => 2021 + i)
 
   return (
     <div className="p-4">
@@ -120,7 +121,7 @@ export const Attendance = () => {
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger
                 style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
-                className="w-[100px] rounded-sm border-0 px-2 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
+                className="w-[100px] rounded-sm border-0 px-1 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
               >
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
@@ -155,7 +156,7 @@ export const Attendance = () => {
               >
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-sm p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
+              <SelectContent className="bg-[#ebeff3] rounded-sm w-[40px] px-2 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
                 {years.map((year) => (
                   <SelectItem
                     key={year}
@@ -230,11 +231,11 @@ export const Attendance = () => {
             onMonthChange={handleCalendarMonthChange}
             className="border **:gap-5 **:py-0.5 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
             style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
-            modifiers={{ current: current }}
-            modifiersClassNames={{
-              current: "text-[#A32AF3] font-bold" ,
-              selected: "text-white",
-            }}
+            // modifiers={{ current: current }}
+            // modifiersClassNames={{
+            //   current: "text-[#A32AF3] font-bold" ,
+            //   selected: "text-white",
+            // }}
           />
         </div>
 
@@ -255,8 +256,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="mt-4 self-start px-4 py-2 rounded-md text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
-              style={{ ...FONTS.heading_06, backgroundColor: COLORS.bg_Colour }}
+              className="mt-4 self-start px-4 py-2 rounded-md bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              style={{ ...FONTS.heading_06 }}
             >
               View Details
             </button>
