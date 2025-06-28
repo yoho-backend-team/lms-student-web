@@ -1,5 +1,6 @@
 import React from 'react';
 import { Settings, FileText, CreditCard } from 'lucide-react';
+import { COLORS, FONTS } from '@/constants/uiConstants';
 
 interface MenuItem {
   id: string;
@@ -42,38 +43,36 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       {menuItems.map((item) => (
         <div
           key={item.id}
-          className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+          className={`p-3 rounded-lg cursor-pointer transition-all duration-200 w-full ${
             item.isActive
-              ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white'
-              : 'text-gray-600'
+              ? 'shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
+              : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_1px_1px_2px_rgba(189,194,199,0.5)]'
           }`}
           style={{
-            backgroundColor: item.isActive ? undefined : '#EBEFF3',
-            boxShadow: item.isActive 
-              ? '0 10px 15px -3px rgba(139, 69, 255, 0.4), 0 4px 6px -2px rgba(139, 69, 255, 0.05)'
-              : '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)'
+            backgroundColor: item.isActive ? COLORS.light_blue : COLORS.bg_Colour,
+            color: item.isActive ? COLORS.white : COLORS.text_desc,
+            fontFamily: FONTS.para_01.fontFamily
           }}
           onClick={() => handleItemClick(item.id)}
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 w-full">
             <div 
-              className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                item.isActive ? 'bg-white bg-opacity-20' : 'bg-gray-100'
+              className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                item.isActive 
+                  ? 'bg-white bg-opacity-20' 
+                  : 'shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]'
               }`}
+              style={{
+                backgroundColor: item.isActive ? 'rgba(255, 255, 255, 0.2)' : COLORS.bg_Colour
+              }}
             >
               {item.icon}
             </div>
-            <span 
-              className="font-medium" 
-              style={{
-                fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                fontSize: '14px'
-              }}
-            >
+            <span className="font-medium text-sm leading-relaxed flex-1" style={{ fontFamily: FONTS.para_01.fontFamily }}>
               {item.label}
             </span>
           </div>

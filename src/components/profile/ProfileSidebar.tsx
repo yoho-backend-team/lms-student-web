@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import ProfileHeader from './ProfileHeader';
 import ProfileMenu from './ProfileMenu';
+import { COLORS, FONTS } from '@/constants/uiConstants';
 
 interface ProfileSidebarProps {
   name: string;
@@ -10,6 +11,9 @@ interface ProfileSidebarProps {
   activeMenuItem?: string;
   onMenuItemClick?: (itemId: string) => void;
   onGoBack?: () => void;
+  onEditClick?: () => void;
+  onImageChange?: (imageFile: File) => void;
+  isEditing?: boolean;
 }
 
 const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
@@ -18,41 +22,55 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   profileImage,
   activeMenuItem,
   onMenuItemClick,
-  onGoBack
+  onGoBack,
+  onEditClick,
+  onImageChange,
+  isEditing = false
 }) => {
   return (
     <div 
-      className="w-64 min-p-2 rounded-r-lg" 
+      className="rounded-lg shadow-lg lg:sticky lg:top-4 flex flex-col"
       style={{
-        backgroundColor: '#EBEFF3', 
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        backgroundColor: COLORS.bg_Colour,
+        fontFamily: FONTS.para_01.fontFamily,
         height: '75vh',
-        marginTop: '2rem',
-        marginLeft: '1rem',
-        position: 'sticky',
-        width: '20%'
+        marginRight: '2rem',
+        marginLeft: '-3rem',
+        width: '30%',
+        minWidth: '320px',
+        maxWidth: '400px',
       }}
     >
-      <ProfileHeader 
-        name={name}
-        traineeId={traineeId}
-        profileImage={profileImage}
-      />
+      {/* Header Section */}
+      <div className="p-3 flex-shrink-0">
+        <ProfileHeader 
+          name={name}
+          traineeId={traineeId}
+          profileImage={profileImage}
+          onEditClick={onEditClick}
+          onImageChange={onImageChange}
+          isEditing={isEditing}
+          showEditButton={activeMenuItem === 'profile'}
+        />
+      </div>
       
-      <ProfileMenu 
-        activeItem={activeMenuItem}
-        onMenuItemClick={onMenuItemClick}
-      />
+      {/* Menu Section - Takes remaining space */}
+      <div className="px-3 flex-1 overflow-y-auto">
+        <ProfileMenu 
+          activeItem={activeMenuItem}
+          onMenuItemClick={onMenuItemClick}
+        />
+      </div>
 
-      {/* Go Back Button */}
-      <div className="mt-auto pt-8">
+      {/* Go Back Button - Fixed at bottom */}
+      <div className="p-3 flex-shrink-0">
         <button 
-          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg py-3 px-4 flex items-center justify-center space-x-2 font-medium transition-all duration-200" 
+          className="w-full rounded-lg py-3 px-3 flex items-center justify-center space-x-2 font-medium transition-all duration-200 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)] text-sm"
           style={{
-            boxShadow: '0 10px 15px -3px rgba(139, 69, 255, 0.4), 0 4px 6px -2px rgba(139, 69, 255, 0.05)', 
-            fontFamily: 'Quicksand, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-            fontSize: '14px'
+            backgroundColor: COLORS.light_blue,
+            color: COLORS.white,
+            fontFamily: FONTS.para_01.fontFamily,
+            fontSize: FONTS.para_01.fontSize
           }}
           onClick={onGoBack}
         >

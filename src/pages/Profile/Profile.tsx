@@ -1,8 +1,8 @@
 import React from 'react';
-import ProfilePage from '../../components/profile/profile';
+import PersonalInformation from '../../components/profile/profile';
 
 const Profile = () => {
-	return <ProfilePage />;
+	return <PersonalInformation />;
 };
 
 export default Profile;
