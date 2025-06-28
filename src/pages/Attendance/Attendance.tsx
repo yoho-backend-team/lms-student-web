@@ -121,12 +121,12 @@ export const Attendance = () => {
             {/* Month Dropdown */}
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger
-                className="w-[160px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
-                style={{ ...FONTS.para_02 }}
+                className="w-[160px] rounded-[12px] border-0  px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                style={{ ...FONTS.para_02 , backgroundColor:COLORS.bg_Colour }}
               >
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] ">
+              <SelectContent className=" rounded-[16px] p-2  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] "style={{backgroundColor:COLORS.bg_Colour}}>
                 {months.map((month) => (
                   <SelectItem
                     key={month}
@@ -134,7 +134,6 @@ export const Attendance = () => {
                     className={`
                       cursor-pointer px-4 py-2  text-gray-700 
                       rounded-[12px] 
-                      bg-[#ebeff3]
                     shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] 
                       data-[state=checked]:bg-gradient-to-r 
                       data-[state=checked]:from-purple-500 
@@ -142,7 +141,9 @@ export const Attendance = () => {
                       data-[state=checked]:text-white
                       mb-2
                       transition
+                      
                     `}
+                    style={{backgroundColor:COLORS.bg_Colour}}
                   >
                     {month}
                   </SelectItem>
@@ -153,12 +154,12 @@ export const Attendance = () => {
             {/* Year Dropdown */}
             <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
               <SelectTrigger
-                className="w-[120px] rounded-[12px] border-0 bg-[#ebeff3] px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
-                style={{ ...FONTS.para_02 }}
+                className="w-[120px] rounded-[12px] border-0  px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]  focus:outline-none"
+                style={{ ...FONTS.para_02 , backgroundColor:COLORS.bg_Colour }}
               >
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-[16px] p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
+              <SelectContent className=" rounded-[16px] p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]" style={{backgroundColor:COLORS.bg_Colour}}>
                 {years.map((year) => (
                   <SelectItem
                     key={year}
@@ -166,7 +167,6 @@ export const Attendance = () => {
                     className={`
                       cursor-pointer px-4 py-2 text-gray-700 
                       rounded-[12px] 
-                      bg-[#ebeff3]
                       shadow-[inset_-2px_-2px_4px_rgba(255,255,255,0.8),inset_2px_2px_4px_rgba(189,194,199,0.6)]
                       data-[state=checked]:bg-gradient-to-r 
                       data-[state=checked]:from-purple-500 
@@ -176,6 +176,7 @@ export const Attendance = () => {
                       transition
                    
                     `}
+                    style={{backgroundColor:COLORS.bg_Colour}}
                   >
                     {year}
                   </SelectItem>
@@ -191,7 +192,8 @@ export const Attendance = () => {
         {attendanceCards.map((card) => (
           <Card
             key={card.label}
-            className="relative bg-[#ebeff3] w-[440px] h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
+            className="relative w-[440px] h-[120px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] overflow-hidden"
+            style={{backgroundColor:COLORS.bg_Colour}}
           >
             <CardHeader>
               <div className="flex justify-between">
@@ -234,8 +236,8 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className="bg-[#ebeff3] border w-[500px] **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-            style={{ ...FONTS.heading_02 }}
+            className=" border w-[500px] **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            style={{ ...FONTS.heading_02 , backgroundColor:COLORS.bg_Colour}}
           />
         </div>
 
@@ -243,7 +245,7 @@ export const Attendance = () => {
           <h3 className="text-lg font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>
             Day Overview
           </h3>
-          <div className="flex flex-col justify-between bg-[#ebeff3] rounded-md p-6 w-[830px] h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
+          <div className="flex flex-col justify-between  rounded-md p-6 w-[830px] h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]" style={{backgroundColor:COLORS.bg_Colour}}>
             <div>
               <p className="text-sm mb-4 text-gray-700">
                 {selectedDate ? selectedDate.toDateString() : "Select a date"}
@@ -256,8 +258,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="mt-4 self-start px-4 py-2 rounded-md bg-[#ebeff3] text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
-              style={{ ...FONTS.heading_06 }}
+              className="mt-4 self-start px-4 py-2 rounded-md  text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              style={{ ...FONTS.heading_06 ,backgroundColor:COLORS.bg_Colour}}
             >
               View Details
             </button>
