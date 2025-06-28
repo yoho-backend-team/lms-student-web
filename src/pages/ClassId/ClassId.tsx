@@ -21,7 +21,7 @@ const ClassId = () => {
 		{/* title section */}
 		<div className='my-4 flex flex-row justify-start items-center gap-5'>
 		<div onClick={handleBackPage} className='p-2 rounded-lg bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'>
-			<img onClick={handleBackPage} src={backImg} alt="back-img" />
+			<img src={backImg} alt="back-img" />
 		</div>	
 		<h1 style={{...FONTS.heading_01}} >Class Details  -{id}</h1>
 		</div>
@@ -34,7 +34,7 @@ const ClassId = () => {
                 <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] mb-4'> Batch No: #13</CardTitle>
                 <CardDescription>
                     <h2 style={{...FONTS.heading_02}} className='text-[#2A2A2A] mb-2'>The Path Of MERN Stack</h2>
-                    <p style={{...FONTS.para_01}} >The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
+                    <p style={{...FONTS.para_02}} >The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
                 </CardDescription>
             </CardHeader>
 
