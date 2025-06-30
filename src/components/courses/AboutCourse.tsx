@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import humanimg from '../../assets/courses icons/demo human.png';
 import CourseCard from './CourseCard';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg"
+import CourseButton from './coursebutton';
 
 const courseData = {
   mernstack: {
@@ -33,24 +34,18 @@ const AboutCourse: React.FC = () => {
     <div className="px-4 py-6 bg-[#F5F7FA] min-h-screen">
       <div className="flex items-center gap-3 mb-6">
         <Button
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            navigate(-1)
+          }}
           className="bg-[#EBEFF3] text-[#333] hover:bg-[#e0e0e0] px-1 py-1 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
         >
           <img src={navigationicon} />
         </Button>
         <h1 className="text-black text-2xl font-semibold">About</h1>
       </div>
+      <CourseButton />
 
-      <div className="flex justify-center gap-4 mb-12">
-        <Button className="bg-gradient-to-r from-[#7b00ff] to-[#a855f7] text-white px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          About
-        </Button>
-        <Button className="bg-[#EBEFF3] hover:bg-[#EBEFF3] text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">Class Notes & Materials</Button>
-        <Button className="bg-[#EBEFF3] hover:bg-[#EBEFF3] text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">Task & Projects</Button>
-        <Button className="bg-[#EBEFF3] hover:bg-[#EBEFF3] text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">Course Track</Button>
-      </div>
 
-      {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-screen-xl mx-auto items-start">
         <CourseCard
           title={selected.title}
