@@ -1,5 +1,8 @@
 import AboutCourse from '@/components/courses/AboutCourse';
+import CourseTrack from '@/components/courses/Course_Track';
+import CourseVideo from '@/components/courses/CourseVideo';
 import Notes_Materials from '@/components/courses/Notes_Materials';
+import Task_Projects from '@/components/courses/Task_Projects';
 import { useAuth } from '@/context/AuthContext/AuthContext';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
@@ -61,6 +64,9 @@ const AppRoutes = () => {
 				<Route path='payment' element={<Payment />} />
 				<Route path='/about/:course' element={<AboutCourse />} />
 				<Route path='notes_materials' element={<Notes_Materials />} />
+				<Route path='task_projects' element={<Task_Projects />} />
+				<Route path='course_track' element={<CourseTrack />} />
+				<Route path='coursevideo' element={<CourseVideo />} />
 			</Route>
 		</Routes>
 	);

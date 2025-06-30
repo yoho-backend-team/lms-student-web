@@ -42,7 +42,7 @@ const AboutCourse: React.FC = () => {
       </div>
 
       <div className="flex justify-center gap-4 mb-12">
-        <Button className="bg-gradient-to-r from-[#7b00ff] to-[#a855f7] text-white px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
+        <Button className="bg-[#7b00ff]  text-white px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
           About
         </Button>
         <Button className="bg-[#EBEFF3] hover:bg-[#EBEFF3] text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">Class Notes & Materials</Button>
@@ -50,7 +50,7 @@ const AboutCourse: React.FC = () => {
         <Button className="bg-[#EBEFF3] hover:bg-[#EBEFF3] text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">Course Track</Button>
       </div>
 
-      {/* Content */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-screen-xl mx-auto items-start">
         <CourseCard
           title={selected.title}
