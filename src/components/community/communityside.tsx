@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import msgframe from "../../assets/Frame 5185.png";
-import doubleicon from '../../assets/Group 210.png';
-
+import msgframe from "../../assets/icons/community/Frame 5185.png";
+import doubleicon from '../../assets/icons/community/Group 210.png';
+import cursor from '../../assets/icons/community/Icon.png'
 
 const communityside = () => {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -29,18 +29,18 @@ const communityside = () => {
     <>
       <div className='flex flex-col lg:flex-row p-4 gap-4'>
         <div className="w-full lg:w-[400px] xl:w-[500px] h-[600px] bg-[#EBEFF3] rounded-xl shadow-2xl overflow-hidden 
-                      transform transition-all hover:-translate-y-1 hover:shadow-3xl">
+                      transform transition-all  hover:shadow-3xl">
           <div className="relative p-4 bg-[#EBEFF3]">
-            <div className="absolute inset-0 border-2 border-gray-100 rounded-t-xl pointer-events-none"></div>
+            <div className="absolute inset-0 rounded-t-xl pointer-events-none"></div>
                     
                   
-            <div className="relative mt-4">
+            <div className="relative mt-4" >
               <input
                 type="text"
                 placeholder="Search"
                 className="w-full p-3 h-10 pl-10 bg-[#EBEFF3] border-2 border-[#F4F7F9] rounded-lg 
                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-                          shadow-inner hover:shadow-md transition-shadow"
+                          shadow-inner hover:shadow-md transition-shadow btnshadow"
               />
               <svg
                 className="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
@@ -53,12 +53,15 @@ const communityside = () => {
             </div>
           </div>
 
-         <div className="p-4 bg-[#EBEFF3] h-[calc(600px-80px)] border-2 border-[#EBEFF3] rounded-b-xl relative overflow-y-auto">
+
+          
+
+         <div className="divshadow p-4 bg-[#EBEFF3] h-[calc(600px-80px)]  border-[#EBEFF3] rounded-b-xl relative overflow-y-auto">
             <div className="absolute inset-0 border-2 border-white rounded-b-xl pointer-events-none"></div>
 
 
  {chats.map(chat => (          
- <div  key={chat.id}  className={`"relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg 
+ <div  key={chat.id}  className={`"divshadow relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg 
                            transform transition-all hover:scale-[1.02] mb-3
                            border border-gray-200 hover:border-blue-200 shadow-lg"
                 
@@ -101,34 +104,50 @@ const communityside = () => {
               </div>
         
           
-            <div className="flex-1 p-4 bg-[#EBEFF3] overflow-y-auto relative">
+            <div className="flex-1 p-4 bg-[#EBEFF3]  w-full   h-[600px] overflow-y-auto relative">
               <div className="absolute inset-0 border-2 border-white rounded-xl pointer-events-none"></div>
               
           
               <div className="relative z-10 space-y-3">
                 
-                <div className="bg-white p-3 rounded-lg max-w-[70%] shadow">
+                <div className="bg-white p-3 rounded-lg max-w-[15%] shadow">
                   <p>Hii</p>
                   <p className="text-xs text-gray-500 text-right mt-1">1:15 PM</p>
                 </div>
               </div>
-            </div>
-
            
-            <div className="p-4 border-t border-gray-200 bg-[#EBEFF3]">
-              <div className="flex items-center">
+
+             
+            <div className="p-4 border-t   bg-[#EBEFF3] mt-[340px]">
+              <div className="flex items-center justify-between" >
                 <input 
                   type="text" 
                   placeholder="Type a Message" 
-                  className="flex w-80 border  border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-200 w-10 "
+                  className="flex w-80 border  border-[#F4F7F9] rounded-lg py-2 btnshadow px-4 focus:outline-none focus:ring-2 focus:ring-blue-200 w-10 "
                 />
-                <button className="ml-[400px] bg-gray-500 text-white rounded-full p-2 hover:bg-gray-500">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-                  </svg>
+                <button className=" bg-[#EBEFF3] ml text-white rounded-sm shadow-inner p-2 ">
+                  
+                     <img src={cursor} className="h-5 w-5" />
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" /> 
+                 
                 </button>
               </div>
-            </div>
+            </div> 
+{/*             
+<div className="p-4 border-t bg-[#EBEFF3] mt-[340px]">
+  <div className="flex items-center">
+    <input 
+      type="text" 
+      placeholder="Type a Message" 
+      className="flex border border-gray-300 w-20 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-200"
+    />
+    <button className="ml-2 bg-[#EBEFF3] text-white rounded-sm shadow-inner p-2">
+      <img src={cursor} className="h-5 w-5" />
+    </button>
+  </div>
+</div> */}
+
+             </div>
           </>
         ) : (
         

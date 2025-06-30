@@ -20,15 +20,21 @@ const Attendance: React.FC = () => {
                 </div>
                 <div className="w-1/2 flex flex-col gap-5 justify-center">
                     <div className="flex flex-row gap-5">
-                        <img src={profile} alt="" className='w-[40px] h-[40px]' />
+                        <div className='divshadow p-2 rounded-lg'>
+                            <img src={profile} alt="" className='w-5 h-5' />
+                        </div>
                         <p style={{ ...FONTS.heading_06 }}>Overall <span style={{ ...FONTS.heading_02 }}>7%</span> Attendance</p>
                     </div>
                     <div className="flex flex-row gap-5">
-                        <img src={book} alt="" className='w-[40px] h-[40px]' />
+                        <div className='divshadow p-2 rounded-lg'>
+                            <img src={book} alt="" className='w-5 h-5' />
+                        </div>
                         <p style={{ ...FONTS.heading_06 }}><span style={{ ...FONTS.heading_02 }}>7%</span> Attendance Remaining</p>
                     </div>
                     <div className="flex flex-row gap-5">
-                        <img src={close} alt="" className='w-[40px] h-[40px]' />
+                        <div className='divshadow p-2 rounded-lg'>
+                            <img src={close} alt="" className='w-5 h-5' />
+                        </div>
                         <p style={{ ...FONTS.heading_06 }}>Overall <span style={{ ...FONTS.heading_02 }}>7%</span> Day Absent</p>
                     </div>
                 </div>
