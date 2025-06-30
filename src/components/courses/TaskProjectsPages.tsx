@@ -30,7 +30,7 @@ const Taskprojects = () => {
                 >
                     <img src={navigationicon} />
                 </Button>
-                <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
+                <h1 className="text-black text-2xl font-semibold">Task Projects</h1>
             </div>
 
             <CourseButton />

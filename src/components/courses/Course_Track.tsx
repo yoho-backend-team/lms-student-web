@@ -21,7 +21,7 @@ const CourseTrack: React.FC = () => {
         >
           <img src={navigationicon} />
         </Button>
-        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
+        <h1 className="text-black text-2xl font-semibold">Course Track</h1>
       </div>
       <CourseButton />
 
