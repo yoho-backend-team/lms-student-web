@@ -1,4 +1,8 @@
 import React from 'react';
+import CourseButton from './coursebutton';
+import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
+import navigationicon from "../../assets/courses icons/navigation arrow.svg"
 
 
 interface Task {
@@ -9,6 +13,7 @@ interface Task {
 }
 
 const Task_Projects: React.FC = () => {
+  const navigate = useNavigate()
   const tasks: Task[] = [
     { name: 'vijay', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Completed' },
     { name: 'Kamal', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Pending' },
@@ -19,27 +24,23 @@ const Task_Projects: React.FC = () => {
 
   return (
     <div className="px-4 py-6 w-full">
-      <h1 className="text-black text-2xl font-semibold mb-6">Task & Projects</h1>
-
-     
-      <div className="flex justify-center gap-4 mb-12 flex-wrap">
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          About
-        </button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Class Notes & Materials
-        </button>
-        <button className="bg-[#7b00ff] text-white px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Task & Projects
-        </button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Course Track
-        </button>
+      <div className="flex items-center gap-3 mb-6">
+        <Button
+          onClick={() => {
+            navigate(-1)
+          }}
+          className="bg-[#EBEFF3] text-[#333] hover:bg-[#e0e0e0] px-1 py-1 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+        >
+          <img src={navigationicon} />
+        </Button>
+        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
+      <CourseButton />
 
-  
+
+
       <div className="bg-[#EBEFF3] p-6 rounded-lg w-full max-w-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
-        
+
         <div
           className="grid grid-cols-4 p-4 text-center font-semibold text-white rounded-lg mb-4"
           style={{
@@ -64,11 +65,10 @@ const Task_Projects: React.FC = () => {
             <span>{item.deadline}</span>
             <span>
               <span
-                className={`px-3 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] text-sm ${
-                  item.status === 'Completed'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-[#EBEFF3] text-gray-700'
-                }`}
+                className={`px-3 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] text-sm ${item.status === 'Completed'
+                  ? 'bg-green-500 text-white'
+                  : 'bg-[#EBEFF3] text-gray-700'
+                  }`}
               >
                 {item.status}
               </span>
