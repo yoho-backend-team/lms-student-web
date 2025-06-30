@@ -29,18 +29,17 @@ const communityside = () => {
     <>
       <div className='flex flex-col lg:flex-row p-4 gap-4'>
         <div className="w-full lg:w-[400px] xl:w-[500px] h-[600px] bg-[#EBEFF3] rounded-xl shadow-2xl overflow-hidden 
-                      transform transition-all  hover:shadow-3xl">
+                      transform transition-all ">
           <div className="relative p-4 bg-[#EBEFF3]">
-            <div className="absolute inset-0 rounded-t-xl pointer-events-none"></div>
+            <div className="absolute inset-0 rounded-xl pointer-events-none"></div>
                     
                   
             <div className="relative mt-4" >
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full p-3 h-10 pl-10 bg-[#EBEFF3] border-2 border-[#F4F7F9] rounded-lg 
-                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-                          shadow-inner hover:shadow-md transition-shadow btnshadow"
+                className="w-full p-3 h-10 pl-10 bg-[#EBEFF3]  
+                           rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
               />
               <svg
                 className="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
@@ -56,22 +55,19 @@ const communityside = () => {
 
           
 
-         <div className="divshadow p-4 bg-[#EBEFF3] h-[calc(600px-80px)]  border-[#EBEFF3] rounded-b-xl relative overflow-y-auto">
-            <div className="absolute inset-0 border-2 border-white rounded-b-xl pointer-events-none"></div>
+         <div className=" p-4 bg-[#EBEFF3] h-[calc(600px-80px)]  border-[#EBEFF3] rounded-b-xl relative overflow-y-auto">
+            <div className="absolute inset-0 border-2  rounded-b-xl pointer-events-none"></div>
 
 
  {chats.map(chat => (          
- <div  key={chat.id}  className={`"divshadow relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg 
-                           transform transition-all hover:scale-[1.02] mb-3
-                           border border-gray-200 hover:border-blue-200 shadow-lg"
+ <div  key={chat.id}  className={`" relative z-10 flex items-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] justify-between p-3 bg-[#EBEFF3] rounded-lg "
                 
-                ${selectedChat?.id === chat.id ? 'bg-blue-50 border-blue-300' : ''}`}
+                ${selectedChat?.id === chat.id ? 'bg-[#EBEFF3]' : ''}`}
               onClick={() => handleChatClick(chat)}
             >
 
               <div className="flex items-center space-x-3">
-                <div className="bg-gray-900 text-white rounded-full h-12 w-12 flex items-center justify-center text-lg font-bold
-                              shadow-inner hover:shadow-lg transition-shadow">
+                <div className="bg-gray-900 text-white rounded-full h-12 w-12 flex items-center justify-center text-lg font-bold">
                   
                 </div>
                 <div>
@@ -95,7 +91,7 @@ const communityside = () => {
           <>
         
             
-            <div className="p-4 border-b border-gray-200 bg-[#EBEFF3]  justify-between items-center">
+            <div className="p-4 border-b border-gray-200 bg-[#EBEFF3]  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]  justify-between items-center">
               <div className='bg-gray-900 text-white rounded-full h-12 w-12 pl-10'>
                 
                 <h2 className="font-bold text-lg text-gray-900 ml-10 w-40">{selectedChat.name}</h2>
@@ -105,7 +101,7 @@ const communityside = () => {
         
           
             <div className="flex-1 p-4 bg-[#EBEFF3]  w-full   h-[600px] overflow-y-auto relative">
-              <div className="absolute inset-0 border-2 border-white rounded-xl pointer-events-none"></div>
+              <div className="absolute inset-0 border-2  rounded-xl pointer-events-none"></div>
               
           
               <div className="relative z-10 space-y-3">
