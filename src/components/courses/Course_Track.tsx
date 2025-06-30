@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import frame from "../../assets/courses icons/GFrame.png"
 import group from "../../assets/courses icons/htmlGroup.png"
 import CourseButton from './coursebutton';
@@ -8,6 +8,7 @@ import navigationicon from "../../assets/courses icons/navigation arrow.svg"
 
 
 const CourseTrack: React.FC = () => {
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const navigate = useNavigate()
   return (
     <div className="w-full px-6 py-8">
@@ -28,11 +29,17 @@ const CourseTrack: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
 
         <div className="w-full flex justify-center">
-          <img
-            src={frame}
-            alt="Course Preview"
-            className="rounded-lg shadow-lg max-w-full"
-          />
+          <div
+            className="aspect-video w-full max-w-2xl  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg overflow-hidden cursor-pointer"
+            onClick={() => setShowVideoModal(true)}
+          >
+            <iframe
+              className="w-full h-full pointer-events-none"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Course Video Preview"
+              frameBorder="0"
+            ></iframe>
+          </div>
         </div>
 
 
@@ -50,6 +57,27 @@ const CourseTrack: React.FC = () => {
         </div>
       </div>
 
+      {/* Fullscreen Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 z-50 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg bg-opacity-90 flex items-center justify-center">
+          <div className="relative w-full max-w-6xl aspect-video p-6 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] bg-[#EBEFF3]">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+              title="Full Course Video"
+              frameBorder="0"
+              allow="autoplay; fullscreen; encrypted-media"
+              allowFullScreen
+            ></iframe>
+            <button
+              onClick={() => setShowVideoModal(false)}
+              className="absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 px-3 py-1 rounded hover:bg-opacity-75"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

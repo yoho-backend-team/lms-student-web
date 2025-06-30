@@ -1,9 +1,7 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
-import CourseVideo from '@/components/courses/CourseVideo';
 import Notes_Materials from '@/components/courses/Notes_Materials';
 import Task_Projects from '@/components/courses/Task_Projects';
-import { useAuth } from '@/context/AuthContext/AuthContext';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
 import Attendance from '@/pages/Attendance/Attendance';
@@ -27,7 +25,6 @@ import Placement from '@/pages/Placement/Placement';
 import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
-import Taskprojects from '@/components/courses/Task_projects';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -67,12 +64,10 @@ const AppRoutes = () => {
 				<Route path='payment' element={<Payment />} />
 				<Route path='/about' element={<AboutCourse />} />
 				<Route path='note_materials' element={<NotesMaterials />} />
-				{/* <Route path='task_projects' element={<Taskprojects />} /> */}
 				<Route path='/about/:course' element={<AboutCourse />} />
 				<Route path='notes_materials' element={<Notes_Materials />} />
 				<Route path='task_projects' element={<Task_Projects />} />
 				<Route path='course_track' element={<CourseTrack />} />
-				<Route path='coursevideo' element={<CourseVideo />} />
 			</Route>
 		</Routes>
 	);

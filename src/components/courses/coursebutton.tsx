@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from 'react-router-dom'
-import navigationicon from "../../assets/courses icons/navigation arrow.svg"
 
 
 function CourseButton() {
