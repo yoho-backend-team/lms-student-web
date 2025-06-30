@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
 import download from "../../assets/courses icons/download.svg";
 import fileicon from "../../assets/courses icons/fileicon.svg";
 import CourseButton from './coursebutton';

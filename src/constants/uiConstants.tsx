@@ -6,9 +6,11 @@ export const COLORS = {
 	text_desc: '#716F6F',
 	blue_01: '#0022FF',
 	blue_02: '#5585FF',
+	blue_user:'#0400FF',
 	light_blue: '#7B00FF',
 	purple_01: '#A32AF3',
 	purple_02: '#B200FF',
+	green_text:'#3ABE65',
 	light_green: '#11A21E',
 	light_green_01: '#18BABA',
 	light_green_02: '#38D2DC',
@@ -67,21 +69,18 @@ export const FONTS = {
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '20px',
-		lineHeight: '24px',
 	},
 	para_02: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '12px',
-		lineHeight: '24px',
 	},
 	para_03: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_title,
 		fontSize: '12px',
-		lineHeight: '24px',
 	},
 };
 
