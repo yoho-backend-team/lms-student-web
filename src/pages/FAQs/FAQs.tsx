@@ -1,7 +1,7 @@
-import React from 'react';
+import FAQInterface from '@/components/Faq/Faq';
 
 const FAQs = () => {
-	return <div>FAQs</div>;
+	return <FAQInterface />;
 };
 
 export default FAQs;

@@ -4,7 +4,7 @@ import { FONTS } from '@/constants/uiConstants'
 
 const CourseProgress: React.FC = () => {
     return (
-        <div className='flex flex-col justify-between w-full h-[365px] bg-[#EBEFF3] shadow-xl rounded-[16px] p-[20px] gap-[10px]'>
+        <div className='flex flex-col justify-between w-full h-[365px] bg-[#EBEFF3] divshadow rounded-[16px] p-[20px] gap-[10px]'>
             <h1 style={{ ...FONTS.heading_02 }}>Courses Progress</h1>
             <div className='-mt-20'>
                 <Progress3D />

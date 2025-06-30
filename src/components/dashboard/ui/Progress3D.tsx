@@ -4,7 +4,7 @@
 import { cn } from "@/lib/utils"
 
 export default function Progress3D() {
-    const progress = 29
+    const progress = 30
     const radius = 90
     const circumference = 2 * Math.PI * radius
     const strokeDashoffset = circumference - (progress / 100) * circumference
@@ -23,7 +23,7 @@ export default function Progress3D() {
                         strokeWidth="20"
                         strokeDasharray=""
                         // className="opacity-100"
-                        className={cn("stroke-gray-100 ")}
+                        className={cn("stroke-[#BDC2C7] border-2 border-[#F4F7F9] opacity-50")}
                     />
 
                     {/* Dashed inner ring with more presence */}
@@ -35,7 +35,7 @@ export default function Progress3D() {
                         stroke="#d1d5db"
                         strokeWidth="6"
                         strokeDasharray="10 30"
-                        className="opacity-70 drop-shadow-md"
+                        className="opacity-90 drop-shadow-lg"
                     />
 
                     {/* Progress Arc */}
@@ -49,7 +49,7 @@ export default function Progress3D() {
                         strokeLinecap="round"
                         strokeDasharray={circumference}
                         strokeDashoffset={strokeDashoffset}
-                        className="transition-all duration-1000 ease-out shadow-xl"
+                        className="transition-all duration-1000 ease-out shadow-2xl bg-gradient-to-r from-[#7B00FF] to-[#7B00FF]"
                     />
 
                     {/* Gradient Definition */}

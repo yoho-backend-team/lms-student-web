@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Download, QrCode } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 
@@ -21,6 +21,8 @@ interface IDCardProps {
 }
 
 const IDCard: React.FC<IDCardProps> = ({ data }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
   // Sample data - replace with actual data from props or API
   const idCardData: IDCardData = data || {
     studentName: 'Albert Einstein',
@@ -40,18 +42,22 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
     // Implement ID card download functionality
   };
 
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <div className="w-full">
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
         style={{ 
-          width: '110%',
+          width: '100%',
           marginTop: '1rem',
-          height: '73vh',
+          height: '75vh',
           fontFamily: FONTS.para_01.fontFamily
         }}>
         
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-2xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_01.fontFamily, fontWeight: FONTS.heading_01.fontWeight }}>
               Student ID Card
@@ -59,90 +65,136 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
           </div>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 scrollbar-hide">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 scrollbar-hide">
           {/* ID Card Preview */}
           <div className="mb-8 flex justify-center">
-            <div className="w-80 h-[500px] rounded-2xl shadow-[3px_3px_20px_rgba(123,0,255,0.4)] relative overflow-hidden" style={{ background: `linear-gradient(to bottom right, ${COLORS.light_blue}, ${COLORS.purple_01})` }}>
-              {/* Card Front */}
-              <div className="h-full p-6 relative flex flex-col" style={{ color: COLORS.white }}>
-                {/* Header */}
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-bold mb-1" style={{ fontFamily: FONTS.heading_04.fontFamily }}>{idCardData.institution}</h3>
-                  <p className="text-sm opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>STUDENT ID CARD</p>
-                  <div className="w-16 h-0.5 bg-white/50 mx-auto mt-2"></div>
-                </div>
+            <div className="relative w-full max-w-80 h-[500px]" style={{ perspective: '1000px' }}>
+              <div 
+                className="relative w-full h-full transition-transform duration-700 cursor-pointer"
+                onClick={handleCardClick}
+                style={{ 
+                  transformStyle: 'preserve-3d',
+                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                }}
+              >
+                {/* Card Front */}
+                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
+                  {/* Half Color Design */}
+                  <div className="h-full relative">
+                    {/* Top Half - Colored */}
+                    <div className="h-1/2 p-6 relative flex flex-col" style={{ background: `linear-gradient(135deg, ${COLORS.light_blue}, ${COLORS.purple_01})`, color: COLORS.white }}>
+                      {/* Header */}
+                      <div className="text-center mb-4">
+                        <h3 className="text-lg font-bold mb-1" style={{ fontFamily: FONTS.heading_04.fontFamily }}>{idCardData.institution}</h3>
+                        <p className="text-sm opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>STUDENT ID CARD</p>
+                        <div className="w-16 h-0.5 bg-white/50 mx-auto mt-2"></div>
+                      </div>
 
-                {/* Profile Image */}
-                <div className="flex justify-center mb-4">
-                  <div className="w-24 h-24 rounded-full border-4 border-white/30 overflow-hidden bg-white/10">
-                    <img 
-                      src={idCardData.profileImage} 
-                      alt={idCardData.studentName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+                      {/* Profile Image */}
+                      <div className="flex justify-center mb-4">
+                        <div className="w-20 h-20 rounded-full border-4 border-white/30 overflow-hidden bg-white/10">
+                          <img 
+                            src={idCardData.profileImage} 
+                            alt={idCardData.studentName}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
 
-                {/* Student Info */}
-                <div className="text-center mb-4">
-                  <h4 className="text-lg font-bold mb-1" style={{ fontFamily: FONTS.heading_04.fontFamily }}>{idCardData.studentName}</h4>
-                  <p className="text-sm opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>{idCardData.course}</p>
-                </div>
+                      {/* Student Info */}
+                      <div className="text-center">
+                        <h4 className="text-lg font-bold mb-1" style={{ fontFamily: FONTS.heading_04.fontFamily }}>{idCardData.studentName}</h4>
+                        <p className="text-sm opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>{idCardData.course}</p>
+                      </div>
 
-                {/* Details */}
-                <div className="space-y-2 text-sm flex-1" style={{ fontFamily: FONTS.para_01.fontFamily }}>
-                  <div className="flex justify-between">
-                    <span className="opacity-80">Student ID:</span>
-                    <span className="font-semibold">{idCardData.studentId}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="opacity-80">Roll No:</span>
-                    <span className="font-semibold">{idCardData.rollNumber}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="opacity-80">Batch:</span>
-                    <span className="font-semibold">{idCardData.batch}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="opacity-80">Valid Until:</span>
-                    <span className="font-semibold">{new Date(idCardData.validUntil).toLocaleDateString()}</span>
-                  </div>
-                </div>
-
-                {/* Bottom Section */}
-                <div className="flex items-end justify-between mt-4">
-                  {/* Left side - Course details */}
-                  <div className="text-xs" style={{ fontFamily: FONTS.para_01.fontFamily }}>
-                    <div className="mb-1">
-                      <span className="opacity-80">Course Name:</span>
-                      <div className="font-semibold">{idCardData.course}</div>
+                      {/* Decorative elements */}
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-8 translate-x-8"></div>
+                      <div className="absolute bottom-0 left-0 w-12 h-12 bg-white/10 rounded-full translate-y-6 -translate-x-6"></div>
                     </div>
-                    <div>
-                      <span className="opacity-80">Duration:</span>
-                      <div className="font-semibold">6 Months</div>
+
+                    {/* Bottom Half - White */}
+                    <div className="h-1/2 p-6 bg-white relative flex flex-col" style={{ color: COLORS.text_desc }}>
+                      {/* Details */}
+                      <div className="space-y-2 text-sm flex-1" style={{ fontFamily: FONTS.para_01.fontFamily }}>
+                        <div className="flex justify-between">
+                          <span className="opacity-70">Student ID:</span>
+                          <span className="font-semibold">{idCardData.studentId}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="opacity-70">Roll No:</span>
+                          <span className="font-semibold">{idCardData.rollNumber}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="opacity-70">Batch:</span>
+                          <span className="font-semibold">{idCardData.batch}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="opacity-70">Blood Group:</span>
+                          <span className="font-semibold">{idCardData.bloodGroup || 'N/A'}</span>
+                        </div>
+                       
+                      </div>
+
+                      {/* Bottom Section */}
+                      <div className="flex items-end justify-between mt-4">
+                        {/* Left side - Course details */}
+                        <div className="text-xs" style={{ fontFamily: FONTS.para_01.fontFamily }}>
+                          <div className="mb-1">
+                            <span className="opacity-70">Duration:</span>
+                            <div className="font-semibold">6 Months</div>
+                          </div>
+                        </div>
+
+                        {/* Right side - Download button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDownload();
+                          }}
+                          className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-all duration-200 shadow-md"
+                          style={{ backgroundColor: COLORS.bg_Colour }}
+                          title="Download ID Card"
+                        >
+                          <Download className="w-5 h-5" style={{ color: COLORS.light_blue }} />
+                        </button>
+                      </div>
+
+                      {/* Click to flip hint */}
+                      <div className="absolute top-2 right-2 text-xs opacity-50" style={{ fontFamily: FONTS.para_01.fontFamily }}>
+                        Click to flip
+                      </div>
                     </div>
                   </div>
-
-                  {/* Right side - Download button */}
-                  <button
-                    onClick={handleDownload}
-                    className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-all duration-200"
-                    title="Download ID Card"
-                  >
-                    <Download className="w-5 h-5" />
-                  </button>
                 </div>
 
-                {/* QR Code - moved to top right */}
-                <div className="absolute top-4 right-4">
-                  <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                    <QrCode className="w-6 h-6" />
+                {/* Card Back */}
+                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                  <div className="h-full relative" style={{ background: `linear-gradient(135deg, ${COLORS.purple_01}, ${COLORS.light_blue})`, color: COLORS.white }}>
+                    {/* Header */}
+                    <div className="text-center p-6 border-b border-white/20">
+                      <h3 className="text-lg font-bold mb-1" style={{ fontFamily: FONTS.heading_04.fontFamily }}>QR Code</h3>
+                      <p className="text-sm opacity-90" style={{ fontFamily: FONTS.para_01.fontFamily }}>Scan for verification</p>
+                    </div>
+
+                    {/* QR Code Section */}
+                    <div className="flex-1 flex flex-col items-center justify-center p-8">
+                      <div className="w-48 h-48 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <QrCode className="w-32 h-32" style={{ color: COLORS.text_desc }} />
+                      </div>
+                      
+                      <div className="text-center">
+                        <p className="text-sm opacity-90 mb-2" style={{ fontFamily: FONTS.para_01.fontFamily }}>Student ID: {idCardData.studentId}</p>
+                        <p className="text-xs opacity-70" style={{ fontFamily: FONTS.para_01.fontFamily }}>Scan this QR code for quick verification</p>
+                      </div>
+                    </div>
+
+                   
+
+                    {/* Decorative elements */}
+                    <div className="absolute top-0 left-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 -translate-x-10"></div>
+                    <div className="absolute bottom-0 right-0 w-16 h-16 bg-white/10 rounded-full translate-y-8 translate-x-8"></div>
                   </div>
                 </div>
-
-                {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/10 rounded-full translate-y-8 -translate-x-8"></div>
               </div>
             </div>
           </div>
@@ -152,7 +204,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
             <h3 className="font-bold mb-6 text-xl leading-none" style={{ color: COLORS.text_title, fontFamily: FONTS.heading_02.fontFamily, fontWeight: FONTS.heading_02.fontWeight }}>
               ID Card Details
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
                   Student Name
@@ -207,23 +259,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 </div>
               </div>
 
-              <div>
-                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
-                  Valid From
-                </label>
-                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
-                  {new Date(idCardData.validFrom).toLocaleDateString()}
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>
-                  Valid Until
-                </label>
-                <div className="rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center" style={{ backgroundColor: COLORS.bg_Colour, fontFamily: FONTS.para_01.fontFamily, color: COLORS.text_desc }}>
-                  {new Date(idCardData.validUntil).toLocaleDateString()}
-                </div>
-              </div>
+              
 
               <div className="md:col-span-2">
                 <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>

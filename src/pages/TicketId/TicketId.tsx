@@ -72,9 +72,16 @@ const TicketId = () => {
 									<p className="text-xs !text-gray-500" style={{ ...FONTS.para_01, fontSize: '12px' }}>10 May 2025</p>
 								</div>
 								<div className="flex justify-end pt-6 pl-6">
-									<Button className="text-xs px-4 py-1 rounded-md !bg-[#7b00ff] !text-white !hover:bg-[#6a00e0]" style={{ ...FONTS.para_01, fontSize: '13px' }}>
-										Problem Solved
-									</Button>
+									<Button
+  className="px-2 py-1 text-xs rounded-sm bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white 
+    shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] 
+    hover:opacity-90 transition"
+  style={{ ...FONTS.para_01, fontSize: '15px' }}
+>
+  problem Solved
+</Button>
+
+
 								</div>
 							</CardContent>
 						</Card>
@@ -146,9 +153,15 @@ const TicketId = () => {
 						<div>
 							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Status</label>
 							<div className="bg-[#ebeff3] rounded-md p-2 mt-5 w-full shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-								<Button className="px-5 py-2 !text-white rounded-md bg-gradient-to-r !bg-[#7b00ff] !hover:bg-[#6a00e0]   text-sm font-medium" style={{ ...FONTS.para_01, fontSize: '14px' }}>
-									Opened
-								</Button>
+								<Button
+  className="px-5 py-2 text-xs rounded-sm bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white 
+    shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] 
+    hover:opacity-90 transition"
+  style={{ ...FONTS.para_01, fontSize: '15px' }}
+>
+  Opened
+</Button>
+
 							</div>
 						</div>
 
