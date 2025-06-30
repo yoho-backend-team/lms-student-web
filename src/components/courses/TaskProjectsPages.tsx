@@ -33,7 +33,7 @@ const Taskprojects = () => {
                 <h1 className="text-black text-2xl font-semibold">Task Projects</h1>
             </div>
 
-            <CourseButton />
+            <CourseButton activeTabs={"task"} />
 
             <Card className="overflow-hidden bg-[#EBEFF3]]">
 
