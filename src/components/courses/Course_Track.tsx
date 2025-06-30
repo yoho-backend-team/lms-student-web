@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import frame from "../../assets/courses icons/GFrame.png"
+// import frame from "../../assets/courses icons/GFrame.png"
 import group from "../../assets/courses icons/htmlGroup.png"
 import CourseButton from './coursebutton';
 import { Button } from '../ui/button';
