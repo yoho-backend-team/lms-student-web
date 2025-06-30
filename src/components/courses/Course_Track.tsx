@@ -1,25 +1,33 @@
-import React, { useState } from 'react';
-import group from "../../assets/courses icons/htmlGroup.png";
+import React ,{useState}from 'react';
+import frame from "../../assets/courses icons/GFrame.png"
+import group from "../../assets/courses icons/htmlGroup.png"
+import CourseButton from './coursebutton';
+import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
+import navigationicon from "../../assets/courses icons/navigation arrow.svg"
+
 
 const CourseTrack: React.FC = () => {
-  const [showVideoModal, setShowVideoModal] = useState(false);
-
+    const [showVideoModal, setShowVideoModal] = useState(false);
+  const navigate = useNavigate()
   return (
     <div className="w-full px-6 py-8">
-      {/* Title */}
-      <h1 className="text-2xl font-semibold text-black mb-6">Course Tracks</h1>
-
-      {/* Tabs */}
-      <div className="flex justify-center gap-4 mb-10 flex-wrap">
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow">About</button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow">Class Note & Materials</button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow">Task & Projects</button>
-        <button className="bg-[#7b00ff] text-white px-6 py-2 rounded-md shadow">Course Track</button>
+      <div className="flex items-center gap-3 mb-6">
+        <Button
+          onClick={() => {
+            navigate(-1)
+          }}
+          className="bg-[#EBEFF3] text-[#333] hover:bg-[#e0e0e0] px-1 py-1 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+        >
+          <img src={navigationicon} />
+        </Button>
+        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
+      <CourseButton />
 
-      {/* Main Content */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        {/* Left: Video Thumbnail */}
+
         <div className="w-full flex justify-center">
           <div
             className="aspect-video w-full max-w-2xl  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg overflow-hidden cursor-pointer"
@@ -34,7 +42,7 @@ const CourseTrack: React.FC = () => {
           </div>
         </div>
 
-        {/* Right: Info Block */}
+
         <div className="flex flex-col items-center justify-center gap-6">
           <div className="text-center">
             <div className="rounded-xl shadow-lg p-4 bg-white">

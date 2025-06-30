@@ -16,7 +16,7 @@ export const COLORS = {
 	light_red: '#C63028',
 	light_orange: '#E67123',
 	light_pink: '#DF23E6',
-    shadow_01: '#BDC2C7BF',
+	shadow_01: '#BDC2C7BF',
 };
 
 export const FONTS = {
@@ -56,14 +56,27 @@ export const FONTS = {
 		fontSize: '16px',
 		color: COLORS.text_desc,
 	},
+	heading_07: {
+		fontFamily: 'Quicksand',
+		fontWeight: 700,
+		fontSize: '14px',
+		color: COLORS.text_desc,
+	},
 	para_01: {
+		fontFamily: 'Quicksand',
+		fontWeight: 500,
+		color: COLORS.text_desc,
+		fontSize: '20px',
+		lineHeight: '24px',
+	},
+	para_02: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_desc,
 		fontSize: '12px',
 		lineHeight: '24px',
 	},
-	para_02: {
+	para_03: {
 		fontFamily: 'Quicksand',
 		fontWeight: 500,
 		color: COLORS.text_title,
@@ -71,3 +84,7 @@ export const FONTS = {
 		lineHeight: '24px',
 	},
 };
+
+export const greenbtnHover = "bg-gradient-to-r from-[#6AE1B7] via-[#6AE1B7EB] to-[#6AE1B7] text-white rounded-xl py-2 shadow-md"
+
+export const bluebtnHover = "hover:bg-gradient-to-r hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white hover:text-white hover:shadow-md"

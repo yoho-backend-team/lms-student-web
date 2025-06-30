@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import threebox from '../../assets/courses icons/threebox.svg';
 import timer from '../../assets/courses icons/timer.svg';
+import { FONTS } from '@/constants/uiConstants';
 
 interface CourseCardProps {
   title: string;
@@ -28,8 +29,8 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, description, image, modu
 
       <div className="flex flex-col justify-between">
         <div>
-          <h1 className="text-lg font-bold">{title}</h1>
-          <p className="mt-2 text-sm">{description}</p>
+          <h1 className="font-bold"style={FONTS.heading_02}>{title}</h1>
+          <p className="mt-2"style={FONTS.para_02}>{description}</p>
         </div>
 
         <div className="flex items-center gap-6 mt-6 flex-wrap">
