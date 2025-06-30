@@ -40,7 +40,7 @@ const NotesMaterials = () => {
         </Button>
         <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
-      <Mainbutton />
+      <Mainbutton activeTabs={"notes"} />
 
 
       <h1 className="text-black text-2xl font-semibold mb-6">Upload Notes</h1>
