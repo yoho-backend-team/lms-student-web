@@ -1,5 +1,5 @@
-import React ,{useState}from 'react';
-import frame from "../../assets/courses icons/GFrame.png"
+import React, { useState } from 'react';
+// import frame from "../../assets/courses icons/GFrame.png"
 import group from "../../assets/courses icons/htmlGroup.png"
 import CourseButton from './coursebutton';
 import { Button } from '../ui/button';
@@ -9,7 +9,7 @@ import { FONTS } from '@/constants/uiConstants';
 
 
 const CourseTrack: React.FC = () => {
-    const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const navigate = useNavigate()
   return (
     <div className="w-full px-6 py-8">
@@ -22,7 +22,7 @@ const CourseTrack: React.FC = () => {
         >
           <img src={navigationicon} />
         </Button>
-        <h1 className=""style={FONTS.heading_02}>Course Track</h1>
+        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
       <CourseButton />
 

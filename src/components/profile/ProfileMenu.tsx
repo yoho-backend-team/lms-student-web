@@ -47,7 +47,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
       {menuItems.map((item) => (
         <div
           key={item.id}
-          className={`p-3 rounded-lg cursor-pointer transition-all duration-200 w-full ${
+          className={`p-2 sm:p-3 rounded-lg cursor-pointer transition-all duration-200 w-full ${
             item.isActive
               ? 'shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
               : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_1px_1px_2px_rgba(189,194,199,0.5)]'
@@ -59,9 +59,9 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
           }}
           onClick={() => handleItemClick(item.id)}
         >
-          <div className="flex items-center space-x-3 w-full">
+          <div className="flex items-center space-x-2 sm:space-x-3 w-full">
             <div 
-              className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
+              className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
                 item.isActive 
                   ? 'bg-white bg-opacity-20' 
                   : 'shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]'
@@ -70,9 +70,11 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
                 backgroundColor: item.isActive ? 'rgba(255, 255, 255, 0.2)' : COLORS.bg_Colour
               }}
             >
-              {item.icon}
+              <div className="w-3 h-3 sm:w-4 sm:h-4">
+                {item.icon}
+              </div>
             </div>
-            <span className="font-medium text-sm leading-relaxed flex-1" style={{ fontFamily: FONTS.para_01.fontFamily }}>
+            <span className="font-medium text-xs sm:text-sm leading-relaxed flex-1 truncate" style={{ fontFamily: FONTS.para_01.fontFamily }}>
               {item.label}
             </span>
           </div>

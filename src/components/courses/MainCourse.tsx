@@ -1,6 +1,5 @@
 
 
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CourseCard from './CourseCard';
 import humanimg from '../../assets/courses icons/demo human.png';
