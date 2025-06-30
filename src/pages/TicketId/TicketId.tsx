@@ -127,7 +127,7 @@ const TicketId = () => {
 
 						<div>
 							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Issue Description</label>
-							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] " style={{ ...FONTS.para_01, fontSize: '14px' }}>
+							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-6 rounded-md p-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] " style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								If you can this yes successfully mobile app on Android
 							</div>
 						</div>
@@ -135,7 +135,7 @@ const TicketId = () => {
 
 						<div>
 							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Issue Category</label>
-							<div className="bg-[#ebeff3] text-sm mt-5 !text-gray-700 rounded-md p-3  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
+							<div className="bg-[#ebeff3] text-sm mt-6 !text-gray-700 rounded-md p-3  shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								Feedback
 							</div>
 						</div>
@@ -143,7 +143,7 @@ const TicketId = () => {
 
 						<div>
 							<label className="text-sm font-medium !text-gray-800 block mb-1" style={{ ...FONTS.para_01, fontSize: '15px' }}>Attachments</label>
-							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-5 rounded-md p-3  flex justify-between items-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
+							<div className="bg-[#ebeff3] text-sm !text-gray-700 mt-6 rounded-md p-3  flex justify-between items-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
 								<span>sbsxd-rcfvgbh-nj34-56tsdxf-cgvhb-jpeg.</span>
 								<a href="#" className="!text-[#7b00ff] text-sm font-medium hover:underline " style={{ ...FONTS.para_01, fontSize: '14px' }}>View</a>
 							</div>
