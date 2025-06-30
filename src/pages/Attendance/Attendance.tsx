@@ -107,7 +107,7 @@ export const Attendance = () => {
         <div className="relative flex items-center">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 rounded-full shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
+            className="p-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:scale-105 transition z-10"
             style={{ backgroundColor: COLORS.bg_Colour }}
           >
             <img src={filter} alt="Filter" className="w-6 h-6" />
@@ -151,7 +151,7 @@ export const Attendance = () => {
 
             <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
               <SelectTrigger
-                className="w-[100px] rounded-sm border-0 px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
+                className="w-[100px] rounded-sm border-0 px-2 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
                 style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
               >
                 <SelectValue placeholder="Select year" />
@@ -245,7 +245,7 @@ export const Attendance = () => {
           </h3>
           <div className="flex flex-col justify-between rounded-md p-6  h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour }}>
             <div>
-              <p className="text-sm mb-4 text-gray-700">
+              <p className="text-sm mb-4 text-gray-700" style={{...FONTS.para_01}}>
                 {selectedDate ? selectedDate.toDateString() : "Select a date"}
               </p>
               <ul className="space-y-2 text-gray-700" style={{ ...FONTS.heading_06 }}>
