@@ -24,10 +24,9 @@ import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-
 const AppRoutes = () => {
-	// const { isAuthenticated } = useAuth();
-	const isAuthenticated = true;
+	const { isAuthenticated } = useAuth();
+	// const isAuthenticated = false;
 
 	const AuthRoutes = () => (
 		<Routes>
@@ -60,6 +59,7 @@ const AppRoutes = () => {
 				<Route path='attendance' element={<Attendance />} />
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
+				<Route path='*' element={<Navigate to='/' />} />
 			</Route>
 		</Routes>
 	);

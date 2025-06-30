@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
+import { useAuth } from '@/context/AuthContext/AuthContext';
 
 type LoginData = {
 	email: string;
@@ -20,10 +21,15 @@ const Login = () => {
 	} = useForm<LoginData>({});
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const { login } = useAuth();
 
 	const onSubmit = async (data: LoginData) => {
 		try {
 			console.log(data, 'login data');
+			if (data.email) {
+				login(data.email);
+				navigate('/');
+			}
 		} catch (error: any) {
 			console.log('error', error);
 		}
@@ -33,7 +39,7 @@ const Login = () => {
 		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>
 			<div className='w-1/2 h-full'>
 				<Card
-					className='bg-[#ebeff3] w-full h-full rounded-md flex items-center justify-center cursor-pointer'
+					className='bg-[#ebeff3] w-full h-full px-4 rounded-md flex justify-center cursor-pointer'
 					style={{
 						boxShadow: `
 					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
@@ -53,7 +59,7 @@ const Login = () => {
 						>
 							<img src={Logo} alt='logo' style={{ width: 20, height: 20 }} />
 						</Card>
-						<p className='text-center my-3' style={{ ...FONTS.heading_02 }}>
+						<p className='text-center my-1' style={{ ...FONTS.heading_02 }}>
 							Join & Connect the Fastest Growing <br /> Online Community
 						</p>
 						<form onSubmit={handleSubmit(onSubmit)} className='w-full my-4'>
@@ -62,12 +68,12 @@ const Login = () => {
 								<label style={{ ...FONTS.heading_04 }}>Email Or Username</label>
 								<input
 									type='email'
-									style={{ ...FONTS.heading_03 }}
+									style={{ ...FONTS.heading_06 }}
 									{...register('email', { required: 'Email is required' })}
 									className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none'
 								/>
 								{errors.email && (
-									<span className='text-red-500 text-sm'>
+									<span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
 										{errors.email.message}
 									</span>
 								)}
@@ -78,7 +84,7 @@ const Login = () => {
 								<label style={{ ...FONTS.heading_04 }}>Password</label>
 								<div className='relative'>
 									<input
-										style={{ ...FONTS.heading_03 }}
+										style={{ ...FONTS.heading_06 }}
 										type={showPassword ? 'text' : 'password'}
 										{...register('password', {
 											required: 'Password is required',
@@ -97,7 +103,7 @@ const Login = () => {
 									</span>
 								</div>
 								{errors.password && (
-									<span className='text-red-500 text-sm'>
+									<span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
 										{errors.password.message}
 									</span>
 								)}
@@ -116,7 +122,7 @@ const Login = () => {
 							{/* Submit */}
 							<button
 								type='submit'
-								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition`}
+								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition cursor-pointer`}
 								style={{ ...FONTS.heading_04, color: COLORS.white }}
 							>
 								Sign In
