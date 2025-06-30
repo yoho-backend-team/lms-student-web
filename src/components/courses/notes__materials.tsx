@@ -45,7 +45,7 @@ const NotesMaterials = () => {
 
       <h1 className="text-black text-2xl font-semibold mb-6">Upload Notes</h1>
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden bg-[#EBEFF3]">
 
         <div className="flex flex-col">
           <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 sticky top-0 z-10 ml-4 mr-4 mb-4">
