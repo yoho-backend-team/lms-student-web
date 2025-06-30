@@ -9,7 +9,7 @@ const MainLayout = () => {
 				<div className='flex flex-col justify-center h-[90px] shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]'>
 					<Navbar />
 				</div>
-				<div className='relative h-[100vh] overflow-y-auto px-6 '>
+				<div className='relative h-[100vh] scrollbar-hide overflow-y-auto px-6 '>
 					<Outlet />
 				</div>
 				<div className='h-[70px] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]'>
@@ -21,3 +21,4 @@ const MainLayout = () => {
 };
 
 export default MainLayout;
+

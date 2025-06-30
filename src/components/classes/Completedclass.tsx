@@ -43,7 +43,7 @@ const Completedclass = () => {
     },
     {
       id: '3',
-      title: 'React',
+      title: 'React JS',
       date: "23-04-2025",
       time: '9.00 AM',
       duration: '45 min'
@@ -110,16 +110,17 @@ const [showFilters, setShowFilters] = useState(false);
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mb-4'>
 
-        <Card style={{ backgroundColor: COLORS.bg_Colour }} className='h-[80px]' >
+        <Card style={{ backgroundColor: COLORS.bg_Colour }} className='h-[80px] mb-3' >
       {/* Filter buttons - only shown when showFilters is true */}
       {showFilters && (
-        <div className='ml-6 grid grid-cols-8  justify-between gap-3'>
+        <div className='ml-6 grid lg:grid-cols-8 md:grid-cols-6 justify-between gap-2'>
+          
           {filterGroups.map((group) => (
             <div key={group.title} className="relative">
               <Button
                 style={{...FONTS.heading_07}}
                 variant="outline"
-                className=" w-[120px] justify-between bg-[#ebeff3] 
+                className=" cursor-pointer w-[120px] justify-between bg-[#ebeff3] 
                           shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]"
                 onClick={() => toggleDropdown(group.title)}
               >
@@ -186,7 +187,7 @@ const [showFilters, setShowFilters] = useState(false);
                         hover:-translate-y-1 
                         hover:shadow-[6px_6px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.8)]
                         cursor-pointer"'
-              onClick={() => handleClassDetailPage(item.id)}
+              
             >
             <table className="w-full">
               <tbody>
@@ -197,7 +198,8 @@ const [showFilters, setShowFilters] = useState(false);
                   <td>{item.duration}</td>
                   <td>
                     <Button 
-                      className="bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600
+                      onClick={() => handleClassDetailPage(item.id)}
+                      className="cursor-pointer bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600
                                 shadow-[0px_3px_4px_0px_rgba(255,255,255,0.75)_inset,3px_-3px_3px_0px_rgba(255,255,255,0.25)_inset,-4px_8px_23px_0px_#3ABE65_inset,-8px_-8px_12px_0px_#3ABE65_inset,2px_3px_3px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-1px_-1px_6px_0px_rgba(255,255,255,0.75),-1px_-1px_6px_1px_rgba(255,255,255,0.25)]"
                     >
                       Completed
