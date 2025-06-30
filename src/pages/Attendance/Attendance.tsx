@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+
 const chartData = [
   { month: 'January', desktop: 10 },
   { month: 'February', desktop: 11.5 },
@@ -73,6 +74,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
+  // const current = new Date()
 
   const handleMonthChange = (newMonth: string) => {
     const monthIndex = months.indexOf(newMonth)
@@ -94,7 +96,7 @@ export const Attendance = () => {
     setSelectedYear(newMonth.getFullYear())
   }
 
-  const years = Array.from({ length: 36 }, (_, i) => 2000 + i)
+  const years = Array.from({ length: 5 }, (_, i) => 2021 + i)
 
   return (
     <div className="p-4">
@@ -105,7 +107,7 @@ export const Attendance = () => {
         <div className="relative flex items-center">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 rounded-full shadow-[3px_3px_6px_rgba(189,194,199,0.75),-3px_-3px_6px_rgba(255,255,255,0.7)] hover:scale-105 transition z-10"
+            className="p-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:scale-105 transition z-10"
             style={{ backgroundColor: COLORS.bg_Colour }}
           >
             <img src={filter} alt="Filter" className="w-6 h-6" />
@@ -119,7 +121,7 @@ export const Attendance = () => {
             <Select value={selectedMonth} onValueChange={handleMonthChange}>
               <SelectTrigger
                 style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
-                className="w-[100px] rounded-sm border-0 px-2 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
+                className="w-[100px] rounded-sm border-0 px-1 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
               >
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
@@ -149,12 +151,12 @@ export const Attendance = () => {
 
             <Select value={selectedYear.toString()} onValueChange={handleYearChange}>
               <SelectTrigger
-                className="w-[100px] rounded-sm border-0 px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
+                className="w-[100px] rounded-sm border-0 px-2 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none"
                 style={{ ...FONTS.para_02, backgroundColor: COLORS.bg_Colour }}
               >
                 <SelectValue placeholder="Select year" />
               </SelectTrigger>
-              <SelectContent className="bg-[#ebeff3] rounded-sm p-2 shadow-[4px_4px_6px_rgba(189,194,199,0.5),-4px_-4px_6px_rgba(255,255,255,0.7)]">
+              <SelectContent className="bg-[#ebeff3] rounded-sm w-[40px] px-2 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
                 {years.map((year) => (
                   <SelectItem
                     key={year}
@@ -226,8 +228,13 @@ export const Attendance = () => {
             onSelect={setSelectedDate}
             month={selectedDate}
             onMonthChange={handleCalendarMonthChange}
-            className="bg-[#ebeff3] border rounded-lg  **:gap-5 **:py-0.5 shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-            style={{ ...FONTS.heading_02 }}
+            className="border **:gap-5 **:py-0.5 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+            style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+            // modifiers={{ current: current }}
+            // modifiersClassNames={{
+            //   current: "text-[#A32AF3] font-bold" ,
+            //   selected: "text-white",
+            // }}
           />
         </div>
 
@@ -237,7 +244,7 @@ export const Attendance = () => {
           </h3>
           <div className="flex flex-col w-full justify-between bg-[#ebeff3] rounded-md p-6  h-[315px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
             <div>
-              <p className="text-sm mb-4 text-gray-700">
+              <p className="text-sm mb-4 text-gray-700" style={{...FONTS.para_01}}>
                 {selectedDate ? selectedDate.toDateString() : "Select a date"}
               </p>
               <ul className="space-y-2 text-gray-700" style={{ ...FONTS.heading_06 }}>
@@ -248,8 +255,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="mt-4 self-start px-4 py-2 rounded-md text-gray-700 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
-              style={{ ...FONTS.heading_06, backgroundColor: COLORS.bg_Colour }}
+              className="mt-4 self-start px-4 py-2 rounded-md bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              style={{ ...FONTS.heading_06 }}
             >
               View Details
             </button>
