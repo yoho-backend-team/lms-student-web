@@ -5,6 +5,5 @@ export { default as ProfileHeader } from './ProfileHeader';
 export { default as ProfileMenu } from './ProfileMenu';
 export { default as PersonalInformation } from './PersonalInformation';
 export { default as InstituteInformation } from './InstituteInformation';
-export { default as EditProfileModal } from './EditProfileModal';
 export { default as Certificate } from './Certificate';
 export { default as IDCard } from './IDCard';
