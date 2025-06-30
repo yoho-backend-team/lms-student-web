@@ -95,14 +95,14 @@ const Assesments = () => {
 
             {/* Buttons */}
             <div className="grid grid-cols-3 justify-between gap-3 h-[42px]">
-                <button className={activeTab === 'average' ? "  !text-white btnfocusshadow rounded-xl" : " btnshadow rounded-xl"} onClick={() => { changebtn("average"); setactiveTab('average') }} style={{ ...FONTS.heading_06 }}>
+                <button className={activeTab === 'average' ? "  !text-white btnfocusshadowGreen rounded-xl shadow-lg" : " btnshadow rounded-xl"} onClick={() => { changebtn("average"); setactiveTab('average') }} style={{ ...FONTS.heading_06 }}>
                     Average
                 </button>
-                <button className={activeTab === 'exam' ? " !text-white btnfocusshadow rounded-xl" : " btnshadow rounded-xl"} onClick={() => { changebtn("exam"); setactiveTab('exam') }} style={{ ...FONTS.heading_06 }}>
+                <button className={activeTab === 'exam' ? " !text-white btnfocusshadowGreen rounded-xl shadow-lg" : " btnshadow rounded-xl"} onClick={() => { changebtn("exam"); setactiveTab('exam') }} style={{ ...FONTS.heading_06 }}>
                     {/* <span role="img" aria-label="exam" className="mr-1">📋</span> */}
                     Exam
                 </button>
-                <button className={activeTab === 'completed' ? " !text-white btnfocusshadow rounded-xl" : "btnshadow rounded-xl"} onClick={() => { changebtn("completed"); setactiveTab('completed') }} style={{ ...FONTS.heading_06 }}>
+                <button className={activeTab === 'completed' ? " !text-white btnfocusshadowGreen rounded-xl shadow-lg" : "btnshadow rounded-xl"} onClick={() => { changebtn("completed"); setactiveTab('completed') }} style={{ ...FONTS.heading_06 }}>
                     {/* <span role="img" aria-label="task" className="mr-1">✅</span> */}
                     Completed
                 </button>
