@@ -30,7 +30,7 @@ const Liveclass = () => {
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
 
   return (
-    <div>
+    <div className='m-2'>
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         {/* Header Card */}
         <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4'>
@@ -49,7 +49,7 @@ const Liveclass = () => {
         {classes.map((classItem, index) => (
           <Card 
             key={index}
-            className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
+            className='overflow-y-auto scrollbar-hide bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
                         transition-all duration-300 ease-in-out
                         hover:-translate-y-1 
                         hover:shadow-[6px_6px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.8)]
