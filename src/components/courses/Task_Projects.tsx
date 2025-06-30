@@ -1,83 +1,83 @@
 import React from 'react';
+import { Card } from '../ui/card'
+import { Button } from '../ui/button'
+import { FONTS } from '@/constants/uiConstants';
+import { useNavigate } from 'react-router-dom';
+import navigationicon from "../../assets/courses icons/navigation arrow.svg"
+import CourseButton from './coursebutton';
 
 
-interface Task {
-  name: string;
-  task: string;
-  deadline: string;
-  status: 'Completed' | 'Pending';
-}
+const Taskprojects = () => {
+  const navigate = useNavigate()
 
-const Task_Projects: React.FC = () => {
-  const tasks: Task[] = [
-    { name: 'vijay', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Completed' },
-    { name: 'Kamal', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Pending' },
-    { name: 'Rajini', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Completed' },
-    { name: 'Surya', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Completed' },
-    { name: 'Ajith', task: 'Lorem Ipsum', deadline: '26-06-2025', status: 'Pending' },
-  ];
+  const tasks = [
+    { name: 'Raji sukla', task: 'Larum ipsum', deadline: '26.08.2025', status: 'completed' },
+    { name: 'thamo', task: 'Lorem ipsum', deadline: '12-06-2025', status: 'pending' },
+    { name: 'Dhinesh', task: 'Lorem ipsum', deadline: '21-09-2025', status: 'pending' },
+    { name: 'M S Dhoni', task: 'Lorem ipsum', deadline: '21-09-2025', status: 'completed' },
+
+  ]
 
   return (
-    <div className="px-4 py-6 w-full">
-      <h1 className="text-black text-2xl font-semibold mb-6">Task & Projects</h1>
+    <div className="w-full mx-auto p-4">
 
-     
-      <div className="flex justify-center gap-4 mb-12 flex-wrap">
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          About
-        </button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Class Notes & Materials
-        </button>
-        <button className="bg-[#7b00ff] text-white px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Task & Projects
-        </button>
-        <button className="bg-[#EBEFF3] text-black px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
-          Course Track
-        </button>
-      </div>
-
-  
-      <div className="bg-[#EBEFF3] p-6 rounded-lg w-full max-w-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]">
-        
-        <div
-          className="grid grid-cols-4 p-4 text-center font-semibold text-white rounded-lg mb-4"
-          style={{
-            background: 'linear-gradient(90deg, #7b00ff, #a633ff)',
-            boxShadow: '-4px -4px 4px rgba(255,255,255,0.7), 5px 5px 4px rgba(189,194,199,0.75)',
+      <div className="flex items-center gap-3 mb-6">
+        <Button
+          onClick={() => {
+            navigate(-1)
           }}
+          className="bg-[#EBEFF3] text-[#333] hover:bg-[#e0e0e0] px-1 py-1 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
         >
-          <span>Name</span>
-          <span>Task Name</span>
-          <span>Deadline</span>
-          <span>Status</span>
-        </div>
-
-        {/* Task Rows */}
-        {tasks.map((item, idx) => (
-          <div
-            key={idx}
-            className="grid grid-cols-4 text-center items-center p-4 mb-4 rounded-lg text-gray-700 font-medium bg-[#F4F6F8] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
-          >
-            <span>{item.name}</span>
-            <span>{item.task}</span>
-            <span>{item.deadline}</span>
-            <span>
-              <span
-                className={`px-3 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] text-sm ${
-                  item.status === 'Completed'
-                    ? 'bg-green-500 text-white'
-                    : 'bg-[#EBEFF3] text-gray-700'
-                }`}
-              >
-                {item.status}
-              </span>
-            </span>
-          </div>
-        ))}
+          <img src={navigationicon} />
+        </Button>
+        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
-    </div>
-  );
-};
 
-export default Task_Projects;
+      <CourseButton />
+
+      <Card className="overflow-hidden">
+
+        <div className="flex flex-col">
+
+          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 ml-4 mr-4  sticky top-0 z-10 mb-4" style={{ scrollbarWidth: "none" }}>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Name</div>
+              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Task Name</div>
+              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Deadline</div>
+              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Status</div>
+            </div>
+          </Card>
+
+
+          <div className="max-h-[500px] overflow-y-auto mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100 " style={{ scrollbarWidth: "none" }}>
+            {tasks.map((task, index) => (
+              <Card
+                key={index}
+                className="bg-[#ebeff3] h-26 shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black p-4 mb-2  hover:shadow-lg"
+              >
+                <div className="grid grid-cols-4 gap-4 items-center">
+                  <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.name}</div>
+                  <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.task}</div>
+                  <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.deadline}</div>
+                  <div className="flex justify-center">
+                    <Button style={{ ...FONTS.para_01 }}
+                      className={`${task.status === 'completed'
+                        ? 'bg-gradient-to-r from-green-400 to-green-500 !text-white shadow-[0px_3px_4px_0px_rgba(255,255,255,0.75)_inset,3px_-3px_3px_0px_rgba(255,255,255,0.25)_inset,-4px_8px_23px_0px_#3ABE65_inset,-8px_-8px_12px_0px_#3ABE65_inset,2px_3px_3px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-1px_-1px_6px_0px_rgba(255,255,255,0.75),-1px_-1px_6px_1px_rgba(255,255,255,0.25)]'
+                        : 'bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'
+                        }`}
+                      variant={task.status === 'pending' ? 'outline' : 'default'}
+                    >
+                      {task.status}
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </Card>
+    </div>
+  )
+}
+
+export default Taskprojects
