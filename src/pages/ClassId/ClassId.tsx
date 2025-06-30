@@ -25,7 +25,7 @@ const ClassId = () => {
 		</div>
 
 		{/* card section */}
-	<div className='grid grid-cols-2 md:grid-cols-1 justify-between gap-10'>
+	<div className='grid xl:grid-cols-2 md:grid-cols-1 justify-between gap-10'>
         {/* Left side card */}
         <Card style={{backgroundColor:COLORS.bg_Colour}} className='px-4 py-1 h-[400px]'>
             <CardHeader>
