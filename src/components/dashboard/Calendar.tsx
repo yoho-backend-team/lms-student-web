@@ -8,14 +8,14 @@ const CalendarDash: React.FC = () => {
     const { TabView } = TabViewResponsive()
     return (
         <div className='divshadow w-full h-full rounded-[16px] p-2'>
-            <h1 style={{ ...FONTS.heading_02 }}>Calendar</h1>
+            <h1 style={{ ...FONTS.heading_02 }} className='mb-4'>Calendar</h1>
             {
                 TabView ?
                     <Calendar
                         mode="single"
                         selected={date}
                         // onSelect={setDate}
-                        className="rounded-md border shadow-lg bg-gray-100  "
+                        className="rounded-md border shadow-lg bg-gray-100"
                         style={{ backgroundColor: COLORS.bg_Colour }}
                         captionLayout="dropdown"
                     /> :
@@ -23,7 +23,7 @@ const CalendarDash: React.FC = () => {
                         mode="single"
                         selected={date}
                         // onSelect={setDate}
-                        className="rounded-md border shadow-lg bg-gray-100  w-full **:gap-7 **:mt-1"
+                        className="rounded-md border shadow-lg bg-gray-100  w-full  **:mt-1"
                         style={{ backgroundColor: COLORS.bg_Colour }}
                         captionLayout="dropdown"
                     />
