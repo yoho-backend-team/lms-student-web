@@ -11,7 +11,7 @@ const ClassId = () => {
 
 	const navigate = useNavigate();
 	const handleBackPage = () => {
-		navigate('/classes');
+		navigate(-1);
 	}
 
 	return(
@@ -49,10 +49,10 @@ const ClassId = () => {
                         </thead>
                         <tbody style={{...FONTS.heading_04}} className='!text-[#ffffff]'>
                             <tr>
-                                <td>10 Mar 2025</td>
-                                <td>9.30 Am</td>
-                                <td>6.00 Pm</td>
-                                <td>6 Month</td>
+                                <td  className='!text-[11px]'>10 Mar 2025</td>
+                                <td  className='!text-[11px]'>9.30 Am</td>
+                                <td  className='!text-[11px]'>6.00 Pm</td>
+                                <td  className='!text-[11px]'>6 Month</td>
                             </tr>
                         </tbody>
                     </table>
