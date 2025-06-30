@@ -35,7 +35,7 @@ const Taskprojects = () => {
 
       <CourseButton />
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden bg-[#EBEFF3]]">
 
         <div className="flex flex-col">
 
@@ -49,11 +49,11 @@ const Taskprojects = () => {
           </Card>
 
 
-          <div className="max-h-[500px] overflow-y-auto mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100 " style={{ scrollbarWidth: "none" }}>
+          <div className="min-h-[500px] overflow-y-auto mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100 " style={{ scrollbarWidth: "none" }}>
             {tasks.map((task, index) => (
               <Card
                 key={index}
-                className="bg-[#ebeff3] h-26 shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black p-4 mb-2  hover:shadow-lg"
+                className="bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black p-4 mb-2  hover:shadow-lg"
               >
                 <div className="grid grid-cols-4 gap-4 items-center">
                   <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.name}</div>
