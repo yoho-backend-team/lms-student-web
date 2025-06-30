@@ -3,6 +3,7 @@ import CourseButton from './coursebutton';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg"
+import { FONTS } from '@/constants/uiConstants';
 
 
 interface Task {
@@ -33,7 +34,7 @@ const Task_Projects: React.FC = () => {
         >
           <img src={navigationicon} />
         </Button>
-        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
+        <h1 className=""style={FONTS.heading_02}>Task & Projects</h1>
       </div>
       <CourseButton />
 

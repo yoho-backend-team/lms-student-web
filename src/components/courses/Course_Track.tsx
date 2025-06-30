@@ -5,6 +5,7 @@ import CourseButton from './coursebutton';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg"
+import { FONTS } from '@/constants/uiConstants';
 
 
 const CourseTrack: React.FC = () => {
@@ -21,7 +22,7 @@ const CourseTrack: React.FC = () => {
         >
           <img src={navigationicon} />
         </Button>
-        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
+        <h1 className=""style={FONTS.heading_02}>Course Track</h1>
       </div>
       <CourseButton />
 
@@ -51,7 +52,7 @@ const CourseTrack: React.FC = () => {
                 alt="HTML/CSS/JS"
                 className="w-82 h-82 mx-auto mb-2"
               />
-              <p className="text-sm font-medium">HTML, CSS, Javascript</p>
+              <p className=""style={FONTS.para_02}>HTML, CSS, Javascript</p>
             </div>
           </div>
         </div>

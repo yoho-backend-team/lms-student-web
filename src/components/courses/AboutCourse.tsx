@@ -32,7 +32,7 @@ const AboutCourse: React.FC = () => {
   }
 
   return (
-    <div className="px-4 py-6 bg-[#F5F7FA] min-h-screen">
+    <div className="px-4 py-6 bg-[#EBEFF3] min-h-screen">
       <div className="flex items-center gap-3 mb-6">
         <Button
           onClick={() => {
