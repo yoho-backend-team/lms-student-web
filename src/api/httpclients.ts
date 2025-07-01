@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 
-const backendUrl = ''
+const backendUrl = 'https://lms-node-backend-v1.onrender.com'
 
 const Axios = axios.create({
     baseURL: backendUrl,
