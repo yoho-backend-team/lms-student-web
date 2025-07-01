@@ -7,8 +7,37 @@ import Group from '../../assets/icons/payments/Group.png';
 import Frame from '../../assets/icons/payments/Frame.png';
 import Star from '../../assets/icons/payments/Star.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPayment } from '@/features/Payment/reducers/selectors';
+import { useEffect } from 'react';
+import { getStudentPayment } from '@/features/Payment/services';
+import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
 
 const Payment = () => {
+
+	const dispatch = useDispatch<any>();
+	const getPaymentDetails = useSelector(selectPayment)
+	
+	useEffect(() => {
+		dispatch(getStudentPaymentThunk({}));
+	}, [dispatch]);
+
+
+// 	 const fetchVisitors = async () => {
+//     try {
+//       const response: any = await getStudentPayment();
+//       const getPayment = response;
+// 	//   dispatch(getStudentPayment())
+//       console.log("getPayment fetched:", getPayment);
+//     } catch (error) {
+//       console.error("Error fetching getPayment:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchVisitors();
+//   }, []);
+
 	return (
 		<div className=' lg:flex md:grid gap-8 mb-2'>
 			<div className='lg:w-1/4 md'>

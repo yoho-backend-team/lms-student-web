@@ -33,8 +33,8 @@ const Login = () => {
 		try {
 			console.log(data, 'login data');
 			if (data.email) {
-				// login(data.email);
-				// navigate('/');
+				login(data.email);
+				navigate('/');
 				dispatch(getStudentLogin(data, {}));
 			}
 		} catch (error: any) {
