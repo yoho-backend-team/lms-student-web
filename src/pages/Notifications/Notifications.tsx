@@ -194,7 +194,7 @@ const Notifications = () => {
 							filteredNotifications?.map((notification) => (
 								<Card
 									key={notification?.id}
-									className={`relative bg-[#ebeff3] h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${
+									className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${
 										notification?.status === 'unread'
 											? 'border-l-4 border-[#7b00ff]'
 											: 'border-l-4 border-[#ebeff3]'
@@ -202,7 +202,7 @@ const Notifications = () => {
 									onClick={() => handleNotificationClick(notification)}
 								>
 									<CardHeader>
-										<div className='flex justify-between items-center'>
+										<div className='flex lg:flex-row md:flex-col-reverse lg:justify-between md:items-start md:gap-4 lg:items-center'>
 											<div>
 												<CardTitle style={{ ...FONTS.heading_02 }}>
 													{notification?.title}
@@ -224,7 +224,7 @@ const Notifications = () => {
 										</div>
 									</CardHeader>
 									<CardContent>
-										<p style={{ ...FONTS.heading_07 }}>
+										<p style={{ ...FONTS.heading_07 }} className=''>
 											{notification?.description}
 										</p>
 									</CardContent>
