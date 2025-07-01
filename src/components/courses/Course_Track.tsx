@@ -4,7 +4,6 @@ import icons from "../../assets/courses icons/demo human.png"
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
-import { FONTS } from '@/constants/uiConstants';
 
 
 interface TimelineItem {
@@ -77,48 +76,48 @@ const CourseTrack: React.FC = () => {
 
 
         <div className="flex justify-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md w-full">
-          <div className="relative flex flex-col items-center">
+          <div className="relative flex flex-col items-center overflow-auto h-[500px]" style={{ scrollbarWidth: 'none' }}>
 
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-white via-gray-300 to-white rounded-full"></div>
 
             {techTimeline.map((item, index) => {
               const isEven = index % 2 === 0;
               return (
-                <div key={index} className="relative z-10 flex items-center my-10 w-full max-w-2xl">
+                <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow rounded-full"></div>
 
-                  <div className="w-1/2 flex justify-end pr-4">
+                  {/* Left Section */}
+                  <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] rounded-full shadow-md p-2">
-                        <img src={item.icon} alt={item.title} className="w-15 h-15" />
+                      <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
+                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-xl p-3 shadow-md text-right">
-                        <span className="text-sm text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] rounded-2xl p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-base font-medium text-gray-700">{item.title}</span>
                       </div>
                     )}
                   </div>
 
-
+                  {/* Middle Connector */}
                   <div className="relative w-0">
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 ${item.color ? item.color : "bg-gray-700"
-                        } absolute left-1/2 transform -translate-x-1/2`}
-                    ></div>
+                    <div className="w-10 h-10 rounded-full border-4 border-white bg-gradient-to-br from-[#B200FF] to-[#7B00FF] shadow-[0_0_15px_rgba(178,0,255,0.5)] absolute left-1/2 transform -translate-x-1/2 z-20"></div>
+                    <div className="absolute w-1 h-full bg-gradient-to-b from-[#ccc] to-[#eee] left-1/2 transform -translate-x-1/2 z-0 rounded-full"></div>
                   </div>
 
-
-                  <div className="w-1/2 flex justify-start pl-4">
+                  {/* Right Section */}
+                  <div className="w-1/2 flex justify-start pl-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] rounded-xl p-3 shadow-md text-left">
-                        <span className="text-sm text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-base font-medium text-gray-700">{item.title}</span>
                       </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-full shadow-md p-2">
-                        <img src={item.icon} alt={item.title} className="w-15 h-15" />
+                      <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
+                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     )}
                   </div>
                 </div>
+
               );
             })}
           </div>
