@@ -11,6 +11,29 @@ const Axios = axios.create({
 	},
 });
 
+Axios.interceptors.request.use((config) => {
+	const token = localStorage.getItem('authToken');
+
+	if (token) {
+		config.headers['Authorization'] = `${token ? token : ''}`;
+	}
+	return config;
+});
+
+Axios.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		if (
+			error?.response &&
+			error?.response.status == 401 &&
+			error?.response?.data?.status === 'session_expired'
+		) {
+			localStorage.removeItem('authToken');
+			window.location.reload();
+		}
+	}
+);
+
 class HttpClient {
 	async get(
 		url: string,

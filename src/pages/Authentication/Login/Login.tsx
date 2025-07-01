@@ -31,18 +31,17 @@ const Login = () => {
 
 	const onSubmit = async (data: LoginData) => {
 		try {
-			console.log(data, 'login data');
 			if (data.email) {
-				// login(data.email);
-				// navigate('/');
-				dispatch(getStudentLogin(data, {}));
+				const response: any = await dispatch(getStudentLogin(data, {}));
+				if (response) {
+					login(TokenSelector);
+					navigate('/');
+				}
 			}
 		} catch (error: any) {
 			console.log('error', error);
 		}
 	};
-
-	console.log(TokenSelector, 'token selector');
 
 	return (
 		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>
