@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
 const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'

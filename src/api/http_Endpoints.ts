@@ -3,7 +3,7 @@ import type { Endpoints } from './httpTyps';
 const getEndpoints = (): Endpoints => {
 	return {
 		auth: {
-			login: '/api/institutes/auth/student/login',
+			login: '/institutes/auth/student/login',
 			verify_otp: '/institutes/auth/student/verify-otp',
 			forget_password: '/institutes/auth/profile/forgot-password',
 			reset_password: '/institutes/auth/profile/reset-password',

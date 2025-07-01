@@ -1,4 +1,3 @@
-// import HttpClient from '../../../api/httpclients';
 import Client from '../../../api/index';
 
 
@@ -11,20 +10,6 @@ export const getAllCommunities = async (params:any) => {
     throw error; 
   }
 };
-
-// export const getAllCommunities = async (searchParam: string) => {
-//   try {
-//     const response = await HttpClient.get(`/communities?search=${searchParam}`);
-//     if (!response || !response.data) {
-//       throw new Error('Invalid response');
-//     }
-//     return response.data;
-//   } catch (err) {
-//     console.error('Error fetching communities:', err);
-//     throw err;
-//   }
-// };
-
 
 
 export const sendMessage = async (params:any) => {
