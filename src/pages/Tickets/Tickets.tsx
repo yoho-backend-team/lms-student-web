@@ -13,7 +13,8 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ticketicon from "../../assets/icons/Tickets/Mask group.png";
 import { COLORS, FONTS } from "@/constants/uiConstants";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getticketdata } from "@/features/Tickets/services/Tickets";
 
 
 const ticketData = [
@@ -126,6 +127,22 @@ const Tickets = () => {
       setCurrentPage(page);
     }
   };
+
+  const ticket_data = async ()=>{
+    try{
+      const response = await getticketdata ({})
+      console.log(response)
+
+    }
+    catch(error){
+      console.log(error)
+
+    }
+   
+  }
+   useEffect (()=>{
+      ticket_data()
+    },[]);
 
   return (
     <div className="flex min-h-screen flex-col px-4 md:px-8 py-10">
