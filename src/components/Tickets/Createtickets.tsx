@@ -47,7 +47,7 @@ export const Createtickets = () => {
         <img
           src={ticketicon}
           alt="Back"
-          className="w-12 h-12 cursor-pointer mt-2"
+          className="cursor-pointer mt-2"
           onClick={() => navigate('/tickets')}
         />
         <h1 className="text-2xl font-semibold" style={{ ...FONTS.heading_01 }}>Create Ticket For Your Problem</h1>
