@@ -3,11 +3,28 @@ import Liveclass from '@/components/classes/Liveclass';
 import Upcomingclass from '@/components/classes/Upcomingclass';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
+import { getLiveClassDetails } from '@/features/classes/liveclassdetails';
 
 const Classes = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
+
+  
+  const books_valid = async () => {
+      try {
+        const response = await getLiveClassDetails({});
+        console.log(response);
+      }
+      catch(error) {
+        console.log('error on data :' ,error)
+      }
+  
+    useEffect(() => {
+      books_valid();
+    }, []);
+  }
+  
 
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mt-2 px-4'>

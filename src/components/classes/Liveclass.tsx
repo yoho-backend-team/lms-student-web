@@ -1,6 +1,8 @@
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import { getLiveClassDetails } from '@/features/classes/liveclassdetails';
+import { useEffect } from 'react';
 
 interface ClassItem {
   day: string;
