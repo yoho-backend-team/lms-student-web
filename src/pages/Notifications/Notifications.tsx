@@ -9,12 +9,15 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import bellImg from '../../assets/icons/notifications/image 90.png';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllNotificationsThunk } from '@/features/Notifications/reducers/thunks';
+import { selectNotifications } from '@/features/Notifications/reducers/selectors';
 
 interface Notification {
 	id: string;
@@ -76,6 +79,18 @@ const notificationData: Notification[] = [
 ];
 
 const Notifications = () => {
+
+
+	const dispatch = useDispatch<any>();
+	const Notifications = useSelector(selectNotifications)
+
+	console.log(Notifications,"Notification Datas....")
+
+	useEffect(() => {
+		dispatch(getAllNotificationsThunk({}));
+	}, [dispatch]);
+
+
 	const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedNotification, setSelectedNotification] =

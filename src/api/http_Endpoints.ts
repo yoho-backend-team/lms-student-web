@@ -31,7 +31,7 @@ const getEndpoints = (): Endpoints => {
 			getById: '/institutes/student-ticket/',
 		},
 		notification: {
-			get: '/institutes/students/notifications/',
+			get: '/api/institutes/students/notifications/',
 			update_status: '/institutes/students/notifications/status/',
 			delete: `/institutes/students/notifications/student-notifications/`,
 		},
