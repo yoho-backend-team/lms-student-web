@@ -3,7 +3,6 @@ import CourseTrack from '@/components/courses/Course_Track'
 import MainCourse from '@/components/courses/MainCourse'
 import NotesMaterials from '@/components/courses/notes__materials'
 import Task_Projects from '@/components/courses/Task_Projects'
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 const CourseRoute = () => {

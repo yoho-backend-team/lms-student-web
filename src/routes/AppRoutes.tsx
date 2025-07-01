@@ -1,7 +1,6 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-
 import Notes_Materials from '@/components/courses/Notes_Materials';
 import Task_Projects from '@/components/courses/TaskProjectsPages';
 import MainLayout from '@/layout/MainLayout';
@@ -27,13 +26,10 @@ import Placement from '@/pages/Placement/Placement';
 import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
-
 import { Routes, Route, Navigate } from 'react-router-dom';
-// import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
 	const { isAuthenticated } = useAuth();
-	// const isAuthenticated = true;
 
 	const AuthRoutes = () => (
 		<Routes>

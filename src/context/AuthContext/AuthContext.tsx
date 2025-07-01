@@ -19,8 +19,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const login = (data: string) => {
 		try {
-			localStorage.setItem('authToken', 'dummy-token');
-			setIsAuthenticated(true);
+			if (data) {
+				localStorage.setItem('authToken', data);
+				setIsAuthenticated(true);
+			}
 		} catch (error) {
 			console.error('Login failed:', error);
 		}

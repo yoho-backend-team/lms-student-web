@@ -7,6 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
 import { useAuth } from '@/context/AuthContext/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
+import type { AppDispatch } from '@/store/store';
+import { selectToken } from '@/features/Authentication/reducers/selectors';
 
 type LoginData = {
 	email: string;
@@ -21,14 +25,18 @@ const Login = () => {
 	} = useForm<LoginData>({});
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 	const { login } = useAuth();
+	const TokenSelector = useSelector(selectToken);
 
 	const onSubmit = async (data: LoginData) => {
 		try {
-			console.log(data, 'login data');
 			if (data.email) {
-				login(data.email);
-				navigate('/');
+				const response: any = await dispatch(getStudentLogin(data, {}));
+				if (response) {
+					login(TokenSelector);
+					navigate('/');
+				}
 			}
 		} catch (error: any) {
 			console.log('error', error);
