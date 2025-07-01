@@ -1,13 +1,13 @@
 
 import { Button } from "@/components/ui/button";
 import type React from "react";
-// import { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom'
 
 
 const CourseButton: React.FC<{ activeTabs: string }> = ({ activeTabs }) => {
 
-  // const [activeTab, setactiveTab] = useState<'about' | 'notes' | 'task' | 'track'>('about');
+  const [activeTab, setactiveTab] = useState<'about' | 'notes' | 'task' | 'track'>('about');
   const navigate = useNavigate();
 
 
@@ -48,6 +48,7 @@ const CourseButton: React.FC<{ activeTabs: string }> = ({ activeTabs }) => {
         Course Track
       </Button>
     </div>
+
 
 
   )

@@ -7,13 +7,12 @@ import Attendance from '@/components/dashboard/Attendance';
 import Payment from '@/components/dashboard/Payment';
 import Assesments from '@/components/dashboard/Assesments';
 import Updates from '@/components/dashboard/Updates';
-import CalendarDash from '@/components/dashboard/Calendar';
 import { FONTS } from '@/constants/uiConstants';
 import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
+import DashCalender from '@/components/ui/calendarDash';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
-	// console.log(import.meta.env.Backend_url, "url")
 	return (
 		<>
 			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
@@ -50,7 +49,7 @@ const Dashboard: React.FC = () => {
 							</div>
 							<div className='grid grid-cols-2 gap-5'>
 								<Assesments />
-								<CalendarDash />
+								<DashCalender />
 							</div>
 							<Updates />
 						</div>
@@ -75,7 +74,7 @@ const Dashboard: React.FC = () => {
 							<Updates />
 						</div>
 						<div>
-							<CalendarDash />
+							<DashCalender />
 						</div>
 					</div>
 				}

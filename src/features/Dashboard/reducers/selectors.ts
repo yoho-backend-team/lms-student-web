@@ -1,0 +1,1 @@
+export const selectDashBoard = (state) => state.DashBoardSlice.data

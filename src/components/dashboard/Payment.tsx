@@ -12,7 +12,7 @@ const Payment: React.FC = () => {
                     <h1 style={{ ...FONTS.heading_02 }}>Payment</h1>
                     <p style={{ ...FONTS.heading_06 }}>Payment Pending for <span style={{ ...FONTS.heading_04 }}>April</span></p>
                     <p style={{ ...FONTS.heading_06 }}>Amount to pay:</p>
-                    <h1 style={{ ...FONTS.heading_03, fontSize: "50px" }}>&#8377;90000</h1>
+                    <h1 style={{ ...FONTS.heading_03, fontSize: '30px' }}>&#8377;90000</h1>
                 </div>
                 <button type="button" onClick={() => navigate('/payment')} className='btnshadow w-[145px] h-[42px] rounded-xl btnhovershadow hover:!text-white focus:!text-white' style={{ ...FONTS.heading_06 }}>Check Payments</button>
             </div>
