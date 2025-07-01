@@ -15,7 +15,7 @@ const getEndpoints = (): Endpoints => {
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {
-			get: `/api/institutes/class/:courseId`,
+			get: `/api/institutes/class/`,
 			getwithId: `/institutes/class/course/`,
 		},
 		attendance: {

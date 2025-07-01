@@ -10,7 +10,6 @@ import { useAuth } from '@/context/AuthContext/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
-import { selectToken } from '@/features/Authentication/reducers/selectors';
 
 type LoginData = {
 	email: string;

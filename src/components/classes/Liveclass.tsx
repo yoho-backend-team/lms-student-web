@@ -11,7 +11,11 @@ interface ClassItem {
   duration: string;
 }
 
-const Liveclass = () => {
+interface LiveclassProps {
+  data: any[]; 
+}
+
+const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 
   const classes: ClassItem[] = [
     {
@@ -48,7 +52,7 @@ const Liveclass = () => {
         </Card>
 
         {/* Class Items */}
-        {classes.map((classItem, index) => (
+        {data.map((classItem, index) => (
           <Card 
             key={index}
             className='overflow-y-auto scrollbar-hide bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
@@ -59,11 +63,11 @@ const Liveclass = () => {
             <table className="w-full">
               <tbody>
                 <tr className='flex justify-around items-center' style={{ ...FONTS.heading_06 }}>
-                  <td>{classItem.day}</td>
-                  <td>{classItem.topic}</td>
+                  <td>{classItem.day || '1' }</td>
+                  <td>{classItem.courseDetails.course_name}</td>
                   <td>
                     <a className='!text-[#0400ff]' href={classItem.joinLink}>
-                      {classItem.joinLink}
+                      {classItem.joinLink || 'www.google.com'}
                     </a>
                   </td>
                   <td>{classItem.duration}</td>
