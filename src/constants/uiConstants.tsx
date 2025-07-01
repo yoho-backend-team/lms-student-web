@@ -6,9 +6,11 @@ export const COLORS = {
 	text_desc: '#716F6F',
 	blue_01: '#0022FF',
 	blue_02: '#5585FF',
+	blue_user:'#0400FF',
 	light_blue: '#7B00FF',
 	purple_01: '#A32AF3',
 	purple_02: '#B200FF',
+	green_text:'#3ABE65',
 	light_green: '#11A21E',
 	light_green_01: '#18BABA',
 	light_green_02: '#38D2DC',
@@ -81,3 +83,7 @@ export const FONTS = {
 		fontSize: '12px',
 	},
 };
+
+export const greenbtnHover = "bg-gradient-to-r from-[#6AE1B7] via-[#6AE1B7EB] to-[#6AE1B7] text-white rounded-xl py-2 shadow-md"
+
+export const bluebtnHover = "hover:bg-gradient-to-r hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white hover:text-white hover:shadow-md"
