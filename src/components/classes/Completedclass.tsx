@@ -134,7 +134,7 @@ const [showFilters, setShowFilters] = useState(false);
                             shadow-[2px_2px_3px_rgba(189,194,199,0.75)_inset] rounded-md p-1">
                   {group.options.map((option) => (
                     <div
-                    style={{...FONTS.heading_06}}
+                    style={{...FONTS.para_02}}
                       key={option.value}
                       className={`p-2 m-2 cursor-pointer rounded-sm
                                 ${selectedFilters[group.title] === option.value 
@@ -167,7 +167,7 @@ const [showFilters, setShowFilters] = useState(false);
 
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         {/* Header Row */}
-        <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white mx-4 p-4">
+        <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white mx-2 p-4">
           <table className="w-full">
             <thead>
               <tr className="flex justify-around items-center !text-white" style={{ ...FONTS.heading_03 }}>
@@ -191,7 +191,7 @@ const [showFilters, setShowFilters] = useState(false);
             >
             <table className="w-full">
               <tbody>
-                <tr className="flex justify-around items-center" style={{ ...FONTS.heading_06 }}>
+                <tr className="flex justify-around items-center my-1" style={{ ...FONTS.heading_06 }}>
                   <td>{item.title}</td>
                   <td>{item.date}</td>
                   <td>{item.time}</td>

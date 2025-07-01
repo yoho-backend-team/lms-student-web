@@ -15,6 +15,7 @@ interface CircularProgressProps {
     progressClassName?: string;
     labelClassName?: string;
     showLabel?: boolean;
+    color: string;
 }
 
 const CircularProgress = ({
@@ -29,6 +30,7 @@ const CircularProgress = ({
     strokeWidth,
     circleStrokeWidth = 10,
     progressStrokeWidth = 10,
+    color
 }: CircularProgressProps) => {
     const radius = size / 2 - 10;
     const circumference = Math.ceil(3.14 * radius * 2);
@@ -57,7 +59,7 @@ const CircularProgress = ({
                     strokeWidth={strokeWidth ?? circleStrokeWidth}
                     strokeDasharray={circumference}
                     strokeDashoffset="0"
-                    className={cn("stroke-gray-100", className)}
+                    className={cn("stroke-[#BDC2C7]", className)}
                 />
 
                 {/* Progress */}
@@ -70,7 +72,7 @@ const CircularProgress = ({
                     strokeDashoffset={percentage}
                     fill="transparent"
                     strokeDasharray={circumference}
-                    className={cn("stroke-[#18BABA]", progressClassName)}
+                    className={cn(color, progressClassName)}
                 />
             </svg>
             {showLabel && (
@@ -87,7 +89,7 @@ const CircularProgress = ({
     );
 };
 
-export const CircularProgressWithLabelDemo: React.FC<{ value: number }> = ({ value }) => {
+export const CircularProgressWithLabelDemo: React.FC<{ value: number, color: string }> = ({ value, color }) => {
     const progress: number[] = [value ?? 0];
 
     return (
@@ -98,6 +100,7 @@ export const CircularProgressWithLabelDemo: React.FC<{ value: number }> = ({ val
                 strokeWidth={10}
                 showLabel
                 labelClassName="text-xl font-bold"
+                color={color}
             />
         </div>
     );

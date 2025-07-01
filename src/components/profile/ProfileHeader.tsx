@@ -39,13 +39,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
   return (
     <Card className="shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] border-none w-full" style={{ backgroundColor: COLORS.bg_Colour }}>
-      <CardContent className="p-3">
+      <CardContent className="p-3 sm:p-4">
         <div className="flex items-center justify-between gap-3">
           {/* Left side - Image and details */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className="flex-shrink-0 relative">
               <div 
-                className={`w-14 h-14 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] ${isEditing && showEditButton ? 'cursor-pointer group' : ''}`}
+                className={`w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-gray-200 shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)] ${isEditing && showEditButton ? 'cursor-pointer group' : ''}`}
                 onClick={handleImageClick}
               >
                 <img 
