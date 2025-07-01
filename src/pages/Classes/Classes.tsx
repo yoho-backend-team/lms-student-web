@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
-import { getLiveClassDetails } from '@/features/classes/liveclassdetails';
+import { getLiveClassDetails } from '@/features/classes/services';
 
 const Classes = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
@@ -13,17 +13,18 @@ const Classes = () => {
   
   const books_valid = async () => {
       try {
-        const response = await getLiveClassDetails({});
+        const response = await getLiveClassDetails({courseId:'67f3b7fcb8d2634300cc87b6'});
         console.log(response);
       }
       catch(error) {
         console.log('error on data :' ,error)
       }
-  
+      
+  }
+   
     useEffect(() => {
       books_valid();
     }, []);
-  }
   
 
   return (

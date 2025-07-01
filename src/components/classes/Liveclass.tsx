@@ -1,7 +1,7 @@
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { getLiveClassDetails } from '@/features/classes/liveclassdetails';
+import { getLiveClassDetails } from '@/features/classes/services';
 import { useEffect } from 'react';
 
 interface ClassItem {
