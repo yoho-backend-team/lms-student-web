@@ -1,2 +1,2 @@
-export const selectCommunities = (state) => state.communities.data;
-export const selectLoading = (state) => state.communities.loading;
+export const selectCommunities = (state:any) => state.community.data;
+// export const selectLoading = (state) => state.communities.loading;

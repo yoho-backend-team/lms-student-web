@@ -1,21 +1,23 @@
 import { useEffect } from 'react';
 import Communityside from '../../components/community/communityside';
 import {getAllCommunities } from '../../features/community/redux/commuityThunk'; // Fixed filename
-import { Dispatch } from '@reduxjs/toolkit';
-const Community = () => {
-  const dispatch = useDispatch();
+import { useAppDispatch } from '../../features/community/redux/hooks';
+// import HttpClient from '../../api/httpclients';
 
+
+const Community = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = ""; 
-        dispatch(getAllCommunities(data));
+        const data = "";
+        dispatch(getAllCommunities(data)); // now works!
       } catch (error) {
         console.error('Community fetch error:', error);
       }
     };
-    
+
     fetchData();
   }, [dispatch]);
 
@@ -32,3 +34,31 @@ const Community = () => {
 };
 
 export default Community;
+
+
+
+// import { useEffect } from 'react';
+// import Communityside from '../../components/community/communityside';
+// import { getAllCommunities } from '../../features/community/redux/commuityThunk';
+// import { useAppDispatch } from '../../store/hooks'; // adjust the path
+
+// const Community = () => {
+//   const dispatch = useAppDispatch();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const data = "";
+//         dispatch(getAllCommunities(data)); // now works!
+//       } catch (error) {
+//         console.error('Community fetch error:', error);
+//       }
+//     };
+
+//     fetchData();
+//   }, [dispatch]);
+
+//   return <Communityside />;
+// };
+
+// export default Community;
