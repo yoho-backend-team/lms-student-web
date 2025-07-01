@@ -292,11 +292,11 @@ const Notifications = () => {
 								</div>
 							</div>
 						) : filteredNotifications?.length > 0 ? (
-							<div className='relative'>
+							<div className=''>
 								<p style={{ ...FONTS.para_01 }}>
 									Select a notification to view details
 								</p>
-								<div className='absolute top-32 left-44'>
+								<div className='flex justify-center items-center pt-28 h-full'>
 									<img src={bellImg} alt='notifications' />
 								</div>
 							</div>
