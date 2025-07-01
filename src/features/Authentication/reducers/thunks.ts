@@ -5,7 +5,7 @@ export const getStudentLogin =
 	(data: any, params: any) => async (dispatch: any) => {
 		try {
 			const response = await getStudentLoginClient(data, params);
-			console.log(response, 'login response');
+			//console.log(response, 'login response');
 			dispatch(token(response?.data?.token));
 		} catch (error) {
 			console.log(error);

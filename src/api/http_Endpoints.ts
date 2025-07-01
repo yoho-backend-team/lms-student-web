@@ -36,7 +36,7 @@ const getEndpoints = (): Endpoints => {
 			delete: `/institutes/students/notifications/student-notifications/`,
 		},
 		activity: {
-			get: `institutes/user/activity/`,
+			get: `/api/institutes/user/activity/`,
 		},
 		faq: {
 			// get: `institutes/faq/category?instituteid=${getStudentDetails()?.institute_id?.uuid}&branchid=${getStudentDetails()?.branch_id?.uuid}`,
