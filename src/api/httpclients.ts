@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
-const backendUrl = 'https://lms-node-backend-v1.onrender.com'
+const backendUrl = 'https://lms-node-backend-v1.onrender.com';
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -10,6 +10,29 @@ const Axios = axios.create({
 		'Content-Type': 'application/json',
 	},
 });
+
+Axios.interceptors.request.use((config) => {
+	const token = localStorage.getItem('authToken');
+
+	if (token) {
+		config.headers['Authorization'] = `${token ? token : ''}`;
+	}
+	return config;
+});
+
+Axios.interceptors.response.use(
+	(response) => response,
+	(error) => {
+		if (
+			error?.response &&
+			error?.response.status == 401 &&
+			error?.response?.data?.status === 'session_expired'
+		) {
+			localStorage.removeItem('authToken');
+			window.location.reload();
+		}
+	}
+);
 
 class HttpClient {
 	async get(
