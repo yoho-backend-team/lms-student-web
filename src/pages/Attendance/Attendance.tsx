@@ -1,7 +1,7 @@
 'use client'
 
 import { COLORS, FONTS } from '@/constants/uiConstants'
-import { Line, LineChart, ResponsiveContainer, XAxis } from 'recharts'
+import { Line, LineChart,  XAxis } from 'recharts'
 import {
   Card,
   CardContent,
@@ -211,7 +211,7 @@ export const Attendance = () => {
               </CardHeader>
                <CardContent className='h-full md:h-[30px] md:w-[220px] md:pb-0 lg:w-[100%] lg:mb-2 '>
               <ChartContainer  config={chartConfig} style={{ ...FONTS.para_03 }} >
-                {/* <ResponsiveContainer width="100%" height={70}> */}
+             
                   <LineChart data={chartData} margin={{ left: 0, right: 0 }}
                   width={500} 
                   height={70}
@@ -228,7 +228,6 @@ export const Attendance = () => {
                       className='max-w-sm  md:max-w-full h-auto md:h-[60px]'
                     />
                   </LineChart>
-                {/* </ResponsiveContainer> */}
               </ChartContainer>
               </CardContent>
            
@@ -248,11 +247,7 @@ export const Attendance = () => {
             onMonthChange={handleCalendarMonthChange}
             className="border **:gap-5 **:py-0.5 md:**:gap-2  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
             style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
-            // modifiers={{ current: current }}
-            // modifiersClassNames={{
-            //   current: "text-[#A32AF3] font-bold" ,
-            //   selected: "text-white",
-            // }}
+            
           />
         </div>
 
