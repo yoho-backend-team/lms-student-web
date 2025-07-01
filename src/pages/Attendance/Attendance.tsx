@@ -1,5 +1,3 @@
-'use client'
-
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart,  XAxis } from 'recharts'
 import {

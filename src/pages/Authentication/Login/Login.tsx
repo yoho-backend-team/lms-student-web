@@ -7,6 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
 import { useAuth } from '@/context/AuthContext/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
+import type { AppDispatch } from '@/store/store';
+import { selectToken } from '@/features/Authentication/reducers/selectors';
 
 type LoginData = {
 	email: string;
@@ -21,19 +25,24 @@ const Login = () => {
 	} = useForm<LoginData>({});
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 	const { login } = useAuth();
+	const TokenSelector = useSelector(selectToken);
 
 	const onSubmit = async (data: LoginData) => {
 		try {
 			console.log(data, 'login data');
 			if (data.email) {
-				login(data.email);
-				navigate('/');
+				// login(data.email);
+				// navigate('/');
+				dispatch(getStudentLogin(data, {}));
 			}
 		} catch (error: any) {
 			console.log('error', error);
 		}
 	};
+
+	console.log(TokenSelector, 'token selector');
 
 	return (
 		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>
