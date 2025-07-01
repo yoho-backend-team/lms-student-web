@@ -13,7 +13,7 @@ import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
-
+	// console.log(import.meta.env.Backend_url, "url")
 	return (
 		<>
 			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
