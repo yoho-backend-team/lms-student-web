@@ -17,15 +17,10 @@ const Payment = () => {
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
 
-	const data =dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
-
 
 	useEffect(() => {
-		// dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
-		data
+		dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
 	}, [dispatch]);
-
-	console.log(paymentDetails, "asdfghjkl")
 
 	const rating = paymentDetails.length !==0 ? paymentDetails?.fees[0]?.course_id?.rating:0
 	const fullStars = Math.floor(rating);
