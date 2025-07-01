@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 const backendUrl = 'https://lms-node-backend-v1.onrender.com';
-const backendUrl = 'https://lms-node-backend-v1.onrender.com'
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -16,7 +15,7 @@ Axios.interceptors.request.use((config) => {
 	const token = localStorage.getItem('authToken');
 
 	if (token) {
-		config.headers['Authorization'] = `${token ? token : ''}`;
+		config.headers['Authorization'] = `Token ${token}`;
 	}
 	return config;
 });
