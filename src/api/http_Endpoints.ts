@@ -19,7 +19,7 @@ const getEndpoints = (): Endpoints => {
 			getwithId: `/institutes/class/course/`,
 		},
 		attendance: {
-			get: '/institutes/attedance/student-attendance/',
+			get: '/api/institutes/attedance/student-attendance/',
 			class_attendance: '/attendance/class',
 		},
 		payments: {
