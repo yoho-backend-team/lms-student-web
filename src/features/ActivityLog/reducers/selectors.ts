@@ -1,3 +1,2 @@
- export const selectActivityLogs=(state:any)=>state.ActivitySlice.data;
- export const selectLoading=(state:any)=>state.ActivitySlice.loading ;
- 
+ export const selectActivityLogs=(state:any)=>state.ActivityLogsSlice.data;
+ export const selectLoading=(state:any)=>state.ActivityLogsSlice.loading ;

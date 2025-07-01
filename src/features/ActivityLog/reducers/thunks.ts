@@ -8,8 +8,8 @@ export const getAllActivityLogs =
     try{
      dispatch(setLoading(true))
      const response=await getAllActivity(params)
-     console.log(response,'activitylogs')
-     //dispatch(setActivityLogs(response?.selectActivityLogs));
+     console.log(response, 'response')
+     dispatch(setActivityLogs(response));
     }
     catch(error){
      console.log(error)

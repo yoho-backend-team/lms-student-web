@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
-
+import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice'
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
+		ActivityLogsSlice:ActivityLogsSlice,
+
 	},
 });
 
