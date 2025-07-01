@@ -75,7 +75,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
-  // const current = new Date()
+  
 
   const handleMonthChange = (newMonth: string) => {
     const monthIndex = months.indexOf(newMonth)
