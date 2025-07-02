@@ -54,7 +54,7 @@ const getEndpoints = (): Endpoints => {
 			get_messages: `/institutes/community/messages/all/`,
 		},
 		profile: {
-			get: `institutes/auth/profile/me/`,
+			get: `/api/institutes/auth/profile/me/`,
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},

@@ -1,1 +1,1 @@
-export const selectNotifications = (state: any) => state.PaymentSlice.data;
+export const selectNotifications = (state: any) => state.NotificationSlice.data;
