@@ -7,9 +7,26 @@ import Group from '../../assets/icons/payments/Group.png';
 import Frame from '../../assets/icons/payments/Frame.png';
 import Star from '../../assets/icons/payments/Star.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectPayment } from '@/features/Payment/reducers/selectors';
+import { useEffect } from 'react';
+import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
 
 const Payment = () => {
+
+	const dispatch = useDispatch<any>();
+	const paymentDetails = useSelector(selectPayment)
+
+
+	useEffect(() => {
+		dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
+	}, [dispatch]);
+
+	const rating = paymentDetails.length !==0 ? paymentDetails?.fees[0]?.course_id?.rating:0
+	const fullStars = Math.floor(rating);
+
 	return (
+		
 		<div className=' lg:flex md:grid gap-8 mb-2'>
 			<div className='lg:w-1/4 md'>
 				<h1
@@ -28,7 +45,7 @@ const Payment = () => {
 							className='text-end'
 							style={{ ...FONTS.heading_03, color: COLORS.light_green_01 }}
 						>
-							&#8377; 100000
+							{paymentDetails.length !==0 ? paymentDetails?.course_fees : 0}
 						</p>
 					</section>
 
@@ -41,7 +58,7 @@ const Payment = () => {
 							className='text-end'
 							style={{ ...FONTS.heading_03, color: COLORS.light_green }}
 						>
-							&#8377; 100000
+							&#8377;{paymentDetails.length !==0 ? paymentDetails?.payment_history[0]?.paid_amount:0}
 						</p>
 					</section>
 
@@ -54,7 +71,8 @@ const Payment = () => {
 							className='text-end'
 							style={{ ...FONTS.heading_03, color: COLORS.light_red }}
 						>
-							&#8377; 100000
+							{paymentDetails.length !==0 ?paymentDetails?.pending_payment:0}
+
 						</p>
 					</section>
 
@@ -67,7 +85,7 @@ const Payment = () => {
 							className='text-end'
 							style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}
 						>
-							Pending
+							{paymentDetails.length !==0 ?paymentDetails?.payment_status:"NA"}
 						</p>
 					</section>
 
@@ -80,7 +98,7 @@ const Payment = () => {
 							className='text-end'
 							style={{ ...FONTS.heading_03, color: COLORS.light_orange }}
 						>
-							&#8377; 100000
+							{paymentDetails.length !==0 ?paymentDetails?.payment_history[0]?.payment_method:"NA"}
 						</p>
 					</section>
 				</div>
@@ -103,10 +121,10 @@ const Payment = () => {
 								className='font-semibold mt-4'
 								style={{ ...FONTS.heading_05 }}
 							>
-								MERN STACK
+								{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.course_id?.course_name:"NA"}
 							</h1>
 							<p style={{ ...FONTS.para_02 }}>
-								Anna University RO Tiruchirappali
+								{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.institute_id?.institute_name:"NA"}
 							</p>
 							<div className='flex justify-between mt-2'>
 								<section className='flex items-center gap-3 '>
@@ -124,25 +142,23 @@ const Payment = () => {
 										className='font-semibold '
 										style={{ ...FONTS.heading_06 }}
 									>
-										6 Modules
+										{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.course_id?.coursemodules.length:0} Modules
 									</h2>
 								</section>
 								<section className='mt-5'>
-									<div className=' flex items-center gap-1'>
-										<div className=' flex justify-end items-center '>
-											<img src={Star} alt='Star' className='' />
-											<img src={Star} alt='Star' className='' />
-											<img src={Star} alt='Star' className='' />
-											<img src={Star} alt='Star' className='' />
-											<img src={Star} alt='Star' className='' />
+									<div className="flex items-center justify-between gap-2">
+										<div className="flex justify-end items-center">
+											{Array.from({ length: fullStars }).map((_, i) => (
+												<img key={`full-${i}`} src={Star} alt="Star" />
+											))}
 										</div>
-										<p style={{ ...FONTS.heading_06 }}>4.5</p>
+										<p style={{ ...FONTS.heading_06 }}>{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.course_id?.rating:0}</p>
 									</div>
 									<p
 										className='text-end font-semibold'
 										style={{ ...FONTS.heading_05, color: COLORS.light_green }}
 									>
-										&#8377; 500000
+										&#8377; {paymentDetails.length !==0 ?paymentDetails?.course?.actual_price:0}
 									</p>
 								</section>
 							</div>
@@ -173,15 +189,19 @@ const Payment = () => {
 							<div className='flex justify-between'>
 								<section>
 									<h1 style={{ ...FONTS.heading_07 }}>Student :</h1>
-									<p style={{ ...FONTS.para_03 }}>Elon Musk</p>
+									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.student?.full_name:"NA"}</p>
 								</section>
 								<section>
 									<h1 style={{ ...FONTS.heading_07 }}>Category :</h1>
-									<p style={{ ...FONTS.para_03 }}>MERN Stack 2024</p>
+									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !==0 ?paymentDetails?.fees[0]?.course_id?.course_name:"NA"}</p>
 								</section>
 								<section>
 									<h1 style={{ ...FONTS.heading_07 }}>Enrolled Date :</h1>
-									<p style={{ ...FONTS.para_03 }}>12 June 2025</p>
+									<p style={{ ...FONTS.para_03 }}>{new Date(paymentDetails.length !==0 ?paymentDetails?.course?.createdAt:"NA").toLocaleDateString("en-GB", {
+										day: "2-digit",
+										month: "long",
+										year: "numeric",
+									})}</p>
 								</section>
 							</div>
 
@@ -201,22 +221,22 @@ const Payment = () => {
 							<div>
 								<section className='flex justify-between'>
 									<p style={{ ...FONTS.para_02 }}>Tuition Amount</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; 100000 INR</p>
+									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !==0 ?paymentDetails?.course_fees:0} INR</p>
 								</section>
 
 								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>Software Cost</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; 13,000.00 INR</p>
+									<p style={{ ...FONTS.para_02 }}>Gst Cost</p>
+									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !==0 ?paymentDetails?.fees[0]?.gst:0} INR</p>
 								</section>
 
 								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>GST Tax</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; 1,800.00 INR</p>
+									<p style={{ ...FONTS.para_02 }}>Other Tax</p>
+									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !==0 ?paymentDetails?.fees[0]?.other_taxes:0} INR</p>
 								</section>
 
 								<section className='flex justify-between'>
 									<p style={{ ...FONTS.para_02 }}>Paid Amount</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; 10000 INR</p>
+									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !==0 ?paymentDetails?.payment_history[0]?.paid_amount:0} INR</p>
 								</section>
 
 								<section
@@ -224,7 +244,7 @@ const Payment = () => {
 									style={{ ...FONTS.para_02, color: COLORS.light_red }}
 								>
 									<p>Pending</p>
-									<p>&#8377; 90000 INR</p>
+									<p>{paymentDetails.length !==0 ?paymentDetails?.pending_payment:0} INR</p>
 								</section>
 							</div>
 						</div>
@@ -243,13 +263,17 @@ const Payment = () => {
 							View PDF
 						</h1>
 
-						<section className='custom-inset-shadow flex justify-between p-3 my-3'>
+						<section className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
 							<h1
 								style={{
 									...FONTS.heading_05,
 								}}
 							>
-								21 June 2025
+								{new Date(paymentDetails.length !==0 ?paymentDetails?.payment_history[0]?.payment_date:"NA").toLocaleDateString("en-GB", {
+									day: "2-digit",
+									month: "long",
+									year: "numeric",
+								})}
 							</h1>
 							<button
 								className='p-2 px-4 rounded-lg cursor-pointer'
@@ -264,10 +288,38 @@ const Payment = () => {
 							</button>
 						</section>
 
-						<div className='flex justify-between mb-5'>
+						<div className='flex justify-between items-center mb-5'>
 							<h1 style={{ ...FONTS.heading_05 }}>Pay Due</h1>
-							<p style={{ ...FONTS.para_02 }}>No Pending Payments</p>
+							<p style={{ ...FONTS.para_02 }}>{paymentDetails?.pending_payment !=0 ? "Pending Payments" : "No Pending Payments"}</p>
 						</div>
+
+						<section className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+							<h1
+								style={{
+									...FONTS.heading_05,
+								}}
+							>
+								{new Date(paymentDetails.length !==0 ?paymentDetails?.payment_history[0].
+									duepaymentdate:"NA"
+								).toLocaleDateString("en-GB", {
+									day: "2-digit",
+									month: "long",
+									year: "numeric",
+								})}
+							</h1>
+							<p
+								className='p-2 px-4 rounded-lg cursor-pointer'
+								style={{
+									...FONTS.para_02,
+									color:COLORS.light_red,
+									boxShadow: `
+      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+								}}
+							>
+								{paymentDetails.length !==0 ?paymentDetails?.pending_payment:0}
+							</p>
+						</section>
 					</div>
 				</div>
 			</div>
