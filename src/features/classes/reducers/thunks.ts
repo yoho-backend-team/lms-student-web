@@ -1,5 +1,5 @@
 import { getLiveClassDetails } from '../services';
-import { getclassdetails } from './ClassSlice';
+import { getclassdetails } from './classslice';
 
 export const getClassDetails =
     (params: any) => async (dispatch: any) => {
