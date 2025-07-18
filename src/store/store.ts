@@ -8,7 +8,7 @@ import NotificationSlice from '../features/Notifications/reducers/NotificationSl
 import ProfileSlice from '../features/Profile/reducers/ProfileSlice';
 import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice';
 import communityReducer from '../features/community/redux/communitySlice';
-
+import DashBoardSlice from '../features/Dashboard/reducers/slices'
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
@@ -20,6 +20,7 @@ const store = configureStore({
 		ProfileSlice: ProfileSlice,
 		ActivityLogsSlice: ActivityLogsSlice,
         community: communityReducer,
+		dashboard: DashBoardSlice,
 	},
 });
 

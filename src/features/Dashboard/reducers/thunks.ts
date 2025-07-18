@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getDashBoardData } from "../services"
 import { setDashBoard } from "./slices"
 
-export const getDashBoardReports = () => async (dispatch) => {
+export const getDashBoardReports = async (dispatch: any) => {
     try {
-        const response = await getDashBoardData()
-        dispatch(setDashBoard(response))
+        const response: any = await getDashBoardData()
+        dispatch(setDashBoard(response.data))
+        return response
     } catch (error) {
         console.log(error)
     }

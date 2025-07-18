@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import style from './style.module.css'
 import InstituteDetails from '@/components/dashboard/InstituteDetails';
 import ProfileCard from '@/components/dashboard/ProfileCard';
@@ -10,9 +10,17 @@ import Updates from '@/components/dashboard/Updates';
 import { FONTS } from '@/constants/uiConstants';
 import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
 import DashCalender from '@/components/ui/calendarDash';
+import { useDispatch } from 'react-redux';
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		getDashBoardReports(dispatch)
+	}, [dispatch]);
+
 	return (
 		<>
 			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
@@ -27,14 +35,14 @@ const Dashboard: React.FC = () => {
 							</div>
 						</div>
 						:
-						<div className="grid grid-cols-7 gap-5 justify-between">
+						<div className="grid grid-cols-8 gap-5 justify-between">
 							<div className='col-span-2 col-start-1'>
 								<InstituteDetails />
 							</div>
-							<div className='col-span-3 col-start-3'>
+							<div className='col-span-4'>
 								<ProfileCard />
 							</div>
-							<div className="col-span-2 col-start-6">
+							<div className="col-span-2">
 								<CourseProgress />
 							</div>
 						</div>
