@@ -44,7 +44,7 @@ const AboutCourse: React.FC = () => {
         </Button>
         <h1 className="" style={FONTS.heading_02}>About</h1>
       </div>
-      <CourseButton activeTabs={"about"} />
+      <CourseButton/>
 
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-screen-xl mx-auto items-start">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import style from './style.module.css'
 import InstituteDetails from '@/components/dashboard/InstituteDetails';
 import ProfileCard from '@/components/dashboard/ProfileCard';
@@ -7,13 +7,21 @@ import Attendance from '@/components/dashboard/Attendance';
 import Payment from '@/components/dashboard/Payment';
 import Assesments from '@/components/dashboard/Assesments';
 import Updates from '@/components/dashboard/Updates';
-import CalendarDash from '@/components/dashboard/Calendar';
 import { FONTS } from '@/constants/uiConstants';
 import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
+import DashCalender from '@/components/ui/calendarDash';
+import { useDispatch } from 'react-redux';
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
-	// console.log(import.meta.env.Backend_url, "url")
+	const dispatch = useDispatch()
+	const [DashBoardData, setDashBoardData] = useState<any>([]);
+
+	useEffect(() => {
+		dispatch(getDashBoardReports())
+	}, [dispatch]);
+
 	return (
 		<>
 			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
@@ -28,14 +36,14 @@ const Dashboard: React.FC = () => {
 							</div>
 						</div>
 						:
-						<div className="grid grid-cols-7 gap-5 justify-between">
+						<div className="grid grid-cols-8 gap-5 justify-between">
 							<div className='col-span-2 col-start-1'>
 								<InstituteDetails />
 							</div>
-							<div className='col-span-3 col-start-3'>
+							<div className='col-span-4'>
 								<ProfileCard />
 							</div>
-							<div className="col-span-2 col-start-6">
+							<div className="col-span-2">
 								<CourseProgress />
 							</div>
 						</div>
@@ -50,7 +58,7 @@ const Dashboard: React.FC = () => {
 							</div>
 							<div className='grid grid-cols-2 gap-5'>
 								<Assesments />
-								<CalendarDash />
+								<DashCalender />
 							</div>
 							<Updates />
 						</div>
@@ -75,7 +83,7 @@ const Dashboard: React.FC = () => {
 							<Updates />
 						</div>
 						<div>
-							<CalendarDash />
+							<DashCalender />
 						</div>
 					</div>
 				}
