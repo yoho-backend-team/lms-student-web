@@ -11,15 +11,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPayment } from '@/features/Payment/reducers/selectors';
 import { useEffect } from 'react';
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
+import { selectProfile } from '@/features/Profile/reducers/selectors';
+import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import { Button } from '@/components/ui/button';
 
 const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
-
+	const profileDetails = useSelector(selectProfile)
+	
 
 	useEffect(() => {
-		dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
+		dispatch(getStudentProfileThunk({}));
+		console.log(profileDetails,"dsfsdkmm")
+		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
 	}, [dispatch]);
 
 	const rating = paymentDetails.length !==0 ? paymentDetails?.fees[0]?.course_id?.rating:0
@@ -173,17 +179,19 @@ const Payment = () => {
 							>
 								Fees Details
 							</h1>
-							<button
-								className='p-2 px-4 rounded-lg cursor-pointer'
+							<Button
+								className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
+								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
 								style={{
 									...FONTS.para_02,
-									boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+									color:'white',
+									// boxShadow: `
+      								// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      								// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 								}}
 							>
 								Download Receipt
-							</button>
+							</Button>
 						</section>
 						<div className='p-5 grid gap-2 custom-inset-shadow'>
 							<div className='flex justify-between'>

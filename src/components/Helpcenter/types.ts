@@ -9,6 +9,7 @@ export interface HelpTopic {
   title: string;
   category?: string;
   description?: string;
+  HelpDetails?: any[];
 }
 
 export interface HelpCenterTabsProps {
@@ -24,7 +25,7 @@ export interface HelpCenterSearchProps {
 
 export interface HelpTopicCardProps {
   topic: HelpTopic;
-  onViewDetails?: () => void;
+  onViewDetails?: (videoLink:any) => void;
   showViewButton?: boolean;
 }
 
