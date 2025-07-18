@@ -32,8 +32,8 @@ const getEndpoints = (): Endpoints => {
 		},
 		notification: {
 			get: '/api/institutes/students/notifications/',
-			update_status: '/institutes/students/notifications/status/',
-			delete: `/institutes/students/notifications/student-notifications/`,
+			update_status: '/api/institutes/students/notifications/status/',
+			delete: `/api/institutes/students/notifications/student-notifications/`,
 		},
 		activity: {
 			get: `institutes/user/activity/`,

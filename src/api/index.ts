@@ -70,13 +70,13 @@ class Client {
 		notification: {
 			get: (params: any) =>
 				httpClient.get(HTTP_END_POINTS.notification.get, params, 'student'),
-			update: (data: { uuid: string }) =>
+			update: (data: any) =>
 				httpClient.update(
 					HTTP_END_POINTS.notification.update_status + data.uuid,
 					data,
 					'student'
 				),
-			delete: (data: { uuid: string }) =>
+			delete: (data: any) =>
 				httpClient.delete(
 					HTTP_END_POINTS.notification.delete + data.uuid,
 					data,

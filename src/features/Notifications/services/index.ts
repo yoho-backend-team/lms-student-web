@@ -6,3 +6,18 @@ export const getAllNotifications = async (params:any) => {
         return response;
     }
 };
+
+
+export const updateNotificationStatus = async (data:any) => {
+    const response = await Client.student.notification.update(data);
+    if (response) {
+        return response;
+    }
+};
+
+export const deleteNotification = async (data:any) => {
+    const response = await Client.student.notification.delete(data);
+    if (response) {
+        return response;
+    }
+}
