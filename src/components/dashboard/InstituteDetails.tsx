@@ -11,8 +11,8 @@ const InstituteDetails: React.FC = () => {
 
     return (
         <div className='w-full h-[365px] flex flex-col gap-[10px] p-[20px] rounded-[16px] divshadow'>
-            <h1 style={{ ...FONTS.heading_02 }}>{institute?.institute_name}</h1>
-            {/* <p style={{ ...FONTS.para_01 }}>{institute?.description}</p> */}
+            {/* <h1 style={{ ...FONTS.heading_02 }}>Institute Name</h1> */}
+            <p style={{ ...FONTS.para_01 }}>{institute?.institute_name}</p>
             <img src={GetImageUrl(institute?.logo) ?? ''} alt="" className='w-[265px] h-[290px] self-center' />
         </div>
     )
