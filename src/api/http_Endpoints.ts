@@ -47,7 +47,7 @@ const getEndpoints = (): Endpoints => {
 		},
 
 		reports: {
-			get: '/institutes/reports/users/student',
+			get: '/api/institutes/reports/users/student',
 		},
 		community: {
 			get: `/institutes/community/course/:courseId`,

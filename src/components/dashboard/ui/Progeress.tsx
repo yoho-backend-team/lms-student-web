@@ -44,7 +44,6 @@ const CircularProgress = ({
                 height={size}
                 viewBox={viewBox}
                 version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
                 style={{ transform: "rotate(-90deg)" }}
                 className="relative"
             >
@@ -69,7 +68,7 @@ const CircularProgress = ({
                     strokeDasharray={circumference}
                     strokeDashoffset="0"
                     filter="url(#white-shadow)"
-                    className={cn("stroke-[#BDC2C7]", className)}
+                    className={cn("stroke-[#d5dbe0af]", className)}
                 />
 
                 <circle

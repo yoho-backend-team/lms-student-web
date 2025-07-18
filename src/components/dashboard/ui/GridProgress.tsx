@@ -22,7 +22,7 @@ const GridProgress: React.FC<propstype> = ({ title, value, icon }) => {
         <div className="flex flex-row justify-between px-4 py-2">
             <div className="flex flex-col">
                 <h3
-                    style={{ ...FONTS.heading_04 }}
+                    style={{ ...FONTS.heading_05 }}
                     className="text-[18px]">{title ?? "title"}</h3>
                 <img src={dashicons[icon as keyof typeof dashicons]} alt="" width={40} height={40} className="mt-2" />
             </div>

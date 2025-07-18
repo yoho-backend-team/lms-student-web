@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import payments from '../../assets/dashboard/payments.png'
 import { FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Payment: React.FC = () => {
+
+    const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []
 
     const navigate = useNavigate()
     return (
@@ -13,7 +17,7 @@ const Payment: React.FC = () => {
                     <h1 style={{ ...FONTS.heading_02 }}>Payment</h1>
                     <p style={{ ...FONTS.heading_06 }}>Payment Pending for <span style={{ ...FONTS.heading_04 }}>April</span></p>
                     <p style={{ ...FONTS.heading_06 }}>Amount to pay:</p>
-                    <h1 style={{ ...FONTS.heading_03, fontSize: '30px' }}>&#8377;90000</h1>
+                    <p style={{ ...FONTS.heading_03, fontSize: '30px' }}>{Payments?.pending_payment}</p>
                 </div>
                 <button type="button" onClick={() => navigate('/payment')} className='btnshadow w-[145px] h-[42px] rounded-xl btnhovershadow hover:!text-white focus:!text-white' style={{ ...FONTS.heading_06 }}>Check Payments</button>
             </div>
