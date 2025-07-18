@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
-<<<<<<< HEAD
 const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
-=======
-const backendUrl = 'https://lms-node-backend-v1.onrender.com/api';
->>>>>>> 903cbbb92e62f4cd2e6bfb08f323c7ce7d4167b2
 
 const Axios = axios.create({
 	baseURL: backendUrl,

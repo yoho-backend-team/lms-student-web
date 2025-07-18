@@ -5,7 +5,7 @@ export const getAllCommunities = async (params:any) => {
   try {
     const response = await Client.student.community.get(params);
     console.log('groups',response);
-    return response.params; 
+    return response; 
   } catch (error) {
     console.error('Error fetching communities:', error);
     throw error; 

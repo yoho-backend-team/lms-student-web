@@ -34,6 +34,7 @@ const ClassId = () => {
 	}
 
     const startDate = new Date(classIdData.data?.start_date)
+    
 
 	return(
 	 <div className='mb-4'>
