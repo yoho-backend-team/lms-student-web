@@ -14,42 +14,38 @@ const ProfileCard: React.FC = () => {
 
     const navigate = useNavigate()
 
-    let data: any[] = [];
-
-    if (ClassesData) {
-        data = [
-            {
-                title: "Total Classes",
-                icon: "totalclass",
-                total: ClassesData[0]?.total,
-            },
-            {
-                title: "Completed",
-                icon: "completed",
-                total: ClassesData[0]?.offline_class?.completed + ClassesData[0]?.online_class?.completed,
-            },
-            {
-                title: "Pending",
-                icon: "pending",
-                total: ClassesData[0]?.offline_class?.pending + ClassesData[0]?.online_class?.pending,
-            },
-            {
-                title: "Live Class",
-                icon: "liveclass",
-                total: ClassesData[0]?.offline_class?.total,
-            },
-            {
-                title: "Online Class",
-                icon: "onlineclass",
-                total: ClassesData[0]?.online_class?.total,
-            },
-            {
-                title: "Offline Class",
-                icon: "offlineclass",
-                total: ClassesData[0]?.offline_class?.total,
-            }
-        ]
-    }
+    const data = [
+        {
+            title: "Total Classes",
+            icon: "totalclass",
+            total: ClassesData?.[0]?.total,
+        },
+        {
+            title: "Completed",
+            icon: "completed",
+            total: ClassesData?.[0]?.offline_class?.completed + ClassesData?.[0]?.online_class?.completed,
+        },
+        {
+            title: "Pending",
+            icon: "pending",
+            total: ClassesData?.[0]?.offline_class?.pending + ClassesData?.[0]?.online_class?.pending,
+        },
+        {
+            title: "Live Class",
+            icon: "liveclass",
+            total: ClassesData?.[0]?.offline_class?.total,
+        },
+        {
+            title: "Online Class",
+            icon: "onlineclass",
+            total: ClassesData?.[0]?.online_class?.total,
+        },
+        {
+            title: "Offline Class",
+            icon: "offlineclass",
+            total: ClassesData?.[0]?.offline_class?.total,
+        }
+    ]
 
 
 

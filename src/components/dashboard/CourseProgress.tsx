@@ -15,7 +15,7 @@ const CourseProgress: React.FC = () => {
 
     console.log(CourseProgress)
 
-    const progress = CourseProgress?.[0].total
+    const progress = CourseProgress?.[0]?.total
     const radius = 80
     const circumference = 2 * Math.PI * radius
     const strokeDashoffset = circumference - (progress / 100) * circumference

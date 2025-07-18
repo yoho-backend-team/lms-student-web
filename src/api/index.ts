@@ -45,7 +45,7 @@ class Client {
 		},
 		class: {
 			get: (params: any) =>
-				httpClient.get(HTTP_END_POINTS.class.get, params, 'student'),
+				httpClient.get(HTTP_END_POINTS.class.get + params.courseId ,params, 'student'),
 			getWithId: (params: { id: string }) =>
 				httpClient.get(
 					HTTP_END_POINTS.class.getwithId + params.id,
@@ -55,7 +55,7 @@ class Client {
 		},
 		payment: {
 			get: (params: any) =>
-				httpClient.get(HTTP_END_POINTS.payments.getFees, params, 'student'),
+				httpClient.get(HTTP_END_POINTS.payments.getFees+params.paymentId, {}, 'student'),
 		},
 		// attendance : (params) => httpClient.get(HTTP_END_POINTS.Student.attendance,params,"student"),
 		attendance: {

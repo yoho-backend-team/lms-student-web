@@ -1,13 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
 import communityReducer from '../features/community/redux/communitySlice';
+import TicketSlice from "../features/Tickets/reducer/TicketSlice";
+import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
+import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
+import ProfileSlice from '../features/Profile/reducers/ProfileSlice'
 import DashBoardSlice from '../features/Dashboard/reducers/slices'
 
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
 		community: communityReducer,
-		dashboard: DashBoardSlice
+		TicketSlice: TicketSlice,
+		dashboard: DashBoardSlice,
+		PaymentSlice: PaymentSlice,
+		NotificationSlice: NotificationSlice,
+		ProfileSlice: ProfileSlice,
 	},
 });
 

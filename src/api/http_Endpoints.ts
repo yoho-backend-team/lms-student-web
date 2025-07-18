@@ -15,23 +15,23 @@ const getEndpoints = (): Endpoints => {
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {
-			get: `/institutes/class/:courseId`,
-			getwithId: `/institutes/class/course/`,
+			get: `/api/institutes/class/`,
+			getwithId: `/api/institutes/class/course/`,
 		},
 		attendance: {
 			get: '/institutes/attedance/student-attendance/',
 			class_attendance: '/attendance/class',
 		},
 		payments: {
-			getFees: `/institutes/payments/student-fee/:studentId`,
+			getFees: `/api/institutes/payments/student-fee/`,
 		},
 		ticket: {
-			create: '/institutes/student-ticket/create',
-			get: '/institutes/student-ticket/getall',
+			create: '/api/institutes/student-ticket/create',
+			get: '/api/institutes/student-ticket/getall',
 			getById: '/institutes/student-ticket/',
 		},
 		notification: {
-			get: '/institutes/students/notifications/',
+			get: '/api/institutes/students/notifications/',
 			update_status: '/institutes/students/notifications/status/',
 			delete: `/institutes/students/notifications/student-notifications/`,
 		},
@@ -54,7 +54,7 @@ const getEndpoints = (): Endpoints => {
 			get_messages: `/institutes/community/messages/all/`,
 		},
 		profile: {
-			get: `institutes/auth/profile/me/`,
+			get: `/api/institutes/auth/profile/me/`,
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},
