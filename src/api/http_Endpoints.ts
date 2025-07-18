@@ -4,10 +4,10 @@ const getEndpoints = (): Endpoints => {
 	return {
 		auth: {
 			login: '/api/institutes/auth/student/login',
-			verify_otp: '/institutes/auth/student/verify-otp',
-			forget_password: '/institutes/auth/profile/forgot-password',
-			reset_password: '/institutes/auth/profile/reset-password',
-			change_password: 'institutes/auth/student/change-password',
+			verify_otp: '/api/institutes/auth/student/verify-otp',
+			forget_password: '/api/institutes/auth/profile/forgot-password',
+			reset_password: '/api/institutes/auth/profile/reset-password',
+			change_password: '/api/institutes/auth/student/change-password',
 			log_out: '/api/institutes/auth/student/logout',
 		},
 		course: {

@@ -8,7 +8,7 @@ export const getStudentLoginClient = async (data: any, params: any) => {
 };
 
 export const getStudentLogoutClient = async (params: any) => {
-	const response = await Client.student.logout(params);
+	const response = await Client.student.logouts(params)
 	if (response) {
 		return response;
 	}
