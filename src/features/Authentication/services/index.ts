@@ -6,3 +6,10 @@ export const getStudentLoginClient = async (data: any, params: any) => {
 		return response;
 	}
 };
+
+export const getStudentLogoutClient = async (params: any) => {
+	const response = await Client.student.logout(params);
+	if (response) {
+		return response;
+	}
+};

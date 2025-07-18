@@ -5,7 +5,8 @@ import ClassSlice from '../features/classes/reducers/classslice'
 import ClassIdSlice from '../features/Classid/reducers/classidslice'
 import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
 import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
-import ProfileSlice from '../features/Profile/reducers/ProfileSlice'
+import ProfileSlice from '../features/Profile/reducers/ProfileSlice';
+import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice';
 
 const store = configureStore({
 	reducer: {
@@ -13,10 +14,10 @@ const store = configureStore({
 		TicketSlice: TicketSlice,
 		ClassSlice: ClassSlice,
 		ClassIdSlice: ClassIdSlice,
-		
 		PaymentSlice:PaymentSlice,
 		NotificationSlice:NotificationSlice,
-		ProfileSlice:ProfileSlice,
+		ProfileSlice: ProfileSlice,
+		ActivityLogsSlice: ActivityLogsSlice,
 	},
 });
 
