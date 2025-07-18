@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useEffect } from 'react'
 import payments from '../../assets/dashboard/payments.png'
 import { FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks'
 
 const Payment: React.FC = () => {
+
+    const dispatch = useDispatch<any>()
+
+    useEffect(() => {
+        dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
+    }, [dispatch]);
 
     const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []
 
