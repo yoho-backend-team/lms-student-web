@@ -85,8 +85,8 @@ const communityside = () => {
 
 
  {chats.map(chat => (          
- <div  key={chat.id}  className={`" relative z-10 flex items-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] justify-between p-3 bg-[#EBEFF3] rounded-lg     shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]
-                        overflow-hidden transform transition-all  shadow-lg "
+ <div  key={chat.id}  className={`" relative z-10 flex items-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] justify-between p-3 bg-[#EBEFF3] rounded-lg    
+                        overflow-hidden transform transition-all   "
                 
                 ${selectedChat?.id === chat.id ? 'bg-[#EBEFF3]' : ''}`}
               onClick={() => handleChatClick(chat)}
