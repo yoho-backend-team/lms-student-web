@@ -4,6 +4,7 @@ import { FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
 
 const Payment: React.FC = () => {
+
     const navigate = useNavigate()
     return (
         <div className='flex flex-row p-5 gap-10 divshadow w-full h-[300px] rounded-[16px]'>

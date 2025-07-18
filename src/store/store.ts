@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
 import communityReducer from '../features/community/redux/communitySlice';
+import DashBoardSlice from '../features/Dashboard/reducers/slices'
 
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
-        community: communityReducer,
+		community: communityReducer,
+		dashboard: DashBoardSlice
 	},
 });
 

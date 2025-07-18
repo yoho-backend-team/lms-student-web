@@ -97,8 +97,8 @@ class Client {
 		},
 
 		reports: {
-			get: (params: any) =>
-				httpClient.get(HTTP_END_POINTS.reports.get, params, 'student'),
+			get: () =>
+				httpClient.get(HTTP_END_POINTS.reports.get, {}, 'student'),
 		},
 		activity: {
 			get: (params: any) =>

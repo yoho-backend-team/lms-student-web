@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 // import style from './style.module.css'
 import InstituteDetails from '@/components/dashboard/InstituteDetails';
 import ProfileCard from '@/components/dashboard/ProfileCard';
@@ -16,10 +16,9 @@ import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
 	const dispatch = useDispatch()
-	const [DashBoardData, setDashBoardData] = useState<any>([]);
 
 	useEffect(() => {
-		dispatch(getDashBoardReports())
+		getDashBoardReports(dispatch)
 	}, [dispatch]);
 
 	return (

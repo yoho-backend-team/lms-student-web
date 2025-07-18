@@ -1,11 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // AssessmentCard.jsx
-import { FONTS } from "@/constants/uiConstants";
+// import { FONTS } from "@/constants/uiConstants";
 import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
+import { useSelector } from "react-redux";
 
 
 const Assesments = () => {
+
+    const Attendance = useSelector((state: any) => state.dashboard.data) ?? []
+
+    console.log(Attendance)
 
     const [activeTab, setactiveTab] = useState<'average' | 'exam' | 'completed'>('average');
 
