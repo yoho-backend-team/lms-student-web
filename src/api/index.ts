@@ -4,10 +4,10 @@ import HTTP_END_POINTS from './http_Endpoints';
 
 class Client {
 	student = {
-		login: (data: any, params: any) =>
-			httpClient.post(HTTP_END_POINTS.auth.login, data, params, 'student'),
-		logout: (data: any, params: any) =>
-			httpClient.post(HTTP_END_POINTS.auth.log_out, data, params, 'student'),
+		login: (data: any) =>
+			httpClient.post(HTTP_END_POINTS.auth.login, data, 'student'),
+		logout: (params: any) =>
+			httpClient.post(HTTP_END_POINTS.auth.log_out, params, 'student'),
 		verifyOtp: (data: any, params: any) =>
 			httpClient.post(HTTP_END_POINTS.auth.verify_otp, data, params, 'student'),
 		forgetPassword: (data: any, params: any) =>

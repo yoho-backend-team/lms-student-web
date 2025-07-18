@@ -6,6 +6,7 @@ import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
+import { getStudentLogoutClient } from '@/features/Authentication/services';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -57,6 +58,18 @@ const Navbar = () => {
 			iconInactive: NavbarIcons.PlacementInActiveImg,
 		},
 	];
+
+	const handleLogout = async () => {
+		try {
+			const response = await getStudentLogoutClient({});
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
+		// setshowProfileSection(false);
+		// logout();
+		// navigate('/login');
+	};
 
 	return (
 		<nav>
@@ -165,14 +178,7 @@ const Navbar = () => {
 									  shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]
 									'
 							>
-								<div
-									className='flex gap-2'
-									onClick={() => {
-										setshowProfileSection(false);
-										logout();
-										navigate('/login');
-									}}
-								>
+								<div className='flex gap-2' onClick={() => handleLogout()}>
 									<img
 										src={NavbarIcons.LoginImg}
 										alt='profile-icon'

@@ -8,7 +8,7 @@ const getEndpoints = (): Endpoints => {
 			forget_password: '/institutes/auth/profile/forgot-password',
 			reset_password: '/institutes/auth/profile/reset-password',
 			change_password: 'institutes/auth/student/change-password',
-			log_out: '/institutes/auth/student/logout',
+			log_out: '/api/institutes/auth/student/logout',
 		},
 		course: {
 			get: `/institutes/:instituteuuid/branches/:branchuuid/course/:courseId`,
