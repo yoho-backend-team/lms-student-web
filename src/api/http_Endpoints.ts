@@ -23,7 +23,7 @@ const getEndpoints = (): Endpoints => {
 			class_attendance: '/attendance/class',
 		},
 		payments: {
-			getFees: `/institutes/payments/student-fee/:studentId`,
+			getFees: `/api/institutes/payments/student-fee/`,
 		},
 		ticket: {
 			create: '/institutes/student-ticket/create',
@@ -31,7 +31,7 @@ const getEndpoints = (): Endpoints => {
 			getById: '/institutes/student-ticket/',
 		},
 		notification: {
-			get: '/institutes/students/notifications/',
+			get: '/api/institutes/students/notifications/',
 			update_status: '/institutes/students/notifications/status/',
 			delete: `/institutes/students/notifications/student-notifications/`,
 		},
@@ -54,7 +54,7 @@ const getEndpoints = (): Endpoints => {
 			get_messages: `/institutes/community/messages/all/`,
 		},
 		profile: {
-			get: `institutes/auth/profile/me/`,
+			get: `/api/institutes/auth/profile/me/`,
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},
