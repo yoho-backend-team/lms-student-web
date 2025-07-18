@@ -24,32 +24,11 @@ interface FilterGroup {
   options: DropdownOption[];
 }
 
+interface CompletedclassProps {
+  data: any[]; 
+}
 
-const Completedclass = () => {
-  const completed: CompletedItem[] = [
-    {
-      id: '1',
-      title: 'HTML,CSS',
-      date: "10-03-2025",
-      time: '9.00 AM',
-      duration: '45 min'
-    },
-    {
-      id: '2',
-      title: 'JavaScript',
-      date: "10-03-2025",
-      time: '9.00 AM',
-      duration: '45 min'
-    },
-    {
-      id: '3',
-      title: 'React JS',
-      date: "23-04-2025",
-      time: '9.00 AM',
-      duration: '45 min'
-    }
-  ];
-
+const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
    const months: DropdownOption[] = [
     { value: 'jan', label: 'January' },
     { value: 'feb', label: 'February' },
@@ -179,7 +158,7 @@ const [showFilters, setShowFilters] = useState(false);
           </table>
         </Card>
 
-        {completed.map((item) => (
+        {data.map((item) => (
           <Card 
               key={item.id}
               className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
@@ -192,10 +171,10 @@ const [showFilters, setShowFilters] = useState(false);
             <table className="w-full">
               <tbody>
                 <tr className="flex justify-around items-center my-1" style={{ ...FONTS.heading_06 }}>
-                  <td>{item.title}</td>
-                  <td>{item.date}</td>
-                  <td>{item.time}</td>
-                  <td>{item.duration}</td>
+                  <td>{item.courseDetails.course_name}</td>
+                  <td>{(item.start_date).slice(0,10)}</td>
+                  <td>{(item.start_time).slice(11,16)}</td>
+                  <td>{item.duration} Min</td>
                   <td>
                     <Button 
                       onClick={() => handleClassDetailPage(item.id)}

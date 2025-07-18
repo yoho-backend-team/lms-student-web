@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
+import TicketSlice from "../features/Tickets/reducer/TicketSlice";
 import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
 import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
 import ProfileSlice from '../features/Profile/reducers/ProfileSlice'
@@ -7,6 +8,8 @@ import ProfileSlice from '../features/Profile/reducers/ProfileSlice'
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
+		TicketSlice: TicketSlice,
+		
 		PaymentSlice:PaymentSlice,
 		NotificationSlice:NotificationSlice,
 		ProfileSlice:ProfileSlice,
