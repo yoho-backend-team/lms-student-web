@@ -6,13 +6,13 @@ import filterImg from '../../assets/classes/filter.png'
 import { useNavigate } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
 
-interface CompletedItem {  
-  title: string;
-  date: string;
-  time: string;
-  duration: string;
-  id: string;
-}
+// interface CompletedItem {  
+//   title: string;
+//   date: string;
+//   time: string;
+//   duration: string;
+//   id: string;
+// }
 
 interface DropdownOption {
   value: string;
