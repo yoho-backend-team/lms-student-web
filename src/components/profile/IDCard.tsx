@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Download, QrCode } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProfile } from '@/features/Profile/reducers/selectors';
+import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 
 interface IDCardData {
   studentName: string;
@@ -22,20 +25,29 @@ interface IDCardProps {
 
 const IDCard: React.FC<IDCardProps> = ({ data }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const dispatch = useDispatch<any>();
+	const profileDetails = useSelector(selectProfile)
+
+
+	useEffect(() => {
+		dispatch(getStudentProfileThunk({}));
+		console.log(profileDetails)
+	}, [dispatch]);
   
   // Sample data - replace with actual data from props or API
   const idCardData: IDCardData = data || {
-    studentName: 'Albert Einstein',
-    studentId: 'U56TRN241',
+    studentName: profileDetails.length!=0? profileDetails.full_name : "NA",
+    studentId: profileDetails.length!=0?profileDetails.userDetail.studentId:"NA",
     course: 'Theoretical Physics',
     batch: 'Batch 2024-25',
-    rollNumber: 'PHY001',
+    rollNumber: profileDetails.length!=0? profileDetails.roll_no:"NA",
     validFrom: '2024-01-01',
     validUntil: '2024-12-31',
     institution: 'Classie',
     profileImage: 'https://img.freepik.com/premium-photo/character-portrait-albert-einstein-generate-by-ai_978242-594.jpg?w=2000',
     bloodGroup: 'O+',
-    emergencyContact: '+1 234 567 8900'
+    emergencyContact:profileDetails.length!=0? profileDetails.contact_info.phone_number:"NA"
   };
 
   const handleDownload = () => {
