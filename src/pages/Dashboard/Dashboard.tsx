@@ -10,14 +10,17 @@ import Updates from '@/components/dashboard/Updates';
 import { FONTS } from '@/constants/uiConstants';
 import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
 import DashCalender from '@/components/ui/calendarDash';
+import { useDispatch } from 'react-redux';
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
+	const dispatch = useDispatch()
 	const [DashBoardData, setDashBoardData] = useState<any>([]);
 
 	useEffect(() => {
-
-	}, []);
+		dispatch(getDashBoardReports())
+	}, [dispatch]);
 
 	return (
 		<>
