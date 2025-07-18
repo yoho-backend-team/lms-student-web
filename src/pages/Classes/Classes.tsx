@@ -32,6 +32,7 @@ const Classes = () => {
   };
 
   useEffect(() => {
+
     fetchClassData(activeTab);
   }, []);
 

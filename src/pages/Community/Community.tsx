@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import Communityside from '../../components/community/communityside';
-import {getAllCommunities } from '../../features/community/redux/commuityThunk'; // Fixed filename
+import Communityside from '../../components/community/communityside';// Fixed filename
 import { useAppDispatch } from '../../features/community/redux/hooks';
-
+import { getAllCommunitiesData } from '@/features/community/redux/commuityThunk';
 
 
 const Community = () => {
@@ -11,8 +10,7 @@ const Community = () => {
   useEffect(() => {
     const fetchData = async () => {
       try { 
-        const data = "";
-        dispatch(getAllCommunities(data)); 
+        dispatch(getAllCommunitiesData('')); 
       } catch (error) {
         console.error('Community fetch error:', error);
       }
