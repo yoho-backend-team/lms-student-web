@@ -4,6 +4,7 @@ import TicketSlice from "../features/Tickets/reducer/TicketSlice";
 import ClassSlice from '../features/classes/reducers/classslice'
 import ClassIdSlice from '../features/Classid/reducers/classidslice'
 import AttendanceSlice from '../features/Attendance/reducer/AttendanceSlice'
+import CourseSlice from '../features/Course/reducer/CourseSlice'
 
 const store = configureStore({
 	reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
 		TicketSlice: TicketSlice,
 		ClassSlice: ClassSlice,
 		ClassIdSlice: ClassIdSlice,
-		AttendanceSlice: AttendanceSlice 
+		AttendanceSlice: AttendanceSlice,
+		CourseSlice: CourseSlice 
 		
 	},
 });
