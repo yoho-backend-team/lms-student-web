@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
-import ClassSlice from '../features/classes/reducers/ClassSlice'
+import TicketSlice from "../features/Tickets/reducer/TicketSlice";
 
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
-		ClassSlice: ClassSlice,
+		TicketSlice: TicketSlice,
 		
 	},
 });
