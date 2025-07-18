@@ -22,6 +22,7 @@ export const getAllCommunities = createAsyncThunk(
   async (searchParam: string, thunkAPI) => {
     try {
       const data = await fetchCommunitiesService(searchParam);
+      console.log('thunks data',data)
       return data;
     } catch (err: any) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

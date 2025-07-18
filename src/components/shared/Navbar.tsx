@@ -62,13 +62,15 @@ const Navbar = () => {
 	const handleLogout = async () => {
 		try {
 			const response = await getStudentLogoutClient({});
-			console.log(response);
-		} catch (error) {
-			console.log(error);
+			if(response){
+				setshowProfileSection(false);
+			   logout();
+			  navigate('/login');
+			}
+		} catch (error: any) {
+			console.log(error.message);
+			
 		}
-		// setshowProfileSection(false);
-		// logout();
-		// navigate('/login');
 	};
 
 	return (
@@ -91,10 +93,10 @@ const Navbar = () => {
 				</Card>
 
 				<div className='flex lg:gap-10 md:gap-5'>
-					{navItems.map((item) => (
+					{navItems?.map((item, index) => (
 						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
 							<Card
-								key={item.path}
+								key={item.path || index}
 								className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
 								style={{
 									boxShadow:

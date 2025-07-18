@@ -3,6 +3,7 @@ import msgframe from "../../assets/icons/community/Frame 5185.png";
 import doubleicon from '../../assets/icons/community/Group 210.png';
 import cursor from '../../assets/icons/community/Icon.png'
 
+
 const communityside = () => {
  const [selectedChat, setSelectedChat] = useState(null);
   const [inputMessage, setInputMessage] = useState('');

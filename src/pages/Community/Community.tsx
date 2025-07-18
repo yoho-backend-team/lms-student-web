@@ -2,11 +2,16 @@ import { useEffect } from 'react';
 import Communityside from '../../components/community/communityside';
 import {getAllCommunities } from '../../features/community/redux/commuityThunk'; // Fixed filename
 import { useAppDispatch } from '../../features/community/redux/hooks';
+import { useSelector } from 'react-redux';
+import { selectCommunities } from '@/features/community/redux/communitySelector';
 
 
 
 const Community = () => {
   const dispatch = useAppDispatch();
+
+  const Data = useSelector(selectCommunities);
+  console.log('final data',Data)
 
   useEffect(() => {
     const fetchData = async () => {
