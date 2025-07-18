@@ -7,6 +7,7 @@ import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
 import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
 import ProfileSlice from '../features/Profile/reducers/ProfileSlice';
 import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice';
+import communityReducer from '../features/community/redux/communitySlice';
 
 const store = configureStore({
 	reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
 		NotificationSlice:NotificationSlice,
 		ProfileSlice: ProfileSlice,
 		ActivityLogsSlice: ActivityLogsSlice,
+        community: communityReducer,
 	},
 });
 

@@ -4,7 +4,11 @@ import doubleicon from '../../assets/icons/community/Group 210.png';
 import cursor from '../../assets/icons/community/Icon.png'
 
 const communityside = () => {
-  const [selectedChat, setSelectedChat] = useState(null);
+ const [selectedChat, setSelectedChat] = useState(null);
+  const [inputMessage, setInputMessage] = useState('');
+  const [messages, setMessages] = useState([
+    { text: "Hii", time: "1:15 PM", isUser: false },    
+  ]);
 
  const chats = [
     {
@@ -23,6 +27,27 @@ const communityside = () => {
   const handleChatClick = (chat) => {
     setSelectedChat(chat);
   };
+
+  const handleSendMessage = () => {
+    if (inputMessage.trim() === '') return;
+    
+    const newMessage = {
+      text: inputMessage,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      isUser: true
+    };
+    
+    setMessages([...messages, newMessage]);
+    setInputMessage('');
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  };
+
+
 
 
   return (
@@ -46,7 +71,7 @@ const communityside = () => {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-              >
+              > 
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -60,7 +85,8 @@ const communityside = () => {
 
 
  {chats.map(chat => (          
- <div  key={chat.id}  className={`" relative z-10 flex items-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] justify-between p-3 bg-[#EBEFF3] rounded-lg "
+ <div  key={chat.id}  className={`" relative z-10 flex items-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] justify-between p-3 bg-[#EBEFF3] rounded-lg     shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]
+                        overflow-hidden transform transition-all  shadow-lg "
                 
                 ${selectedChat?.id === chat.id ? 'bg-[#EBEFF3]' : ''}`}
               onClick={() => handleChatClick(chat)}
@@ -86,7 +112,7 @@ const communityside = () => {
         </div>
         
 
-           <div className="w-2/3 flex flex-col">
+           <div className="w-2/3 flex flex-col ">
         {selectedChat ? (
           <>
         
@@ -99,6 +125,7 @@ const communityside = () => {
               </div>
               </div>
         
+
           
             <div className="flex-1 p-4 bg-[#EBEFF3]  w-full   h-[600px] overflow-y-auto relative">
               <div className="absolute inset-0 border-2  rounded-xl pointer-events-none"></div>
@@ -120,28 +147,19 @@ const communityside = () => {
                   type="text" 
                   placeholder="Type a Message" 
                   className="flex w-80 border  border-[#F4F7F9] rounded-lg py-2 btnshadow px-4 focus:outline-none focus:ring-2 focus:ring-blue-200 w-10 "
+                  value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      onKeyPress={handleKeyPress}
                 />
-                <button className=" bg-[#EBEFF3] ml text-white rounded-sm shadow-inner p-2 ">
-                  
+                <button className=" bg-[#EBEFF3] ml text-white rounded-sm shadow-inner p-2 "
+                  onClick={handleSendMessage}>
                      <img src={cursor} className="h-5 w-5" />
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" /> 
                  
                 </button>
+
               </div>
             </div> 
-{/*             
-<div className="p-4 border-t bg-[#EBEFF3] mt-[340px]">
-  <div className="flex items-center">
-    <input 
-      type="text" 
-      placeholder="Type a Message" 
-      className="flex border border-gray-300 w-20 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-200"
-    />
-    <button className="ml-2 bg-[#EBEFF3] text-white rounded-sm shadow-inner p-2">
-      <img src={cursor} className="h-5 w-5" />
-    </button>
-  </div>
-</div> */}
 
              </div>
           </>
@@ -149,7 +167,7 @@ const communityside = () => {
         
 <div className="flex-1 min-w-0 bg-[#EBEFF3] rounded-xl 
                         shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_10px_10px_-5px_rgba(0,0,0,0.04)]
-                        overflow-hidden transform transition-all hover:shadow-2xl shadow-lg">
+                        overflow-hidden transform transition-all  shadow-lg">
           <div className="relative p-4 h-full">
             <div className="inset-0 border-2 border-gray-100 rounded-t-xl pointer-events-none"></div>
       
@@ -172,3 +190,4 @@ const communityside = () => {
 }
 
 export default communityside;
+
