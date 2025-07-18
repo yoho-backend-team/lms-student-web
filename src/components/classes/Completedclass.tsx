@@ -168,6 +168,7 @@ const [showFilters, setShowFilters] = useState(false);
                         cursor-pointer"'
               
             >
+              
             <table className="w-full">
               <tbody>
                 <tr className="flex justify-around items-center my-1" style={{ ...FONTS.heading_06 }}>
