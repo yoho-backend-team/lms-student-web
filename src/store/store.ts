@@ -2,14 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import AuthSlice from '../features/Authentication/reducers/AuthSlice';
 import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
 import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
-import ProfileSlice from '../features/Profile/reducers/ProfileSlice'
+import ProfileSlice from '../features/Profile/reducers/ProfileSlice';
+import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice';
 
 const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
-		PaymentSlice:PaymentSlice,
-		NotificationSlice:NotificationSlice,
-		ProfileSlice:ProfileSlice,
+		PaymentSlice: PaymentSlice,
+		NotificationSlice: NotificationSlice,
+		ProfileSlice: ProfileSlice,
+		ActivityLogsSlice: ActivityLogsSlice,
 	},
 });
 

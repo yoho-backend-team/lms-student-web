@@ -4,8 +4,8 @@ import HTTP_END_POINTS from './http_Endpoints';
 
 class Client {
 	student = {
-		login: (data: any) =>
-			httpClient.post(HTTP_END_POINTS.auth.login, data, 'student'),
+		login: (data: any, params: any) =>
+			httpClient.post(HTTP_END_POINTS.auth.login, data, params, 'student'),
 		logout: (params: any) =>
 			httpClient.post(HTTP_END_POINTS.auth.log_out, params, 'student'),
 		verifyOtp: (data: any, params: any) =>
@@ -55,7 +55,11 @@ class Client {
 		},
 		payment: {
 			get: (params: any) =>
-				httpClient.get(HTTP_END_POINTS.payments.getFees+params.paymentId, {}, 'student'),
+				httpClient.get(
+					HTTP_END_POINTS.payments.getFees + params.paymentId,
+					{},
+					'student'
+				),
 		},
 		// attendance : (params) => httpClient.get(HTTP_END_POINTS.Student.attendance,params,"student"),
 		attendance: {
