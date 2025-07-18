@@ -6,6 +6,7 @@ const store = configureStore({
 	reducer: {
 		AuthSlice: AuthSlice,
 		TicketSlice: TicketSlice,
+		
 	},
 });
 

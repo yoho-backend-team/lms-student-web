@@ -26,7 +26,7 @@ const getEndpoints = (): Endpoints => {
 			getFees: `/institutes/payments/student-fee/:studentId`,
 		},
 		ticket: {
-			create: '/institutes/student-ticket/create',
+			create: '/api/institutes/student-ticket/create',
 			get: '/api/institutes/student-ticket/getall',
 			getById: '/institutes/student-ticket/',
 		},

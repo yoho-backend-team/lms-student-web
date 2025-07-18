@@ -9,9 +9,14 @@ const   TicketSlice = createSlice({
 	reducers: {
 		getticketdetails: (state, action) => {
 			state.data = action.payload;
+
 		},
+		createticketdeatils: (state,action) =>{
+			state.data = action.payload;
+		}
+		
 	},
 });
 
-export const { getticketdetails } = TicketSlice.actions;
+export const { getticketdetails, createticketdeatils } = TicketSlice.actions;
 export default TicketSlice.reducer;

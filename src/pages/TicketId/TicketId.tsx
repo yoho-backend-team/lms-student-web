@@ -23,7 +23,6 @@ const TicketId = () => {
     navigate(-1);
   }
 
-  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { 
@@ -34,7 +33,6 @@ const TicketId = () => {
       minute: "2-digit"
     });
   };
-
 
   const getSenderName = (senderType: string) => {
     switch(senderType) {
@@ -65,55 +63,56 @@ const TicketId = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="bg-[#ebeff3] h-[650px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]" style={{ ...FONTS.heading_04 }}>
+        <Card className="bg-[#ebeff3] h-[550px] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]" style={{ ...FONTS.heading_04 }}>
           <CardHeader>
             <CardTitle>
-              <h1>#{id} {ticket?.query || 'This ticket was created from the Instructor Mobile App'}</h1>
+              <h1>#{id} {ticket?.query || 'This ticket was created from the student Mobile App'}</h1>
             </CardTitle>
           </CardHeader>
 
-          <div className="flex flex-col-reverse gap-4">
-           
-            {ticket?.messages?.map((message: any) => (
-              <Card 
-                key={message._id}
-                className={`w-[250px] h-auto ${
-                  message.senderType === "InstituteAdmin" 
-                    ? "self-start ml-10" 
-                    : "self-end mr-10"
-                } bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]`}
-              >
-                <CardContent className="pb-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <p className="text-sm !text-gray-800 font-medium" style={{ ...FONTS.para_01, fontSize: '15px' }}>
-                      {getSenderName(message.senderType)}
-                    </p>
-                    <p className="text-xs !text-gray-500" style={{ ...FONTS.para_01, fontSize: '12px' }}>
-                      {formatDate(message.date)}
-                    </p>
-                  </div>
-                  {message.senderType === "InstituteAdmin" && message.content.toLowerCase().includes("problem solved") ? (
-                    <div className="flex justify-end pt-6 pl-6">
-                      <Button
-                        className="px-2 py-1 text-xs rounded-sm bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white 
-                        shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] 
-                        hover:opacity-90 transition"
-                        style={{ ...FONTS.para_01, fontSize: '15px' }}
-                      >
-                        {message.content}
-                      </Button>
+          <CardContent className="overflow-y-auto h-[500px] pb-4 scrollbar-hide"> {/* Added overflow and height */}
+            <div className="flex flex-col-reverse gap-4">
+              {ticket?.messages?.map((message: any) => (
+                <Card 
+                  key={message._id}
+                  className={`w-[250px] h-auto ${
+                    message.senderType === "InstituteAdmin" 
+                      ? "self-start ml-10" 
+                      : "self-end mr-10"
+                  } bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]`}
+                >
+                  <CardContent className="pb-3 ">
+                    <div className="flex justify-between items-center mb-2 ">
+                      <p className="text-sm !text-gray-800 font-medium" style={{ ...FONTS.para_01, fontSize: '15px' }}>
+                        {getSenderName(message.senderType)}
+                      </p>
+                      <p className="text-xs !text-gray-500" style={{ ...FONTS.para_01, fontSize: '12px' }}>
+                        {formatDate(message.date)}
+                      </p>
                     </div>
-                  ) : (
-                    <p className="text-sm !text-gray-700 pt-6 pl-6" style={{ ...FONTS.para_01, fontSize: '14px' }}>
-                      {message.content}
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    {message.senderType === "InstituteAdmin" && message.content.toLowerCase().includes("problem solved") ? (
+                      <div className="flex justify-end pt-6 pl-6">
+                        <Button
+                          className="px-2 py-1 text-xs rounded-sm bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white 
+                          shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] 
+                          hover:opacity-90 transition"
+                          style={{ ...FONTS.para_01, fontSize: '15px' }}
+                        >
+                          {message.content}
+                        </Button>
+                      </div>
+                    ) : (
+                      <p className="text-sm !text-gray-700 pt-6 pl-6" style={{ ...FONTS.para_01, fontSize: '14px' }}>
+                        {message.content}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
 
-          <CardFooter className="absolute top-[680px] px-4">
+          <CardFooter className="px-4">
             <div className="flex items-center w-full gap-3">
               <div className="p-2 bg-[#ebeff3] rounded-md">
                 <img
