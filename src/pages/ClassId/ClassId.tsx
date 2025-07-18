@@ -3,16 +3,37 @@ import classImg from '../../assets/classes/Mask group.png'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backImg from '../../assets/classes/back.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIdClass } from '@/features/Classid/reducers/selector';
+import { useEffect } from 'react';
+import { getClassIdDetail } from '@/features/Classid/reducers/thunks';
+import type { AppDispatch } from '@/store/store';
 
 const ClassId = () => {
-	const { id } = useParams();
+    const { id } = useParams();
+    const dispatch = useDispatch<AppDispatch>();
 
 	// handle backpage button function
+
+    const classIdData = useSelector(selectIdClass);
+
+    console.log('classIdData:',classIdData);
+
+    useEffect(() => {
+		if (id) {
+			dispatch(getClassIdDetail({ 
+                id,
+            course: id,
+            classType: 'online', }));
+		}
+	}, [id, dispatch]);
 
 	const navigate = useNavigate();
 	const handleBackPage = () => {
 		navigate(-1);
 	}
+
+    const startDate = new Date(classIdData.data?.start_date)
 
 	return(
 	 <div className='mb-4'>
@@ -21,7 +42,7 @@ const ClassId = () => {
 		<div onClick={handleBackPage} className='p-2 rounded-lg bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'>
 			<img src={backImg} alt="back-img" />
 		</div>	
-		<h1 style={{...FONTS.heading_01}} >Class Details  -{id}</h1>
+		<h1 style={{...FONTS.heading_01}} >Class Details  -{classIdData.data?.id}</h1>
 		</div>
 
 		{/* card section */}
@@ -29,10 +50,10 @@ const ClassId = () => {
         {/* Left side card */}
         <Card style={{backgroundColor:COLORS.bg_Colour}} className='px-4 py-1 h-[400px]'>
             <CardHeader>
-                <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] mb-4'> Batch No: #13</CardTitle>
+                <CardTitle style={{...FONTS.heading_01}} className='!text-[#7B00FF] mb-4'> Batch No: #{classIdData.data?.batch?.id}</CardTitle>
                 <CardDescription>
-                    <h2 style={{...FONTS.heading_02}} className='text-[#2A2A2A] mb-2'>The Path Of MERN Stack</h2>
-                    <p style={{...FONTS.para_02}} >The Path of MERN Stack involves mastering four powerful technologies: MongoDB, Express.js, React.js, and Node.js. This stack enables developers to build full-stack web applications using JavaScript from frontend to backend. .</p>
+                    <h2 style={{...FONTS.heading_02}} className='text-[#2A2A2A] mb-2'>{classIdData.data?.class_name}</h2>
+                    <p style={{...FONTS.para_02}} >{classIdData.data?.course?.description}</p>
                 </CardDescription>
             </CardHeader>
 
@@ -49,10 +70,26 @@ const ClassId = () => {
                         </thead>
                         <tbody style={{...FONTS.heading_04}} className='!text-[#ffffff]'>
                             <tr>
-                                <td>10 Mar 2025</td>
-                                <td>9.30 Am</td>
-                                <td>6.00 Pm</td>
-                                <td>6 Month</td>
+                                <td>{classIdData.data?.start_date && new Date(classIdData.data.start_date).toLocaleDateString("en-GB", {
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                })}</td>
+                                <td> {classIdData.data?.start_time &&
+                                        new Date(classIdData.data.start_time).toLocaleString("en-IN", {
+                                          hour: "numeric",
+                                          minute: "numeric",
+                                          hour12: true,
+                                          timeZone: "Asia/Kolkata", // explicitly show IST time
+                                        }).toUpperCase()}</td>
+                                <td>{classIdData.data?.end_time &&
+                                        new Date(classIdData.data.end_time).toLocaleString("en-IN", {
+                                          hour: "numeric",
+                                          minute: "numeric",
+                                          hour12: true,
+                                          timeZone: "Asia/Kolkata", // explicitly show IST time
+                                        }).toUpperCase()}</td>
+                                <td>{classIdData.data?.course?.durationInMonths} Month</td>
                             </tr>
                         </tbody>
                     </table>
