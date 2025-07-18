@@ -21,7 +21,7 @@ const Assesments = () => {
 
     return (
         <>
-            <Card className="w-[440px] h-[300px] p-5 flex flex-col items-start gap-2.5 relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
+            <Card className="w-full h-[300px] p-5 flex flex-col items-start gap-2.5 relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
                 <CardContent className="flex flex-col w-[400px] items-start gap-5 relative flex-[0_0_auto] p-0">
                     <div className="relative self-stretch mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-semibold text-black text-xl tracking-[0] leading-[normal]">
                         Assesments
