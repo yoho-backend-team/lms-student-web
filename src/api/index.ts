@@ -116,7 +116,7 @@ class Client {
 		},
 		help: {
 			get: (params: any) =>
-				httpClient.get(`${HTTP_END_POINTS.help.get}`, params, 'student'),
+				httpClient.get(HTTP_END_POINTS.help.get, params, 'student'),
 		},
 
 		community: {

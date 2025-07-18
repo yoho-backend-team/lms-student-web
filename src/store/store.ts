@@ -11,6 +11,7 @@ import communityReducer from '../features/community/redux/communitySlice';
 import DashBoardSlice from '../features/Dashboard/reducers/slices'
 import AttendanceSlice from '../features/Attendance/reducer/AttendanceSlice'
 import CourseSlice from '../features/Course/reducer/CourseSlice'
+import HelpSlice from '../features/HelpCenter/HelpSlice';
 
 const store = configureStore({
 	reducer: {
@@ -25,8 +26,8 @@ const store = configureStore({
         community: communityReducer,
 		dashboard: DashBoardSlice,
 		AttendanceSlice: AttendanceSlice,
-		CourseSlice: CourseSlice 
-		
+		CourseSlice: CourseSlice, 
+		HelpSlice:HelpSlice,
 	},
 });
 
