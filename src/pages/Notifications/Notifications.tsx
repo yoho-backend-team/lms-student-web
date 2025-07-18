@@ -9,107 +9,103 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import bellImg from '../../assets/icons/notifications/image 90.png';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllNotificationsThunk } from '@/features/Notifications/reducers/thunks';
+import { selectNotifications } from '@/features/Notifications/reducers/selectors';
+import { deleteNotification, updateNotificationStatus } from '@/features/Notifications/services';
 
 interface Notification {
 	id: string;
-	date: string;
+	createdAt: string;
 	title: string;
-	description: string;
+	body: string;
 	status: 'read' | 'unread';
 }
 
-const notificationData: Notification[] = [
-	{
-		id: '1',
-		date: '28 April',
-		title: 'Notification title 1',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'read',
-	},
-	{
-		id: '2',
-		date: '30 June',
-		title: 'Notification title 2',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'unread',
-	},
-	{
-		id: '3',
-		date: '2 July',
-		title: 'Notification title 3',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'unread',
-	},
-	{
-		id: '4',
-		date: '14 July',
-		title: 'Notification title 4',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'read',
-	},
-	{
-		id: '5',
-		date: '14 July',
-		title: 'Notification title 5',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'read',
-	},
-	{
-		id: '6',
-		date: '14 July',
-		title: 'Notification title 6',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad',
-		status: 'read',
-	},
-];
 
 const Notifications = () => {
+	const dispatch = useDispatch<any>();
+	const Notifications = useSelector(selectNotifications)
 	const [filter, setFilter] = useState<'all' | 'read' | 'unread'>('all');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [selectedNotification, setSelectedNotification] =
 		useState<Notification | null>(null);
 	const navigate = useNavigate();
 
-	const filteredNotifications = notificationData
-		.filter((notification) => {
+	useEffect(() => {
+		dispatch(getAllNotificationsThunk({}));
+	}, [dispatch, selectedNotification]);
+
+
+
+	const filteredNotifications = Notifications
+		.filter((notification: any) => {
 			if (filter === 'all') return true;
 			return notification.status === filter;
 		})
-		.filter((notification) => {
+		.filter((notification: any) => {
 			if (!searchTerm) return true;
 			return (
 				notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				notification.description
+				notification.body
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				notification.date.toLowerCase().includes(searchTerm.toLowerCase())
+				formatDateToNormal(notification.createdAt).toLowerCase().includes(searchTerm.toLowerCase())
 			);
 		});
 
-	const totalMessages = notificationData.length;
-	const unreadMessages = notificationData.filter(
-		(n) => n.status === 'unread'
+	const totalMessages = Notifications.length;
+	const unreadMessages = Notifications.filter(
+		(n:any) => n.status === 'unread'
 	).length;
 
 	const handleClearSearch = () => {
 		setSearchTerm('');
 	};
 
-	const handleNotificationClick = (notification: Notification) => {
+	const handleNotificationClick = async (notification: any) => {
 		setSelectedNotification(notification);
+		try {
+			const response = await updateNotificationStatus({
+				uuid: notification?.uuid, status: 'read'
+			})
+			console.log(response, "Response from update notification status")
+		}
+		catch (error) {
+			console.error('Error updating notification status:', error);
+		}
 	};
+
+
+	const handleDeleteNotification = async (notification: any) =>{
+		try{
+			const response = await deleteNotification({
+				uuid: notification?.uuid
+			})
+			console.log(response, "Response from delete notification")
+			setSelectedNotification(null);
+		}
+		catch (error) {
+			console.error('Error deleting notification:', error);
+		}
+	}
+
+
+	function formatDateToNormal(isoString: any) {
+		const date = new Date(isoString);
+
+		const day = String(date.getUTCDate()).padStart(2, '0');
+		const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-based
+		const year = date.getUTCFullYear();
+
+		return `${day}-${month}-${year}`;
+	}
 
 	return (
 		<div className='py-4'>
@@ -173,10 +169,9 @@ const Notifications = () => {
 							<Button
 								key={label}
 								className={`w-[75px]
-                  ${
-										filter === label
-											? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white'
-											: 'bg-[#ebeff3] text-black hover:bg-[#ebeff3] hover:text-black'
+                  ${filter === label
+										? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white'
+										: 'bg-[#ebeff3] text-black hover:bg-[#ebeff3] hover:text-black'
 									} 
                   shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]
                   cursor-pointer
@@ -191,14 +186,13 @@ const Notifications = () => {
 
 					<div className='flex flex-col w-full gap-3 px-2 py-3 scrollbar-hide'>
 						{filteredNotifications?.length > 0 ? (
-							filteredNotifications?.map((notification) => (
+							filteredNotifications?.map((notification: any) => (
 								<Card
 									key={notification?.id}
-									className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${
-										notification?.status === 'unread'
-											? 'border-l-4 border-[#7b00ff]'
-											: 'border-l-4 border-[#ebeff3]'
-									}`}
+									className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${notification?.status === 'unread'
+										? 'border-l-4 border-[#7b00ff]'
+										: 'border-l-4 border-[#ebeff3]'
+										}`}
 									onClick={() => handleNotificationClick(notification)}
 								>
 									<CardHeader>
@@ -216,7 +210,7 @@ const Notifications = () => {
 															className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
 															variant='outline'
 														>
-															{notification?.date}
+															{formatDateToNormal(notification?.createdAt)}
 														</Button>
 													</DialogTrigger>
 												</Dialog>
@@ -225,7 +219,7 @@ const Notifications = () => {
 									</CardHeader>
 									<CardContent>
 										<p style={{ ...FONTS.heading_07 }} className=''>
-											{notification?.description}
+											{notification?.body}
 										</p>
 									</CardContent>
 								</Card>
@@ -258,30 +252,31 @@ const Notifications = () => {
 										className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
 										variant='outline'
 									>
-										{selectedNotification?.date}
+										{formatDateToNormal(selectedNotification?.createdAt)}
 									</Button>
 								</div>
 								<div className='my-3'>
 									<p style={{ ...FONTS.heading_06 }}>
-										{selectedNotification?.description}
+										{selectedNotification?.body}
 									</p>
 								</div>
 								<div className='flex justify-end mt-5'>
 									<Button
-										className='bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white'
+										className='bg-gradient-to-l from-[#ff0000] to-[#ff3300] text-white rounded-lg shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#ff0000_inset,-4px_-8px_10px_0px_#ff0000_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] hover:text-white cursor-pointer'
 										variant='outline'
 										style={{ color: COLORS.white }}
+										onClick={() => handleDeleteNotification(selectedNotification)}
 									>
-										Status: {selectedNotification?.status}
+										Delete
 									</Button>
 								</div>
 							</div>
 						) : filteredNotifications?.length > 0 ? (
-							<div className='relative'>
+							<div className=''>
 								<p style={{ ...FONTS.para_01 }}>
 									Select a notification to view details
 								</p>
-								<div className='absolute top-32 left-44'>
+								<div className='flex justify-center items-center pt-28 h-full'>
 									<img src={bellImg} alt='notifications' />
 								</div>
 							</div>
