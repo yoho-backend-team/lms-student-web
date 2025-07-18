@@ -27,14 +27,13 @@ const Login = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 	const { login } = useAuth();
-	const TokenSelector = useSelector(selectToken);
 
 	const onSubmit = async (data: LoginData) => {
 		try {
 			if (data.email) {
 				const response: any = await dispatch(getStudentLogin(data, {}));
 				if (response) {
-					login(TokenSelector);
+					login(response);
 					navigate('/');
 				}
 			}
