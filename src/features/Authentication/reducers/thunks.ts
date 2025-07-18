@@ -20,3 +20,4 @@ export const  getStudentLogout = (params:any)=> async ()=>{
 		console.log(error)
 	}
 }
+

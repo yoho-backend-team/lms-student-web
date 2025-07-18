@@ -30,7 +30,7 @@ const Login = () => {
 	const onSubmit = async (data: LoginData) => {
 		try {
 			if (data.email) {
-				const response: any = await dispatch(getStudentLogin(data));
+				const response: any = await dispatch(getStudentLogin(data,{}));
 				if (response) {
 					login(response);
 					navigate('/');
