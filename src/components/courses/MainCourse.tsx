@@ -8,8 +8,7 @@ import { selectCourse } from '@/features/Course/reducer/selector';
 const courses = [
   {
     title: 'MERN STACK',
-    description:
-      'The MERN stack is a popular JavaScript-based framework used for building full-stack web applications.',
+    description:'The MERN stack is a popular JavaScript-based framework used for building full-stack web applications.',
     image: humanimg,
     modules: '1 Module',
     duration: '30 Days',
