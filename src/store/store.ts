@@ -5,7 +5,7 @@ import ClassSlice from '../features/classes/reducers/classslice'
 import ClassIdSlice from '../features/Classid/reducers/classidslice'
 import PaymentSlice from '../features/Payment/reducers/PaymentSlice';
 import NotificationSlice from '../features/Notifications/reducers/NotificationSlice';
-import ProfileSlice from '../features/Profile/reducers/ProfileSlice';
+import ProfileSlice from '../features/Profile/reducers/profileSlice';
 import ActivityLogsSlice from '../features/ActivityLog/reducers/ActivitySlice';
 import communityReducer from '../features/community/redux/communitySlice';
 import DashBoardSlice from '../features/Dashboard/reducers/slices'
