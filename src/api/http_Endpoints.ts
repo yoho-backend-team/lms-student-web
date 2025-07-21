@@ -15,8 +15,8 @@ const getEndpoints = (): Endpoints => {
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {
-			get: `/institutes/class/:courseId`,
-			getwithId: `/institutes/class/course/`,
+			get: `/api/institutes/class/`,
+			getwithId: `/api/institutes/class/course/`,
 		},
 		attendance: {
 			get: '/institutes/attedance/student-attendance/',
@@ -26,8 +26,8 @@ const getEndpoints = (): Endpoints => {
 			getFees: `/api/institutes/payments/student-fee/`,
 		},
 		ticket: {
-			create: '/institutes/student-ticket/create',
-			get: '/institutes/student-ticket/getall',
+			create: '/api/institutes/student-ticket/create',
+			get: '/api/institutes/student-ticket/getall',
 			getById: '/institutes/student-ticket/',
 		},
 		notification: {

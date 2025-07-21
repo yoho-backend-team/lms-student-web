@@ -11,3 +11,4 @@ export const getStudentProfileThunk =
             console.log(error);
         }
     };
+    
