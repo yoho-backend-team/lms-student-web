@@ -31,14 +31,14 @@ import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated } = useAuth();
-
+	const { isAuthenticated, isLoading  } = useAuth();
+     if(isLoading) return null;
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
 			<Route path='forgot-password' element={<EmailVerification />} />
 			<Route path='otp-verify' element={<OtpVerification />} />
-			<Route path='change-password' element={<ChangePassword />} />
+			<Route path='reset-password' element={<ChangePassword />} />
 			<Route path='*' element={<Navigate to='/login' />} />
 		</Routes>
 	);

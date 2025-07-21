@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 
@@ -30,7 +30,7 @@ const Login = () => {
 	const onSubmit = async (data: LoginData) => {
 		try {
 			if (data.email) {
-				const response: any = await dispatch(getStudentLogin(data, {}));
+				const response: any = await dispatch(getStudentLogin(data,{}));
 				if (response) {
 					login(response);
 					navigate('/');
