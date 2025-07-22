@@ -12,6 +12,7 @@ import DashBoardSlice from '../features/Dashboard/reducers/slices'
 import AttendanceSlice from '../features/Attendance/reducer/AttendanceSlice'
 import CourseSlice from '../features/Course/reducer/CourseSlice'
 import HelpSlice from '../features/HelpCenter/HelpSlice';
+import FaqSlice from '../features/Faq/FaqSlice'
 
 const store = configureStore({
 	reducer: {
@@ -19,15 +20,16 @@ const store = configureStore({
 		TicketSlice: TicketSlice,
 		ClassSlice: ClassSlice,
 		ClassIdSlice: ClassIdSlice,
-		PaymentSlice:PaymentSlice,
-		NotificationSlice:NotificationSlice,
+		PaymentSlice: PaymentSlice,
+		NotificationSlice: NotificationSlice,
 		ProfileSlice: ProfileSlice,
 		ActivityLogsSlice: ActivityLogsSlice,
-        community: communityReducer,
+		community: communityReducer,
 		dashboard: DashBoardSlice,
 		AttendanceSlice: AttendanceSlice,
-		CourseSlice: CourseSlice, 
-		HelpSlice:HelpSlice,
+		CourseSlice: CourseSlice,
+		HelpSlice: HelpSlice,
+		FaqSlice,
 	},
 });
 
