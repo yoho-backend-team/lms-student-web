@@ -19,19 +19,19 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
     {
       id: 'profile',
       label: 'Profile Information',
-      icon: <Settings className="w-4 h-4" />,
+      icon: <Settings className="w-4 h-4 text-black" />,
       isActive: activeItem === 'profile'
     },
     {
       id: 'certificate',
       label: 'Certificate',
-      icon: <FileText className="w-4 h-4" />,
+      icon: <FileText className="w-4 h-4 text-black" />,
       isActive: activeItem === 'certificate'
     },
     {
       id: 'idcard',
       label: 'ID Card',
-      icon: <CreditCard className="w-4 h-4" />,
+      icon: <CreditCard className="w-4 h-4 text-black" />,
       isActive: activeItem === 'idcard'
     }
   ];
@@ -47,7 +47,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ activeItem = 'profile', onMen
       {menuItems.map((item) => (
         <div
           key={item.id}
-          className={`p-2 sm:p-3 rounded-lg cursor-pointer transition-all duration-200 w-full ${
+          className={`p-2 sm:p-3 rounded-lg cursor-pointer transition-all rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow  duration-200 w-full ${
             item.isActive
               ? 'shadow-[inset_3px_3px_5px_rgba(123,0,255,0.3),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
               : 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_1px_1px_2px_rgba(189,194,199,0.5)]'
