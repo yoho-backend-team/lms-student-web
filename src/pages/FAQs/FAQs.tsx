@@ -6,10 +6,11 @@ import { useDispatch } from 'react-redux';
 
 const FAQs = () => {
 
-	const dispatch = useDispatch<any>()
+	const dispatch = useDispatch<any>();
 
 	useEffect(() => {
-		getFaqThunk(dispatch)
+		// getFaqThunk(dispatch)
+		dispatch(getFaqThunk());
 	}, [dispatch]);
 
 	return <FAQInterface />;

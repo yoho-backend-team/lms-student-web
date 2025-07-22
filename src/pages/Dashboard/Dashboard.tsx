@@ -15,10 +15,10 @@ import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
-	const dispatch = useDispatch()
+	const dispatch = useDispatch<any>()
 
 	useEffect(() => {
-		getDashBoardReports(dispatch)
+		dispatch(getDashBoardReports());
 	}, [dispatch]);
 
 	return (
