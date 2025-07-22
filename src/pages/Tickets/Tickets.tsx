@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import {
   Card,
   CardAction,
@@ -19,6 +18,16 @@ import { getStudentticket } from "@/features/Tickets/reducer/thunks";
 import type { AppDispatch } from "@/store/store";
 import { selectTicket } from "@/features/Tickets/reducer/selectors";
 
+interface Ticket {
+  _id: string;
+  ticket_id: string;
+  query: string;
+  description: string;
+  status: string;
+  date: string;
+  messages?: any[];
+}
+
 const Tickets = () => {
   const [filter, setFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +36,6 @@ const Tickets = () => {
   const dispatch = useDispatch<AppDispatch>();
   const ticketData = useSelector(selectTicket);
   
- 
   const memoizedTickets = useMemo(() => {
     return ticketData?.data?.tickets || [];
   }, [ticketData]);
@@ -36,22 +44,22 @@ const Tickets = () => {
     navigate("/tickets/create-ticket");
   };
 
-  
   const filteredTickets = useMemo(() => {
     if (filter === "all") return memoizedTickets;
-    return memoizedTickets.filter((ticket) => {
+    return memoizedTickets.filter((ticket: Ticket) => {
       if (filter === "open") return ticket.status === "opened";
       if (filter === "closed") return ticket.status === "closed";
       return false;
     });
   }, [memoizedTickets, filter]);
 
- 
   const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
-  const paginatedTickets = filteredTickets.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedTickets = useMemo(() => {
+    return filteredTickets.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+  }, [filteredTickets, currentPage, itemsPerPage]);
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -63,7 +71,6 @@ const Tickets = () => {
     dispatch(getStudentticket({ page: 1, limit: 10 }));
   }, [dispatch]);
 
-  
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -107,7 +114,7 @@ const Tickets = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 gap-6 w-full">
-        {paginatedTickets.map((ticket) => (
+        {paginatedTickets.map((ticket: Ticket) => (
           <Card
             key={ticket._id}
             onClick={() => navigate(`/ticket/${ticket.ticket_id}`, { state: ticket })}
@@ -174,8 +181,9 @@ const Tickets = () => {
         ))}
       </div>
 
-      {totalPages > 1 && (
+      {totalPages >= 1 && (
         <div className="flex justify-end items-center mt-10 gap-2">
+          
           <Button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -186,24 +194,21 @@ const Tickets = () => {
             <ChevronLeft size={20} />
           </Button>
 
-          {[...Array(totalPages)].map((_, index) => {
-            const isActive = currentPage === index + 1;
-            return (
-              <Button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={`rounded-full w-10 h-10 px-0 transition-all duration-200 cursor-pointer
-                  ${
-                    isActive
-                      ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white hover:from-[#7B00FF] hover:bg-gradient-to-1 hover:to-[#B200FF] hover:text-white "
-                      : "bg-[#ebeff3] text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),_inset_2px_2px_3px_rgba(189,194,199,0.75)]  "
-                  }`}
-                variant="ghost"
-              >
-                {index + 1}
-              </Button>
-            );
-          })}
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+            <Button
+              key={pageNumber}
+              onClick={() => handlePageChange(pageNumber)}
+              className={`rounded-full w-10 h-10 px-0 transition-all duration-200 cursor-pointer
+                ${
+                  currentPage === pageNumber
+                    ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white"
+                    : "bg-[#ebeff3] text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),_inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+                }`}
+              variant="ghost"
+            >
+              {pageNumber}
+            </Button>
+          ))}
 
           <Button
             onClick={() => handlePageChange(currentPage + 1)}

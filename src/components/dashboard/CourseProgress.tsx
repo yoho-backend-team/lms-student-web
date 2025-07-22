@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 // import Progress3D from './ui/Progress3D'
 // import { FONTS } from '@/constants/uiConstants'
@@ -5,10 +6,16 @@ import React from 'react'
 import { Card, CardContent } from '../ui/card'
 import eclip from '../../assets/dashboard/ellipse-2-4.svg'
 import dots from '../../assets/dashboard/dotcircle.png'
+import { useSelector } from 'react-redux'
 
 const CourseProgress: React.FC = () => {
     // const navigate = useNavigate()
-    const progress = 30
+
+    const CourseProgress = useSelector((state: any) => state.dashboard.data.classes) ?? []
+
+    console.log(CourseProgress)
+
+    const progress = CourseProgress?.[0]?.total
     const radius = 80
     const circumference = 2 * Math.PI * radius
     const strokeDashoffset = circumference - (progress / 100) * circumference
@@ -21,8 +28,8 @@ const CourseProgress: React.FC = () => {
                         Courses Progress
                     </div>
 
-                    <div className="relative w-[242px] h-[242px]">
-                        <div className="relative w-[258px] h-[274px] -top-5 -left-1">
+                    <div className="relative w-full h-[242px]">
+                        <div className="relative w-[258px] h-[274px] -top-5 left-8">
                             <img
                                 className="absolute w-[258px] h-[258px] top-4 left-0"
                                 alt="Ellipse"
@@ -72,13 +79,13 @@ const CourseProgress: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
+                <div className="flex items-center left-6 justify-between relative self-stretch w-full flex-[0_0_auto]">
                     <div className="relative w-fit mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm tracking-[0] leading-[normal]">
                         Total Classes
                     </div>
 
                     <div className="relative w-[67px] mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm text-right tracking-[0] leading-[normal]">
-                        2 Classes
+                        {CourseProgress?.[0]?.total} Classes
                     </div>
                 </div>
             </CardContent>
