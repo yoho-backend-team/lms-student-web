@@ -1,4 +1,4 @@
-import { StoreLocalStorage } from '@/utils/helper';
+import { ClearLocalStorage, StoreLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState, } from 'react';
 import type { ReactNode } from 'react';
 
@@ -45,8 +45,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const logout = () => {
 		setUser(null);
-		localStorage.clear();
-		localStorage.removeItem('authToken');
+		// localStorage.clear();
+		// localStorage.removeItem('authToken');
+		ClearLocalStorage()
 		setIsAuthenticated(false);
 	};
 
