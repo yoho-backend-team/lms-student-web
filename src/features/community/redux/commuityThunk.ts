@@ -1,6 +1,6 @@
 // import { createAsyncThunk } from '@reduxjs/toolkit';
- import { getAllCommunities } from '../../../features/community/services/communityservices';
-import { setCommunities } from './communitySlice';
+ import { getAllCommunities, getMessage } from '../../../features/community/services/communityservices';
+import { setCommunities, setMessage } from './communitySlice';
 
 export const getAllCommunitiesData = (params:any) => async  (dispatch:any) => {
   try {
@@ -14,6 +14,17 @@ export const getAllCommunitiesData = (params:any) => async  (dispatch:any) => {
   // }
 };
 
+
+export const getMessages = (params:any) => async (dispatch : any) => {
+  try{
+    const response = await getMessage(params);
+    dispatch(setMessage(response));
+
+  }
+  catch(error){
+    console.log(error);
+  }
+}
 
 
 
