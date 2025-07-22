@@ -1,10 +1,14 @@
 import { Card } from '@/components/ui/card';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
+import { updateVerifyOtpClient } from '@/features/Authentication/services';
+import { toast } from 'react-toastify';
 
 const OtpVerification = () => {
+	  const location = useLocation();
+  const { email, data } = location.state || {};
 	const navigate = useNavigate();
 	const [otpDigits, setOtpDigits] = useState(Array(6).fill(''));
 	const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -44,9 +48,20 @@ const OtpVerification = () => {
 			setShowError(true);
 		}
 		try {
-			navigate('/change-password');
+			const params_data :any ={email,token:data?.token,otp:enteredOtp}
+			const response = await updateVerifyOtpClient(params_data,{})
+			console.log(response, 'otp response')
+			if(response){
+				toast.success('Verification  otp sent successfully!');
+				navigate('/reset-password', {
+					state:{
+						email
+					}
+				});
+			}
 		} catch (error) {
 			console.error('OTP verify error:', error);
+			  toast.error('Failed to send otp verification email');
 		}
 	};
 
@@ -81,8 +96,11 @@ const OtpVerification = () => {
 							OTP Verifications
 						</p>
 						<p style={{ ...FONTS.heading_06 }}>
-							Enter the 6 digit OTP Sent to your Mobile Number
+							Enter the 6 digit OTP sent to your Email Address
 						</p>
+						<div>
+							<p className='my-3 text-red-600 text-md font-semibold'>OTP: {data?.otp}</p>
+						</div>
 						<div className='flex gap-3 justify-center my-3'>
 							{otpDigits.map((digit, idx) => (
 								<input

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
 import HelpCenterTabs from './HelpCenterTabs.tsx';
 import HelpCenterSearch from './HelpCenterSearch.tsx';
@@ -6,6 +6,10 @@ import HelpTopicCard from './HelpTopicCard.tsx';
 import LearningResources from './LearningResources.tsx';
 import HelpCenterEmptyState from './HelpCenterEmptyState.tsx';
 import type { Tab, HelpTopic } from './types.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks.ts';
+import { getHelpThunk } from '@/features/HelpCenter/thunks.ts';
+import { selectHelpCenter } from '@/features/HelpCenter/selectors.ts';
 
 const HelpCenterMain: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Mail');
@@ -22,39 +26,62 @@ const HelpCenterMain: React.FC = () => {
     { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
   ];
 
+
+
+
+  const dispatch = useDispatch<any>();
+  const HelpDetails = useSelector(selectHelpCenter)
+  const userDetail = JSON.parse(localStorage.getItem('user') || '{}');
+
+  useEffect(() => {
+    dispatch(getStudentProfileThunk({}));
+    dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
+    console.log(HelpDetails, "Help MAin")
+  }, [dispatch]);
+
   // Common help topics for all tabs - ready for API integration
   const getHelpTopics = (category: string): HelpTopic[] => {
     // Return empty array for certain categories to demonstrate empty state
     if (category === 'Attendance' || category === 'Login & Sign Up') {
       return [];
     }
-    
+
+    // Map HelpDetails to HelpTopic objects
+    const helpDetailTopics: HelpTopic[] = Array.isArray(HelpDetails)
+      ? HelpDetails.map((item: any) => ({
+        title: item.question,
+        category: item.category,
+        description: item.answer,
+      }))
+      : [];
+
     return [
-      {
-        title: 'How to Reset password',
-        category: category,
-        description: 'Learn how to reset your password securely and regain access to your account.'
-      },
-      {
-        title: 'Close Enrollment Issue',
-        category: category,
-        description: 'Resolve issues related to course enrollment and registration problems.'
-      },
-      {
-        title: 'Payment Methods',
-        category: category,
-        description: 'Understand available payment options and how to manage your billing information.'
-      },
-      {
-        title: 'Attendance Tracking',
-        category: category,
-        description: 'Learn how attendance is tracked and how to view your attendance records.'
-      },
-      {
-        title: 'Email Notifications',
-        category: category,
-        description: 'Manage your email notification preferences and troubleshoot delivery issues.'
-      },
+      ...helpDetailTopics,
+      // {
+      //   title: HelpDetails[0]?.question,
+      //   category: HelpDetails[2]?.category,
+      //   description: 'Learn how to reset your password securely and regain access to your account.'
+      // },
+      // {
+      //   title: 'Close Enrollment Issue',
+      //   category: category,
+      //   description: 'Resolve issues related to course enrollment and registration problems.'
+      // },
+      // {
+      //   title: 'Payment Methods',
+      //   category: category,
+      //   description: 'Understand available payment options and how to manage your billing information.'
+      // },
+      // {
+      //   title: 'Attendance Tracking',
+      //   category: category,
+      //   description: 'Learn how attendance is tracked and how to view your attendance records.'
+      // },
+      // {
+      //   title: 'Email Notifications',
+      //   category: category,
+      //   description: 'Manage your email notification preferences and troubleshoot delivery issues.'
+      // },
     ];
   };
 
@@ -178,7 +205,7 @@ const HelpCenterMain: React.FC = () => {
               ))}
             </div>
           ) : (
-            <HelpCenterEmptyState 
+            <HelpCenterEmptyState
               searchQuery={searchQuery}
               activeTab={activeTab}
             />

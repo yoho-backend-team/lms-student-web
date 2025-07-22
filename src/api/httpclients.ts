@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 
 const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
@@ -14,7 +15,7 @@ Axios.interceptors.request.use((config) => {
 	const token = localStorage.getItem('authToken');
 
 	if (token) {
-		config.headers['Authorization'] = `Token ${token}`;
+		config.headers['Authorization'] = `Token ${token ? token : ''}`;
 	}
 	return config;
 });
@@ -95,8 +96,11 @@ class HttpClient {
 				'User-Type': userType,
 			},
 		});
+	
 		return response?.data;
 	}
+	
 }
+
 
 export default new HttpClient();
