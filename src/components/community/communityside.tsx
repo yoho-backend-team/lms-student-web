@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import msgframe from "../../assets/icons/community/Frame 5185.png";
 import doubleicon from '../../assets/icons/community/Group 210.png';
 import cursor from '../../assets/icons/community/Icon.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCommunities } from '@/features/community/redux/communitySelector';
+import { getMessages } from '@/features/community/redux/commuityThunk';
+import type { AppDispatch } from '@/store/store';
 
 type Community = {
   _id: string;
@@ -87,6 +89,20 @@ const CommunitySide = () => {
       handleSendMessage();
     }
   };
+
+  const obId = chats.map((item) => item._id);
+
+  console.log('obId',obId);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+          if (obId){
+            dispatch(getMessages({
+              community: obId,
+            }));
+          }
+  },[dispatch])
 
   return (
     <>

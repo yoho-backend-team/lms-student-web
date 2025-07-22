@@ -13,6 +13,7 @@ const Community = () => {
   console.log('final data',Data)
 
   useEffect(() => {
+
     const fetchData = async () => {
       try { 
         dispatch(getAllCommunitiesData('')); 
