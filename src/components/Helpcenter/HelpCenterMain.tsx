@@ -12,22 +12,10 @@ import { getHelpThunk } from '@/features/HelpCenter/thunks.ts';
 import { selectHelpCenter } from '@/features/HelpCenter/selectors.ts';
 
 const HelpCenterMain: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('Mail');
+  const [activeTab, setActiveTab] = useState('All');
   const [currentView, setCurrentView] = useState('main'); // 'main', 'learning'
   const [searchQuery, setSearchQuery] = useState('');
-
-  const tabs: Tab[] = [
-    { id: 'Mail', label: 'Mail', count: 5 },
-    { id: 'Profile', label: 'Profile', count: 5 },
-    { id: 'Classes', label: 'Classes', count: 5 },
-    { id: 'Password', label: 'Password', count: 5 },
-    { id: 'Attendance', label: 'Attendance', count: 0 },
-    { id: 'Payment', label: 'Payment', count: 5 },
-    { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
-  ];
-
-
-
+  const [vedioData, setvedioData] = useState(null);
 
   const dispatch = useDispatch<any>();
   const HelpDetails = useSelector(selectHelpCenter)
@@ -39,12 +27,19 @@ const HelpCenterMain: React.FC = () => {
     console.log(HelpDetails, "Help MAin")
   }, [dispatch]);
 
+  // const tabs: Tab[] = [
+  //   { id: 'All', label: 'All', count: 5 },
+  //   { id: 'Profile', label: 'Profile', count: 5 },
+  //   { id: 'Classes', label: 'Classes', count: 5 },
+  //   { id: 'Password', label: 'Password', count: 5 },
+  //   { id: 'Attendance', label: 'Attendance', count: 0 },
+  //   { id: 'Payment', label: 'Payment', count: 5 },
+  //   { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
+  // ];
+
   // Common help topics for all tabs - ready for API integration
-  const getHelpTopics = (category: string): HelpTopic[] => {
+  const getHelpTopics = (category: string): { data: HelpTopic[], categorys: HelpTopic[] } => {
     // Return empty array for certain categories to demonstrate empty state
-    if (category === 'Attendance' || category === 'Login & Sign Up') {
-      return [];
-    }
 
     // Map HelpDetails to HelpTopic objects
     const helpDetailTopics: HelpTopic[] = Array.isArray(HelpDetails)
@@ -52,56 +47,51 @@ const HelpCenterMain: React.FC = () => {
         title: item.question,
         category: item.category,
         description: item.answer,
+        video: item.videolink
       }))
       : [];
 
-    return [
-      ...helpDetailTopics,
-      // {
-      //   title: HelpDetails[0]?.question,
-      //   category: HelpDetails[2]?.category,
-      //   description: 'Learn how to reset your password securely and regain access to your account.'
-      // },
-      // {
-      //   title: 'Close Enrollment Issue',
-      //   category: category,
-      //   description: 'Resolve issues related to course enrollment and registration problems.'
-      // },
-      // {
-      //   title: 'Payment Methods',
-      //   category: category,
-      //   description: 'Understand available payment options and how to manage your billing information.'
-      // },
-      // {
-      //   title: 'Attendance Tracking',
-      //   category: category,
-      //   description: 'Learn how attendance is tracked and how to view your attendance records.'
-      // },
-      // {
-      //   title: 'Email Notifications',
-      //   category: category,
-      //   description: 'Manage your email notification preferences and troubleshoot delivery issues.'
-      // },
-    ];
+    const categorys = helpDetailTopics.filter((item, index) => item?.category !== helpDetailTopics[index + 1]?.category)
+    // setcategoryList(categorys)
+
+
+    let filterdata;
+    if (activeTab == 'All') {
+      filterdata = helpDetailTopics
+    } else {
+      filterdata = helpDetailTopics.filter(item => item.category == category)
+    }
+
+    return {
+      data: [
+        ...filterdata
+      ],
+      categorys
+    };
   };
 
-  const getCurrentTopics = (): HelpTopic[] => {
+
+  const getCurrentTopics = (): { data: HelpTopic[], categorys: HelpTopic[] } => {
     // Get topics for current active tab - all tabs now have the same topics with different categories
-    const topics = getHelpTopics(activeTab);
+    const { data, categorys } = getHelpTopics(activeTab);
 
     // Filter topics based on search query
     if (searchQuery.trim()) {
-      return topics.filter(topic =>
-        topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (topic.category && topic.category.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (topic.description && topic.description.toLowerCase().includes(searchQuery.toLowerCase()))
-      );
+      return {
+        data: data.filter(topic =>
+          topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (topic.category && topic.category.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (topic.description && topic.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        ),
+        categorys
+      }
     }
 
-    return topics;
+    return { data, categorys };
   };
 
-  const currentTopics = getCurrentTopics();
+  const currentTopics = getCurrentTopics().data;
+  const categoryList = getCurrentTopics().categorys;
   const topicCount = currentTopics.length;
 
   const handleTabChange = (tabId: string) => {
@@ -113,8 +103,10 @@ const HelpCenterMain: React.FC = () => {
     setSearchQuery(query);
   };
 
-  const handleViewDetails = () => {
+  const handleViewDetails = (data: any) => {
     setCurrentView('learning');
+    console.log(data, "set cheing")
+    setvedioData(data)
   };
 
   const handleBackToMain = () => {
@@ -122,7 +114,7 @@ const HelpCenterMain: React.FC = () => {
   };
 
   if (currentView === 'learning') {
-    return <LearningResources onBack={handleBackToMain} />;
+    return <LearningResources onBack={handleBackToMain} data={vedioData} />;
   }
 
   return (
@@ -150,7 +142,7 @@ const HelpCenterMain: React.FC = () => {
         >
           {/* Tabs */}
           <HelpCenterTabs
-            tabs={tabs}
+            tabs={categoryList}
             activeTab={activeTab}
             onTabChange={handleTabChange}
           />
