@@ -64,12 +64,12 @@ const Navbar = () => {
 			const response = await getStudentLogoutClient({});
 			if(response){
 				setshowProfileSection(false);
-			   logout();
+	           logout();
 			  navigate('/login');
 			}
 		} catch (error: any) {
 			console.log(error.message);
-			
+		
 		}
 	};
 
