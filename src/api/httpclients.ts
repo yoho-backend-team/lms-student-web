@@ -97,10 +97,10 @@ class HttpClient {
 				'User-Type': userType,
 			},
 		});
-	
+
 		return response?.data;
 	}
-	
+
 }
 
 
