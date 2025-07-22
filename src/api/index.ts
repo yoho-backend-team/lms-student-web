@@ -46,7 +46,7 @@ class Client {
 		},
 		class: {
 			get: (params: any) =>
-				httpClient.get(HTTP_END_POINTS.class.get + params.courseId ,params, 'student'),
+				httpClient.get(HTTP_END_POINTS.class.get + params.courseId, params, 'student'),
 			getWithId: (params: { id: string }) =>
 				httpClient.get(
 					HTTP_END_POINTS.class.getwithId + params.id,
@@ -100,7 +100,7 @@ class Client {
 					'student'
 				),
 		},
-		
+
 
 		reports: {
 			get: () =>
@@ -111,7 +111,7 @@ class Client {
 				httpClient.get(HTTP_END_POINTS.activity.get, params, 'student'),
 		},
 		faq: {
-			get: (params: any) =>
+			get: (params?: any) =>
 				httpClient.get(`${HTTP_END_POINTS.faq.get}`, params, 'student'),
 		},
 		help: {
