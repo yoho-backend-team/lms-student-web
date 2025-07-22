@@ -15,19 +15,7 @@ const HelpCenterMain: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Mail');
   const [currentView, setCurrentView] = useState('main'); // 'main', 'learning'
   const [searchQuery, setSearchQuery] = useState('');
-
-  const tabs: Tab[] = [
-    { id: 'Mail', label: 'Mail', count: 5 },
-    { id: 'Profile', label: 'Profile', count: 5 },
-    { id: 'Classes', label: 'Classes', count: 5 },
-    { id: 'Password', label: 'Password', count: 5 },
-    { id: 'Attendance', label: 'Attendance', count: 0 },
-    { id: 'Payment', label: 'Payment', count: 5 },
-    { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
-  ];
-
-
-
+  const [vedioData, setvedioData] = useState(null);
 
   const dispatch = useDispatch<any>();
   const HelpDetails = useSelector(selectHelpCenter)
@@ -38,6 +26,16 @@ const HelpCenterMain: React.FC = () => {
     dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
     console.log(HelpDetails, "Help MAin")
   }, [dispatch]);
+
+  const tabs: Tab[] = [
+    { id: 'Mail', label: 'Mail', count: 5 },
+    { id: 'Profile', label: 'Profile', count: 5 },
+    { id: 'Classes', label: 'Classes', count: 5 },
+    { id: 'Password', label: 'Password', count: 5 },
+    { id: 'Attendance', label: 'Attendance', count: 0 },
+    { id: 'Payment', label: 'Payment', count: 5 },
+    { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
+  ];
 
   // Common help topics for all tabs - ready for API integration
   const getHelpTopics = (category: string): HelpTopic[] => {
@@ -52,36 +50,12 @@ const HelpCenterMain: React.FC = () => {
         title: item.question,
         category: item.category,
         description: item.answer,
+        video: item.videolink
       }))
       : [];
 
     return [
-      ...helpDetailTopics,
-      // {
-      //   title: HelpDetails[0]?.question,
-      //   category: HelpDetails[2]?.category,
-      //   description: 'Learn how to reset your password securely and regain access to your account.'
-      // },
-      // {
-      //   title: 'Close Enrollment Issue',
-      //   category: category,
-      //   description: 'Resolve issues related to course enrollment and registration problems.'
-      // },
-      // {
-      //   title: 'Payment Methods',
-      //   category: category,
-      //   description: 'Understand available payment options and how to manage your billing information.'
-      // },
-      // {
-      //   title: 'Attendance Tracking',
-      //   category: category,
-      //   description: 'Learn how attendance is tracked and how to view your attendance records.'
-      // },
-      // {
-      //   title: 'Email Notifications',
-      //   category: category,
-      //   description: 'Manage your email notification preferences and troubleshoot delivery issues.'
-      // },
+      ...helpDetailTopics
     ];
   };
 
@@ -113,8 +87,10 @@ const HelpCenterMain: React.FC = () => {
     setSearchQuery(query);
   };
 
-  const handleViewDetails = () => {
+  const handleViewDetails = (data: any) => {
     setCurrentView('learning');
+    console.log(data, "set cheing")
+    setvedioData(data)
   };
 
   const handleBackToMain = () => {
@@ -122,7 +98,7 @@ const HelpCenterMain: React.FC = () => {
   };
 
   if (currentView === 'learning') {
-    return <LearningResources onBack={handleBackToMain} />;
+    return <LearningResources onBack={handleBackToMain} data={vedioData} />;
   }
 
   return (

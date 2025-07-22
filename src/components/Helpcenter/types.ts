@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Tab {
   id: string;
   label: string;
@@ -25,10 +26,11 @@ export interface HelpCenterSearchProps {
 
 export interface HelpTopicCardProps {
   topic: HelpTopic;
-  onViewDetails?: (videoLink:any) => void;
+  onViewDetails?: (videoLink: any) => void;
   showViewButton?: boolean;
 }
 
 export interface LearningResourcesProps {
   onBack: () => void;
+  data: any
 }
