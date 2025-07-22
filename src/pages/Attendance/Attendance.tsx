@@ -22,9 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectAttendance } from '@/features/Attendance/reducer/selectors'
 import { getattendancedata } from '@/features/Attendance/services/Attendace'
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks'
+import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
 
 const chartConfig = {
   desktop: {
@@ -102,15 +104,33 @@ export const Attendance = () => {
 
   const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i)
 
-  useEffect(() => {
+  const dispatch = useDispatch<any>();
+ 
+ const dashData = useSelector(selectDashBoard)
+
+ console.log(dashData,"dash Dataaa")
+ useEffect(() => {
+   
+   dispatch(getDashBoardReports())
+}, [])
+
+    
+
+useEffect(() => {
+  const timeout = setTimeout(() => {
     const payload = {
-      userId: '60d59242-f922-4c34-8974-ea207acadeec',
+      userId: dashData.user.uuid,
       month: selectedDate.getMonth() + 1,
       year: selectedDate.getFullYear(),
-      instituteId: "973195c0-66ed-47c2-b098-d8989d3e4529"
-    }
+      instituteId: dashData.institute.uuid,
+    };
     getattendancedata(payload);
-  }, [selectedDate])
+  }, 3000);
+
+  return () => clearTimeout(timeout);
+}, [dashData, selectedDate]);
+
+
 
   return (
     <div className="p-4">
