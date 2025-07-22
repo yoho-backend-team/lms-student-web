@@ -3,7 +3,7 @@ import type { Endpoints } from './httpTyps';
 const getEndpoints = (): Endpoints => {
 	return {
 		auth: {
-			login: '/api/institutes/auth/student/login',
+			login: '/institutes/auth/student/login',
 			verify_otp: '/institutes/auth/student/verify-otp',
 			forget_password: '/institutes/auth/profile/forgot-password',
 			reset_password: '/institutes/auth/profile/reset-password',
@@ -15,19 +15,19 @@ const getEndpoints = (): Endpoints => {
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {
-			get: `/api/institutes/class/`,
-			getwithId: `/api/institutes/class/course/`,
+			get: `/institutes/class/`,
+			getwithId: `/institutes/class/course/`,
 		},
 		attendance: {
 			get: '/institutes/attedance/student-attendance/',
 			class_attendance: '/attendance/class',
 		},
 		payments: {
-			getFees: `/institutes/payments/student-fee/:studentId`,
+			getFees: `/institutes/payments/student-fee/`,
 		},
 		ticket: {
-			create: '/api/institutes/student-ticket/create',
-			get: '/api/institutes/student-ticket/getall',
+			create: '/institutes/student-ticket/create',
+			get: '/institutes/student-ticket/getall',
 			getById: '/institutes/student-ticket/',
 		},
 		notification: {
@@ -36,14 +36,14 @@ const getEndpoints = (): Endpoints => {
 			delete: `/institutes/students/notifications/student-notifications/`,
 		},
 		activity: {
-			get: `institutes/user/activity/`,
+			get: `/institutes/user/activity/`,
 		},
 		faq: {
 			// get: `institutes/faq/category?instituteid=${getStudentDetails()?.institute_id?.uuid}&branchid=${getStudentDetails()?.branch_id?.uuid}`,
 			get: `institutes/faq/all`,
 		},
 		help: {
-			get: `/helpcenter?instituteid=:instituteuuid`,
+			get: `/api/helpcenter/`,
 		},
 
 		reports: {
@@ -54,7 +54,7 @@ const getEndpoints = (): Endpoints => {
 			get_messages: `/institutes/community/messages/all/`,
 		},
 		profile: {
-			get: `institutes/auth/profile/me/`,
+			get: `/institutes/auth/profile/me/`,
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},

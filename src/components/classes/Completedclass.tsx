@@ -36,6 +36,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
     { value: 'apr', label: 'April' },
   ];
 
+
   const years: DropdownOption[] = Array.from({ length: 5 }, (_, i) => ({
     value: (2015 + i).toString(),
     label: (2015 + i).toString()
@@ -178,7 +179,7 @@ const [showFilters, setShowFilters] = useState(false);
                   <td>{item.duration} Min</td>
                   <td>
                     <Button 
-                      onClick={() => handleClassDetailPage(item.id)}
+                      onClick={() => handleClassDetailPage(item.uuid)}
                       className="cursor-pointer bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600
                                 shadow-[0px_3px_4px_0px_rgba(255,255,255,0.75)_inset,3px_-3px_3px_0px_rgba(255,255,255,0.25)_inset,-4px_8px_23px_0px_#3ABE65_inset,-8px_-8px_12px_0px_#3ABE65_inset,2px_3px_3px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-1px_-1px_6px_0px_rgba(255,255,255,0.75),-1px_-1px_6px_1px_rgba(255,255,255,0.25)]"
                     >

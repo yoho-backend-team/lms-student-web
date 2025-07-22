@@ -6,6 +6,7 @@ import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
+import { getStudentLogoutClient } from '@/features/Authentication/services';
 
 const Navbar = () => {
 	const navigate = useNavigate();
@@ -58,6 +59,20 @@ const Navbar = () => {
 		},
 	];
 
+	const handleLogout = async () => {
+		try {
+			const response = await getStudentLogoutClient({});
+			if(response){
+				setshowProfileSection(false);
+			   logout();
+			  navigate('/login');
+			}
+		} catch (error: any) {
+			console.log(error.message);
+			
+		}
+	};
+
 	return (
 		<nav>
 			<div className='flex justify-between gap-3 px-6'>
@@ -78,10 +93,10 @@ const Navbar = () => {
 				</Card>
 
 				<div className='flex lg:gap-10 md:gap-5'>
-					{navItems.map((item) => (
+					{navItems?.map((item, index) => (
 						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
 							<Card
-								key={item.path}
+								key={item.path || index}
 								className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
 								style={{
 									boxShadow:
@@ -165,14 +180,7 @@ const Navbar = () => {
 									  shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]
 									'
 							>
-								<div
-									className='flex gap-2'
-									onClick={() => {
-										setshowProfileSection(false);
-										logout();
-										navigate('/login');
-									}}
-								>
+								<div className='flex gap-2' onClick={() => handleLogout()}>
 									<img
 										src={NavbarIcons.LoginImg}
 										alt='profile-icon'
