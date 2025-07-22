@@ -25,7 +25,7 @@ const Payment = () => {
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
-		console.log(profileDetails,"dsfsdkmm")
+		console.log(profileDetails,"Profile Details")
 		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
 	}, [dispatch]);
 

@@ -2,7 +2,7 @@
 import { getDashBoardData } from "../services"
 import { setDashBoard } from "./slices"
 
-export const getDashBoardReports = async (dispatch: any) => {
+export const getDashBoardReports = ()=>async (dispatch: any) => {
     try {
         const response: any = await getDashBoardData()
         dispatch(setDashBoard(response.data))
