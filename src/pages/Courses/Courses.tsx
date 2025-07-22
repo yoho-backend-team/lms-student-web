@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Courses = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const coursedata = useSelector(selectCourse); // Remove .data here
+  const coursedata = useSelector(selectCourse); 
   console.log('Redux course data:', coursedata);
 
   useEffect(() => {
