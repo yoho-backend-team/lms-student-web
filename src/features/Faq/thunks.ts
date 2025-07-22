@@ -1,12 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// thunks.ts
 import { getHelp } from './FaqSlice';
 import { getStudentFaq } from './service/index';
 
-export const getFaqThunk = async (dispatch: any) => {
+export const getFaqThunk = () => {
+  return async (dispatch: any) => {
     try {
-        const response = await getStudentFaq();
-        dispatch(getHelp(response.data));
+      const response = await getStudentFaq();
+      dispatch(getHelp(response.data));
     } catch (error) {
-        console.log(error);
+      console.error('Error fetching FAQs:', error);
     }
+  };
 };
