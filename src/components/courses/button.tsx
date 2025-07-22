@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { Button } from "@/components/ui/button";
 // import { useNavigate } from 'react-router-dom'
 
@@ -5,6 +6,18 @@
 
 //     const navigate = useNavigate();
     
+=======
+// import React from 'react';
+
+// import { Button } from "@/components/ui/button";
+// import { Navigate, useNavigate } from 'react-router-dom'
+
+// function Mainbutton() {
+
+//     const navigate=useNavigate();
+    
+
+>>>>>>> 163ab62f5decca014ef9a393b315ed53b2824833
 //     return (
 //     <div>
 //     <div className="flex flex-row gap-3  mb-12 align-items-center justify-center">

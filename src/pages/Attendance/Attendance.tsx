@@ -52,10 +52,13 @@ export const Attendance = () => {
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
     
-    return Object.entries(attendancedata.data.formattedAttendance).map(([month, attendance]) => ({
-      month,
-      desktop: attendance.presentDays || 0
-    }));
+    return Object.entries(attendancedata.data.formattedAttendance).map(([month, attendance]) => {
+      const att = attendance as { presentDays?: number };
+      return {
+        month,
+        desktop: att.presentDays || 0
+      };
+    });
   }, [attendancedata])
 
   const chartData = generateChartData();
@@ -82,7 +85,7 @@ export const Attendance = () => {
     }
   ]
 
-  const handleMonthChange = (newMonth: string) => {
+  const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
     setSelectedMonth(newMonth)
