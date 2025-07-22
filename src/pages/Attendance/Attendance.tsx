@@ -278,7 +278,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray !text-black rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow cursor-pointer ${
+                activeTab === tab"
               style={{ ...FONTS.heading_06 }}
             >
               View Details
