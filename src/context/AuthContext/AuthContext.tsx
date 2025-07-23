@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserType | null>(null);
 
 	useEffect(() => {
-		// const token = localStorage.getItem('authToken');
 		const token = GetLocalStorage('authToken')
 		setIsAuthenticated(!!token);
 		setIsLoading(false);
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		try {
 			if (data) {
 				StoreLocalStorage('authToken', data)
-				// localStorage.setItem('authToken', data);
 				setIsAuthenticated(true);
 			}
 		} catch (error) {
@@ -46,8 +44,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const logout = () => {
 		setUser(null);
-		// localStorage.clear();
-		// localStorage.removeItem('authToken');
 		ClearLocalStorage()
 		setIsAuthenticated(false);
 	};
