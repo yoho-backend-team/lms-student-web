@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
-import { COLORS, FONTS } from '@/constants/uiConstants';
+import {  FONTS } from '@/constants/uiConstants';
 import { useToast } from '@/components/ui/toast';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { useDispatch, useSelector } from 'react-redux';

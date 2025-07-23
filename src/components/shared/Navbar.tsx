@@ -7,6 +7,7 @@ import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
 import { getStudentLogoutClient } from '@/features/Authentication/services';
+import { toast } from 'react-toastify';
 import { GetImageUrl } from '@/utils/helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
@@ -19,6 +20,11 @@ const Navbar = () => {
 	const location = useLocation();
 	const [showProfileSection, setshowProfileSection] = useState(false);
 	const { logout } = useAuth();
+	const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+const onLogoutClick = () => {
+	setShowLogoutModal(true);
+};
 
 	const dispatch = useDispatch<AppDispatch>();
 	const profileDetails = useSelector(selectProfile);
@@ -77,17 +83,26 @@ const Navbar = () => {
 	];
 
 	const handleLogout = async () => {
+		
 		try {
 			const response = await getStudentLogoutClient({});
-			if (response) {
+			if(response){
+				toast.success('Logout successful!', {style:{ backgroundColor: 'green', color: 'white'}});
 				setshowProfileSection(false);
-				logout();
-				navigate('/login');
+				setShowLogoutModal(false);
+	           logout();
+			  navigate('/login');
 			}
 		} catch (error: any) {
 			console.log(error.message);
+			toast.error('Logout failed. Please try again.', {style:{ backgroundColor: 'red', color: 'white'}});
+		    setShowLogoutModal(false);
 		}
 	};
+
+	const cancelLogout = () => {
+	setShowLogoutModal(false);
+};
 
 	return (
 		<nav>
@@ -205,7 +220,7 @@ const Navbar = () => {
 									  shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]
 									'
 							>
-								<div className='flex gap-2' onClick={() => handleLogout()}>
+								<div className='flex gap-2' onClick={() => onLogoutClick()}>
 									<img
 										src={NavbarIcons.LoginImg}
 										alt='profile-icon'
@@ -220,6 +235,31 @@ const Navbar = () => {
 					)}
 				</div>
 			</div>
+
+			{showLogoutModal && (
+	<div className="fixed inset-0 flex items-center justify-center bg-black opacity-90 z-100">
+		<div className="bg-white w-96 rounded-lg shadow-lg p-6 text-center relative -top-5">
+			<h2 className="text-lg font-semibold mb-4 text-gray-800">
+				Are you sure you want to logout?
+			</h2>
+			<div className="flex justify-center gap-4">
+				<button
+					onClick={cancelLogout}
+					className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
+				>
+					Cancel
+				</button>
+				<button
+					onClick={handleLogout}
+					className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+				>
+					Logout
+				</button>
+			</div>
+		</div>
+	</div>
+)}
+
 		</nav>
 	);
 };
