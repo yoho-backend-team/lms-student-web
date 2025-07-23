@@ -28,13 +28,10 @@ const Navbar = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const profileDetails = useSelector(selectProfile);
 	const instituteData = useInstituteData();
-	console.log(instituteData, 'institute data');
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
 	}, [dispatch]);
-
-	// console.log(profileDetails, 'profile from nav');
 
 	const navItems = [
 		{
@@ -125,7 +122,8 @@ const Navbar = () => {
 				<img
 					src={GetImageUrl(instituteData?.logo) ?? undefined}
 					alt={instituteData?.institute_name}
-					className='w-12 h-12 rounded-sm object-cover p-1'
+					title={instituteData?.institute_name}
+					className='w-14 h-12 rounded-full p-1'
 				/>
 				{/* </Card> */}
 
