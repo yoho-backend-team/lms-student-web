@@ -60,8 +60,8 @@ const Taskprojects = () => {
                                     <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.task}</div>
                                     <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>{task.deadline}</div>
                                     <div className="flex justify-center">
-                                        <Button style={{ ...FONTS.para_01 }}
-                                            className={`${task.status === 'completed'
+                                        <Button  style={{ ...FONTS.para_01 }}
+                                            className= { `rounded-xl btnshadow text-[#716F6F] text-[14px] hover:text-white btnhovershadow ${task.status === 'completed'
                                                 ? 'bg-gradient-to-r from-green-400 to-green-500 !text-white shadow-[0px_3px_4px_0px_rgba(255,255,255,0.75)_inset,3px_-3px_3px_0px_rgba(255,255,255,0.25)_inset,-4px_8px_23px_0px_#3ABE65_inset,-8px_-8px_12px_0px_#3ABE65_inset,2px_3px_3px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-1px_-1px_6px_0px_rgba(255,255,255,0.75),-1px_-1px_6px_1px_rgba(255,255,255,0.25)]'
                                                 : 'bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'
                                                 }`}
