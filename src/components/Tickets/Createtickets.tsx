@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { FONTS } from "@/constants/uiConstants";
 import { Button } from '../ui/button';
+import { createticketdata } from '@/features/Tickets/services/Tickets';
 
 export const Createtickets = () => {
   const navigate = useNavigate();
@@ -49,6 +50,12 @@ export const Createtickets = () => {
       setPreview(null);
     }
   };
+
+  // const createTicket = async() => {
+  //   await createticketdata({
+  //     branch:
+  //   }) 
+  // }
 
   const handleConfirm = () => {
     const newErrors = {

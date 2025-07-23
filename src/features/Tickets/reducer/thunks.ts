@@ -1,5 +1,5 @@
-import { getticketdata } from '../services/Tickets';
-import { getticketdetails } from './TicketSlice';
+import { createticketdata, getticketdata } from '../services/Tickets';
+import { createticketdeatils, getticketdetails } from './TicketSlice';
 
 
 export const getStudentticket =
@@ -12,3 +12,4 @@ export const getStudentticket =
             console.log(error);
         }
     };
+   
