@@ -9,21 +9,25 @@ import { getClassDetails } from '@/features/classes/reducers/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/store/store';
 import { selectClass } from '@/features/classes/reducers/selectors';
+import { useCourses } from '@/hooks/DashboardData/useCourses';
 
 
 const Classes = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
   const dispatch = useDispatch<AppDispatch>();
-  const classData = useSelector(selectClass).data || [];
+  const classData = useSelector(selectClass)?.data || [];
 
   const id = classData.map((item: any) => item.uuid);
   console.log("uuid",id)
+
+  const coursesDetails =   useCourses();
+	console.log(coursesDetails,"Courses")
 
   const fetchClassData = (tab: 'live' | 'upcoming' | 'completed') => {
     setActiveTab(tab);
     dispatch(
       getClassDetails({
-        courseId: '67f3b7fcb8d2634300cc87b6',
+        courseId: coursesDetails?.map((id:any)=>id?.course?._id)[0],
         userType: 'online',
         classType: tab,
         page: 1,

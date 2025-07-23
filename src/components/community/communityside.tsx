@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import msgframe from "../../assets/icons/community/Frame 5185.png";
 import doubleicon from '../../assets/icons/community/Group 210.png';
 import cursor from '../../assets/icons/community/Icon.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCommunities } from '@/features/community/redux/communitySelector';
+import { useStudentSocket } from '@/context/socketContext';
+import { getMessages } from '@/features/community/redux/commuityThunk';
+import type { AppDispatch } from '@/store/store';
 
 type Community = {
   _id: string;
@@ -28,17 +31,16 @@ type Chat = {
 };
 
 type Message = {
-  text: string;
+  content: string;
   time: string;
   isUser: boolean;
 };
 
-const CommunitySide = () => {
+const  CommunitySide = () => {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [inputMessage, setInputMessage] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([
-    { text: "Hii", time: "1:15 PM", isUser: false },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const socket = useStudentSocket();
 
   // Get community data from Redux store
   const { data: communities } = useSelector(selectCommunities) as {
@@ -71,13 +73,13 @@ const CommunitySide = () => {
 
   const handleSendMessage = () => {
     if (inputMessage.trim() === '') return;
-
+    if(!socket) return;
     const newMessage: Message = {
-      text: inputMessage,
+      content: inputMessage,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       isUser: true,
     };
-
+    socket.emit('newMessage', newMessage)
     setMessages((prev) => [...prev, newMessage]);
     setInputMessage('');
   };
@@ -87,6 +89,20 @@ const CommunitySide = () => {
       handleSendMessage();
     }
   };
+
+  const obId = chats.map((item) => item._id);
+
+  console.log('obId',obId);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+          if (obId){
+            dispatch(getMessages({
+              community: obId,
+            }));
+          }
+  },[dispatch])
 
   return (
     <>
@@ -175,7 +191,7 @@ const CommunitySide = () => {
                         message.isUser ? 'ml-auto bg-blue-100' : 'mr-auto bg-white'
                       }`}
                     >
-                      <p>{message.text}</p>
+                      <p>{message.content}</p>
                       <p className="text-xs text-gray-500 text-right mt-1">{message.time}</p>
                     </div>
                   ))}

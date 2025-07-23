@@ -42,7 +42,7 @@ const CourseTrack: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full px-6 py-8">
+    <div className="w-full mx-auto p-4">
 
       <div className="flex items-center gap-3 mb-6">
         <Button

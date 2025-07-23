@@ -1,7 +1,6 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import Notes_Materials from '@/components/courses/Notes_Materials';
 import Task_Projects from '@/components/courses/TaskProjectsPages';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
@@ -31,8 +30,8 @@ import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated, isLoading  } = useAuth();
-     if(isLoading) return null;
+	const { isAuthenticated, isLoading } = useAuth();
+	if (isLoading) return null;
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
@@ -67,7 +66,6 @@ const AppRoutes = () => {
 				<Route path='/about' element={<AboutCourse />} />
 				<Route path='note_materials' element={<NotesMaterials />} />
 				<Route path='/about/:course' element={<AboutCourse />} />
-				<Route path='notes_materials' element={<Notes_Materials />} />
 				<Route path='task_projects' element={<Task_Projects />} />
 				<Route path='course_track' element={<CourseTrack />} />
 				<Route path='*' element={<Navigate to='/' />} />
