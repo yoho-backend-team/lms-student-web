@@ -3,7 +3,7 @@ import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
 // const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
-const backendUrl = 'http://localhost:3001/api'
+const backendUrl = "http://localhost:3000/api"
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -48,7 +48,7 @@ class HttpClient {
 				'User-Type': userType,
 			},
 		});
-		return response.data;
+		return response?.data;
 	}
 
 	async post(url: string, data?: any, params?: any, userType?: string) {
