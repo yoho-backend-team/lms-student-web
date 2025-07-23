@@ -15,9 +15,9 @@ export const useFAQ = (items: FAQItem[]) => {
     setExpandedItems(newExpanded);
   };
 
-  const filteredItems = useMemo(() => 
-    items.filter(item =>
-      item.question.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = useMemo(() =>
+    items?.filter(item =>
+      item.question?.toLowerCase()?.includes(searchQuery.toLowerCase())
     ), [items, searchQuery]
   );
 

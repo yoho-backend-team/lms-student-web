@@ -1,7 +1,7 @@
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 
 interface ClassItem {
   day: string;
@@ -72,7 +72,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
                   <td>{classItem.duration}</td>
                   <td>
                     <Button
-                      className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset]'
+                      className='bg-[#ebeff3] rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow  shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '
                       variant="outline"
                     >
                       Join Now

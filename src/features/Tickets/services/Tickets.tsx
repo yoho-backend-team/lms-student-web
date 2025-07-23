@@ -8,6 +8,7 @@ export const getticketdata = async (params:any) => {
       }
     
 }
+
 export const createticketdata = async (data:any,params:any) => {
     
       const response = await Client.student.ticket.create(data,params)
@@ -16,4 +17,19 @@ export const createticketdata = async (data:any,params:any) => {
       }
     
 }
+
+export const uploadticketfile = async (data:any) =>{
+  const response = await Client.common.file.upload(data)
+  if(response){
+    return response
+  } 
+}
+
+// export const getticketfile = async () =>{
+//   const response = await Client.common.file.get()
+//   if(response){
+//     return response
+//   } 
+// }
+ 
     

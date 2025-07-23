@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 // import style from './style.module.css'
 import InstituteDetails from '@/components/dashboard/InstituteDetails';
@@ -15,10 +16,10 @@ import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive()
-	const dispatch = useDispatch()
+	const dispatch = useDispatch<any>()
 
 	useEffect(() => {
-		getDashBoardReports(dispatch)
+		dispatch(getDashBoardReports());
 	}, [dispatch]);
 
 	return (

@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllNotificationsThunk } from '@/features/Notifications/reducers/thunks';
 import { selectNotifications } from '@/features/Notifications/reducers/selectors';
 import { deleteNotification, updateNotificationStatus } from '@/features/Notifications/services';
+//import {notificationimg} from '../../assets/dashboard/updates.png';
 
 interface Notification {
 	id: string;
@@ -226,7 +227,8 @@ const Notifications = () => {
 							))
 						) : (
 							<div className='text-center py-8' style={{ ...FONTS.para_01 }}>
-								No notifications found
+{/* <img src={notificationimg} alt="" /> */}
+								No available notifications not found
 							</div>
 						)}
 					</div>

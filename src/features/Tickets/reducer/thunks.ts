@@ -1,5 +1,5 @@
-import { createticketdata, getticketdata } from '../services/Tickets';
-import { createticketdeatils, getticketdetails } from './TicketSlice';
+import {  getticketdata } from '../services/Tickets';
+import { getticketdetails } from './TicketSlice';
 
 
 export const getStudentticket =

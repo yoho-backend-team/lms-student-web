@@ -22,9 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { selectAttendance } from '@/features/Attendance/reducer/selectors'
 import { getattendancedata } from '@/features/Attendance/services/Attendace'
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks'
+import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
 
 const chartConfig = {
   desktop: {
@@ -50,10 +52,13 @@ export const Attendance = () => {
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
     
-    return Object.entries(attendancedata.data.formattedAttendance).map(([month, attendance]) => ({
-      month,
-      desktop: attendance.presentDays || 0
-    }));
+    return Object.entries(attendancedata.data.formattedAttendance).map(([month, attendance]) => {
+      const att = attendance as { presentDays?: number };
+      return {
+        month,
+        desktop: att.presentDays || 0
+      };
+    });
   }, [attendancedata])
 
   const chartData = generateChartData();
@@ -80,7 +85,7 @@ export const Attendance = () => {
     }
   ]
 
-  const handleMonthChange = (newMonth: string) => {
+  const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
     setSelectedMonth(newMonth)
@@ -102,15 +107,33 @@ export const Attendance = () => {
 
   const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i)
 
-  useEffect(() => {
+  const dispatch = useDispatch<any>();
+ 
+ const dashData = useSelector(selectDashBoard)
+
+ console.log(dashData,"dash Dataaa")
+ useEffect(() => {
+   
+   dispatch(getDashBoardReports())
+}, [])
+
+    
+
+useEffect(() => {
+  const timeout = setTimeout(() => {
     const payload = {
-      userId: '60d59242-f922-4c34-8974-ea207acadeec',
+      userId: dashData.user.uuid,
       month: selectedDate.getMonth() + 1,
       year: selectedDate.getFullYear(),
-      instituteId: "973195c0-66ed-47c2-b098-d8989d3e4529"
-    }
+      instituteId: dashData.institute.uuid,
+    };
     getattendancedata(payload);
-  }, [selectedDate])
+  }, 3000);
+
+  return () => clearTimeout(timeout);
+}, [dashData, selectedDate]);
+
+
 
   return (
     <div className="p-4">
@@ -278,7 +301,8 @@ export const Attendance = () => {
               </ul>
             </div>
             <button
-              className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-[#7b00ff] !text-white hover:bg-[#7b00ff] hover:text-white shadow-[inset_2px_2px_4px_rgba(189,194,199,0.75),inset_-2px_-2px_4px_rgba(255,255,255,0.7)]"
+              className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray !text-black rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow cursor-pointer ${
+                activeTab === tab"
               style={{ ...FONTS.heading_06 }}
             >
               View Details

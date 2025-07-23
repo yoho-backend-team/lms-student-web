@@ -43,7 +43,7 @@ const getEndpoints = (): Endpoints => {
 			get: `institutes/faq/all`,
 		},
 		help: {
-			get: `/api/helpcenter/`,
+			get: `/helpcenter/`,
 		},
 
 		reports: {

@@ -25,7 +25,7 @@ const Payment = () => {
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
-		console.log(profileDetails,"dsfsdkmm")
+		console.log(profileDetails,"Profile Details")
 		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
 	}, [dispatch]);
 
@@ -34,7 +34,7 @@ const Payment = () => {
 
 	return (
 
-		<div className=' lg:flex md:grid gap-8 mb-2'>
+		<div className=' lg:flex md:grid gap-8 pl-8 pr-6 mb-2'>
 			<div className='lg:w-1/4 md'>
 				<h1
 					className='font-semibold text-2xl py-6'
@@ -181,7 +181,7 @@ const Payment = () => {
 								Fees Details
 							</h1>
 							<Button
-								className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
+								className='p-2 px-4 rounded-lg cursor-pointer bg-gray text-white rounded-xl btnshadow !text-black text-[14px] hover:!text-white btnhovershadow 
 								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
 								style={{
 									...FONTS.para_02,
@@ -267,7 +267,7 @@ const Payment = () => {
 					>
 						Payment History
 					</h1>
-					<div className='p-5 flex flex-col gap-2 custom-inset-shadow'>
+					<div className='p-5 flex flex-col gap-2  custom-inset-shadow'>
 						<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
 							View PDF
 						</h1>
@@ -285,7 +285,7 @@ const Payment = () => {
 								})}
 							</h1>
 							<button
-								className='p-2 px-4 rounded-lg cursor-pointer'
+								className='p-2 px-4 rounded-lg  rounded-xl btnshadow text-gray text-[14px] hover:!text-white btnhovershadow cursor-pointer'
 								style={{
 									...FONTS.para_02,
 									boxShadow: `
