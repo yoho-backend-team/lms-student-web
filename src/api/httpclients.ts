@@ -2,8 +2,8 @@
 import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
-// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
-const backendUrl = "http://localhost:3000/api"
+const backendUrl = 'https://lms-node-backend-v1.onrender.com/api';
+// const backendUrl = "http://localhost:3000/api"
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -15,7 +15,7 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use((config) => {
 	// const token = localStorage.getItem('authToken');
-	const token = GetLocalStorage('authToken')
+	const token = GetLocalStorage('authToken');
 
 	if (token) {
 		config.headers['Authorization'] = `Token ${token ? token : ''}`;
@@ -32,7 +32,7 @@ Axios.interceptors.response.use(
 			error?.response?.data?.status === 'session_expired'
 		) {
 			// localStorage.removeItem('authToken');
-			ClearLocalStorage()
+			ClearLocalStorage();
 			window.location.reload();
 		}
 	}
@@ -103,8 +103,6 @@ class HttpClient {
 
 		return response?.data;
 	}
-
 }
-
 
 export default new HttpClient();
