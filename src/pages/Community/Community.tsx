@@ -5,21 +5,23 @@ import { getAllCommunitiesData } from '@/features/community/redux/commuityThunk'
 import { useSelector } from 'react-redux';
 import { selectCommunities } from '@/features/community/redux/communitySelector';
 import { StudentSocketProvider, useStudentSocket } from '@/context/socketContext';
+import { getMessage } from '@/features/community/services/communityservices';
+import { toast } from 'react-toastify';
 
 
 const Community = () => {
-  const [messages, setMessages] = useState([])
+  const [currentChat, setCurrentChat] = useState();
   const dispatch = useAppDispatch();
   const socket = useStudentSocket();
 
-  const Data = useSelector(selectCommunities);
-  console.log('final data',Data)
+  const communities = useSelector(selectCommunities);
+  console.log('final data', communities)
 
   useEffect(() => {
 
     const fetchData = async () => {
-      try { 
-        dispatch(getAllCommunitiesData('')); 
+      try {
+        dispatch(getAllCommunitiesData(''));
       } catch (error) {
         console.error('Community fetch error:', error);
       }
@@ -27,29 +29,12 @@ const Community = () => {
 
     fetchData();
   }, [dispatch]);
-  
- useEffect(()=>{
-  if(!socket) return null;
-
-  const handleMessage = (data:any) =>{
-    console.log("Message Receieved", data)
-    setMessages((prev)=> [data, ...prev])
-  }
-
-  socket.emit('newMessage', handleMessage)
-
-  return ()=>{
-    socket.off('Socket Disconnected', handleMessage)
-  }
- })
-  
-
   return (
     <>
-      <div className="w-[260px] ml-14 mt-2">
+      <div className="w-[260px] sticky ml-6 mt-2">
         <p className="text-2xl font-semibold">Community</p>
-      </div>  
-      <Communityside />
+      </div>
+      <Communityside socket={socket} communities={communities} currentChat={currentChat} setCurrentChat={setCurrentChat} />
     </>
   );
 };

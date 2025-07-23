@@ -18,6 +18,7 @@ export const getAllCommunitiesData = (params:any) => async  (dispatch:any) => {
 export const getMessages = (params:any) => async (dispatch : any) => {
   try{
     const response = await getMessage(params);
+    console.log("Chat Response", response)
     dispatch(setMessage(response));
 
   }
