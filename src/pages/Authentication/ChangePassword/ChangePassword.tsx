@@ -53,13 +53,13 @@ const Login = () => {
       const response = await resetpasswordClient(payload, {});
 	  console.log(response, 'response')
 	  if(response){
-		  toast.success('Password reset successfully');
+		  toast.success('Password reset successfully', {style:{ backgroundColor: 'green', color: 'white'}});
 		  navigate('/login');
 	  }
 	  
     } catch (error) {
       console.error('Reset Password Error:', error);
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {style:{ backgroundColor: 'red', color: 'white'}});
     }
   };
 

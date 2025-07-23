@@ -23,7 +23,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   profileImage,
   activeMenuItem,
   onMenuItemClick,
-  onGoBack,
+  //onGoBack,
   onEditClick,
   onImageChange,
   isEditing = false
@@ -31,11 +31,12 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    if (onGoBack) {
-      onGoBack();
-    } else {
-      navigate('/'); 
-    }
+    // if (onGoBack) {
+    //   onGoBack();
+    // } else {
+    //   navigate('/'); 
+    // }
+    navigate(-1)
   };
 
   return (
