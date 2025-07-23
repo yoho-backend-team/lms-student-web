@@ -23,12 +23,12 @@ const ProfileCard: React.FC = () => {
         {
             title: "Completed",
             icon: "completed",
-            total: ClassesData?.[0]?.offline_class?.completed + ClassesData?.[0]?.online_class?.completed,
+            total: (ClassesData?.[0]?.offline_class?.completed + ClassesData?.[0]?.online_class?.completed) || 0,
         },
         {
             title: "Pending",
             icon: "pending",
-            total: ClassesData?.[0]?.offline_class?.pending + ClassesData?.[0]?.online_class?.pending,
+            total: (ClassesData?.[0]?.offline_class?.pending + ClassesData?.[0]?.online_class?.pending) || 0,
         },
         {
             title: "Live Class",
@@ -54,7 +54,7 @@ const ProfileCard: React.FC = () => {
             <h2 style={{ ...FONTS.heading_02 }}>Classes</h2>
             <div className="flex flex-row justify-between">
                 <div className='flex flex-row gap-5'>
-                    <img src={GetImageUrl(StudentData?.image) ?? ''} alt="" width={62} height={62} className='rounded-xl' />
+                    <img src={StudentData?.image ?? GetImageUrl(StudentData?.image)} alt="" width={62} height={62} className='rounded-xl' />
                     <div className="flex flex-col w-[215px] h-[53px]">
                         <h3
                             style={{ fontFamily: FONTS.heading_03.fontFamily, fontSize: FONTS.heading_03.fontSize, fontWeight: FONTS.heading_03.fontWeight }}

@@ -27,7 +27,7 @@ const GridProgress: React.FC<propstype> = ({ title, value, icon }) => {
                 <img src={dashicons[icon as keyof typeof dashicons]} alt="" width={40} height={40} className="mt-2" />
             </div>
             <div className="w-[60px] h-[60px]">
-                <CircularProgressWithLabelDemo value={value ?? 0} color={color[icon as keyof typeof color]} />
+                <CircularProgressWithLabelDemo value={value} color={color[icon as keyof typeof color]} />
             </div>
         </div >
     )

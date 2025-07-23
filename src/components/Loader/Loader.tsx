@@ -3,7 +3,7 @@ import style from "./Loader.module.css"; // We'll define custom animations and f
 
 const Loader: React.FC = () => {
     return (
-        <div className="flex items-center justify-center h-full overflow-hidden relative bg-transparent">
+        <div className="flex mt-50 justify-center h-full overflow-hidden relative bg-transparent">
 
             <svg className="w-0 h-0 absolute">
                 <defs>
