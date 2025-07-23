@@ -30,8 +30,8 @@ import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated, isLoading  } = useAuth();
-     if(isLoading) return null;
+	const { isAuthenticated, isLoading } = useAuth();
+	if (isLoading) return null;
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
