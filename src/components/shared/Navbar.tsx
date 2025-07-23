@@ -4,15 +4,32 @@ import { Card } from '../ui/card';
 import { NavbarIcons } from '@/assets/icons/navbar';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Button } from '../ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext/AuthContext';
 import { getStudentLogoutClient } from '@/features/Authentication/services';
+import { GetImageUrl } from '@/utils/helper';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProfile } from '@/features/Profile/reducers/selectors';
+import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import type { AppDispatch } from '@/store/store';
+import { useInstituteData } from '@/hooks/DashboardData/useInstitute';
 
 const Navbar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [showProfileSection, setshowProfileSection] = useState(false);
 	const { logout } = useAuth();
+
+	const dispatch = useDispatch<AppDispatch>();
+	const profileDetails = useSelector(selectProfile);
+	const instituteData = useInstituteData();
+	console.log(instituteData, 'institute data');
+
+	useEffect(() => {
+		dispatch(getStudentProfileThunk({}));
+	}, [dispatch]);
+
+	// console.log(profileDetails, 'profile from nav');
 
 	const navItems = [
 		{
@@ -62,22 +79,21 @@ const Navbar = () => {
 	const handleLogout = async () => {
 		try {
 			const response = await getStudentLogoutClient({});
-			if(response){
+			if (response) {
 				setshowProfileSection(false);
-	           logout();
-			  navigate('/login');
+				logout();
+				navigate('/login');
 			}
 		} catch (error: any) {
 			console.log(error.message);
-		
 		}
 	};
 
 	return (
 		<nav>
 			<div className='flex justify-between gap-3 px-6'>
-				<Card
-					className='bg-[#ebeff3] min-w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-pointer'
+				{/* <Card
+					className='bg-[#ebeff3] min-w-[72px] h-[48px] rounded-sm flex items-center justify-center cursor-pointer'
 					style={{
 						boxShadow: `
 					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
@@ -88,9 +104,13 @@ const Navbar = () => {
 						navigate('/');
 						setshowProfileSection(false);
 					}}
-				>
-					<img src={Logo} alt='logo' />
-				</Card>
+				> */}
+					<img
+						src={GetImageUrl(instituteData?.logo) ?? undefined}
+						alt={instituteData?.institute_name}
+						className='w-12 h-12 rounded-sm object-cover p-1'
+					/>
+				{/* </Card> */}
 
 				<div className='flex lg:gap-10 md:gap-5'>
 					{navItems?.map((item, index) => (
@@ -146,7 +166,12 @@ const Navbar = () => {
 						className='cursor-pointer'
 						onClick={() => setshowProfileSection(!showProfileSection)}
 					>
-						<img src={NavbarIcons.UserProfile} alt='profile-image' />
+						<img
+							src={GetImageUrl(profileDetails?.image) ?? undefined}
+							alt={profileDetails?.fullName}
+							className='w-12 h-12 rounded-full'
+							title={profileDetails?.fullName}
+						/>
 					</div>
 
 					{showProfileSection && (

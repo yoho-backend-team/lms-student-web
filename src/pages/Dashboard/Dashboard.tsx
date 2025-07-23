@@ -15,8 +15,8 @@ import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Dashboard: React.FC = () => {
-	const { TabView } = TabViewResponsive()
-	const dispatch = useDispatch<any>()
+	const { TabView } = TabViewResponsive();
+	const dispatch = useDispatch<any>();
 
 	useEffect(() => {
 		dispatch(getDashBoardReports());
@@ -24,76 +24,81 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<>
-			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
-
-				{
-					TabView ?
-						<div className='flex flex-col gap-5'>
+			<div
+				className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden'
+				style={{ scrollbarWidth: 'none' }}
+			>
+				{TabView ? (
+					<div className='flex flex-col gap-5'>
+						<ProfileCard />
+						<div className='flex flex-row gap-5'>
+							<InstituteDetails />
+							<CourseProgress />
+						</div>
+					</div>
+				) : (
+					<div className='grid grid-cols-8 gap-5 justify-between'>
+						<div className='col-span-2 col-start-1'>
+							<InstituteDetails />
+						</div>
+						<div className='col-span-4'>
 							<ProfileCard />
-							<div className='flex flex-row gap-5'>
-								<InstituteDetails />
-								<CourseProgress />
-							</div>
 						</div>
-						:
-						<div className="grid grid-cols-8 gap-5 justify-between">
-							<div className='col-span-2 col-start-1'>
-								<InstituteDetails />
-							</div>
-							<div className='col-span-4'>
-								<ProfileCard />
-							</div>
-							<div className="col-span-2">
-								<CourseProgress />
-							</div>
+						<div className='col-span-2'>
+							<CourseProgress />
 						</div>
-				}
+					</div>
+				)}
 
-				{
-					TabView ?
-						<div className='flex flex-col gap-5'>
-							<div className='flex flex-row gap-5'>
-								<Attendance />
-								<Payment />
-							</div>
-							<div className='grid grid-cols-2 gap-5'>
-								<Assesments />
-								<DashCalender />
-							</div>
-							<Updates />
+				{TabView ? (
+					<div className='flex flex-col gap-5'>
+						<div className='flex flex-row gap-5'>
+							<Attendance />
+							<Payment />
 						</div>
-						:
-						<div className='grid grid-cols-3 gap-5'>
-							<div>
-								<Attendance />
-							</div>
-							<div>
-								<Payment />
-							</div>
-							<div>
-								<Assesments />
-							</div>
+						<div className='grid grid-cols-2 gap-5'>
+							<Assesments />
+							<DashCalender />
 						</div>
-				}
-
-				{
-					!TabView &&
+						<Updates />
+					</div>
+				) : (
 					<div className='grid grid-cols-3 gap-5'>
-						<div className="col-span-2">
+						<div>
+							<Attendance />
+						</div>
+						<div>
+							<Payment />
+						</div>
+						<div>
+							<Assesments />
+						</div>
+					</div>
+				)}
+
+				{!TabView && (
+					<div className='grid grid-cols-3 gap-5'>
+						<div className='col-span-2'>
 							<Updates />
 						</div>
 						<div>
 							<DashCalender />
 						</div>
 					</div>
-				}
+				)}
 
-				<div className="flex flex-row justify-between">
+				<div className='flex flex-row justify-between'>
 					<div className='divshadow p-2 rounded-xl'>
-						<p style={{ ...FONTS.heading_06 }}>Course Name: <span style={{ ...FONTS.heading_04 }}>MEARN STACK 2024</span></p>
+						<p style={{ ...FONTS.heading_06 }}>
+							Course Name:{' '}
+							<span style={{ ...FONTS.heading_04 }}>MEARN STACK 2024</span>
+						</p>
 					</div>
 					<div className='divshadow p-2 rounded-xl'>
-						<p style={{ ...FONTS.heading_06 }}>Projects: <span style={{ ...FONTS.heading_04 }}>Web Development</span></p>
+						<p style={{ ...FONTS.heading_06 }}>
+							Projects:{' '}
+							<span style={{ ...FONTS.heading_04 }}>Web Development</span>
+						</p>
 					</div>
 				</div>
 			</div>
