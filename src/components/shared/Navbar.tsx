@@ -1,5 +1,4 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Logo from '../../assets/icons/navbar/icons8-ionic-50.png';
 import { Card } from '../ui/card';
 import { NavbarIcons } from '@/assets/icons/navbar';
 import { COLORS, FONTS } from '@/constants/uiConstants';
@@ -22,9 +21,9 @@ const Navbar = () => {
 	const { logout } = useAuth();
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-const onLogoutClick = () => {
-	setShowLogoutModal(true);
-};
+	const onLogoutClick = () => {
+		setShowLogoutModal(true);
+	};
 
 	const dispatch = useDispatch<AppDispatch>();
 	const profileDetails = useSelector(selectProfile);
@@ -83,26 +82,29 @@ const onLogoutClick = () => {
 	];
 
 	const handleLogout = async () => {
-		
 		try {
 			const response = await getStudentLogoutClient({});
-			if(response){
-				toast.success('Logout successful!', {style:{ backgroundColor: 'green', color: 'white'}});
+			if (response) {
+				toast.success('Logout successful!', {
+					style: { backgroundColor: 'green', color: 'white' },
+				});
 				setshowProfileSection(false);
 				setShowLogoutModal(false);
-	           logout();
-			  navigate('/login');
+				logout();
+				navigate('/login');
 			}
 		} catch (error: any) {
 			console.log(error.message);
-			toast.error('Logout failed. Please try again.', {style:{ backgroundColor: 'red', color: 'white'}});
-		    setShowLogoutModal(false);
+			toast.error('Logout failed. Please try again.', {
+				style: { backgroundColor: 'red', color: 'white' },
+			});
+			setShowLogoutModal(false);
 		}
 	};
 
 	const cancelLogout = () => {
-	setShowLogoutModal(false);
-};
+		setShowLogoutModal(false);
+	};
 
 	return (
 		<nav>
@@ -120,11 +122,11 @@ const onLogoutClick = () => {
 						setshowProfileSection(false);
 					}}
 				> */}
-					<img
-						src={GetImageUrl(instituteData?.logo) ?? undefined}
-						alt={instituteData?.institute_name}
-						className='w-12 h-12 rounded-sm object-cover p-1'
-					/>
+				<img
+					src={GetImageUrl(instituteData?.logo) ?? undefined}
+					alt={instituteData?.institute_name}
+					className='w-12 h-12 rounded-sm object-cover p-1'
+				/>
 				{/* </Card> */}
 
 				<div className='flex lg:gap-10 md:gap-5'>
@@ -237,29 +239,28 @@ const onLogoutClick = () => {
 			</div>
 
 			{showLogoutModal && (
-	<div className="fixed inset-0 flex items-center justify-center bg-black opacity-90 z-100">
-		<div className="bg-white w-96 rounded-lg shadow-lg p-6 text-center relative -top-5">
-			<h2 className="text-lg font-semibold mb-4 text-gray-800">
-				Are you sure you want to logout?
-			</h2>
-			<div className="flex justify-center gap-4">
-				<button
-					onClick={cancelLogout}
-					className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition"
-				>
-					Cancel
-				</button>
-				<button
-					onClick={handleLogout}
-					className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-				>
-					Logout
-				</button>
-			</div>
-		</div>
-	</div>
-)}
-
+				<div className='fixed inset-0 flex items-center justify-center bg-black opacity-90 z-100'>
+					<div className='bg-white w-96 rounded-lg shadow-lg p-6 text-center relative -top-5'>
+						<h2 className='text-lg font-semibold mb-4 text-gray-800'>
+							Are you sure you want to logout?
+						</h2>
+						<div className='flex justify-center gap-4'>
+							<button
+								onClick={cancelLogout}
+								className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition'
+							>
+								Cancel
+							</button>
+							<button
+								onClick={handleLogout}
+								className='px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition'
+							>
+								Logout
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</nav>
 	);
 };
