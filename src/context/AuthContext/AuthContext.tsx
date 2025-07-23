@@ -1,4 +1,4 @@
-import { ClearLocalStorage, StoreLocalStorage } from '@/utils/helper';
+import { ClearLocalStorage, GetLocalStorage, StoreLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState, } from 'react';
 import type { ReactNode } from 'react';
 
@@ -26,7 +26,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserType | null>(null);
 
 	useEffect(() => {
-		const token = localStorage.getItem('authToken');
+		// const token = localStorage.getItem('authToken');
+		const token = GetLocalStorage('authToken')
 		setIsAuthenticated(!!token);
 		setIsLoading(false);
 	}, []);
