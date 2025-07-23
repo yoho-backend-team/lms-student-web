@@ -34,7 +34,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
     if (onGoBack) {
       onGoBack();
     } else {
-      navigate(-1); 
+      navigate('/'); 
     }
   };
 
