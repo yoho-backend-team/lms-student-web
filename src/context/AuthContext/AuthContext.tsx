@@ -1,6 +1,7 @@
 import { ClearLocalStorage, GetLocalStorage, StoreLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState, } from 'react';
 import type { ReactNode } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
 type UserType = {
 	id: string;
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserType | null>(null);
 
 	useEffect(() => {
-		const token = GetLocalStorage('authToken')
+		const token = secureLocalStorage.getItem('authToken')
 		setIsAuthenticated(!!token);
 		setIsLoading(false);
 	}, []);
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<AuthContext.Provider
-			value={{ isAuthenticated, isLoading, login, logout }}>
+			value={{ isAuthenticated, isLoading, login, logout, user }}>
 			{children}
 		</AuthContext.Provider>
 	);
