@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 // import style from './style.module.css'
 import InstituteDetails from '@/components/dashboard/InstituteDetails';
