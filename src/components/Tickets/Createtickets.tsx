@@ -1,40 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
+  Card, CardContent, CardHeader, CardTitle,
 } from "@/components/ui/card";
 import ticketicon from '../../assets/icons/Tickets/back.png';
 import ticketsicon from '../../assets/icons/Tickets/image.png';
 import uploadicon from '../../assets/icons/Tickets/Frame 5226.png';
 import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
+  Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { FONTS } from "@/constants/uiConstants";
-import { Button } from '../ui/button';
 import { createticketdata, uploadticketfile } from '@/features/Tickets/services/Tickets';
 import { useBranchData } from '@/hooks/DashboardData/useBranch';
 import { useInstituteData } from '@/hooks/DashboardData/useInstitute';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
+import { toast } from 'react-toastify';
+import { Button } from '../ui/button';
 
 export const Createtickets = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [fileUploadError, setFileUploadError] = useState<string | null>(null);
   const [ticketCreationError, setTicketCreationError] = useState<string | null>(null);
-  const [uploadedFileUrl, setUploadedFileUrl] = useState<string | null>(null);
 
   const [problem, setProblem] = useState('');
   const [query, setQuery] = useState('');
@@ -43,7 +37,7 @@ export const Createtickets = () => {
     problem: '',
     query: '',
     description: '',
-    image: '',
+    file: '',
   });
 
   const branch = useBranchData();
@@ -55,61 +49,59 @@ export const Createtickets = () => {
     dispatch(getStudentProfileThunk({}));
   }, [dispatch]);
 
+  const [myData, setMyData] = useState(null);
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('user');
+    if (storedData) {
+      setMyData(JSON.parse(storedData));
+    }
+  }, []);
+
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Reset previous errors and file state
-    setFileUploadError(null);
-    setUploadedFileUrl(null);
-    setErrors(prev => ({ ...prev, image: '' }));
-
-    if (file.type.startsWith("image/")) {
-      const imageUrl = URL.createObjectURL(file);
-      setPreview(imageUrl);
-      setUploadedFile(file);
-    } else {
-      setPreview(null);
-      setUploadedFile(null);
-      setErrors(prev => ({ ...prev, image: 'Please upload an image file' }));
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only PDF or image files (JPG, PNG) are allowed.");
+      return;
     }
-  };
 
-  const uploadFile = async (file: File): Promise<string> => {
     try {
       setIsLoading(true);
       setFileUploadError(null);
       
+      // Create preview if it's an image
+      if (file.type.startsWith("image/")) {
+        const imageUrl = URL.createObjectURL(file);
+        setPreview(imageUrl);
+      } else {
+        setPreview(null);
+      }
+
       const formData = new FormData();
       formData.append('file', file);
-      
+
       const response = await uploadticketfile(formData);
-      setUploadedFileUrl(response.url);
-      return response.url;
+      const uploadedPath = response?.data?.file;
+
+      if (!uploadedPath) {
+        throw new Error('Upload failed: No file path returned from server.');
+      }
+
+      setUploadedFileName(file.name);
+      setFileUrl(uploadedPath);
+      setErrors(prev => ({ ...prev, file: '' }));
+      toast.success("File uploaded successfully.");
     } catch (error) {
       console.error("File upload failed:", error);
-      setFileUploadError('Failed to upload file. Please try again.');
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const createNewTicket = async (ticketData: any) => {
-    try {
-      setIsLoading(true);
-      setTicketCreationError(null);
-      
-      const response = await createticketdata(ticketData, {});
-      return response;
-    } catch (error) {
-      console.error("Ticket creation failed:", error);
-      setTicketCreationError('Failed to create ticket. Please try again.');
-      throw error;
+      setFileUploadError(error?.message || "Failed to upload file");
+      toast.error(error?.message || "Failed to upload file");
     } finally {
       setIsLoading(false);
     }
@@ -120,10 +112,9 @@ export const Createtickets = () => {
       problem: problem ? '' : 'Please select a problem',
       query: query.trim() ? '' : 'Please enter a query',
       description: description.trim() ? '' : 'Please enter a description',
-      image: uploadedFile ? '' : 'Please upload an image',
+      file: fileUrl ? '' : 'Please upload file',
     };
     setErrors(newErrors);
-
     return !Object.values(newErrors).some(err => err !== '');
   };
 
@@ -131,32 +122,32 @@ export const Createtickets = () => {
     if (!validateForm()) return;
 
     try {
-      // First upload the file if exists
-      let fileUrl = uploadedFileUrl;
-      if (uploadedFile && !uploadedFileUrl) {
-        fileUrl = await uploadFile(uploadedFile);
-      }
+      setIsLoading(true);
+      setTicketCreationError(null);
 
-      // Then create the ticket
       const ticketData = {
         branch: branch._id,
         category: problem,
-        file: 'www.google.com',
+        file: fileUrl,
         institute: institute._id,
-        priority : "Medium",
-        query: query,
-        description: description,
-        user: profileDetails.userDetail._id
+        priority: "Medium",
+        query,
+        description,
+        user: myData?._id,
       };
 
-      const response = await createNewTicket(ticketData);
-      
+      const response = await createticketdata(ticketData, {});
+
       if (response) {
-        alert("Ticket created successfully!");
+        toast.success("Ticket created successfully!");
         navigate("/tickets");
       }
     } catch (error) {
-      console.error("Error in ticket creation process:", error);
+      console.error("Ticket creation error:", error);
+      setTicketCreationError(error?.message || "Failed to create ticket");
+      toast.error(error?.message || "Failed to create ticket");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -207,6 +198,9 @@ export const Createtickets = () => {
               <SelectContent className="bg-[#ebeff3] !text-black" style={{ ...FONTS.para_01, fontSize: '15px' }}>
                 <SelectItem value="attendance" className="!bg-[#ebeff3] !text-black">
                   Attendance issue
+                </SelectItem>
+                <SelectItem value="grade" className="!bg-[#ebeff3] !text-black">
+                  Grade issue
                 </SelectItem>
                 <SelectItem value="technical" className="!bg-[#ebeff3] !text-black">
                   Technical issue
@@ -265,14 +259,19 @@ export const Createtickets = () => {
                   className="w-10 h-10 object-contain"
                 />
                 <p className="text-sm mt-2 !text-gray-600" style={{ ...FONTS.para_01, fontSize: '13px' }}>
-                  {preview ? "Image Uploaded" : "Upload Image"}
+                  {preview ? "File Uploaded" : "Upload File (PDF or Image)"}
                 </p>
+                {uploadedFileName && !preview && (
+                  <p className="text-xs mt-1 text-gray-500 truncate w-full px-2">
+                    {uploadedFileName}
+                  </p>
+                )}
               </div>
-              {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+              {errors.file && <p className="text-red-500 text-sm mt-1">{errors.file}</p>}
 
               <input
                 type="file"
-                accept="image/*"
+                accept=".pdf,.jpg,.jpeg,.png"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 className="hidden"
@@ -296,7 +295,7 @@ export const Createtickets = () => {
                 hover:opacity-90 transition"
                 style={{ ...FONTS.para_01, fontSize: '15px' }}
               >
-                {isLoading ? 'Creating...' : 'Create Ticket'}
+                {isLoading ? 'Submitting...' : 'Submit'}
               </Button>
             </div>
           </CardContent>

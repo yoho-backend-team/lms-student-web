@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { GetImageUrl } from '@/utils/helper';
 
 const TicketId = () => {
   const { id } = useParams();
@@ -45,6 +46,8 @@ const TicketId = () => {
     }
   };
   
+
+  console.log(ticket.file,"ticket");
   
 
   return (
@@ -162,7 +165,7 @@ const TicketId = () => {
               <div className="bg-[#ebeff3] text-sm !text-gray-700 mt-6 rounded-md p-3 flex justify-between items-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={{ ...FONTS.para_01, fontSize: '14px' }}>
                 <span>{ticket?.file ? "Attachment available" : "No Attachment"}</span>
                 {ticket?.file && (
-                  <a href={ticket.file} target="_blank" rel="noopener noreferrer" className="!text-[#7b00ff] text-sm font-medium hover:underline">
+                  <a href={GetImageUrl(ticket.file)} target="_blank" rel="noopener noreferrer" className="!text-[#7b00ff] text-sm font-medium hover:underline">
                     View
                   </a>
                 )}
