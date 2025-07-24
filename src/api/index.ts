@@ -142,6 +142,10 @@ class Client {
       get: (url: any) => httpClient.fileGet(url),
     },
   };
+
+  notificatinsubscription = {
+    post: (data: any) => httpClient.post(HTTP_END_POINTS.notificationSubscription.post, data)
+  }
 }
 
 export default new Client();

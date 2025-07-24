@@ -63,6 +63,9 @@ const getEndpoints = (): Endpoints => {
 				upload: '/upload/',
 			},
 		},
+		notificationSubscription: {
+			post: '/notification/subscribe',
+		},
 	};
 };
 

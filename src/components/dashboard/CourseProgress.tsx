@@ -13,12 +13,10 @@ const CourseProgress: React.FC = () => {
 
     const CourseProgress = useSelector((state: any) => state.dashboard.data.classes) ?? []
 
-    console.log(CourseProgress)
-
-    const progress = CourseProgress?.[0]?.total
+    const progress = CourseProgress?.[0]?.total || 0
     const radius = 80
     const circumference = 2 * Math.PI * radius
-    const strokeDashoffset = circumference - (progress / 100) * circumference
+    const strokeDashoffset = (circumference - (progress / 100) * circumference) || 0
 
     return (
         <Card className="flex w-full h-[365px] items-start justify-center gap-2.5 p-5 relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">

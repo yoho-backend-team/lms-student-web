@@ -6,14 +6,17 @@ import { AuthProvider } from './context/AuthContext/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { LoadingProvider } from './context/LoadingContext/LoadingContext';
 function App() {
 	return (
 		<ToastProvider>
 			<BrowserRouter>
-				<AuthProvider>
-						<ToastContainer position="top-right" autoClose={3000} />
-					<AppRoutes />
-				</AuthProvider>
+				<LoadingProvider>
+					<ToastContainer position='top-right' autoClose={3000} />
+					<AuthProvider>
+						<AppRoutes />
+					</AuthProvider>
+				</LoadingProvider>
 			</BrowserRouter>
 		</ToastProvider>
 	);

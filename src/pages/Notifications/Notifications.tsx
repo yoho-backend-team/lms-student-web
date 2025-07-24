@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backImg from '../../assets/icons/common/back_arrow.png';
 import {
@@ -63,7 +64,7 @@ const Notifications = () => {
 
 	const totalMessages = Notifications.length;
 	const unreadMessages = Notifications.filter(
-		(n:any) => n.status === 'unread'
+		(n: any) => n.status === 'unread'
 	).length;
 
 	const handleClearSearch = () => {
@@ -84,8 +85,8 @@ const Notifications = () => {
 	};
 
 
-	const handleDeleteNotification = async (notification: any) =>{
-		try{
+	const handleDeleteNotification = async (notification: any) => {
+		try {
 			const response = await deleteNotification({
 				uuid: notification?.uuid
 			})
