@@ -15,7 +15,7 @@ import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { Button } from '@/components/ui/button';
-import InvoiceReceipt from '../../InvoiceReceipt'
+import InvoiceReceipt from '../../utils/InvoiceReceipt'
 
 const Payment = () => {
 
@@ -41,7 +41,7 @@ const Payment = () => {
 	return (
 
 		<>
-		<div className=' lg:flex md:grid gap-8 pl-8 pr-6 mb-2'>
+		<div className=' lg:flex md:grid gap-8 mb-2'>
 			<div className='lg:w-1/4 md'>
 				<h1
 					className='font-semibold text-2xl py-6'
