@@ -1,1 +1,2 @@
-export const selectDashBoard = (state) => state.DashBoardSlice.data
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const selectDashBoard = (state: any) => state.dashboard.data

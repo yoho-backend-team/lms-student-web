@@ -7,10 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { BsInfoCircle } from 'react-icons/bs';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
-import { selectToken } from '@/features/Authentication/reducers/selectors';
+import { toast } from 'react-toastify';
 
 type LoginData = {
 	email: string;
@@ -31,14 +31,17 @@ const Login = () => {
 	const onSubmit = async (data: LoginData) => {
 		try {
 			if (data.email) {
-				const response: any = await dispatch(getStudentLogin(data, {}));
+				const response: any = await dispatch(getStudentLogin(data,{}));
 				if (response) {
+					toast.success('Login successful!', {style:{ backgroundColor: 'green', color: 'white'}});
 					login(response);
+					
 					navigate('/');
 				}
 			}
 		} catch (error: any) {
 			console.log('error', error);
+			toast.error('Login failed. Please try again.', {style:{ backgroundColor: 'red', color: 'white'}});
 		}
 	};
 

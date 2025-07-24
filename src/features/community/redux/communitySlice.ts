@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+
 
 const communitySlice = createSlice({
   name: 'communities',
@@ -10,11 +11,11 @@ const communitySlice = createSlice({
     setCommunities: (state, action) => {
       state.data = action.payload;
     },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
+    setMessage: (state, action) => {
+      state.data = action.payload;
     }
   }
 });
 
-export const { setCommunities, setLoading } = communitySlice.actions;
+export const { setCommunities, setMessage } = communitySlice.actions;
 export default communitySlice.reducer;

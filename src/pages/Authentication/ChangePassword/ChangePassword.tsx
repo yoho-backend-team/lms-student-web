@@ -3,9 +3,11 @@ import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { resetpasswordClient } from '@/features/Authentication/services';
+import { toast } from 'react-toastify';
 
 type ChangePassword = {
 	newPassword: string;
@@ -19,19 +21,47 @@ const Login = () => {
 		formState: { errors },
 	} = useForm<ChangePassword>({});
 	const [showPassword, setShowPassword] = useState(false);
+	  const location = useLocation();
+	  const { email } = location.state || {};
 	const navigate = useNavigate();
 
-	const onSubmit = async (data: ChangePassword) => {
-		try {
-			if (data.newPassword === data.confirmPassword) {
-				navigate('/login');
-			} else {
-				console.log('Credentials Not-Matched');
-			}
-		} catch (error: any) {
-			console.log('error', error);
-		}
-	};
+	// const onSubmit = async (data: ChangePassword) => {
+	// 	try {
+	// 		if (data.newPassword === data.confirmPassword) {
+	// 			navigate('/login');
+	// 		} else {
+	// 			console.log('Credentials Not-Matched');
+	// 		}
+	// 	} catch (error: any) {
+	// 		console.log('error', error);
+	// 	}
+	// };
+
+	const onSubmit = async (formData: ChangePassword) => {
+    try {
+      if (formData.newPassword !== formData.confirmPassword) {
+        toast.error('Passwords do not match');
+        return;
+      }
+	  console.log(email, 'email')
+      const payload = {
+        email,
+        new_password: formData.newPassword,
+        confirm_password: formData.confirmPassword,
+      };
+
+      const response = await resetpasswordClient(payload, {});
+	  console.log(response, 'response')
+	  if(response){
+		  toast.success('Password reset successfully', {style:{ backgroundColor: 'green', color: 'white'}});
+		  navigate('/login');
+	  }
+	  
+    } catch (error) {
+      console.error('Reset Password Error:', error);
+      toast.error('Something went wrong', {style:{ backgroundColor: 'red', color: 'white'}});
+    }
+  };
 
 	return (
 		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>
@@ -59,7 +89,7 @@ const Login = () => {
 						</Card>
 
 						<p className='text-center my-3' style={{ ...FONTS.heading_02 }}>
-							Change Password
+							Reset Password
 						</p>
 
 						<form onSubmit={handleSubmit(onSubmit)} className='w-full my-4'>

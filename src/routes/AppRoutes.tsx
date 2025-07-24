@@ -1,7 +1,6 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import Notes_Materials from '@/components/courses/Notes_Materials';
 import Task_Projects from '@/components/courses/TaskProjectsPages';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
@@ -27,16 +26,22 @@ import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Createtickets } from '@/components/Tickets/Createtickets';
+// import Loader from '@/components/Loader/Loader';
+// import { useLoader } from '@/context/LoadingContext/Loader';
+// import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated } = useAuth();
+	const { isAuthenticated, isLoading } = useAuth();
+	// const { IsLoading } = useLoader();
+	if (isLoading) return null;
 
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
 			<Route path='forgot-password' element={<EmailVerification />} />
 			<Route path='otp-verify' element={<OtpVerification />} />
-			<Route path='change-password' element={<ChangePassword />} />
+			<Route path='reset-password' element={<ChangePassword />} />
 			<Route path='*' element={<Navigate to='/login' />} />
 		</Routes>
 	);
@@ -52,6 +57,7 @@ const AppRoutes = () => {
 				<Route path='activity-logs' element={<ActivityLogs />} />
 				<Route path='tickets' element={<Tickets />} />
 				<Route path='ticket/:id' element={<TicketId />} />
+				<Route path='/tickets/create-ticket' element={<Createtickets />} />
 				<Route path='profile' element={<Profile />} />
 				<Route path='help-center' element={<HelpCenter />} />
 				<Route path='faqs' element={<FAQs />} />
@@ -64,7 +70,6 @@ const AppRoutes = () => {
 				<Route path='/about' element={<AboutCourse />} />
 				<Route path='note_materials' element={<NotesMaterials />} />
 				<Route path='/about/:course' element={<AboutCourse />} />
-				<Route path='notes_materials' element={<Notes_Materials />} />
 				<Route path='task_projects' element={<Task_Projects />} />
 				<Route path='course_track' element={<CourseTrack />} />
 				<Route path='*' element={<Navigate to='/' />} />
