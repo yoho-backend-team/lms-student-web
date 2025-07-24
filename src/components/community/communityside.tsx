@@ -24,7 +24,7 @@ const communityside = () => {
 
   ];
 
-  const handleChatClick = (chat) => {
+  const handleChatClick = (chat:any) => {
     setSelectedChat(chat);
   };
 
@@ -41,7 +41,7 @@ const communityside = () => {
     setInputMessage('');
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e:any) => {
     if (e.key === 'Enter') {
       handleSendMessage();
     }

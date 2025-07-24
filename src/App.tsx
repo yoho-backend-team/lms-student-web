@@ -9,6 +9,7 @@ function App() {
 			<BrowserRouter>
 				<AuthProvider>
 					<AppRoutes />
+					
 				</AuthProvider>
 			</BrowserRouter>
 		</ToastProvider>

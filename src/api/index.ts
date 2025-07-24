@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import httpClient from './httpclients';
 import HTTP_END_POINTS from './http_Endpoints';
 
