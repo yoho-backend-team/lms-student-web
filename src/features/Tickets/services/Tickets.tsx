@@ -1,6 +1,5 @@
 import Client from '../../../api/index';
 
-<<<<<<< HEAD
 export const getticketdata = async (params: any) => {
 	const response = await Client.student.ticket.get(params);
 	if (response) {
@@ -14,38 +13,17 @@ export const createticketdata = async (data: any, params: any) => {
 		return response;
 	}
 };
-=======
-export const getticketdata = async (params:any) => {
-    
-      const response = await Client.student.ticket.get(params)
-      if(response){
-    return response;
-      }
-    
-}
 
-export const createticketdata = async (data:any,params:any) => {
-    
-      const response = await Client.student.ticket.create(data,params)
-      if(response){
-    return response;
-      }
-    
-}
-
-export const uploadticketfile = async (data:any) =>{
-  const response = await Client.common.file.upload(data)
-  if(response){
-    return response
-  } 
-}
+export const uploadticketfile = async (data: any) => {
+	const response = await Client.common.file.upload(data);
+	if (response) {
+		return response;
+	}
+};
 
 // export const getticketfile = async () =>{
 //   const response = await Client.common.file.get()
 //   if(response){
 //     return response
-//   } 
+//   }
 // }
- 
-    
->>>>>>> 592350a1f94fc0867f1eaec12f0381f6620bfcce
