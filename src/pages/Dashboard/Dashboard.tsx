@@ -17,57 +17,59 @@ import { useLoader } from '@/context/LoadingContext/Loader';
 import Loader from '@/components/Loader/Loader';
 
 const Dashboard: React.FC = () => {
-	const { TabView } = TabViewResponsive()
-	const dispatch = useDispatch<any>()
-	const { showLoader, hideLoader, IsLoading } = useLoader()
+	const { TabView } = TabViewResponsive();
+	const dispatch = useDispatch<any>();
+	const { showLoader, hideLoader, IsLoading } = useLoader();
 
 	useEffect(() => {
 		(async () => {
 			try {
 				showLoader();
-				const timeoutId = setTimeout(() => { hideLoader() }, 10000);
+				const timeoutId = setTimeout(() => {
+					hideLoader();
+				}, 10000);
 				const response = await dispatch(getDashBoardReports());
 				if (response) {
-					clearTimeout(timeoutId)
+					clearTimeout(timeoutId);
 				}
 			} finally {
 				hideLoader();
 			}
-		})()
+		})();
 	}, [dispatch, hideLoader, showLoader]);
-
 
 	return (
 		<>
-			<div className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden' style={{ scrollbarWidth: "none" }}>
-				{
-					IsLoading &&
-					<div className="w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm">
+			<div
+				className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden'
+				style={{ scrollbarWidth: 'none' }}
+			>
+				{IsLoading && (
+					<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm'>
 						<Loader />
 					</div>
-				}
-				{
-					TabView ?
-						<div className='flex flex-col gap-5'>
+				)}
+				{TabView ? (
+					<div className='flex flex-col gap-5'>
+						<ProfileCard />
+						<div className='flex flex-row gap-5'>
+							<InstituteDetails />
+							<CourseProgress />
+						</div>
+					</div>
+				) : (
+					<div className='grid grid-cols-8 gap-5 justify-between'>
+						<div className='col-span-2 col-start-1'>
+							<InstituteDetails />
+						</div>
+						<div className='col-span-4'>
 							<ProfileCard />
-							<div className='flex flex-row gap-5'>
-								<InstituteDetails />
-								<CourseProgress />
-							</div>
 						</div>
-						:
-						<div className="grid grid-cols-8 gap-5 justify-between">
-							<div className='col-span-2 col-start-1'>
-								<InstituteDetails />
-							</div>
-							<div className='col-span-4'>
-								<ProfileCard />
-							</div>
-							<div className="col-span-2">
-								<CourseProgress />
-							</div>
+						<div className='col-span-2'>
+							<CourseProgress />
 						</div>
-				}
+					</div>
+				)}
 
 				{TabView ? (
 					<div className='flex flex-col gap-5'>
