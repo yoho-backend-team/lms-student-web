@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
 				showLoader();
 				const timeoutId = setTimeout(() => {
 					hideLoader();
-				}, 10000);
+				}, 5000);
 				const response = await dispatch(getDashBoardReports());
 				if (response) {
 					clearTimeout(timeoutId);
