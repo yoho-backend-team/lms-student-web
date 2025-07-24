@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
-// import instituteLogo from '../../assets/dashboard/Group 191.png'
-import { FONTS } from '@/constants/uiConstants'
-import { useSelector } from 'react-redux'
-import { GetImageUrl } from '@/utils/helper'
+import React from 'react';
+import { FONTS } from '@/constants/uiConstants';
+import { useSelector } from 'react-redux';
+import { GetImageUrl } from '@/utils/helper';
 
 const InstituteDetails: React.FC = () => {
-
-    const institute = useSelector((state: any) => state.dashboard.data.institute)
+    const institute = useSelector((state: any) => state.dashboard.data.institute);
 
     return (
         <div className='w-full h-[365px] flex flex-col gap-[10px] p-[20px] rounded-[16px] divshadow'>
@@ -18,4 +15,4 @@ const InstituteDetails: React.FC = () => {
     )
 }
 
-export default InstituteDetails
+export default InstituteDetails;

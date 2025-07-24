@@ -1,53 +1,58 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Gridprofile from '@/components/dashboard/ui/GridProgress'
-import React from 'react'
-import { FONTS } from '@/constants/uiConstants'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { GetImageUrl } from '@/utils/helper'
+import Gridprofile from '@/components/dashboard/ui/GridProgress';
+import React from 'react';
+import { FONTS } from '@/constants/uiConstants';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { GetImageUrl } from '@/utils/helper';
 
 const ProfileCard: React.FC = () => {
+    const ClassesData: any = useSelector(
+        (state: any) => state.dashboard.data.classes
+    );
 
-    const ClassesData: any = useSelector((state: any) => state.dashboard.data.classes)
+    const StudentData: any = useSelector(
+        (state: any) => state.dashboard.data.user
+    );
 
-    const StudentData: any = useSelector((state: any) => state.dashboard.data.user)
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const data = [
         {
-            title: "Total Classes",
-            icon: "totalclass",
+            title: 'Total Classes',
+            icon: 'totalclass',
             total: ClassesData?.[0]?.total,
         },
         {
-            title: "Completed",
-            icon: "completed",
-            total: (ClassesData?.[0]?.offline_class?.completed + ClassesData?.[0]?.online_class?.completed) || 0,
+            title: 'Completed',
+            icon: 'completed',
+            total:
+                ClassesData?.[0]?.offline_class?.completed +
+                ClassesData?.[0]?.online_class?.completed || 0,
         },
         {
-            title: "Pending",
-            icon: "pending",
-            total: (ClassesData?.[0]?.offline_class?.pending + ClassesData?.[0]?.online_class?.pending) || 0,
+            title: 'Pending',
+            icon: 'pending',
+            total:
+                ClassesData?.[0]?.offline_class?.pending +
+                ClassesData?.[0]?.online_class?.pending || 0,
         },
         {
-            title: "Live Class",
-            icon: "liveclass",
+            title: 'Live Class',
+            icon: 'liveclass',
             total: ClassesData?.[0]?.offline_class?.total,
         },
         {
-            title: "Online Class",
-            icon: "onlineclass",
+            title: 'Online Class',
+            icon: 'onlineclass',
             total: ClassesData?.[0]?.online_class?.total,
         },
         {
-            title: "Offline Class",
-            icon: "offlineclass",
+            title: 'Offline Class',
+            icon: 'offlineclass',
             total: ClassesData?.[0]?.offline_class?.total,
-        }
-    ]
-
-
+        },
+    ];
 
     return (
         <div className='flex flex-col w-full h-[365px] gap-4 p-[20px] divshadow shadow-xl rounded-[16px]'>
@@ -84,4 +89,4 @@ const ProfileCard: React.FC = () => {
     )
 }
 
-export default ProfileCard
+export default ProfileCard;

@@ -52,7 +52,7 @@ const OtpVerification = () => {
 			const response = await updateVerifyOtpClient(params_data,{})
 			console.log(response, 'otp response')
 			if(response){
-				toast.success('Verification  otp sent successfully!');
+				toast.success('  Otp verified successfully!', {style:{ backgroundColor: 'green', color: 'white'}});
 				navigate('/reset-password', {
 					state:{
 						email
@@ -61,7 +61,7 @@ const OtpVerification = () => {
 			}
 		} catch (error) {
 			console.error('OTP verify error:', error);
-			  toast.error('Failed to send otp verification email');
+			  toast.error('Failed to verify otp ', {style:{ backgroundColor: 'red', color: 'white'}});
 		}
 	};
 

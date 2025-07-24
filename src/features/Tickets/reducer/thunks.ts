@@ -1,4 +1,4 @@
-import { getticketdata } from '../services/Tickets';
+import {  getticketdata } from '../services/Tickets';
 import { getticketdetails } from './TicketSlice';
 
 
@@ -12,3 +12,4 @@ export const getStudentticket =
             console.log(error);
         }
     };
+   

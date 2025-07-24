@@ -20,7 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllNotificationsThunk } from '@/features/Notifications/reducers/thunks';
 import { selectNotifications } from '@/features/Notifications/reducers/selectors';
 import { deleteNotification, updateNotificationStatus } from '@/features/Notifications/services';
-//import {notificationimg} from '../../assets/dashboard/updates.png';
+import updatedimg from '../../assets/dashboard/notification.png';
+import { toast } from 'react-toastify';
 
 interface Notification {
 	id: string;
@@ -91,10 +92,14 @@ const Notifications = () => {
 				uuid: notification?.uuid
 			})
 			console.log(response, "Response from delete notification")
+			toast.success('Notification deleted successfully!', {style:{ backgroundColor: 'green', color: 'white'}});
 			setSelectedNotification(null);
 		}
 		catch (error) {
 			console.error('Error deleting notification:', error);
+			toast.error('Failed to delete notification.', 
+			 {style:{ backgroundColor: 'green', color: 'white'}}
+		);
 		}
 	}
 
@@ -227,9 +232,9 @@ const Notifications = () => {
 								</Card>
 							))
 						) : (
-							<div className='text-center py-8' style={{ ...FONTS.para_01 }}>
-								{/* <img src={notificationimg} alt="" /> */}
-								No available notifications not found
+							<div className='text-center py-8 ' style={{ ...FONTS.para_01 }}>
+                             <img src={updatedimg} alt="" className='h-[250px] w-[550px]'/>
+								<p className='mt-5'>No available notifications data </p>
 							</div>
 						)}
 					</div>

@@ -68,7 +68,7 @@ const Tickets = () => {
   };
 
   useEffect(() => {
-    dispatch(getStudentticket({ page: 1, limit: 10 }));
+    dispatch(getStudentticket({ page: 2, limit: 10 }));
   }, [dispatch]);
 
   const formatDate = (dateString: string) => {

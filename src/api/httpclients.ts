@@ -14,7 +14,7 @@ const Axios = axios.create({
 });
 
 Axios.interceptors.request.use((config) => {
-	const token = GetLocalStorage('authToken')
+	const token = GetLocalStorage('authToken');
 
 	if (token) {
 		config.headers['Authorization'] = `Token ${token ? token : ''}`;
@@ -30,7 +30,7 @@ Axios.interceptors.response.use(
 			error?.response.status == 401 &&
 			error?.response?.data?.status === 'session_expired'
 		) {
-			ClearLocalStorage()
+			ClearLocalStorage();
 			window.location.reload();
 		}
 	}
@@ -101,8 +101,6 @@ class HttpClient {
 
 		return response?.data;
 	}
-
 }
-
 
 export default new HttpClient();
