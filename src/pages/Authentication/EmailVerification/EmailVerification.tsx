@@ -31,7 +31,7 @@ const EmailVerification = () => {
       const response = await forgotPasswordClient({ email: data.email }, {});
       
      if (response) {
-       toast.success('Verification email sent successfully!');
+       toast.success('Verification email sent successfully!', {style:{ backgroundColor: 'green', color: 'white'}});
         navigate('/otp-verify', { 
           state: { 
             email: data?.email,
@@ -41,7 +41,7 @@ const EmailVerification = () => {
      }
     } catch (error: any) {
       console.error('Verification error:', error);
-      toast.error(error.response?.data?.message || 'Failed to send verification email');
+      toast.error(error.response?.data?.message || 'Failed to send verification email', {style:{ backgroundColor: 'red', color: 'white'}});
     } finally {
       setIsLoading(false);
     }

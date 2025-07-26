@@ -24,8 +24,6 @@ const Updates: React.FC = () => {
 
     const dts = useSelector((state: any) => state.NotificationSlice.data) ?? []
 
-    console.log(dts, "notify")
-
     data = dts.filter((items: any) => items.createdAt == nowdate)
     prev = dts.filter((items: any) => items.createdAt != nowdate)
 

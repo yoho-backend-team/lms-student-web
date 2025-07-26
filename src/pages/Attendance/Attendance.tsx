@@ -300,9 +300,8 @@ useEffect(() => {
                 <li>Notes: Good Performance</li>
               </ul>
             </div>
-            <button
-              className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray !text-black rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow cursor-pointer ${
-                activeTab === tab"
+            <button  className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray  rounded-xl btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
+            
               style={{ ...FONTS.heading_06 }}
             >
               View Details

@@ -56,4 +56,8 @@ export type Endpoints = {
 			upload: string;
 		};
 	};
+
+	notificationSubscription: {
+		post: string;
+	};
 };

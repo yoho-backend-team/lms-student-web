@@ -10,23 +10,29 @@ import Star from '../../assets/icons/payments/Star.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPayment } from '@/features/Payment/reducers/selectors';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { Button } from '@/components/ui/button';
+import InvoiceReceipt from '../../utils/InvoiceReceipt'
 
 const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
 	const profileDetails = useSelector(selectProfile)
-	
+
+	const [open, setOpen] = useState(false);
+	function handleDownload() {
+		setIsDownload(true)
+		// <InvoiceReceipt />
+	}
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
-		console.log(profileDetails,"Profile Details")
 		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
+		console.log(paymentDetails, "Payment Details")
 	}, [dispatch]);
 
 	const rating = paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0
@@ -34,7 +40,8 @@ const Payment = () => {
 
 	return (
 
-		<div className=' lg:flex md:grid gap-8 pl-8 pr-6 mb-2'>
+		<>
+		<div className=' lg:flex md:grid gap-8 mb-2'>
 			<div className='lg:w-1/4 md'>
 				<h1
 					className='font-semibold text-2xl py-6'
@@ -181,15 +188,16 @@ const Payment = () => {
 								Fees Details
 							</h1>
 							<Button
-								className='p-2 px-4 rounded-lg cursor-pointer bg-gray text-white rounded-xl btnshadow !text-black text-[14px] hover:!text-white btnhovershadow 
+								className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
 								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
 								style={{
 									...FONTS.para_02,
-									color:'white',
+									color: 'white',
 									// boxShadow: `
-      								// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      								// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+									// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+									// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 								}}
+								onClick={() => setOpen(true)}
 							>
 								Download Receipt
 							</Button>
@@ -267,72 +275,87 @@ const Payment = () => {
 					>
 						Payment History
 					</h1>
-					<div className='p-5 flex flex-col gap-2  custom-inset-shadow'>
+					<div className='p-5 flex flex-col gap-2 custom-inset-shadow'>
 						<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
 							View PDF
 						</h1>
 
-						<section className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
-							<h1
-								style={{
-									...FONTS.heading_05,
-								}}
-							>
-								{new Date(paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.payment_date : "NA").toLocaleDateString("en-GB", {
-									day: "2-digit",
-									month: "long",
-									year: "numeric",
-								})}
-							</h1>
-							<button
-								className='p-2 px-4 rounded-lg  rounded-xl btnshadow text-gray text-[14px] hover:!text-white btnhovershadow cursor-pointer'
-								style={{
-									...FONTS.para_02,
-									boxShadow: `
+						{paymentDetails?.payment_history?.map((paidFees: any) => {
+							return (
+								paidFees.balance == 0 &&
+								<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+									<h1
+										style={{
+											...FONTS.heading_05,
+										}}
+									>
+										{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.payment_date : "NA").toLocaleDateString("en-GB", {
+											day: "2-digit",
+											month: "long",
+											year: "numeric",
+										})}
+									</h1>
+									<button
+										className='p-2 px-4 rounded-lg cursor-pointer'
+										style={{
+											...FONTS.para_02,
+											boxShadow: `
       										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
       										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-								}}
-							>
-								View PDF
-							</button>
-						</section>
+										}}
+									>
+										View PDF
+									</button>
+								</section>
+							)
+						})
+						}
+
 
 						<div className='flex justify-between items-center mb-5'>
 							<h1 style={{ ...FONTS.heading_05 }}>Pay Due</h1>
 							<p style={{ ...FONTS.para_02 }}>{paymentDetails?.pending_payment != 0 ? "Pending Payments" : "No Pending Payments"}</p>
 						</div>
 
-						<section className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
-							<h1
-								style={{
-									...FONTS.heading_05,
-								}}
-							>
-								{new Date(paymentDetails.length !== 0 ? paymentDetails?.payment_history[0].
-									duepaymentdate : "NA"
-								).toLocaleDateString("en-GB", {
-									day: "2-digit",
-									month: "long",
-									year: "numeric",
-								})}
-							</h1>
-							<p
-								className='p-2 px-4 rounded-lg cursor-pointer'
-								style={{
-									...FONTS.para_02,
-									color: COLORS.light_red,
-									boxShadow: `
+						{paymentDetails?.payment_history?.map((paidFees: any) => {
+							return (
+								paidFees.balance !== 0 &&
+								<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+									<h1
+										style={{
+											...FONTS.heading_05,
+										}}
+									>
+										{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.duepaymentdate : "NA"
+										).toLocaleDateString("en-GB", {
+											day: "2-digit",
+											month: "long",
+											year: "numeric",
+										})}
+									</h1>
+									<p
+										className='p-2 px-4 rounded-lg cursor-pointer'
+										style={{
+											...FONTS.para_02,
+											color: COLORS.light_red,
+											boxShadow: `
       										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
       										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-								}}
-							>
-								{paymentDetails.length !== 0 ? paymentDetails?.pending_payment : 0}
-							</p>
-						</section>
+										}}
+									>
+										{paymentDetails.length !== 0 ? paidFees?.balance : 0}
+									</p>
+								</section>
+							)
+						})
+						}
 					</div>
 				</div>
 			</div>
+
 		</div>
+			<InvoiceReceipt open={open} onClose={() => setOpen(false)}  paymentDetails={paymentDetails}/>
+			</>
 	);
 };
 

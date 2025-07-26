@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext/AuthContext';
 import { useDispatch } from 'react-redux';
 import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
+import { toast } from 'react-toastify';
 
 type LoginData = {
 	email: string;
@@ -32,12 +33,15 @@ const Login = () => {
 			if (data.email) {
 				const response: any = await dispatch(getStudentLogin(data,{}));
 				if (response) {
+					toast.success('Login successful!', {style:{ backgroundColor: 'green', color: 'white'}});
 					login(response);
+					
 					navigate('/');
 				}
 			}
 		} catch (error: any) {
 			console.log('error', error);
+			toast.error('Login failed. Please try again.', {style:{ backgroundColor: 'red', color: 'white'}});
 		}
 	};
 

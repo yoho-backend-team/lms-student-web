@@ -27,11 +27,15 @@ import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Createtickets } from '@/components/Tickets/Createtickets';
+// import Loader from '@/components/Loader/Loader';
+// import { useLoader } from '@/context/LoadingContext/Loader';
 // import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated, isLoading  } = useAuth();
-     if(isLoading) return null;
+	const { isAuthenticated, isLoading } = useAuth();
+	// const { IsLoading } = useLoader();
+	if (isLoading) return null;
+
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
