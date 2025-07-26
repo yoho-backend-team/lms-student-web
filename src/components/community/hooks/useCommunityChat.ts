@@ -21,6 +21,7 @@ export function useCommunityChat({
 }: UseCommunityChatArgs) {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isConnected, setIsConnected] = useState<boolean>(false)
 
   const selectChat = (chat: Community) => {
     const selected: Chat = {
@@ -54,17 +55,28 @@ export function useCommunityChat({
   useEffect(() => {
     if (!socket) return;
 
-    const handler = (msg: Message) => {
-      if (msg.groupId === selectedChat?._id) {
-        setMessages((prev) => [...prev, msg]);
-      }
+    const handleMessage = (message:Message) => {
+      setMessages((prev) => [...prev, message]);
     };
 
-    socket.on(receiveEventName, handler);
-    return () => {
-      socket.off(receiveEventName, handler);
+    const handleConnection = () => {
+      setIsConnected(true);
     };
-  }, [socket, selectedChat?._id, receiveEventName]);
+
+    const handleDisconnection = () => {
+      setIsConnected(false);
+    };
+
+    socket.on("newMessage", handleMessage);
+    socket.on("connect", handleConnection);
+    socket.on("disconnect", handleDisconnection);
+
+    return () => {
+      socket.off("newMessage", handleMessage);
+      socket.off("connect", handleConnection);
+      socket.off("disconnect", handleDisconnection);
+    };
+  }, [socket, setMessages, messages]);
 
   const sendMessage = (text: string) => {
     if (!socket || !selectedChat || !text.trim() || !userId) return;

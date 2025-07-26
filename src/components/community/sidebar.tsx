@@ -21,7 +21,7 @@ const Sidebar: React.FC<Props> = ({
   formatMessageDate,
 }) => {
   return (
-    <div className="w-full lg:w-[400px] xl:w-[500px] h-[490px] bg-[#EBEFF3] rounded-xl shadow-2xl">
+    <div className="w-full lg:w-[400px] xl:w-[500px] h-[500px] bg-[#EBEFF3] rounded-xl shadow-2xl">
       <div className="relative p-2 bg-[#EBEFF3]">
         <div className="relative mt-4">
           <input
@@ -47,7 +47,12 @@ const Sidebar: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="p-4 h-[calc(500px-80px)] overflow-y-scroll relative bg-[#EBEFF3]">
+      <div className="p-4 h-[calc(500px-80px)] relative bg-[#EBEFF3] max-h-100 overflow-y-auto
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         {communities.map((chat) => (
           <div
             key={chat._id}

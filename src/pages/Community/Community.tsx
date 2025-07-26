@@ -22,10 +22,11 @@ const Community = () => {
 	}, [dispatch]);
 	return (
 		<>
-			<div className='w-[260px] sticky ml-6 mt-2'>
+			<div className=' sticky ml-2 mt-2'>
 				<p className='text-2xl font-semibold'>Community</p>
+				<Communityside communities={communities} />
 			</div>
-			<Communityside communities={communities} />
+			
 		</>
 	);
 };
