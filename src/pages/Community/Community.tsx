@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Communityside from '../../components/community/communityside'; // Fixed filename
+import Communityside from '../../components/community/communityside';
 import { useAppDispatch } from '../../features/community/redux/hooks';
 import { getAllCommunitiesData } from '@/features/community/redux/commuityThunk';
 import { useSelector } from 'react-redux';

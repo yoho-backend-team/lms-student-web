@@ -26,6 +26,7 @@
     "dom-to-image-more": "^3.6.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "emoji-picker-react": "^4.13.2",
     "formik": "^2.4.6",
     "framer-motion": "^12.19.1",
     "heroicons": "^2.2.0",
