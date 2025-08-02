@@ -5,13 +5,15 @@ import { FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks'
+import { selectProfile } from '@/features/Profile/reducers/selectors'
 
 const Payment: React.FC = () => {
 
     const dispatch = useDispatch<any>()
+    const profileDetails = useSelector(selectProfile)
 
     useEffect(() => {
-        dispatch(getStudentPaymentThunk({ paymentId: '67f3b8feb8d2634300cc8819' }));
+        dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
     }, [dispatch]);
 
     const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []
