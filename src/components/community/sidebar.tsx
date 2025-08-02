@@ -21,7 +21,7 @@ const Sidebar: React.FC<Props> = ({
   formatMessageDate,
 }) => {
   return (
-    <div className="w-full lg:w-[400px] xl:w-[500px] h-[490px] bg-[#EBEFF3] rounded-xl shadow-2xl">
+    <div className="w-full lg:w-[400px] xl:w-[500px] h-[500px] bg-[#EBEFF3] rounded-xl shadow-2xl">
       <div className="relative p-2 bg-[#EBEFF3]">
         <div className="relative mt-4">
           <input
@@ -32,7 +32,7 @@ const Sidebar: React.FC<Props> = ({
             className="w-full sticky p-3 h-10 pl-10 bg-[#EBEFF3] rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
           />
           <svg
-            className="absolute left-3 top-3.5 h-5 w-5 text-gray-500"
+            className="absolute left-3 top-3 h-5 w-5 text-gray-500"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -47,7 +47,12 @@ const Sidebar: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="p-4 h-[calc(500px-80px)] overflow-y-scroll relative bg-[#EBEFF3]">
+      <div className="p-4 h-[calc(500px-80px)] relative bg-[#EBEFF3] max-h-100 overflow-y-auto
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         {communities.map((chat) => (
           <div
             key={chat._id}
