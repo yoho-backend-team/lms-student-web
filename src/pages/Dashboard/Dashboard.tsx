@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import Loader from '@/components/Loader/Loader';
+import TourButton from '@/components/ui/TourButton';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive();
@@ -49,6 +50,8 @@ const Dashboard: React.FC = () => {
 						<Loader />
 					</div>
 				)}
+				<TourButton />
+
 				{TabView ? (
 					<div className='flex flex-col gap-5'>
 						<ProfileCard />
