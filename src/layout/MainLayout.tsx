@@ -3,6 +3,7 @@ import Footer from '@/components/shared/Footer';
 import Navbar from '@/components/shared/Navbar';
 import { Outlet } from 'react-router-dom';
 import Client from '../api/index'
+import Chatbot from '@/components/Chatbot/Chatbot';
 
 const MainLayout = () => {
 
@@ -57,6 +58,7 @@ const MainLayout = () => {
 					<Footer />
 				</div>
 			</div>
+			<Chatbot />
 		</>
 	);
 };

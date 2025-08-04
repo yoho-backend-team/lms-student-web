@@ -126,6 +126,17 @@ const Chatbot: React.FC = () => {
       return 'Connect with fellow students in the Community section for discussions, knowledge sharing, and peer support.';
     }
     
+    // Spoken English related queries
+    if (message.includes('spoken english') || message.includes('speaking') || message.includes('pronunciation') || message.includes('conversation') || message.includes('fluency')) {
+      if (message.includes('practice') || message.includes('improve') || message.includes('exercise')) {
+        return 'Practice spoken English through interactive sessions in the Spoken English section. Join conversation practice, pronunciation exercises, and speaking assessments.';
+      }
+      if (message.includes('session') || message.includes('class') || message.includes('live')) {
+        return 'Access live spoken English sessions in the Spoken English section. Participate in group conversations and one-on-one speaking practice with instructors.';
+      }
+      return 'Enhance your speaking skills in the Spoken English section with practice sessions, pronunciation guides, and interactive conversation exercises.';
+    }
+    
     // Technical issues
     if (message.includes('login') || message.includes('password') || message.includes('access') || message.includes('technical')) {
       return 'For login issues, try resetting your password or clearing browser cache. Contact support with your registered email if problems persist.';
@@ -174,7 +185,7 @@ const Chatbot: React.FC = () => {
     ];
     
     // Return random AI-like response
-    return aiResponses[Math.floor(Math.random() * aiResponses.length)] + ' I can assist you with: Courses & Classes, Payments & Billing, Profile Management, Attendance Records, Notifications, Community Discussions, Assignments & Assessments, and Technical Support. What would you like to know?';
+    return aiResponses[Math.floor(Math.random() * aiResponses.length)] + ' I can assist you with: Courses & Classes, Payments & Billing, Profile Management, Attendance Records, Notifications, Community Discussions, Assignments & Assessments, Spoken English Practice, and Technical Support. What would you like to know?';
   };
 
   const handleSendMessage = () => {
