@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { Mic, Square } from 'lucide-react';
+import { Mic, Square, Lock, CheckCircle, Lightbulb } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const SpokenEnglishLearning = () => {
@@ -347,7 +347,7 @@ const SpokenEnglishLearning = () => {
 											{levelIndex + 1}
 										</div>
 										<span style={{ ...FONTS.para_02, fontWeight: isActive ? 'bold' : 'normal' }}>
-											{level} {!isUnlocked && '🔒'}
+											<span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{level} {!isUnlocked && <Lock size={12} />}</span>
 										</span>
 									</div>
 									
@@ -376,7 +376,7 @@ const SpokenEnglishLearning = () => {
 														></div>
 														<div className='flex items-center justify-between w-full'>
 															<span style={{ ...FONTS.para_03, fontSize: '13px' }}>
-																{topic} {!isTopicUnlocked && '🔒'}
+																<span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>{topic} {!isTopicUnlocked && <Lock size={10} />}</span>
 															</span>
 															{levelScores[`${currentLevel}-${topic}`] && levelScores[`${currentLevel}-${topic}`] >= 90 && (
 																<span style={{ ...FONTS.para_03, fontSize: '11px', color: COLORS.light_green, fontWeight: 'bold' }}>
@@ -446,7 +446,7 @@ const SpokenEnglishLearning = () => {
 							<span style={{ ...FONTS.para_02, color: COLORS.blue_01, fontWeight: 'bold' }}>{currentLevel}</span>
 							{levelScores[`${currentLevel}-${currentTopic}`] && (
 								<span style={{ ...FONTS.para_03, color: COLORS.light_green, fontWeight: 'bold' }}>
-									✓ {levelScores[`${currentLevel}-${currentTopic}`]}
+									<span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><CheckCircle size={12} /> {levelScores[`${currentLevel}-${currentTopic}`]}</span>
 								</span>
 							)}
 						</div>
@@ -454,7 +454,7 @@ const SpokenEnglishLearning = () => {
 					<p style={{ ...FONTS.para_02, lineHeight: '1.6' }}>{getTopicPrompt(currentTopic, currentLevel)}</p>
 					<div className='mt-3 p-2 rounded' style={{ backgroundColor: COLORS.light_blue,  }}>
 						<p style={{ ...FONTS.para_03, color: COLORS.black, fontWeight: 'bold', textAlign: 'center' }}>
-							💡 Score 90+ to unlock next level/topic
+							<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}><Lightbulb size={16} /> Score 90+ to unlock next level/topic</span>
 						</p>
 					</div>
 				</Card>
