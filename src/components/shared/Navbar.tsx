@@ -76,6 +76,12 @@ const Navbar = () => {
 			iconActive: NavbarIcons.PlacementActiveImg,
 			iconInactive: NavbarIcons.PlacementInActiveImg,
 		},
+		{
+			path: 'spoken-english',
+			name: 'Spoken English',
+			iconActive: NavbarIcons.CommunityActiveImg,
+			iconInactive: NavbarIcons.CommunityInActiveImg,
+		},
 	];
 
 	const handleLogout = async () => {

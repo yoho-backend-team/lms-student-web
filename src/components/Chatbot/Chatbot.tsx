@@ -222,10 +222,10 @@ const Chatbot: React.FC = () => {
         <div 
           className="bg-[#ebeff3] rounded-lg w-80 h-96 flex flex-col"
           style={{
-            boxShadow: `
-              rgba(255, 255, 255, 0.7) -4px -4px 4px,
-              rgba(189, 194, 199, 0.75) 5px 5px 4px
-            `
+            // boxShadow: `
+            //   rgba(255, 255, 255, 0.7) -4px -4px 4px,
+            //   rgba(189, 194, 199, 0.75) 5px 5px 4px
+            // `
           }}
         >
           <div className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white p-4 rounded-t-lg flex justify-between items-center ">
