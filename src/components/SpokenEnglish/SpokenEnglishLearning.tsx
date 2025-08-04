@@ -3,22 +3,61 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { Mic, Square } from 'lucide-react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const SpokenEnglishLearning = () => {
 	const [isRecording, setIsRecording] = useState(false);
-	const [transcript, setTranscript] = useState('');
 	const [feedback, setFeedback] = useState('');
 	const [currentTopic, setCurrentTopic] = useState('Self Introduction');
 	const [currentLevel, setCurrentLevel] = useState('Beginner');
-	const [unlockedLevels, setUnlockedLevels] = useState(['Beginner']);
-	const [unlockedTopics, setUnlockedTopics] = useState({ Beginner: ['Self Introduction'], Intermediate: [], Advanced: [], Professional: [] });
+	const [unlockedLevels, setUnlockedLevels] = useState(() => {
+		const saved = localStorage.getItem('unlockedLevels');
+		return saved ? JSON.parse(saved) : ['Beginner'];
+	});
+	const [unlockedTopics, setUnlockedTopics] = useState(() => {
+		const saved = localStorage.getItem('unlockedTopics');
+		return saved ? JSON.parse(saved) : { Beginner: ['Self Introduction'], Intermediate: [], Advanced: [], Professional: [] };
+	});
 	const [score, setScore] = useState(0);
 	const [sessionTime, setSessionTime] = useState(0);
 	const [wordsPerMinute, setWordsPerMinute] = useState(0);
 	const [pronunciationScore, setPronunciationScore] = useState(0);
+	const [levelScores, setLevelScores] = useState(() => {
+		const saved = localStorage.getItem('levelScores');
+		return saved ? JSON.parse(saved) : {};
+	});
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-	const recognitionRef = useRef<SpeechRecognition | null>(null);
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
+	const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+	const lastTranscriptRef = useRef<string>('');
+
+	const {
+		transcript,
+		listening,
+		resetTranscript,
+		browserSupportsSpeechRecognition
+	} = useSpeechRecognition();
+
+	// Auto-off when no speech for 10 seconds
+	useEffect(() => {
+		if (isRecording) {
+			// Clear existing silence timer
+			if (silenceTimerRef.current) {
+				clearTimeout(silenceTimerRef.current);
+			}
+			// Start new silence timer
+			silenceTimerRef.current = setTimeout(() => {
+				stopRecording();
+			}, 10000); // 10 seconds
+			
+			lastTranscriptRef.current = transcript;
+		} else {
+			// Clear timer when not recording
+			if (silenceTimerRef.current) {
+				clearTimeout(silenceTimerRef.current);
+			}
+		}
+	}, [transcript, isRecording]);
 
 	const levels = ['Beginner', 'Intermediate', 'Advanced', 'Professional'];
 
@@ -30,59 +69,17 @@ const SpokenEnglishLearning = () => {
 	};
 
 	useEffect(() => {
-		if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-			const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-			recognitionRef.current = new SpeechRecognition();
-			recognitionRef.current.continuous = true;
-			recognitionRef.current.interimResults = true;
-			recognitionRef.current.lang = 'en-US';
-			recognitionRef.current.maxAlternatives = 1;
-			recognitionRef.current.serviceURI = '';
-			console.log('Speech recognition initialized');
-
-			recognitionRef.current.onresult = (event) => {
-				let interimTranscript = '';
-				let finalTranscript = '';
-				
-				for (let i = event.resultIndex; i < event.results.length; i++) {
-					if (event.results[i].isFinal) {
-						finalTranscript += event.results[i][0].transcript;
-					} else {
-						interimTranscript += event.results[i][0].transcript;
-					}
-				}
-				
-				if (finalTranscript || interimTranscript) {
-					setTranscript(prev => (prev + ' ' + (finalTranscript || interimTranscript)).trim());
-				}
-			};
-			
-			recognitionRef.current.onerror = (event) => {
-				console.error('Speech recognition error:', event.error);
-				if (event.error === 'no-speech') {
-					setFeedback('No speech detected. Please speak louder or check microphone.');
-				} else if (event.error === 'audio-capture') {
-					setFeedback('Microphone not accessible. Please check permissions.');
-				} else if (event.error === 'not-allowed') {
-					setFeedback('Microphone permission denied. Please allow access.');
-				} else {
-					setFeedback('Speech recognition error. Please try again.');
-				}
-			};
-			
-			recognitionRef.current.onend = () => {
-				if (isRecording) {
-					try {
-						recognitionRef.current?.start();
-					} catch (error) {
-						console.log('Recognition restart failed:', error);
-					}
-				}
-			};
+		if (!browserSupportsSpeechRecognition) {
+			setFeedback('Speech recognition not supported in this browser. Please use Chrome, Edge, or Safari.');
 		}
-	}, []);
+	}, [browserSupportsSpeechRecognition]);
 
 	const startRecording = async () => {
+		if (!browserSupportsSpeechRecognition) {
+			setFeedback('Speech recognition not supported in this browser. Please use Chrome, Edge, or Safari.');
+			return;
+		}
+
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ 
 				audio: {
@@ -95,7 +92,7 @@ const SpokenEnglishLearning = () => {
 			mediaRecorderRef.current = new MediaRecorder(stream);
 			
 			setIsRecording(true);
-			setTranscript('');
+			resetTranscript();
 			setFeedback('');
 			setSessionTime(0);
 			setScore(0);
@@ -106,17 +103,11 @@ const SpokenEnglishLearning = () => {
 				setSessionTime(prev => prev + 1);
 			}, 1000);
 			
-			if (recognitionRef.current) {
-				try {
-					recognitionRef.current.start();
-					console.log('Speech recognition started');
-				} catch (error) {
-					console.error('Failed to start recognition:', error);
-					setFeedback('Failed to start voice recognition. Please try again.');
-				}
-			} else {
-				setFeedback('Speech recognition not supported in this browser.');
-			}
+			SpeechRecognition.startListening({ 
+				continuous: true,
+				language: 'en-US'
+			});
+			console.log('Speech recognition started with react-speech-recognition');
 		} catch (error) {
 			console.error('Error accessing microphone:', error);
 			setFeedback('Microphone access denied. Please allow access and try again.');
@@ -130,9 +121,11 @@ const SpokenEnglishLearning = () => {
 			clearInterval(timerRef.current);
 		}
 		
-		if (recognitionRef.current) {
-			recognitionRef.current.stop();
+		if (silenceTimerRef.current) {
+			clearTimeout(silenceTimerRef.current);
 		}
+		
+		SpeechRecognition.stopListening();
 		
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.stop();
@@ -178,31 +171,69 @@ const SpokenEnglishLearning = () => {
 		const finalPronScore = Math.round(Math.min(100, pronScore));
 		setPronunciationScore(finalPronScore);
 		
-		// Overall score
-		let totalScore = 20; // Base score
-		if (wpm >= 120 && wpm <= 180) totalScore += 40;
-		else if (wpm >= 80) totalScore += 30;
-		else if (wpm >= 40) totalScore += 20;
+		// Level-wise harder scoring
+		let totalScore = 10;
+		let minTime = 30;
+		let minWords = 30;
+		let wpmMin = 80;
+		let wpmMax = 200;
 		
-		totalScore += Math.round(finalPronScore * 0.4);
+		// Different requirements per level
+		if (currentLevel === 'Beginner') {
+			totalScore = 15;
+			minTime = 45;
+			minWords = 80;
+			wpmMin = 60;
+		} else if (currentLevel === 'Intermediate') {
+			totalScore = 10;
+			minTime = 75;
+			minWords = 120;
+			wpmMin = 80;
+		} else if (currentLevel === 'Advanced') {
+			totalScore = 5;
+			minTime = 105;
+			minWords = 180;
+			wpmMin = 100;
+		} else if (currentLevel === 'Professional') {
+			totalScore = 0;
+			minTime = 135;
+			minWords = 250;
+			wpmMin = 120;
+		}
+		
+		// WPM scoring
+		if (wpm >= wpmMin && wpm <= wpmMax) totalScore += 30;
+		else if (wpm >= wpmMin - 20) totalScore += 20;
+		else if (wpm >= wpmMin - 40) totalScore += 10;
+		
+		// Time and word requirements
+		if (sessionTime >= minTime) totalScore += 20;
+		if (wordCount >= minWords) totalScore += 15;
+		
+		totalScore += Math.round(finalPronScore * 0.35);
 		const finalScore = Math.min(100, Math.max(0, totalScore));
 		
 		console.log('Final scores:', { wpm, finalPronScore, finalScore });
 		setScore(finalScore);
 		
-		// Unlock next topic if score >= 90
+		// Save score if >= 90
 		if (finalScore >= 90) {
+			const newScores = { ...levelScores, [`${currentLevel}-${currentTopic}`]: finalScore };
+			setLevelScores(newScores);
+			localStorage.setItem('levelScores', JSON.stringify(newScores));
 			const currentTopics = topics[currentLevel as keyof typeof topics];
 			const currentTopicIndex = currentTopics.indexOf(currentTopic);
 			
 			if (currentTopicIndex < currentTopics.length - 1) {
 				const nextTopic = currentTopics[currentTopicIndex + 1];
-				setUnlockedTopics(prev => ({
-					...prev,
-					[currentLevel]: prev[currentLevel as keyof typeof prev].includes(nextTopic) 
-						? prev[currentLevel as keyof typeof prev] 
-						: [...prev[currentLevel as keyof typeof prev], nextTopic]
-				}));
+				const newTopics = {
+					...unlockedTopics,
+					[currentLevel]: (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]).includes(nextTopic) 
+						? (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]) 
+						: [...(unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]), nextTopic]
+				};
+				setUnlockedTopics(newTopics);
+				localStorage.setItem('unlockedTopics', JSON.stringify(newTopics));
 			} else {
 				// All topics completed, unlock next level
 				const levelOrder = ['Beginner', 'Intermediate', 'Advanced', 'Professional'];
@@ -210,12 +241,17 @@ const SpokenEnglishLearning = () => {
 				if (currentIndex < levelOrder.length - 1) {
 					const nextLevel = levelOrder[currentIndex + 1];
 					if (!unlockedLevels.includes(nextLevel)) {
-						setUnlockedLevels(prev => [...prev, nextLevel]);
+						const newLevels = [...unlockedLevels, nextLevel];
+						setUnlockedLevels(newLevels);
+						localStorage.setItem('unlockedLevels', JSON.stringify(newLevels));
+						
 						const firstTopicOfNextLevel = topics[nextLevel as keyof typeof topics][0];
-						setUnlockedTopics(prev => ({
-							...prev,
+						const newTopics = {
+							...unlockedTopics,
 							[nextLevel]: [firstTopicOfNextLevel]
-						}));
+						};
+						setUnlockedTopics(newTopics);
+						localStorage.setItem('unlockedTopics', JSON.stringify(newTopics));
 					}
 				}
 			}
@@ -318,8 +354,8 @@ const SpokenEnglishLearning = () => {
 									{/* Topics for current level */}
 									{isActive && (
 										<div className='ml-9 mt-2 space-y-2'>
-											{topics[currentLevel as keyof typeof topics].map((topic, topicIndex) => {
-												const isTopicUnlocked = unlockedTopics[currentLevel as keyof typeof unlockedTopics].includes(topic);
+											{topics[currentLevel as keyof typeof topics].map((topic) => {
+												const isTopicUnlocked = (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]).includes(topic);
 												const isTopicActive = currentTopic === topic;
 												return (
 													<div 
@@ -338,9 +374,16 @@ const SpokenEnglishLearning = () => {
 																background: isTopicActive ? COLORS.white : isTopicUnlocked ? COLORS.light_green : COLORS.text_desc
 															}}
 														></div>
-														<span style={{ ...FONTS.para_03, fontSize: '13px' }}>
-															{topic} {!isTopicUnlocked && '🔒'}
-														</span>
+														<div className='flex items-center justify-between w-full'>
+															<span style={{ ...FONTS.para_03, fontSize: '13px' }}>
+																{topic} {!isTopicUnlocked && '🔒'}
+															</span>
+															{levelScores[`${currentLevel}-${topic}`] && levelScores[`${currentLevel}-${topic}`] >= 90 && (
+																<span style={{ ...FONTS.para_03, fontSize: '11px', color: COLORS.light_green, fontWeight: 'bold' }}>
+																	{levelScores[`${currentLevel}-${topic}`]}
+																</span>
+															)}
+														</div>
 													</div>
 												);
 											})}
@@ -399,7 +442,14 @@ const SpokenEnglishLearning = () => {
 				<Card className='p-4 mb-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75), inset -2px -2px 3px rgba(255, 255, 255, 0.7)` }}>
 					<div className='flex justify-between items-start mb-2'>
 						<h3 style={{ ...FONTS.heading_04 }}>Practice Prompt:</h3>
-						<span style={{ ...FONTS.para_02, color: COLORS.blue_01, fontWeight: 'bold' }}>{currentLevel}</span>
+						<div className='flex items-center gap-2'>
+							<span style={{ ...FONTS.para_02, color: COLORS.blue_01, fontWeight: 'bold' }}>{currentLevel}</span>
+							{levelScores[`${currentLevel}-${currentTopic}`] && (
+								<span style={{ ...FONTS.para_03, color: COLORS.light_green, fontWeight: 'bold' }}>
+									✓ {levelScores[`${currentLevel}-${currentTopic}`]}
+								</span>
+							)}
+						</div>
 					</div>
 					<p style={{ ...FONTS.para_02, lineHeight: '1.6' }}>{getTopicPrompt(currentTopic, currentLevel)}</p>
 					<div className='mt-3 p-2 rounded' style={{ backgroundColor: COLORS.light_blue,  }}>
@@ -412,18 +462,21 @@ const SpokenEnglishLearning = () => {
 				<div className='text-center mb-6'>
 					<Button
 						onClick={isRecording ? stopRecording : startRecording}
-						className={`px-6 py-3 rounded-full ${isRecording ? 'animate-pulse' : ''} flex items-center gap-2`}
+						disabled={!browserSupportsSpeechRecognition}
+						className={`px-6 py-3 rounded-full ${(isRecording || listening) ? 'animate-pulse' : ''} flex items-center gap-2`}
 						style={{
-							background: isRecording 
+							background: (isRecording || listening)
 								? `linear-gradient(to right, ${COLORS.light_red}, #ff4444)` 
 								: `linear-gradient(to right, ${COLORS.light_green}, ${COLORS.green_text})`,
-							color: COLORS.white,
-							boxShadow: `0px 2px 4px 0px rgba(255,255,255,0.75) inset, 3px 3px 3px 0px rgba(255,255,255,0.25) inset, -8px -8px 12px 0px ${isRecording ? COLORS.light_red : COLORS.light_green} inset, 4px 4px 8px 0px rgba(189,194,199,0.75)`,
-							...FONTS.heading_05
+
+							opacity: !browserSupportsSpeechRecognition ? 0.5 : 1,
+							boxShadow: `0px 2px 4px 0px rgba(255,255,255,0.75) inset, 3px 3px 3px 0px rgba(255,255,255,0.25) inset, -8px -8px 12px 0px ${(isRecording || listening) ? COLORS.light_red : COLORS.light_green} inset, 4px 4px 8px 0px rgba(189,194,199,0.75)`,
+							...FONTS.heading_05,
+							color: COLORS.white
 						}}
 					>
-						{isRecording ? <Square size={20} /> : <Mic size={20} />}
-						{isRecording ? 'Stop Recording' : 'Start Speaking'}
+						{(isRecording || listening) ? <Square size={20} /> : <Mic size={20} />}
+						{(isRecording || listening) ? 'Stop Recording' : 'Start Speaking'}
 					</Button>
 				</div>
 
