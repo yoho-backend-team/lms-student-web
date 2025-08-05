@@ -1,3 +1,4 @@
+import { GetLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
@@ -14,7 +15,9 @@ export const StudentSocketProvider = ({
 }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 
-	const user = JSON.parse(localStorage.getItem('user') || '{}');
+	// const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+	const store: string = GetLocalStorage('user') ?? '{}'
+	const user = JSON.parse(store)
 
 	useEffect(() => {
 		const url = 'https://lms-node-backend-v1.onrender.com';
