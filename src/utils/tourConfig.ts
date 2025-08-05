@@ -81,6 +81,15 @@ export const createTour = () => {
         }
       },
       {
+        element: '[data-tour="nav-spoken-english"]',
+        popover: {
+          title: 'Spoken English',
+          description: 'Practice and improve your spoken English skills',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
         element: '[data-tour="notifications"]',
         popover: {
           title: 'Notifications',
