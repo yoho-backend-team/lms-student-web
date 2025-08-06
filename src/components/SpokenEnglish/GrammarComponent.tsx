@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { CheckCircle, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CheckCircle, X, ChevronLeft, ChevronRight, Trophy, Star, Target, Zap, Heart, Volume2, VolumeX } from 'lucide-react';
 
 interface GrammarComponentProps {
 	grammarCompleted: boolean;
@@ -17,7 +17,62 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 	const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
 	const [testCompleted, setTestCompleted] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
+	const [showExplanation, setShowExplanation] = useState(false);
+	const [streak, setStreak] = useState(0);
+	const [hearts, setHearts] = useState(5);
+	const [showResult, setShowResult] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [currentAudio, setCurrentAudio] = useState<SpeechSynthesisUtterance | null>(null);
 	const itemsPerPage = 7;
+
+	useEffect(() => {
+		const savedStreak = localStorage.getItem('grammarStreak');
+		if (savedStreak) setStreak(parseInt(savedStreak));
+	}, []);
+
+	const speakText = (text: string) => {
+		if ('speechSynthesis' in window) {
+			if (isPlaying) {
+				window.speechSynthesis.cancel();
+				setIsPlaying(false);
+				setCurrentAudio(null);
+				return;
+			}
+
+			const utterance = new SpeechSynthesisUtterance(text);
+			utterance.rate = 0.8;
+			utterance.pitch = 1;
+			utterance.volume = 1;
+			
+			utterance.onstart = () => setIsPlaying(true);
+			utterance.onend = () => {
+				setIsPlaying(false);
+				setCurrentAudio(null);
+			};
+			utterance.onboundary = () => {
+				// Keep playing state updated during speech
+				if (!window.speechSynthesis.speaking) {
+					setIsPlaying(false);
+					setCurrentAudio(null);
+				}
+			};
+			utterance.onerror = () => {
+				setIsPlaying(false);
+				setCurrentAudio(null);
+			};
+
+			setCurrentAudio(utterance);
+			window.speechSynthesis.speak(utterance);
+		}
+	};
+
+	useEffect(() => {
+		return () => {
+			if (window.speechSynthesis) {
+				window.speechSynthesis.cancel();
+			}
+		};
+	}, []);
 
 	const grammarContent = [
 		{
@@ -243,29 +298,93 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		{
 			question: "Which sentence is grammatically correct?",
 			options: ["He go to school daily", "He goes to school daily", "He going to school daily", "He gone to school daily"],
-			correct: 1
+			correct: 1,
+			explanation: "Third person singular (he/she/it) requires 's' or 'es' at the end of the verb in present simple tense."
 		},
 		{
 			question: "Choose the correct past tense:",
 			options: ["I eated lunch", "I eat lunch", "I ate lunch", "I eating lunch"],
-			correct: 2
+			correct: 2,
+			explanation: "'Eat' is an irregular verb. Its past tense is 'ate', not 'eated'."
 		},
 		{
 			question: "Which is the correct question form?",
 			options: ["Do you like tea?", "You like tea?", "Like you tea?", "You do like tea?"],
-			correct: 0
+			correct: 0,
+			explanation: "Yes/No questions in present simple use 'Do/Does' + subject + base verb."
 		},
 		{
 			question: "Select the correct article:",
 			options: ["I saw a elephant", "I saw an elephant", "I saw the elephant", "I saw elephant"],
-			correct: 1
+			correct: 1,
+			explanation: "Use 'an' before words that start with vowel sounds. 'Elephant' starts with 'e' sound."
 		},
 		{
 			question: "Which sentence uses correct subject-verb agreement?",
 			options: ["They was playing", "They were playing", "They is playing", "They are play"],
-			correct: 1
+			correct: 1,
+			explanation: "Plural subjects like 'they' use 'were' in past continuous, not 'was'."
+		},
+		{
+			question: "Complete: I _____ to the store yesterday.",
+			options: ["go", "goes", "went", "going"],
+			correct: 2,
+			explanation: "'Yesterday' indicates past time, so we use past tense 'went'."
+		},
+		{
+			question: "Choose the correct preposition: She is good _____ math.",
+			options: ["in", "at", "on", "with"],
+			correct: 1,
+			explanation: "We use 'good at' when talking about skills or abilities."
+		},
+		{
+			question: "Which is the correct comparative form?",
+			options: ["more big", "bigger", "most big", "bigest"],
+			correct: 1,
+			explanation: "Short adjectives like 'big' form comparatives by adding '-er': bigger."
+		},
+		{
+			question: "Select the correct modal verb: You _____ wear a helmet while riding.",
+			options: ["can", "must", "might", "would"],
+			correct: 1,
+			explanation: "'Must' expresses strong obligation or necessity for safety."
+		},
+		{
+			question: "Choose the correct form: I enjoy _____ books.",
+			options: ["read", "to read", "reading", "reads"],
+			correct: 2,
+			explanation: "After 'enjoy', we use gerund (verb + ing): enjoying reading."
 		}
 	];
+
+	const handleAnswerSelect = (answerIndex: number) => {
+		const newAnswers = [...selectedAnswers];
+		newAnswers[currentQuestion] = answerIndex;
+		setSelectedAnswers(newAnswers);
+		
+		// Show immediate feedback
+		setShowExplanation(true);
+		
+		// Update hearts and streak
+		if (answerIndex === grammarQuestions[currentQuestion].correct) {
+			const newStreak = streak + 1;
+			setStreak(newStreak);
+			localStorage.setItem('grammarStreak', newStreak.toString());
+		} else {
+			setHearts(Math.max(0, hearts - 1));
+			setStreak(0);
+			localStorage.setItem('grammarStreak', '0');
+		}
+	};
+
+	const handleNext = () => {
+		setShowExplanation(false);
+		if (currentQuestion < grammarQuestions.length - 1) {
+			setCurrentQuestion(currentQuestion + 1);
+		} else {
+			handleTestSubmit();
+		}
+	};
 
 	const handleTestSubmit = () => {
 		let correctAnswers = 0;
@@ -277,12 +396,12 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		const score = Math.round((correctAnswers / grammarQuestions.length) * 100);
 		setGrammarTestScore(score);
 		localStorage.setItem('grammarTestScore', JSON.stringify(score));
-		if (score > 95) {
+		if (score >= 80) {
 			setGrammarCompleted(true);
 			localStorage.setItem('grammarCompleted', 'true');
 		}
+		setShowResult(true);
 		setTestCompleted(true);
-		setShowGrammarTest(false);
 	};
 
 	return (
@@ -291,99 +410,181 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 			{showGrammarTest && (
 				<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
 					<Card className='p-6 max-w-2xl w-full mx-4' style={{ backgroundColor: COLORS.bg_Colour }}>
-						<h2 style={{ ...FONTS.heading_02 }} className='mb-4'>Grammar Test - Score 95+ to unlock Speaking</h2>
+						{/* Header with hearts and streak */}
+						<div className='flex justify-between items-center mb-4'>
+							<div className='flex items-center gap-2'>
+								<Zap size={20} color={COLORS.light_orange} />
+								<span style={{ ...FONTS.para_02, fontWeight: 'bold', color: COLORS.light_orange }}>{streak}</span>
+							</div>
+							<div className='flex items-center gap-1'>
+								{[...Array(5)].map((_, i) => (
+									<Heart key={i} size={16} fill={i < hearts ? COLORS.light_red : 'none'} color={i < hearts ? COLORS.light_red : COLORS.text_desc} />
+								))}
+							</div>
+						</div>
+
+						<h2 style={{ ...FONTS.heading_02 }} className='mb-4'>Grammar Challenge - Score 80+ to unlock Speaking</h2>
 						<div className='mb-4'>
 							<p style={{ ...FONTS.para_02 }}>Question {currentQuestion + 1} of {grammarQuestions.length}</p>
-							<div className='w-full bg-gray-200 rounded-full h-2 mt-2'>
+							<div className='w-full bg-gray-200 rounded-full h-3 mt-2'>
 								<div 
-									className='h-2 rounded-full transition-all duration-300'
+									className='h-3 rounded-full transition-all duration-500'
 									style={{ 
 										width: `${((currentQuestion + 1) / grammarQuestions.length) * 100}%`,
-										background: COLORS.blue_01
+										background: COLORS.light_green
 									}}
 								></div>
 							</div>
 						</div>
-						<div className='mb-6'>
-							<h3 style={{ ...FONTS.heading_04 }} className='mb-4'>{grammarQuestions[currentQuestion].question}</h3>
-							<div className='space-y-3'>
-								{grammarQuestions[currentQuestion].options.map((option, index) => (
-									<div 
-										key={index}
-										className='p-3 rounded cursor-pointer border-2 transition-all'
-										onClick={() => {
-											const newAnswers = [...selectedAnswers];
-											newAnswers[currentQuestion] = index;
-											setSelectedAnswers(newAnswers);
-										}}
-										style={{
-											background: selectedAnswers[currentQuestion] === index ? COLORS.light_blue : COLORS.white,
-											borderColor: selectedAnswers[currentQuestion] === index ? COLORS.blue_01 : COLORS.text_desc,
-											color: selectedAnswers[currentQuestion] === index ? COLORS.white : COLORS.text_desc
-										}}
-									>
-										<p style={{ ...FONTS.para_02 }}>{option}</p>
+
+						{!showResult ? (
+							<>
+								<div className='mb-6'>
+									<h3 style={{ ...FONTS.heading_04 }} className='mb-4'>{grammarQuestions[currentQuestion].question}</h3>
+									<div className='space-y-3'>
+										{grammarQuestions[currentQuestion].options.map((option, index) => {
+											const isSelected = selectedAnswers[currentQuestion] === index;
+											const isCorrect = index === grammarQuestions[currentQuestion].correct;
+											const showFeedback = showExplanation && isSelected;
+											
+											let bgColor = COLORS.white;
+											let borderColor = COLORS.text_desc;
+											let textColor = COLORS.text_desc;
+											
+											if (showExplanation) {
+												if (isCorrect) {
+													bgColor = '#e8f5e8';
+													borderColor = COLORS.light_green;
+													textColor = COLORS.green_text;
+												} else if (isSelected) {
+													bgColor = '#ffe8e8';
+													borderColor = COLORS.light_red;
+													textColor = COLORS.light_red;
+												}
+											} else if (isSelected) {
+												bgColor = COLORS.light_blue;
+												borderColor = COLORS.blue_01;
+												textColor = COLORS.white;
+											}
+											
+											return (
+												<div 
+													key={index}
+													className={`p-4 rounded-lg border-2 transition-all duration-300 ${!showExplanation ? 'cursor-pointer hover:shadow-md hover:bg-white' : ''}`}
+													onClick={() => !showExplanation && handleAnswerSelect(index)}
+													style={{
+														background: bgColor,
+														borderColor: borderColor,
+														color: textColor,
+														transform: isSelected ? 'scale(1.02)' : 'scale(1)'
+													}}
+												>
+													<div className='flex items-center justify-between'>
+														<p style={{ ...FONTS.para_02, fontWeight: isSelected ? 'bold' : 'normal' }}>{option}</p>
+														{showExplanation && isCorrect && <CheckCircle size={20} color={COLORS.light_green} />}
+														{showExplanation && isSelected && !isCorrect && <X size={20} color={COLORS.light_red} />}
+													</div>
+												</div>
+											);
+										})}
 									</div>
-								))}
+									
+									{showExplanation && (
+										<div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
+											<h4 style={{ ...FONTS.para_02, fontWeight: 'bold', color: COLORS.blue_01 }} className='mb-2'>Explanation:</h4>
+											<p style={{ ...FONTS.para_03, color: COLORS.text_desc }}>{grammarQuestions[currentQuestion].explanation}</p>
+										</div>
+									)}
+								</div>
+								
+								<div className='flex justify-between'>
+									<Button
+										onClick={() => {
+											setShowGrammarTest(false);
+											setCurrentQuestion(0);
+											setSelectedAnswers([]);
+											setShowExplanation(false);
+											setHearts(5);
+										}}
+										className='px-4 py-2 rounded'
+										style={{
+											background: COLORS.text_desc,
+											color: COLORS.white,
+											...FONTS.para_02
+										}}
+									>
+										Exit
+									</Button>
+									
+									{showExplanation && (
+										<Button
+											onClick={handleNext}
+											className='px-6 py-2 rounded-lg'
+											style={{
+												background: COLORS.light_green,
+												color: COLORS.white,
+												...FONTS.para_02,
+												fontWeight: 'bold'
+											}}
+										>
+											{currentQuestion < grammarQuestions.length - 1 ? 'Continue' : 'Finish'}
+										</Button>
+									)}
+								</div>
+							</>
+						) : (
+							<div className='text-center py-8'>
+								<Trophy size={64} color={grammarTestScore >= 80 ? COLORS.light_orange : COLORS.text_desc} className='mx-auto mb-4' />
+								<h3 style={{ ...FONTS.heading_02, color: grammarTestScore >= 80 ? COLORS.light_green : COLORS.light_red }} className='mb-2'>
+									{grammarTestScore >= 80 ? 'Congratulations!' : 'Keep Practicing!'}
+								</h3>
+								<p style={{ ...FONTS.heading_03, color: COLORS.blue_01 }} className='mb-2'>Score: {grammarTestScore}%</p>
+								<p style={{ ...FONTS.para_02, color: COLORS.text_desc }} className='mb-6'>
+									{grammarTestScore >= 80 
+										? 'Speaking practice is now unlocked!' 
+										: 'You need 80% or higher to unlock speaking practice.'}
+								</p>
+								<div className='flex gap-4 justify-center'>
+									<Button
+										onClick={() => {
+											setShowGrammarTest(false);
+											setShowResult(false);
+											setCurrentQuestion(0);
+											setSelectedAnswers([]);
+											setShowExplanation(false);
+											setHearts(5);
+										}}
+										className='px-6 py-2 rounded-lg'
+										style={{
+											background: COLORS.blue_01,
+											color: COLORS.white,
+											...FONTS.para_02
+										}}
+									>
+										Continue
+									</Button>
+									{grammarTestScore < 80 && (
+										<Button
+											onClick={() => {
+												setShowResult(false);
+												setCurrentQuestion(0);
+												setSelectedAnswers([]);
+												setShowExplanation(false);
+												setHearts(5);
+											}}
+											className='px-6 py-2 rounded-lg'
+											style={{
+												background: COLORS.light_green,
+												color: COLORS.white,
+												...FONTS.para_02
+											}}
+										>
+											Try Again
+										</Button>
+									)}
+								</div>
 							</div>
-						</div>
-						<div className='flex justify-between'>
-							<Button
-								onClick={() => setShowGrammarTest(false)}
-								className='px-4 py-2 rounded'
-								style={{
-									background: COLORS.text_desc,
-									color: COLORS.white,
-									...FONTS.para_02
-								}}
-							>
-								Cancel
-							</Button>
-							<div className='flex gap-2'>
-								{currentQuestion > 0 && (
-									<Button
-										onClick={() => setCurrentQuestion(currentQuestion - 1)}
-										className='px-4 py-2 rounded'
-										style={{
-											background: COLORS.light_blue,
-											color: COLORS.white,
-											...FONTS.para_02
-										}}
-									>
-										Previous
-									</Button>
-								)}
-								{currentQuestion < grammarQuestions.length - 1 ? (
-									<Button
-										onClick={() => setCurrentQuestion(currentQuestion + 1)}
-										disabled={selectedAnswers[currentQuestion] === undefined}
-										className='px-4 py-2 rounded'
-										style={{
-											background: selectedAnswers[currentQuestion] !== undefined ? COLORS.blue_01 : COLORS.text_desc,
-											color: COLORS.white,
-											opacity: selectedAnswers[currentQuestion] !== undefined ? 1 : 0.5,
-											...FONTS.para_02
-										}}
-									>
-										Next
-									</Button>
-								) : (
-									<Button
-										onClick={handleTestSubmit}
-										disabled={selectedAnswers.length !== grammarQuestions.length || selectedAnswers.includes(undefined)}
-										className='px-4 py-2 rounded'
-										style={{
-											background: selectedAnswers.length === grammarQuestions.length && !selectedAnswers.includes(undefined) ? COLORS.light_green : COLORS.text_desc,
-											color: COLORS.white,
-											opacity: selectedAnswers.length === grammarQuestions.length && !selectedAnswers.includes(undefined) ? 1 : 0.5,
-											...FONTS.para_02
-										}}
-									>
-										Submit Test
-									</Button>
-								)}
-							</div>
-						</div>
+						)}
 					</Card>
 				</div>
 			)}
@@ -392,38 +593,109 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 				<div className='flex justify-between items-start mb-4'>
 					<h3 style={{ ...FONTS.heading_04 }}>Spoken English Grammar – Full Guide</h3>
 					<div className='flex items-center gap-2'>
-						{!grammarCompleted && (
-							<Button
-								onClick={() => setShowGrammarTest(true)}
-								className='px-4 py-2 rounded-lg'
-								style={{
-									background: COLORS.bg_Colour,
-									color: COLORS.blue_01,
-									border: `2px solid ${COLORS.blue_01}`,
-									boxShadow: `rgba(255, 255, 255, 0.7) -2px -2px 2px, rgba(189, 194, 199, 0.75) 2px 2px 2px`,
-									...FONTS.para_02,
-									fontWeight: 'bold'
-								}}
-							>
-								Take Test
-							</Button>
-						)}
-						{grammarCompleted && (
-							<span style={{ ...FONTS.para_03, color: COLORS.light_green, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
-								<CheckCircle size={16} /> Completed
-							</span>
-						)}
+						<div className='flex items-center gap-3'>
+							{streak > 0 && (
+								<div className='flex items-center gap-1 px-3 py-1 rounded-full' style={{ backgroundColor: COLORS.light_orange, color: COLORS.white }}>
+									<Zap size={16} />
+									<span style={{ ...FONTS.para_03, fontWeight: 'bold' }}>{streak} streak</span>
+								</div>
+							)}
+
+							{grammarCompleted && (
+								<div className='flex items-center gap-2 px-4 py-2 rounded-lg' style={{ backgroundColor: COLORS.light_green, color: COLORS.white }}>
+									<Trophy size={18} />
+									<span style={{ ...FONTS.para_02, fontWeight: 'bold' }}>Completed - {grammarTestScore}%</span>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 				<div className='min-h-96'>
 					<div className='space-y-4'>
-						{currentItems.map((item, index) => (
-							<div key={index}>
-								<h4 style={{ ...FONTS.heading_05, color: item.title.includes('Common Mistakes') ? COLORS.light_red : COLORS.blue_01 }}>{item.title}</h4>
-								{item.content}
-							</div>
-						))}
+						{currentItems.map((item, index) => {
+							const getTextContent = (element: any): string => {
+								if (typeof element === 'string') return element;
+								if (element?.props?.children) {
+									if (Array.isArray(element.props.children)) {
+										return element.props.children.map((child: any) => getTextContent(child)).join(' ');
+									}
+									return getTextContent(element.props.children);
+								}
+								return '';
+							};
+							
+							return (
+								<div key={index}>
+									<div className='flex items-center justify-between mb-2'>
+										<h4 style={{ ...FONTS.heading_05, color: item.title.includes('Common Mistakes') ? COLORS.light_red : COLORS.blue_01 }}>{item.title}</h4>
+										<Button
+											onClick={() => {
+												const getDetailedExplanation = (title: string, content: string) => {
+													const explanations: Record<string, string> = {
+														'1. Tenses (Present, Past, Future)': 'Tenses show when an action happens. Present tense describes current actions or facts. Past tense describes completed actions. Future tense describes actions that will happen. Each tense has simple, continuous, and perfect forms. For example, I eat is present simple, I am eating is present continuous, and I have eaten is present perfect.',
+														'2. Subject-Verb Agreement': 'The subject and verb must match in number. Singular subjects take singular verbs, plural subjects take plural verbs. This is fundamental for correct English grammar. For example, he runs but they run.',
+														'3. Parts of Speech': 'Every word in English belongs to a part of speech category. Nouns name things, verbs show actions, adjectives describe nouns, adverbs modify verbs or adjectives. Understanding parts of speech helps you construct proper sentences.',
+														'4. Articles': 'Articles are small words that come before nouns. A and an are indefinite articles used with singular countable nouns. The is the definite article used when referring to specific things. Use an before vowel sounds.',
+														'5. Pronouns': 'Pronouns replace nouns to avoid repetition. Subject pronouns do the action, object pronouns receive the action, possessive pronouns show ownership. Using pronouns correctly makes your speech more natural.',
+														'6. Modal Verbs': 'Modal verbs express possibility, ability, permission, or obligation. They help you express different meanings and attitudes. Can shows ability, must shows obligation, may shows possibility. They are essential for polite and precise communication.',
+														'7. Question Formation': 'Questions follow specific patterns in English. Yes-no questions use auxiliary verbs like do, does, did. WH questions use question words like what, where, when. Tag questions confirm information. Proper question formation is crucial for communication.',
+														'8. Imperative Sentences': 'Imperative sentences give commands, make requests, or offer advice. They usually start with the base form of a verb. They can be polite with please or direct without it. Understanding imperatives helps in giving clear instructions.',
+														'9. Prepositions': 'Prepositions show relationships between words, especially regarding time, place, and direction. Common prepositions include in, on, at, by, for. Learning preposition usage improves your accuracy in describing locations and time.',
+														'10. Adjectives and Adverbs': 'Adjectives describe nouns and make your speech more descriptive. Adverbs modify verbs, adjectives, or other adverbs, often ending in -ly. Using them correctly adds detail and precision to your communication.',
+														'11. Comparison': 'Comparison shows differences between things. Comparative forms compare two things, superlative forms compare three or more. Short adjectives add -er and -est, long adjectives use more and most. This helps express preferences and differences.',
+														'12. Sentence Types': 'English has three main sentence types. Simple sentences have one main clause. Compound sentences join two independent clauses. Complex sentences have a main clause and dependent clauses. Varying sentence types makes your speech more interesting.',
+														'13. Conditional Sentences': 'Conditionals express hypothetical situations and their results. Zero conditional states facts, first conditional shows likely future results, second conditional shows unlikely situations, third conditional shows past hypothetical situations. They are essential for expressing possibilities.',
+														'14. Gerunds & Infinitives': 'Gerunds are verb forms ending in -ing used as nouns. Infinitives are to plus base verb forms. Some verbs are followed by gerunds, others by infinitives. Learning these patterns improves your fluency and naturalness.',
+														'15. Direct and Indirect Speech': 'Direct speech quotes exact words, indirect speech reports what someone said. When changing from direct to indirect, verb tenses often change, pronouns adjust, and time expressions modify. This skill is important for reporting conversations.',
+														'16. Passive Voice': 'Passive voice emphasizes the action or result rather than who does it. It uses be plus past participle. Active voice is usually preferred, but passive voice is useful when the doer is unknown or unimportant.',
+														'17. Phrasal Verbs': 'Phrasal verbs combine verbs with prepositions or adverbs to create new meanings. They are very common in spoken English. Learning phrasal verbs makes your English sound more natural and native-like.',
+														'18. Common Sentence Patterns': 'English follows predictable sentence patterns. Learning these patterns helps you construct sentences automatically. Common patterns include subject-verb-object and there is-there are constructions.',
+														'19. Short Answers': 'Short answers are polite responses to yes-no questions. They avoid repetition while being complete. Using auxiliary verbs in short answers shows good English grammar knowledge and sounds natural.',
+														'20. Everyday Spoken Grammar': 'Spoken English often uses contractions and informal forms. These make speech faster and more natural. However, know when to use formal versus informal grammar depending on the situation.',
+														'21. Common Mistakes to Avoid': 'Learning common mistakes helps you avoid them. Many mistakes involve subject-verb agreement, irregular verbs, and word order. Being aware of these patterns improves your accuracy significantly.'
+													};
+													return explanations[title] || `Let me explain ${title}. ${content}`;
+												};
+												const detailedExplanation = `${item.title}. ${getDetailedExplanation(item.title, getTextContent(item.content))} Now let me read the specific examples: ${getTextContent(item.content)} This grammar topic covers: ${getTextContent(item.content)}. Understanding this concept is important for proper English grammar.`;
+												speakText(detailedExplanation);
+											}}
+											className='p-1 rounded-full'
+											style={{ background: 'transparent' }}
+										>
+											<Volume2 size={14} color={COLORS.blue_01} />
+										</Button>
+									</div>
+									{item.content}
+								</div>
+							);
+						})}
 					</div>
+					
+					{!grammarCompleted && currentPage === 2 && (
+						<div className='text-center mt-6 pt-4 border-t' style={{ borderColor: COLORS.text_desc }}>
+							<Button
+								onClick={() => {
+									setShowGrammarTest(true);
+									setCurrentQuestion(0);
+									setSelectedAnswers([]);
+									setShowExplanation(false);
+									setShowResult(false);
+									setHearts(5);
+								}}
+								className='px-6 py-3 rounded-lg flex items-center gap-2 mb-4'
+								style={{
+									background: COLORS.blue_01,
+									color: COLORS.white,
+									boxShadow: `rgba(255, 255, 255, 0.7) -2px -2px 4px, rgba(189, 194, 199, 0.75) 2px 2px 4px`,
+									...FONTS.para_02,
+									fontWeight: 'bold'
+								}}
+							>
+								<Target size={18} />
+								Start Challenge
+							</Button>
+						</div>
+					)}
 					
 					<div className='flex justify-between items-center mt-6 pt-4 border-t' style={{ borderColor: COLORS.text_desc }}>
 						<Button

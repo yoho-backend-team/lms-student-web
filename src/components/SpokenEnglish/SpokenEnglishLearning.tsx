@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { Lock } from 'lucide-react';
+import { Lock, Trophy, Flame, Calendar, Target, Award, BookOpen, Mic, Star } from 'lucide-react';
 import GrammarComponent from './GrammarComponent';
 import SpeakingComponent from './SpeakingComponent';
 
 const SpokenEnglishLearning = () => {
-	const [currentTopic, setCurrentTopic] = useState('Self Introduction');
+	const [currentTopic, setCurrentTopic] = useState('Professional Introduction');
 	const [currentLevel, setCurrentLevel] = useState('Beginner');
 	const [currentMode, setCurrentMode] = useState<'grammar' | 'speaking'>('grammar');
 	const [grammarCompleted, setGrammarCompleted] = useState(() => {
@@ -24,7 +24,7 @@ const SpokenEnglishLearning = () => {
 	});
 	const [unlockedTopics, setUnlockedTopics] = useState(() => {
 		const saved = localStorage.getItem('unlockedTopics');
-		return saved ? JSON.parse(saved) : { Beginner: ['Self Introduction'], Intermediate: [], Advanced: [], Professional: [] };
+		return saved ? JSON.parse(saved) : { Beginner: ['Professional Introduction'], Intermediate: [], Advanced: [], Professional: [] };
 	});
 	const [score, setScore] = useState(0);
 	const [sessionTime, setSessionTime] = useState(0);
@@ -34,16 +34,105 @@ const SpokenEnglishLearning = () => {
 		const saved = localStorage.getItem('levelScores');
 		return saved ? JSON.parse(saved) : {};
 	});
+	const [dailyStreak, setDailyStreak] = useState(() => {
+		const saved = localStorage.getItem('dailyStreak');
+		return saved ? JSON.parse(saved) : 0;
+	});
+	const [totalXP, setTotalXP] = useState(() => {
+		const saved = localStorage.getItem('totalXP');
+		return saved ? JSON.parse(saved) : 0;
+	});
+	const [achievements, setAchievements] = useState(() => {
+		const saved = localStorage.getItem('achievements');
+		return saved ? JSON.parse(saved) : [];
+	});
+	const [lastPracticeDate, setLastPracticeDate] = useState(() => {
+		const saved = localStorage.getItem('lastPracticeDate');
+		return saved ? new Date(saved) : null;
+	});
+
+	useEffect(() => {
+		// Check and update daily streak
+		const today = new Date();
+		const todayStr = today.toDateString();
+		
+		if (lastPracticeDate) {
+			const lastDateStr = lastPracticeDate.toDateString();
+			const daysDiff = Math.floor((today.getTime() - lastPracticeDate.getTime()) / (1000 * 60 * 60 * 24));
+			
+			if (daysDiff === 1) {
+				// Consecutive day
+				setDailyStreak(prev => {
+					const newStreak = prev + 1;
+					localStorage.setItem('dailyStreak', JSON.stringify(newStreak));
+					return newStreak;
+				});
+			} else if (daysDiff > 1) {
+				// Streak broken
+				setDailyStreak(1);
+				localStorage.setItem('dailyStreak', '1');
+			}
+			// If daysDiff === 0, it's the same day, don't change streak
+		} else {
+			// First time practicing
+			setDailyStreak(1);
+			localStorage.setItem('dailyStreak', '1');
+		}
+		
+		setLastPracticeDate(today);
+		localStorage.setItem('lastPracticeDate', today.toISOString());
+	}, []);
+
+	const addXP = (points: number) => {
+		const newXP = totalXP + points;
+		setTotalXP(newXP);
+		localStorage.setItem('totalXP', JSON.stringify(newXP));
+		
+		// Check for achievements
+		checkAchievements(newXP);
+	};
+
+	const checkAchievements = (xp: number) => {
+		const newAchievements = [...achievements];
+		
+		if (xp >= 100 && !achievements.includes('first-100')) {
+			newAchievements.push('first-100');
+		}
+		if (xp >= 500 && !achievements.includes('xp-master')) {
+			newAchievements.push('xp-master');
+		}
+		if (dailyStreak >= 7 && !achievements.includes('week-warrior')) {
+			newAchievements.push('week-warrior');
+		}
+		if (grammarCompleted && !achievements.includes('grammar-guru')) {
+			newAchievements.push('grammar-guru');
+		}
+		
+		if (newAchievements.length > achievements.length) {
+			setAchievements(newAchievements);
+			localStorage.setItem('achievements', JSON.stringify(newAchievements));
+		}
+	};
+
+	const getAchievementInfo = (id: string) => {
+		const achievementMap: Record<string, { title: string; description: string; icon: React.ReactNode }> = {
+			'first-100': { title: 'First Steps', description: 'Earned 100 XP', icon: <Target size={16} /> },
+			'xp-master': { title: 'XP Master', description: 'Earned 500 XP', icon: <Star size={16} /> },
+			'week-warrior': { title: 'Week Warrior', description: '7-day streak', icon: <Flame size={16} /> },
+			'grammar-guru': { title: 'Grammar Guru', description: 'Completed grammar test', icon: <BookOpen size={16} /> }
+		};
+		return achievementMap[id] || { title: 'Achievement', description: '', icon: <Award size={16} /> };
+	};
 
 
 
 	const levels = ['Beginner', 'Intermediate', 'Advanced', 'Professional'];
 
 	const topics = {
-		Beginner: ['Self Introduction', 'Family & Friends', 'Daily Routine', 'Food & Drinks'],
-		Intermediate: ['Travel & Tourism', 'Work & Career', 'Hobbies & Interests', 'Health & Fitness'],
-		Advanced: ['Business Meetings', 'Presentations', 'Negotiations', 'Academic Discussions'],
-		Professional: ['Leadership', 'Strategic Planning', 'Client Relations', 'Public Speaking']
+		Beginner: ['Professional Introduction', 'Career Goals', 'Skills & Strengths', 'Work Experience'],
+		Intermediate: ['Job Interview', 'Team Collaboration', 'Problem Solving', 'Project Management'],
+		Advanced: ['Business Presentations', 'Client Communication', 'Performance Review', 'Industry Analysis'],
+		Professional: ['Executive Leadership', 'Strategic Planning', 'Stakeholder Management', 'Innovation & Growth']
 	};
 
 
@@ -146,29 +235,63 @@ const SpokenEnglishLearning = () => {
 			<div className='ml-80 space-y-6'>
 			<Card className='p-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `rgba(255, 255, 255, 0.7) -4px -4px 4px, rgba(189, 194, 199, 0.75) 5px 5px 4px` }}>
 				<h1 style={{ ...FONTS.heading_01 }} className='text-center mb-2'>
-					Professional English Speaking Coach
+					English Mastery Challenge
 				</h1>
-				<p style={{ ...FONTS.para_01 }} className='text-center'>
-					AI-powered speaking assessment with real-time feedback
+				<p style={{ ...FONTS.para_01 }} className='text-center mb-4'>
+					Classie-style grammar and speaking practice
 				</p>
 				
-				{(score > 0 || sessionTime > 0) && (
-					<div className='grid grid-cols-4 gap-4 mt-4'>
-						<div className='text-center'>
-							<p style={{ ...FONTS.heading_02, color: COLORS.blue_01 }}>{score}</p>
-							<p style={{ ...FONTS.para_02 }}>Overall Score</p>
+				{/* Stats Dashboard */}
+				<div className='grid grid-cols-2 md:grid-cols-4 gap-4 mb-4'>
+					<div className='text-center p-3 rounded-lg' style={{ backgroundColor: COLORS.white, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75)` }}>
+						<div className='flex items-center justify-center mb-1'>
+							<Flame size={20} color={COLORS.light_orange} />
 						</div>
-						<div className='text-center'>
-							<p style={{ ...FONTS.heading_02, color: COLORS.light_green }}>{wordsPerMinute}</p>
-							<p style={{ ...FONTS.para_02 }}>Words/Min</p>
+						<p style={{ ...FONTS.heading_03, color: COLORS.light_orange }}>{dailyStreak}</p>
+						<p style={{ ...FONTS.para_03 }}>Day Streak</p>
+					</div>
+					<div className='text-center p-3 rounded-lg' style={{ backgroundColor: COLORS.white, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75)` }}>
+						<div className='flex items-center justify-center mb-1'>
+							<Target size={20} color={COLORS.blue_01} />
 						</div>
-						<div className='text-center'>
-							<p style={{ ...FONTS.heading_02, color: COLORS.purple_01 }}>{pronunciationScore}%</p>
-							<p style={{ ...FONTS.para_02 }}>Pronunciation</p>
+						<p style={{ ...FONTS.heading_03, color: COLORS.blue_01 }}>{totalXP}</p>
+						<p style={{ ...FONTS.para_03 }}>Total XP</p>
+					</div>
+					<div className='text-center p-3 rounded-lg' style={{ backgroundColor: COLORS.white, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75)` }}>
+						<div className='flex items-center justify-center mb-1'>
+							<Trophy size={20} color={COLORS.light_green} />
 						</div>
-						<div className='text-center'>
-							<p style={{ ...FONTS.heading_02, color: COLORS.light_orange }}>{Math.floor(sessionTime / 60)}:{(sessionTime % 60).toString().padStart(2, '0')}</p>
-							<p style={{ ...FONTS.para_02 }}>Duration</p>
+						<p style={{ ...FONTS.heading_03, color: COLORS.light_green }}>{Object.keys(levelScores).length}</p>
+						<p style={{ ...FONTS.para_03 }}>Completed</p>
+					</div>
+					<div className='text-center p-3 rounded-lg' style={{ backgroundColor: COLORS.white, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75)` }}>
+						<div className='flex items-center justify-center mb-1'>
+							<Award size={20} color={COLORS.purple_01} />
+						</div>
+						<p style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}>{achievements.length}</p>
+						<p style={{ ...FONTS.para_03 }}>Achievements</p>
+					</div>
+				</div>
+				
+				{/* Achievements */}
+				{achievements.length > 0 && (
+					<div className='mb-4'>
+						<h3 style={{ ...FONTS.heading_04 }} className='mb-2'>Recent Achievements</h3>
+						<div className='flex gap-2 flex-wrap'>
+							{achievements.slice(-3).map((achievementId) => {
+								const achievement = getAchievementInfo(achievementId);
+								return (
+									<div 
+										key={achievementId}
+										className='flex items-center gap-2 px-3 py-2 rounded-lg'
+										style={{ backgroundColor: COLORS.light_orange, color: COLORS.white }}
+										title={achievement.description}
+									>
+										{achievement.icon}
+										<span style={{ ...FONTS.para_03, fontWeight: 'bold' }}>{achievement.title}</span>
+									</div>
+								);
+							})}
 						</div>
 					</div>
 				)}
@@ -176,45 +299,58 @@ const SpokenEnglishLearning = () => {
 
 			<Card className='p-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `rgba(255, 255, 255, 0.7) -4px -4px 4px, rgba(189, 194, 199, 0.75) 5px 5px 4px` }}>
 				<div className='flex items-center justify-between mb-6'>
-					<h2 style={{ ...FONTS.heading_02 }}>English Learning Practice</h2>
-					<div className='flex gap-2'>
+					<h2 style={{ ...FONTS.heading_02 }}>Choose Your Challenge</h2>
+					<div className='flex gap-3'>
 						<Button
 							onClick={() => setCurrentMode('grammar')}
-							className='px-4 py-2 rounded-lg'
+							className='px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300'
 							style={{
 								background: currentMode === 'grammar' 
-									? `linear-gradient(to right, ${COLORS.blue_01}, ${COLORS.light_blue})` 
+									? COLORS.blue_01 
 									: COLORS.bg_Colour,
-								color: currentMode === 'grammar' ? COLORS.white : COLORS.text_desc,
-								border: `2px solid ${currentMode === 'grammar' ? COLORS.blue_01 : COLORS.text_desc}`,
-								...FONTS.para_02
+								color: currentMode === 'grammar' ? COLORS.white : COLORS.blue_01,
+								border: `2px solid ${COLORS.blue_01}`,
+								boxShadow: currentMode === 'grammar' 
+									? `0 4px 15px rgba(52, 152, 219, 0.4)` 
+									: `rgba(255, 255, 255, 0.7) -2px -2px 4px, rgba(189, 194, 199, 0.75) 2px 2px 4px`,
+								transform: currentMode === 'grammar' ? 'scale(1.05)' : 'scale(1)',
+								...FONTS.para_02,
+								fontWeight: 'bold'
 							}}
 						>
-							Grammar
+							<BookOpen size={18} /> Grammar Challenge
 						</Button>
 						<Button
 							onClick={() => grammarCompleted && setCurrentMode('speaking')}
 							disabled={!grammarCompleted}
-							className='px-4 py-2 rounded-lg'
+							className='px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300'
 							style={{
 								background: currentMode === 'speaking' 
-									? `linear-gradient(to right, ${COLORS.light_green}, ${COLORS.green_text})` 
+									? COLORS.light_green 
 									: COLORS.bg_Colour,
-								color: currentMode === 'speaking' ? COLORS.white : COLORS.text_desc,
-								border: `2px solid ${currentMode === 'speaking' ? COLORS.light_green : COLORS.text_desc}`,
-								opacity: grammarCompleted ? 1 : 0.5,
-								...FONTS.para_02
+								color: currentMode === 'speaking' ? COLORS.white : grammarCompleted ? COLORS.light_green : COLORS.text_desc,
+								border: `2px solid ${grammarCompleted ? COLORS.light_green : COLORS.text_desc}`,
+								boxShadow: currentMode === 'speaking' 
+									? `0 4px 15px rgba(46, 204, 113, 0.4)` 
+									: `rgba(255, 255, 255, 0.7) -2px -2px 4px, rgba(189, 194, 199, 0.75) 2px 2px 4px`,
+								transform: currentMode === 'speaking' ? 'scale(1.05)' : 'scale(1)',
+								opacity: grammarCompleted ? 1 : 0.6,
+								...FONTS.para_02,
+								fontWeight: 'bold'
 							}}
 						>
-							Speaking {!grammarCompleted && '🔒'}
-						</Button>
+							<Mic size={18} /> Speaking Practice {!grammarCompleted && <Lock size={16} />}
+ 						</Button>
 					</div>
 				</div>
 
 				{currentMode === 'grammar' ? (
 					<GrammarComponent 
 						grammarCompleted={grammarCompleted}
-						setGrammarCompleted={setGrammarCompleted}
+						setGrammarCompleted={(completed) => {
+							setGrammarCompleted(completed);
+							if (completed) addXP(50); // Award XP for completing grammar
+						}}
 						grammarTestScore={grammarTestScore}
 						setGrammarTestScore={setGrammarTestScore}
 					/>
@@ -223,7 +359,14 @@ const SpokenEnglishLearning = () => {
 						currentTopic={currentTopic}
 						currentLevel={currentLevel}
 						levelScores={levelScores}
-						setLevelScores={setLevelScores}
+						setLevelScores={(scores) => {
+							setLevelScores(scores);
+							// Award XP for good speaking scores
+							const latestScore = Object.values(scores).pop() as number;
+							if (latestScore >= 90) addXP(30);
+							else if (latestScore >= 70) addXP(20);
+							else if (latestScore >= 50) addXP(10);
+						}}
 						unlockedLevels={unlockedLevels}
 						setUnlockedLevels={setUnlockedLevels}
 						unlockedTopics={unlockedTopics}
