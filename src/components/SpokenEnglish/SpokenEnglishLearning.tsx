@@ -6,7 +6,10 @@ import { Lock, Trophy, Flame, Calendar, Target, Award, BookOpen, Mic, Star } fro
 import GrammarComponent from './GrammarComponent';
 import SpeakingComponent from './SpeakingComponent';
 
+
+
 const SpokenEnglishLearning = () => {
+
 	const [currentTopic, setCurrentTopic] = useState('Professional Introduction');
 	const [currentLevel, setCurrentLevel] = useState('Beginner');
 	const [currentMode, setCurrentMode] = useState<'grammar' | 'speaking'>('grammar');
@@ -26,10 +29,7 @@ const SpokenEnglishLearning = () => {
 		const saved = localStorage.getItem('unlockedTopics');
 		return saved ? JSON.parse(saved) : { Beginner: ['Professional Introduction'], Intermediate: [], Advanced: [], Professional: [] };
 	});
-	const [score, setScore] = useState(0);
-	const [sessionTime, setSessionTime] = useState(0);
-	const [wordsPerMinute, setWordsPerMinute] = useState(0);
-	const [pronunciationScore, setPronunciationScore] = useState(0);
+
 	const [levelScores, setLevelScores] = useState(() => {
 		const saved = localStorage.getItem('levelScores');
 		return saved ? JSON.parse(saved) : {};
@@ -50,6 +50,8 @@ const SpokenEnglishLearning = () => {
 		const saved = localStorage.getItem('lastPracticeDate');
 		return saved ? new Date(saved) : null;
 	});
+
+
 
 	useEffect(() => {
 		// Check and update daily streak
@@ -134,6 +136,8 @@ const SpokenEnglishLearning = () => {
 		Advanced: ['Business Presentations', 'Client Communication', 'Performance Review', 'Industry Analysis'],
 		Professional: ['Executive Leadership', 'Strategic Planning', 'Stakeholder Management', 'Innovation & Growth']
 	};
+
+
 
 
 
@@ -379,35 +383,7 @@ const SpokenEnglishLearning = () => {
 
 			</Card>
 
-			{/* <Card className='p-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `rgba(255, 255, 255, 0.7) -4px -4px 4px, rgba(189, 194, 199, 0.75) 5px 5px 4px` }}>
-				<h2 style={{ ...FONTS.heading_02 }} className='mb-4'>Professional Speaking Guidelines</h2>
-				<div className='grid md:grid-cols-3 gap-6'>
-					<div className='space-y-3'>
-						<h3 style={{ ...FONTS.heading_04, color: COLORS.blue_01 }}>Pronunciation</h3>
-						<ul className='space-y-2'>
-							<li style={{ ...FONTS.para_02 }}>• Clear articulation</li>
-							<li style={{ ...FONTS.para_02 }}>• Proper word stress</li>
-							<li style={{ ...FONTS.para_02 }}>• Consistent pace</li>
-						</ul>
-					</div>
-					<div className='space-y-3'>
-						<h3 style={{ ...FONTS.heading_04, color: COLORS.light_green }}>Fluency</h3>
-						<ul className='space-y-2'>
-							<li style={{ ...FONTS.para_02 }}>• Natural flow</li>
-							<li style={{ ...FONTS.para_02 }}>• Smooth transitions</li>
-							<li style={{ ...FONTS.para_02 }}>• Confident delivery</li>
-						</ul>
-					</div>
-					<div className='space-y-3'>
-						<h3 style={{ ...FONTS.heading_04, color: COLORS.purple_01 }}>Professional</h3>
-						<ul className='space-y-2'>
-							<li style={{ ...FONTS.para_02 }}>• Formal vocabulary</li>
-							<li style={{ ...FONTS.para_02 }}>• Structured responses</li>
-							<li style={{ ...FONTS.para_02 }}>• Engaging tone</li>
-						</ul>
-					</div>
-				</div>
-			</Card> */}
+
 			</div>
 		</div>
 	);

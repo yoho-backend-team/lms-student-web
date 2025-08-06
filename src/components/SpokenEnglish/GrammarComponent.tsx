@@ -656,7 +656,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 													};
 													return explanations[title] || `Let me explain ${title}. ${content}`;
 												};
-												const detailedExplanation = `${item.title}. ${getDetailedExplanation(item.title, getTextContent(item.content))} Now let me read the specific examples: ${getTextContent(item.content)} This grammar topic covers: ${getTextContent(item.content)}. Understanding this concept is important for proper English grammar.`;
+												const detailedExplanation = `${item.title}. ${getDetailedExplanation(item.title, getTextContent(item.content))} Now let me read the specific examples: ${getTextContent(item.content)} This grammar topic covers: ${getTextContent(item.title)}. Understanding this concept is important for proper English grammar.`;
 												speakText(detailedExplanation);
 											}}
 											className='p-1 rounded-full'
