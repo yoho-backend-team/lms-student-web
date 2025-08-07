@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { CheckCircle, X, ChevronLeft, ChevronRight, Trophy, Star, Target, Zap, Heart, Volume2, VolumeX } from 'lucide-react';
+import { CheckCircle, X, ChevronLeft, ChevronRight, Trophy, Target, Zap, Heart, Volume2 } from 'lucide-react';
 
 interface GrammarComponentProps {
 	grammarCompleted: boolean;
@@ -15,14 +15,12 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 	const [showGrammarTest, setShowGrammarTest] = useState(false);
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
-	const [testCompleted, setTestCompleted] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [showExplanation, setShowExplanation] = useState(false);
 	const [streak, setStreak] = useState(0);
 	const [hearts, setHearts] = useState(5);
 	const [showResult, setShowResult] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [currentAudio, setCurrentAudio] = useState<SpeechSynthesisUtterance | null>(null);
 	const itemsPerPage = 7;
 
 	useEffect(() => {
@@ -35,7 +33,6 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 			if (isPlaying) {
 				window.speechSynthesis.cancel();
 				setIsPlaying(false);
-				setCurrentAudio(null);
 				return;
 			}
 
@@ -47,21 +44,17 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 			utterance.onstart = () => setIsPlaying(true);
 			utterance.onend = () => {
 				setIsPlaying(false);
-				setCurrentAudio(null);
 			};
 			utterance.onboundary = () => {
 				// Keep playing state updated during speech
 				if (!window.speechSynthesis.speaking) {
 					setIsPlaying(false);
-					setCurrentAudio(null);
 				}
 			};
 			utterance.onerror = () => {
 				setIsPlaying(false);
-				setCurrentAudio(null);
 			};
 
-			setCurrentAudio(utterance);
 			window.speechSynthesis.speak(utterance);
 		}
 	};
@@ -401,7 +394,6 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 			localStorage.setItem('grammarCompleted', 'true');
 		}
 		setShowResult(true);
-		setTestCompleted(true);
 	};
 
 	return (

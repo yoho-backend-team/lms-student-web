@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { Mic, Square, CheckCircle, Lightbulb, Trophy, Star, Timer, Volume2, RotateCcw } from 'lucide-react';
+import { Mic, Square, Lightbulb, Trophy, Star, Timer, Volume2, RotateCcw } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface SpeakingComponentProps {

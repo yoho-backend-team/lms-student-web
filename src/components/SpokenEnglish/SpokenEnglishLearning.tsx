@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { Lock, Trophy, Flame, Calendar, Target, Award, BookOpen, Mic, Star } from 'lucide-react';
+import { Lock, Trophy, Flame, Target, Award, BookOpen, Mic, Star } from 'lucide-react';
 import GrammarComponent from './GrammarComponent';
 import SpeakingComponent from './SpeakingComponent';
 
@@ -56,15 +56,13 @@ const SpokenEnglishLearning = () => {
 	useEffect(() => {
 		// Check and update daily streak
 		const today = new Date();
-		const todayStr = today.toDateString();
 		
 		if (lastPracticeDate) {
-			const lastDateStr = lastPracticeDate.toDateString();
 			const daysDiff = Math.floor((today.getTime() - lastPracticeDate.getTime()) / (1000 * 60 * 60 * 24));
 			
 			if (daysDiff === 1) {
 				// Consecutive day
-				setDailyStreak(prev => {
+				setDailyStreak((prev: number) => {
 					const newStreak = prev + 1;
 					localStorage.setItem('dailyStreak', JSON.stringify(newStreak));
 					return newStreak;
@@ -285,7 +283,7 @@ const SpokenEnglishLearning = () => {
 								<div className='mb-4'>
 									<h3 style={{ ...FONTS.heading_04 }} className='mb-2'>Recent Achievements</h3>
 									<div className='flex gap-2 flex-wrap'>
-										{achievements.slice(-3).map((achievementId) => {
+										{achievements.slice(-3).map((achievementId: string) => {
 											const achievement = getAchievementInfo(achievementId);
 											return (
 												<div 
@@ -317,13 +315,13 @@ const SpokenEnglishLearning = () => {
 											background: currentMode === 'grammar' 
 												? COLORS.blue_01 
 												: COLORS.bg_Colour,
-											color: currentMode === 'grammar' ? COLORS.white : COLORS.blue_01,
 											border: `2px solid ${COLORS.blue_01}`,
 											boxShadow: currentMode === 'grammar' 
 												? `0 4px 15px rgba(52, 152, 219, 0.4)` 
 												: `rgba(255, 255, 255, 0.7) -2px -2px 4px, rgba(189, 194, 199, 0.75) 2px 2px 4px`,
 											transform: currentMode === 'grammar' ? 'scale(1.02)' : 'scale(1)',
 											...FONTS.para_02,
+											color: currentMode === 'grammar' ? COLORS.white : COLORS.blue_01,
 											fontWeight: 'bold',
 											fontSize: '12px'
 										}}
@@ -339,7 +337,6 @@ const SpokenEnglishLearning = () => {
 											background: currentMode === 'speaking' 
 												? COLORS.light_green 
 												: COLORS.bg_Colour,
-											color: currentMode === 'speaking' ? COLORS.white : grammarCompleted ? COLORS.light_green : COLORS.text_desc,
 											border: `2px solid ${grammarCompleted ? COLORS.light_green : COLORS.text_desc}`,
 											boxShadow: currentMode === 'speaking' 
 												? `0 4px 15px rgba(46, 204, 113, 0.4)` 
@@ -347,6 +344,7 @@ const SpokenEnglishLearning = () => {
 											transform: currentMode === 'speaking' ? 'scale(1.02)' : 'scale(1)',
 											opacity: grammarCompleted ? 1 : 0.6,
 											...FONTS.para_02,
+											color: currentMode === 'speaking' ? COLORS.white : grammarCompleted ? COLORS.light_green : COLORS.text_desc,
 											fontWeight: 'bold',
 											fontSize: '12px'
 										}}

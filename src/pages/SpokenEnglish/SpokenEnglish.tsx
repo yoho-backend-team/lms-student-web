@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import SpokenEnglishLearning from '@/components/SpokenEnglish/SpokenEnglishLearning';
-import { COLORS, FONTS } from '@/constants/uiConstants';
+import { FONTS } from '@/constants/uiConstants';
 
 const BookLoader = () => {
 	return (
