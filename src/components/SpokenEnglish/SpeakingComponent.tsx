@@ -526,8 +526,8 @@ const SpeakingComponent = ({
 									className='px-4 py-2 rounded'
 									style={{
 										background: COLORS.blue_01,
+										...FONTS.para_02,
 										color: COLORS.white,
-										...FONTS.para_02
 									}}
 								>
 									Continue
@@ -539,8 +539,8 @@ const SpeakingComponent = ({
 									className='px-4 py-2 rounded flex items-center gap-2'
 									style={{
 										background: COLORS.light_green,
+										...FONTS.para_02,
 										color: COLORS.white,
-										...FONTS.para_02
 									}}
 								>
 									<RotateCcw size={16} /> Try Again
@@ -615,8 +615,8 @@ const SpeakingComponent = ({
 									className='px-2 py-1 rounded-full text-xs '
 									style={{ 
 										background: COLORS.light_blue, 
+										...FONTS.para_03,
 										color: COLORS.white,
-										...FONTS.para_03
 									}}
 								>
 									{keyword}
@@ -677,13 +677,13 @@ const SpeakingComponent = ({
 						background: (isRecording || listening) 
 							? COLORS.light_red 
 							: COLORS.light_green,
-						color: COLORS.white,
 						border: 'none',
 						boxShadow: (isRecording || listening) 
 							? `0 4px 15px rgba(255, 107, 107, 0.4)`
 							: `0 4px 15px rgba(52, 152, 219, 0.4)`,
 						opacity: !browserSupportsSpeechRecognition ? 0.5 : 1,
 						...FONTS.heading_04,
+						color: COLORS.white,
 						fontWeight: 'bold',
 						transition: 'all 0.3s ease',
 						transform: (isRecording || listening) ? 'scale(1.05)' : 'scale(1)'

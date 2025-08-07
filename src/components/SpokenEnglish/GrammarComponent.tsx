@@ -437,7 +437,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										{grammarQuestions[currentQuestion].options.map((option, index) => {
 											const isSelected = selectedAnswers[currentQuestion] === index;
 											const isCorrect = index === grammarQuestions[currentQuestion].correct;
-											const showFeedback = showExplanation && isSelected;
+											// const showFeedback = showExplanation && isSelected;
 											
 											let bgColor = COLORS.white;
 											let borderColor = COLORS.text_desc;
@@ -501,8 +501,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										className='px-4 py-2 rounded'
 										style={{
 											background: COLORS.text_desc,
+											...FONTS.para_02,
 											color: COLORS.white,
-											...FONTS.para_02
+
 										}}
 									>
 										Exit
@@ -514,8 +515,8 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 											className='px-6 py-2 rounded-lg'
 											style={{
 												background: COLORS.light_green,
-												color: COLORS.white,
 												...FONTS.para_02,
+												color: COLORS.white,
 												fontWeight: 'bold'
 											}}
 										>
@@ -549,8 +550,8 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										className='px-6 py-2 rounded-lg'
 										style={{
 											background: COLORS.blue_01,
+											...FONTS.para_02,
 											color: COLORS.white,
-											...FONTS.para_02
 										}}
 									>
 										Continue
@@ -567,8 +568,8 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 											className='px-6 py-2 rounded-lg'
 											style={{
 												background: COLORS.light_green,
+												...FONTS.para_02,
 												color: COLORS.white,
-												...FONTS.para_02
 											}}
 										>
 											Try Again
@@ -677,9 +678,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 								className='px-6 py-3 rounded-lg flex items-center gap-2 mb-4'
 								style={{
 									background: COLORS.blue_01,
-									color: COLORS.white,
 									boxShadow: `rgba(255, 255, 255, 0.7) -2px -2px 4px, rgba(189, 194, 199, 0.75) 2px 2px 4px`,
 									...FONTS.para_02,
+									color: COLORS.white,
 									fontWeight: 'bold'
 								}}
 							>
@@ -696,9 +697,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 							className='flex items-center gap-2 px-4 py-2 rounded'
 							style={{
 								background: currentPage === 0 ? COLORS.text_desc : COLORS.blue_01,
-								color: COLORS.white,
 								opacity: currentPage === 0 ? 0.5 : 1,
-								...FONTS.para_02
+								...FONTS.para_02,
+								color: COLORS.white,
 							}}
 						>
 							<ChevronLeft size={16} /> Previous
@@ -714,9 +715,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 							className='flex items-center gap-2 px-4 py-2 rounded'
 							style={{
 								background: currentPage === totalPages - 1 ? COLORS.text_desc : COLORS.blue_01,
-								color: COLORS.white,
 								opacity: currentPage === totalPages - 1 ? 0.5 : 1,
-								...FONTS.para_02
+								...FONTS.para_02,
+								color: COLORS.white,
 							}}
 						>
 							Next <ChevronRight size={16} />
