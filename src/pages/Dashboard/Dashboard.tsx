@@ -42,83 +42,101 @@ const Dashboard: React.FC = () => {
 	return (
 		<>
 			<div
-				className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden'
+				className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden '
 				style={{ scrollbarWidth: 'none' }}
 			>
 				{IsLoading && (
-					<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm'>
+					<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
 						<Loader />
 					</div>
 				)}
-				<TourButton />
+				<div className='animate-slide-down'>
+					<TourButton />
+				</div>
 
 				{TabView ? (
-					<div className='flex flex-col gap-5'>
-						<ProfileCard />
+					<div className='flex flex-col gap-5 '>
+						<div className='transform transition-all duration-700 ease-out hover:scale-[1.02]'>
+							<ProfileCard />
+						</div>
 						<div className='flex flex-row gap-5'>
-							<InstituteDetails />
-							<CourseProgress />
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<InstituteDetails />
+							</div>
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<CourseProgress />
+							</div>
 						</div>
 					</div>
 				) : (
-					<div className='grid grid-cols-8 gap-5 justify-between'>
-						<div className='col-span-2 col-start-1'>
+					<div className='grid grid-cols-8 gap-5 justify-between '>
+						<div className='col-span-2 col-start-1 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<InstituteDetails />
 						</div>
-						<div className='col-span-4'>
+						<div className='col-span-4 transform transition-all duration-700 ease-out hover:scale-[1.02]'>
 							<ProfileCard />
 						</div>
-						<div className='col-span-2'>
+						<div className='col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<CourseProgress />
 						</div>
 					</div>
 				)}
 
 				{TabView ? (
-					<div className='flex flex-col gap-5'>
+					<div className='flex flex-col gap-5 animate-fade-in-up animation-delay-200'>
 						<div className='flex flex-row gap-5'>
-							<Attendance />
-							<Payment />
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<Attendance />
+							</div>
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<Payment />
+							</div>
 						</div>
 						<div className='grid grid-cols-2 gap-5'>
-							<Assesments />
-							<DashCalender />
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<Assesments />
+							</div>
+							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<DashCalender />
+							</div>
 						</div>
-						<Updates />
+						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+							<Updates />
+						</div>
 					</div>
 				) : (
 					<div className='grid grid-cols-3 gap-5'>
-						<div>
+						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<Attendance />
 						</div>
-						<div>
+						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<Payment />
 						</div>
-						<div>
+						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<Assesments />
 						</div>
 					</div>
 				)}
 
 				{!TabView && (
-					<div className='grid grid-cols-3 gap-5'>
-						<div className='col-span-2'>
+					<div className='grid grid-cols-3 gap-5 '>
+						<div className='col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<Updates />
 						</div>
-						<div>
+						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<DashCalender />
 						</div>
 					</div>
 				)}
 
-				<div className='flex flex-row justify-between'>
-					<div className='divshadow p-2 rounded-xl'>
+				<div className='flex flex-row justify-between '>
+					<div className='divshadow p-2 rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50'>
 						<p style={{ ...FONTS.heading_06 }}>
 							Course Name:{' '}
 							<span style={{ ...FONTS.heading_04 }}>MEARN STACK 2024</span>
 						</p>
 					</div>
-					<div className='divshadow p-2 rounded-xl'>
+					<div className='divshadow p-2 rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50'>
 						<p style={{ ...FONTS.heading_06 }}>
 							Projects:{' '}
 							<span style={{ ...FONTS.heading_04 }}>Web Development</span>
@@ -126,6 +144,8 @@ const Dashboard: React.FC = () => {
 					</div>
 				</div>
 			</div>
+
+			
 		</>
 	);
 };
