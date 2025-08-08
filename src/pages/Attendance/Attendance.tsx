@@ -27,6 +27,8 @@ import { selectAttendance } from '@/features/Attendance/reducer/selectors'
 import { getattendancedata } from '@/features/Attendance/services/Attendace'
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks'
 import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
+import Loader from '@/components/Loader/Loader';
+import { useLoader } from '@/context/LoadingContext/Loader';
 
 const chartConfig = {
   desktop: {
@@ -45,6 +47,8 @@ export const Attendance = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>(months[selectedDate.getMonth()])
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
+  const dispatch = useDispatch<any>();
+  const { showLoader, hideLoader, IsLoading } = useLoader();
 
   const attendancedata = useSelector(selectAttendance)
   
@@ -107,7 +111,6 @@ export const Attendance = () => {
 
   const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i)
 
-  const dispatch = useDispatch<any>();
  
  const dashData = useSelector(selectDashBoard)
 
@@ -133,13 +136,37 @@ useEffect(() => {
   return () => clearTimeout(timeout);
 }, [dashData, selectedDate]);
 
+useEffect(() => {
+        (async () => {
+          try {
+            showLoader();
+            const timeoutId = setTimeout(() => {
+              hideLoader();
+            }, 5000);
+            const response = await dispatch(getDashBoardReports());
+            if (response) {
+              clearTimeout(timeoutId);
+            }
+          } finally {
+            hideLoader();
+          }
+        })();
+      }, [dispatch, hideLoader, showLoader]);
+  
 
 
   return (
-    <div className="p-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
+    <>
+    
+      <div className="p-4">
+        {/* Header */}
+          {IsLoading && (
+                  <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
+                    <Loader />
+                  </div>
+                )}
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
         <div className="relative flex items-center">
           <button
@@ -300,7 +327,7 @@ useEffect(() => {
                 <li>Notes: Good Performance</li>
               </ul>
             </div>
-            <button  className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray  rounded-xl btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
+            <button  className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
             
               style={{ ...FONTS.heading_06 }}
             >
@@ -310,6 +337,7 @@ useEffect(() => {
         </div>
       </div>
     </div>
+  </>
   )
 }
 
