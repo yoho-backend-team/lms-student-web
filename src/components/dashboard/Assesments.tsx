@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
+import { TabViewResponsive } from "@/hooks/TabViewResponce/TabViewResponsive";
 // import { useSelector } from "react-redux";
 
 
@@ -12,6 +13,8 @@ const Assesments = () => {
     // const Attendance = useSelector((state: any) => state.dashboard.data) ?? []
 
     const [activeTab, setactiveTab] = useState<'average' | 'exam' | 'completed'>('average');
+
+    const { TabView } = TabViewResponsive()
 
     const assessmentDots = [
         { top: "top-[83px]", left: "left-0" },
@@ -25,7 +28,7 @@ const Assesments = () => {
 
     return (
         <>
-            <Card className="w-full h-[300px] p-5 flex flex-col items-start gap-2.5 relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
+            <Card className={`w-full h-[300px] p-5 flex flex-col items-start ${TabView ? 'gap-8' : 'gap-2.5'}  relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]`}>
                 <CardContent className="flex flex-col w-[400px] items-start gap-5 relative flex-[0_0_auto] p-0">
                     <div className="relative self-stretch mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-semibold text-black text-xl tracking-[0] leading-[normal]">
                         Assesments
