@@ -1,5 +1,6 @@
+import type React from 'react';
 import { Card } from '@/components/ui/card';
-import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
+import Logo from '../../../assets/Student PNG.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -12,6 +13,7 @@ import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import { toast } from 'react-toastify';
 import { StoreLocalStorage } from '@/utils/helper';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 type LoginData = {
 	email: string;
@@ -72,7 +74,7 @@ const Login = () => {
 					`,
 							}}
 						>
-							<img src={Logo} alt='logo' style={{ width: 20, height: 20 }} />
+							<img src={Logo} alt='logo' style={{ width: 25, height: 25 }} />
 						</Card>
 						<p className='text-center my-1' style={{ ...FONTS.heading_02 }}>
 							Join & Connect the Fastest Growing <br /> Online Community
@@ -161,7 +163,13 @@ const Login = () => {
 					  rgba(189, 194, 199, 0.75) 5px 5px 4px
 					`,
 					}}
-				></Card>
+				>
+					<DotLottieReact
+						src='https://lottie.host/da5bd43c-0c42-4618-9ddf-f01f243d01ab/ZSX7ZLvOxy.lottie'
+						loop
+						autoplay className='w-full h-screen'
+					/>
+				</Card>
 			</div>
 		</div>
 	);
