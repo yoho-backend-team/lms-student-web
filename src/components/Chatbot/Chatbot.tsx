@@ -219,7 +219,7 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-17 right-3 z-[9999]">
+    <div className="fixed bottom-17 right-3 z-[9999] chatbot-container">
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}

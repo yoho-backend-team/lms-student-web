@@ -23,6 +23,18 @@ const OfflineOverlay = ({ cover = 'full' }: OfflineOverlayProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    // Hide chatbot when offline
+    const chatbotElement = document.querySelector('.chatbot-container');
+    if (chatbotElement) {
+      if (isOnline) {
+        chatbotElement.style.display = 'block';
+      } else {
+        chatbotElement.style.display = 'none';
+      }
+    }
+  }, [isOnline]);
+
   if (isOnline) return null;
 
   const positionClass = cover === 'full' ? 'fixed inset-0' : 'absolute inset-0';
