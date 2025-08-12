@@ -72,6 +72,8 @@ class Client {
     attendance: {
       get: (params: any) =>
         httpClient.get(`${HTTP_END_POINTS.attendance.get}`, params, "student"),
+      getByDate: (params: any) =>
+        httpClient.get(`${HTTP_END_POINTS.attendance.getDate}`, params, "student"),
       get_class_attendance: (data: { classId: any }) =>
         httpClient.get(
           `${HTTP_END_POINTS.attendance.class_attendance}/${data.classId}`,

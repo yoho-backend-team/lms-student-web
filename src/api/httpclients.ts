@@ -39,7 +39,7 @@ Axios.interceptors.response.use(
 class HttpClient {
 	async get(
 		url: string,
-		params?: { id?: string; params?: { classId: any }; community?: string },
+		params?: any,
 		userType?: string | undefined
 	) {
 		const response = await Axios.get(url, {

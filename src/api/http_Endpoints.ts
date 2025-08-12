@@ -20,6 +20,7 @@ const getEndpoints = (): Endpoints => {
 		},
 		attendance: {
 			get: '/institutes/attedance/student-attendance/',
+			getDate: '/institutes/attedance/student-attendance/daily',
 			class_attendance: '/attendance/class',
 		},
 		payments: {
