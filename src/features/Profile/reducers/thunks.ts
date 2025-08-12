@@ -1,5 +1,5 @@
 import { getStudentProfile, updateStudentProfile } from '../services';
-import { getProfile, updateProfile } from './profileSlice';
+import { getProfile, updateProfile } from './ProfileSlice';
 
 export const getStudentProfileThunk =
 	(params: any) => async (dispatch: any) => {
