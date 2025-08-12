@@ -1,5 +1,4 @@
 import React from "react";
-import studentGif from "../../assets/Student SVG (1).gif";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
