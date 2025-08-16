@@ -18,7 +18,7 @@ export const StudentSocketProvider = ({
 
 	useEffect(() => {
 		// const url = 'https://lms-node-backend-v1.onrender.com';
-		const url = "http://localhost:3000";
+		const url = "http://localhost:3001";
 
 		const socketIO = io(url, {
 			query: { userId: user._id },
