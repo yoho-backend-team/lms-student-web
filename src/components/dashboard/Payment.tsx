@@ -6,14 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks'
 import { selectProfile } from '@/features/Profile/reducers/selectors'
+import { GetLocalStorage } from '@/utils/helper'
 
 const Payment: React.FC = () => {
 
     const dispatch = useDispatch<any>()
     const profileDetails = useSelector(selectProfile)
+    const storedData = GetLocalStorage('user');
 
     useEffect(() => {
-        dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
+        dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
     }, [dispatch]);
 
     const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []

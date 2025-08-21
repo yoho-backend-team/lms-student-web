@@ -7,7 +7,7 @@ export const getStudentLogin =
 		try {
 			const response = await getStudentLoginClient(data, params);
 			console.log('getStudentLogin response', response);
-			StoreLocalStorage('user', JSON.stringify(response?.data?.user));
+			StoreLocalStorage('user', response?.data?.user);
 			return response;
 		} catch (error) {
 			console.log(error);

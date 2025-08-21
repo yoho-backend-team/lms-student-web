@@ -19,19 +19,24 @@ import InvoiceReceipt from '../../utils/InvoiceReceipt'
 import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
+import { selectUser } from '@/features/Authentication/reducers/selectors';
+import { GetLocalStorage } from '@/utils/helper';
 
 const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
-	const profileDetails = useSelector(selectProfile)
+	const profileDetails = useSelector(selectUser)
 	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const storedData = GetLocalStorage('user');
 
 	const [open, setOpen] = useState(false);
 
+	console.log(storedData, 'useer dataa')
+
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
-		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
+		dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
 		console.log(paymentDetails, "Payment Details")
 	}, [dispatch]);
 
