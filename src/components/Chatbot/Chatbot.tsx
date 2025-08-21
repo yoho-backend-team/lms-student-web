@@ -170,7 +170,6 @@ const Chatbot: React.FC = () => {
       return 'Thank you for using the LMS assistant. Have a productive learning experience, and feel free to reach out anytime you need help!';
     }
     
-    // AI-like responses for any other questions
     const aiResponses = [
       'Based on your query, I understand you\'re looking for information. Let me help you find the right section in your LMS platform.',
       'I\'m analyzing your question to provide the most relevant assistance. For specific features, please check the corresponding sections in your dashboard.',
@@ -184,7 +183,6 @@ const Chatbot: React.FC = () => {
       'Thank you for reaching out. I\'ll guide you to the appropriate section where you can find comprehensive information about your query.'
     ];
     
-    // Return random AI-like response
     return aiResponses[Math.floor(Math.random() * aiResponses.length)] + ' I can assist you with: Courses & Classes, Payments & Billing, Profile Management, Attendance Records, Notifications, Community Discussions, Assignments & Assessments, Spoken English Practice, and Technical Support. What would you like to know?';
   };
 
@@ -219,7 +217,7 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-17 right-3 z-[9999]">
+    <div className="fixed bottom-17 right-3 z-[9999] chatbot-container">
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
