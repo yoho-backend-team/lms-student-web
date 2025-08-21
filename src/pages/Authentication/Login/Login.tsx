@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { getStudentLogin } from '@/features/Authentication/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import { toast } from 'react-toastify';
+import { StoreLocalStorage } from '@/utils/helper';
 
 type LoginData = {
 	email: string;
@@ -31,17 +32,21 @@ const Login = () => {
 	const onSubmit = async (data: LoginData) => {
 		try {
 			if (data.email) {
-				const response: any = await dispatch(getStudentLogin(data,{}));
-				if (response) {
-					toast.success('Login successful!', {style:{ backgroundColor: 'green', color: 'white'}});
-					login(response);
-					
+				const response: any = await dispatch(getStudentLogin(data, {}));
+				if (response?.profile) {
+					toast.success('Login successful!', { style: { backgroundColor: 'green', color: 'white' } });
+					login(response?.data?.token);
 					navigate('/');
+				} else {
+					StoreLocalStorage('otp', response?.data?.otp)
+					StoreLocalStorage('otptoken', response?.data?.token)
+					StoreLocalStorage('email', response?.data?.email)
+					navigate('/otp-verify')
 				}
 			}
 		} catch (error: any) {
 			console.log('error', error);
-			toast.error('Login failed. Please try again.', {style:{ backgroundColor: 'red', color: 'white'}});
+			toast.error('Login failed. Please try again.', { style: { backgroundColor: 'red', color: 'white' } });
 		}
 	};
 

@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from '@/components/ui/card';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
 import { updateVerifyOtpClient } from '@/features/Authentication/services';
 import { toast } from 'react-toastify';
+import { GetLocalStorage, RemoveLocalStorage, StoreLocalStorage } from '@/utils/helper';
+import { useAuth } from '@/context/AuthContext/AuthContext';
 
 const OtpVerification = () => {
-	  const location = useLocation();
-  const { email, data } = location.state || {};
 	const navigate = useNavigate();
+	const { login } = useAuth()
+	const otpData = JSON.stringify(GetLocalStorage('otp'))
 	const [otpDigits, setOtpDigits] = useState(Array(6).fill(''));
 	const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 	const [showError, setShowError] = useState(false);
@@ -48,20 +51,23 @@ const OtpVerification = () => {
 			setShowError(true);
 		}
 		try {
-			const params_data :any ={email,token:data?.token,otp:enteredOtp}
-			const response = await updateVerifyOtpClient(params_data,{})
+			const email = GetLocalStorage('email')
+			const token = GetLocalStorage('otptoken')
+			const params_data: any = { email, token, otp: enteredOtp }
+			const response = await updateVerifyOtpClient(params_data, {})
 			console.log(response, 'otp response')
-			if(response){
-				toast.success('  Otp verified successfully!', {style:{ backgroundColor: 'green', color: 'white'}});
-				navigate('/reset-password', {
-					state:{
-						email
-					}
-				});
+			if (response) {
+				RemoveLocalStorage('otp')
+				RemoveLocalStorage('otptoken')
+				RemoveLocalStorage('email')
+				login(response?.data?.token)
+				StoreLocalStorage('userId', response?.data?.userId)
+				toast.success('  Otp verified successfully!', { style: { backgroundColor: 'green', color: 'white' } });
+				navigate('/');
 			}
 		} catch (error) {
 			console.error('OTP verify error:', error);
-			  toast.error('Failed to verify otp ', {style:{ backgroundColor: 'red', color: 'white'}});
+			toast.error('Failed to verify otp ', { style: { backgroundColor: 'red', color: 'white' } });
 		}
 	};
 
@@ -99,7 +105,7 @@ const OtpVerification = () => {
 							Enter the 6 digit OTP sent to your Email Address
 						</p>
 						<div>
-							<p className='my-3 text-red-600 text-md font-semibold'>OTP: {data?.otp}</p>
+							<p className='my-3 text-red-600 text-md font-semibold'>OTP: {otpData}</p>
 						</div>
 						<div className='flex gap-3 justify-center my-3'>
 							{otpDigits.map((digit, idx) => (

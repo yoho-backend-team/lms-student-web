@@ -16,18 +16,18 @@ import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { Button } from '@/components/ui/button';
 import InvoiceReceipt from '../../utils/InvoiceReceipt'
+import Loader from '@/components/Loader/Loader';
+import { useLoader } from '@/context/LoadingContext/Loader';
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
 const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
 	const profileDetails = useSelector(selectProfile)
+	const { showLoader, hideLoader, IsLoading } = useLoader();
 
 	const [open, setOpen] = useState(false);
-	function handleDownload() {
-		setIsDownload(true)
-		// <InvoiceReceipt />
-	}
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
@@ -38,10 +38,33 @@ const Payment = () => {
 	const rating = paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0
 	const fullStars = Math.floor(rating);
 
+		useEffect(() => {
+					(async () => {
+						try {
+							showLoader();
+							const timeoutId = setTimeout(() => {
+								hideLoader();
+							}, 5000);
+							const response = await dispatch(getDashBoardReports());
+							if (response) {
+								clearTimeout(timeoutId);
+							}
+						} finally {
+							hideLoader();
+						}
+					})();
+				}, [dispatch, hideLoader, showLoader]);
+		
+
 	return (
 
 		<>
 		<div className=' lg:flex md:grid gap-8 mb-2'>
+			{IsLoading && (
+				<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
+					<Loader />
+				</div>
+			)}
 			<div className='lg:w-1/4 md'>
 				<h1
 					className='font-semibold text-2xl py-6'
@@ -360,3 +383,5 @@ const Payment = () => {
 };
 
 export default Payment;
+
+

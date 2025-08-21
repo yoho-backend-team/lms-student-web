@@ -2,8 +2,8 @@
 import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
-// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api';
-const backendUrl = "http://localhost:3001/api"
+// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
+const backendUrl = import.meta.env.VITE_Backend_url
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -17,7 +17,7 @@ Axios.interceptors.request.use((config) => {
 	const token = GetLocalStorage('authToken');
 
 	if (token) {
-		config.headers['Authorization'] = `Token ${token ? token : ''}`;
+		config.headers['Authorization'] = `Token ${token}`;
 	}
 	return config;
 });
@@ -39,7 +39,7 @@ Axios.interceptors.response.use(
 class HttpClient {
 	async get(
 		url: string,
-		params?: { id?: string; params?: { classId: any }; community?: string },
+		params?: any,
 		userType?: string | undefined
 	) {
 		const response = await Axios.get(url, {

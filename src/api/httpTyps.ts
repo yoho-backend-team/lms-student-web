@@ -16,6 +16,7 @@ export type Endpoints = {
 	};
 	attendance: {
 		get: string;
+		getDate: string;
 		class_attendance: string;
 	};
 	payments: {
