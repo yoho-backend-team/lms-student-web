@@ -25,6 +25,7 @@ import Placement from '@/pages/Placement/Placement';
 import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
+import SpokenEnglish from '@/pages/SpokenEnglish/SpokenEnglish';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Loader from '@/components/Loader/Loader';
@@ -72,6 +73,7 @@ const AppRoutes = () => {
 				<Route path='/about/:course' element={<AboutCourse />} />
 				<Route path='task_projects' element={<Task_Projects />} />
 				<Route path='course_track' element={<CourseTrack />} />
+				<Route path='spoken-english' element={<SpokenEnglish />} />
 				<Route path='*' element={<Navigate to='/' />} />
 			</Route>
 		</Routes>

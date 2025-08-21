@@ -4,7 +4,6 @@ import Client from '../../../api/index';
 export const getAllCommunities = async (params:any) => {
   try {
     const response = await Client.student.community.get(params);
-    console.log('groups',response);
     return response; 
   } catch (error) {
     console.error('Error fetching communities:', error);
