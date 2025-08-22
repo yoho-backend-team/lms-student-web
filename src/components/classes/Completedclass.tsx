@@ -131,7 +131,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
 
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mb-4'>
-      <Card style={{ backgroundColor: COLORS.bg_Colour }} className='h-[80px] mb-3' >
+      {/* <Card style={{ backgroundColor: COLORS.bg_Colour }} className='h-[80px] mb-3' >
         {showFilters && (
           <div className='ml-6 grid lg:grid-cols-8 md:grid-cols-6 justify-between gap-2'>
             {filterGroups.map((group) => (
@@ -190,7 +190,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
             onClick={toggleFilters}
           />
         </div>
-      </Card>
+      </Card> */}
 
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white mx-2 p-4">

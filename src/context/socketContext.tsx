@@ -16,8 +16,8 @@ export const StudentSocketProvider = ({
 	const [socket, setSocket] = useState<Socket | null>(null);
 
 	// const user = JSON.parse(localStorage.getItem('user') ?? '{}');
-	const store: string = GetLocalStorage('user') ?? '{}'
-	const user = JSON.parse(store)
+	const store:any = GetLocalStorage('user') ?? '{}'
+	const user = store
 
 	useEffect(() => {
 		const url = 'https://lms-node-backend-v1.onrender.com';

@@ -19,6 +19,7 @@ import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { toast } from 'react-toastify';
 import { Button } from '../ui/button';
+import { GetLocalStorage } from '@/utils/helper';
 
 export const Createtickets = () => {
   const navigate = useNavigate();
@@ -49,14 +50,15 @@ export const Createtickets = () => {
     dispatch(getStudentProfileThunk({}));
   }, [dispatch]);
 
-  const [myData, setMyData] = useState(null);
+  const [myData, setMyData] = useState('');
 
   useEffect(() => {
-    const storedData = localStorage.getItem('user');
+    const storedData = GetLocalStorage('user');
     if (storedData) {
-      setMyData(JSON.parse(storedData));
+      setMyData(storedData);
     }
   }, []);
+
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -98,7 +100,7 @@ export const Createtickets = () => {
       setFileUrl(uploadedPath);
       setErrors(prev => ({ ...prev, file: '' }));
       toast.success("File uploaded successfully.");
-    } catch (error) {
+    } catch (error: any) {
       console.error("File upload failed:", error);
       setFileUploadError(error?.message || "Failed to upload file");
       toast.error(error?.message || "Failed to upload file");
@@ -142,7 +144,7 @@ export const Createtickets = () => {
         toast.success("Ticket created successfully!");
         navigate("/tickets");
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Ticket creation error:", error);
       setTicketCreationError(error?.message || "Failed to create ticket");
       toast.error(error?.message || "Failed to create ticket");

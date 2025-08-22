@@ -11,6 +11,8 @@ import { selectActivityLogs } from '@/features/ActivityLog/reducers/selectors';
 import { getAllActivityLogs } from '@/features/ActivityLog/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import updatesimg from '../../assets/dashboard/updates.png';
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 const ActivityLogs = () => {
   const [handleFilter, setHandleFilter] = useState(false);
@@ -145,36 +147,32 @@ const ActivityLogs = () => {
 
           {/* Pagination */}
           {!fromDate && !toDate && filteredLogs.length > 0 && (
-            <div className="flex justify-end items-center mt-10 pb-10 gap-2 pt-10">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
-              >
-                ‹
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`rounded-full w-10 h-10 flex items-center justify-center font-semibold text-sm transition-all duration-200 ${
-                    currentPage === page
-                      ? 'bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white shadow-md scale-105'
-                      : 'bg-[#ebeff3] text-black hover:bg-gradient-to-r hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-              <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
-              >
-                ›
-              </button>
-            </div>
-          )}
+  <div className="flex justify-end items-center mt-10 pb-10 gap-4 pt-10">
+    <button
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+      disabled={currentPage === 1}
+      className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
+    >
+      <FaArrowLeft />
+    </button>
+
+    {/* Page Info */}
+    <span className="text-sm font-medium text-gray-700">
+      Page <span className="font-semibold">{currentPage}</span> of{" "}
+      <span className="font-semibold">{totalPages}</span>
+    </span>
+
+    {/* Next Button */}
+    <button
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
+    >
+      <FaArrowRight />
+    </button>
+  </div>
+)}
+
         </div>
 
         {/* Filter Panel */}

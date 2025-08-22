@@ -4,12 +4,13 @@ import { getHelpThunk } from '@/features/HelpCenter/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHelpCenter } from '@/features/HelpCenter/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import { GetLocalStorage } from '@/utils/helper';
 
 const HelpCenter = () => {
 
   const dispatch = useDispatch<any>();
   const HelpDetails = useSelector(selectHelpCenter)
-  const userDetail = JSON.parse(localStorage.getItem('user') || '{}');
+  const userDetail = GetLocalStorage('user');
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
