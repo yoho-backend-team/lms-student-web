@@ -20,9 +20,9 @@ export const StudentSocketProvider = ({
 	const user = store
 
 	useEffect(() => {
-		const url = 'https://lms-node-backend-v1.onrender.com';
-		// const url = "http://localhost:3000";
-
+		// const url = 'https://lms-node-backend-v1.onrender.com';
+		const url = "http://localhost:3001";
+        console.log(user)
 		const socketIO = io(url, {
 			query: { userId: user._id },
 			transports: ['websocket'],
@@ -31,7 +31,7 @@ export const StudentSocketProvider = ({
 		setSocket(socketIO);
 
 		socketIO.emit('registerOnline', { userId: user._id });
-		console.log('Student Socket Connected', user.last_name);
+		console.log('Student Socket Connected', user?.full_name);
 		return () => {
 			socketIO.disconnect();
 		};
