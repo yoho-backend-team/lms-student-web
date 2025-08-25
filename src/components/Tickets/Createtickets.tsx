@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -50,7 +51,7 @@ export const Createtickets = () => {
     dispatch(getStudentProfileThunk({}));
   }, [dispatch]);
 
-  const [myData, setMyData] = useState('');
+  const [myData, setMyData] = useState<any>('');
 
   useEffect(() => {
     const storedData = GetLocalStorage('user');
@@ -77,7 +78,7 @@ export const Createtickets = () => {
     try {
       setIsLoading(true);
       setFileUploadError(null);
-      
+
       // Create preview if it's an image
       if (file.type.startsWith("image/")) {
         const imageUrl = URL.createObjectURL(file);
@@ -144,7 +145,7 @@ export const Createtickets = () => {
         toast.success("Ticket created successfully!");
         navigate("/tickets");
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.error("Ticket creation error:", error);
       setTicketCreationError(error?.message || "Failed to create ticket");
       toast.error(error?.message || "Failed to create ticket");
@@ -188,7 +189,7 @@ export const Createtickets = () => {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <Select 
+            <Select
               onValueChange={(value) => {
                 setProblem(value);
                 setErrors(prev => ({ ...prev, problem: '' }));

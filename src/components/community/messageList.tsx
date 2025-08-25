@@ -1,7 +1,6 @@
 import React, { useMemo, useRef, useCallback } from 'react';
 import type { Message } from './type';
 import bg from '@/assets/gox6.jpg';
-import { GetLocalStorage } from '@/utils/helper';
 import { format } from 'date-fns';
 
 type Props = {

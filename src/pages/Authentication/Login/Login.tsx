@@ -1,4 +1,4 @@
-import type React from 'react';
+
 import { Card } from '@/components/ui/card';
 import Logo from '../../../assets/Student PNG.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';

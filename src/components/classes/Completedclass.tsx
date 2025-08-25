@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { COLORS, FONTS } from '@/constants/uiConstants'
-import filterImg from '../../assets/classes/filter.png'
 import { useNavigate } from 'react-router-dom'
-import { ChevronDown } from 'lucide-react'
+
 
 interface DropdownOption {
   value: string;
@@ -17,49 +16,10 @@ interface FilterGroup {
 }
 
 interface CompletedclassProps {
-  data: any[]; 
+  data: any[];
 }
 
 const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
-  const months: DropdownOption[] = [
-    { value: '01', label: 'January' },
-    { value: '02', label: 'February' },
-    { value: '03', label: 'March' },
-    { value: '04', label: 'April' },
-    { value: '05', label: 'May' },
-    { value: '06', label: 'June' },
-    { value: '07', label: 'July' },
-    { value: '08', label: 'August' },
-    { value: '09', label: 'September' },
-    { value: '10', label: 'October' },
-    { value: '11', label: 'November' },
-    { value: '12', label: 'December' },
-  ];
-
-  const currentYear = new Date().getFullYear();
-  const years: DropdownOption[] = Array.from({ length: 5 }, (_, i) => ({
-    value: (currentYear - i).toString(),
-    label: (currentYear - i).toString()
-  }));
-
-  const courses: DropdownOption[] = [
-    { value: 'html', label: 'HTML' },
-    { value: 'js', label: 'JAVA SCRIPT' },
-    { value: 'css', label: 'CSS' },
-    { value: 'react', label: 'React' },
-  ];
-
-  const classes: DropdownOption[] = Array.from({ length: 4 }, (_, i) => ({
-    value: `class-${i+1}`,
-    label: `class ${i+1}`
-  }));
-
-  const filterGroups: FilterGroup[] = [
-    { title: 'Month', options: months },
-    { title: 'Year', options: years },
-    { title: 'Courses', options: courses },
-    { title: 'Classes', options: classes }
-  ];
 
   const navigate = useNavigate();
   const headers = ['Title', 'Start Date', 'Start Time', 'Duration', 'Action'];
@@ -98,7 +58,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
 
   const applyFilters = (filters: Record<string, string>) => {
     let result = [...data];
-    
+
     if (filters.Month) {
       result = result.filter(item => {
         const date = new Date(item.start_date);
@@ -115,13 +75,13 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
     }
 
     if (filters.Courses) {
-      result = result.filter(item => 
+      result = result.filter(item =>
         item.courseDetails.course_name.toLowerCase().includes(filters.Courses.toLowerCase())
       );
     }
 
     if (filters.Classes) {
-      result = result.filter(item => 
+      result = result.filter(item =>
         item.class_name?.toLowerCase().includes(filters.Classes.toLowerCase())
       );
     }
@@ -207,7 +167,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
 
         {filteredData.length > 0 ? (
           filteredData.map((item) => (
-            <Card 
+            <Card
               key={item.id}
               className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
                         transition-all duration-300 ease-in-out
@@ -219,18 +179,18 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
                 <tbody>
                   <tr className="flex justify-around items-center my-1" style={{ ...FONTS.heading_06 }}>
                     <td>{item.courseDetails.course_name}</td>
-                    <td>{(item.start_date).slice(0,10)}</td>
-                    <td>{(item.start_time).slice(11,16)}</td>
+                    <td>{(item.start_date).slice(0, 10)}</td>
+                    <td>{(item.start_time).slice(11, 16)}</td>
                     <td>{item.duration} Min</td>
                     <td>
-                      <Button 
+                      <Button
                         onClick={() => handleClassDetailPage(item.uuid)}
                         className="cursor-pointer bg-gradient-to-r from-green-400 to-green-500 text-white hover:from-green-500 hover:to-green-600
                                   shadow-[0px_3px_4px_0px_rgba(255,255,255,0.75)_inset,3px_-3px_3px_0px_rgba(255,255,255,0.25)_inset,-4px_8px_23px_0px_#3ABE65_inset,-8px_-8px_12px_0px_#3ABE65_inset,2px_3px_3px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-1px_-1px_6px_0px_rgba(255,255,255,0.75),-1px_-1px_6px_1px_rgba(255,255,255,0.25)]"
                       >
                         Completed
                       </Button>
-                    </td> 
+                    </td>
                   </tr>
                 </tbody>
               </table>

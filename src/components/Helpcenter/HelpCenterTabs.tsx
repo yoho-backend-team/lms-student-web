@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
 import type { HelpCenterTabsProps } from './types.ts';
@@ -48,10 +49,10 @@ const HelpCenterTabs: React.FC<HelpCenterTabsProps> = ({ tabs, activeTab, onTabC
       {/* Mobile View - Scrollable horizontal tabs */}
       <div className="md:hidden">
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          {tabs.map((tab) => (
+          {tabs.map((tab: any) => (
             <button
-              key={tab.id}
-              onClick={() => onTabChange(tab.id)}
+              key={tab?.id}
+              onClick={() => onTabChange(tab?.id)}
               className={`px-3 py-1.5 rounded-md flex items-center justify-center space-x-1.5 transition-all duration-200 cursor-pointer whitespace-nowrap flex-shrink-0 ${activeTab === tab.id
                 ? 'bg-[#7b00ff] text-white'
                 : 'bg-[#ebeff3] text-white'

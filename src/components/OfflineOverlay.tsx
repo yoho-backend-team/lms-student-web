@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import errorC from '@/assets/Network.png';
 
@@ -25,7 +26,7 @@ const OfflineOverlay = ({ cover = 'full' }: OfflineOverlayProps) => {
 
   useEffect(() => {
     // Hide chatbot when offline
-    const chatbotElement = document.querySelector('.chatbot-container');
+    const chatbotElement: any = document.querySelector('.chatbot-container');
     if (chatbotElement) {
       if (isOnline) {
         chatbotElement.style.display = 'block';

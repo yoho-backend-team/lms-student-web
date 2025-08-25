@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StoreLocalStorage } from '@/utils/helper';
 import { getStudentLoginClient, getStudentLogoutClient } from '../services';
-import { token, user } from './AuthSlice';
 
 export const getStudentLogin =
-	(data: any, params: any) => async (dispatch: any) => {
+	(data: any, params: any) => async () => {
 		try {
 			const response = await getStudentLoginClient(data, params);
 			console.log('getStudentLogin response', response);

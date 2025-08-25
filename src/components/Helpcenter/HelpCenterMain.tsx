@@ -5,7 +5,7 @@ import HelpCenterSearch from './HelpCenterSearch.tsx';
 import HelpTopicCard from './HelpTopicCard.tsx';
 import LearningResources from './LearningResources.tsx';
 import HelpCenterEmptyState from './HelpCenterEmptyState.tsx';
-import type { Tab, HelpTopic } from './types.ts';
+import type { HelpTopic } from './types.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks.ts';
 import { getHelpThunk } from '@/features/HelpCenter/thunks.ts';
@@ -25,23 +25,11 @@ const HelpCenterMain: React.FC = () => {
     dispatch(getStudentProfileThunk({}));
     dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
     console.log(HelpDetails, "Help MAin")
-  }, [dispatch]);
+  }, [HelpDetails, dispatch, userDetail?.institute_id?.uuid]);
 
-  // const tabs: Tab[] = [
-  //   { id: 'All', label: 'All', count: 5 },
-  //   { id: 'Profile', label: 'Profile', count: 5 },
-  //   { id: 'Classes', label: 'Classes', count: 5 },
-  //   { id: 'Password', label: 'Password', count: 5 },
-  //   { id: 'Attendance', label: 'Attendance', count: 0 },
-  //   { id: 'Payment', label: 'Payment', count: 5 },
-  //   { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
-  // ];
 
-  // Common help topics for all tabs - ready for API integration
   const getHelpTopics = (category: string): { data: HelpTopic[], categorys: HelpTopic[] } => {
-    // Return empty array for certain categories to demonstrate empty state
 
-    // Map HelpDetails to HelpTopic objects
     const helpDetailTopics: HelpTopic[] = Array.isArray(HelpDetails)
       ? HelpDetails.map((item: any) => ({
         title: item.question,

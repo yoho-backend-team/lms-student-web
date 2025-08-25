@@ -16,13 +16,12 @@ import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import Loader from '@/components/Loader/Loader';
 import TourButton from '@/components/ui/TourButton';
-import { GetLocalStorage } from '@/utils/helper';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive();
 	const dispatch = useDispatch<any>();
 	const { showLoader, hideLoader, IsLoading } = useLoader();
-	const storedData = GetLocalStorage('user');
+	// const storedData = GetLocalStorage('user');
 
 	useEffect(() => {
 		(async () => {

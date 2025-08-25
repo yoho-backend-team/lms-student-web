@@ -13,7 +13,6 @@ import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import { useInstituteData } from '@/hooks/DashboardData/useInstitute';
-import { FaMicrophone } from 'react-icons/fa';
 
 const Navbar = () => {
 	const navigate = useNavigate();

@@ -11,12 +11,12 @@ import { GetLocalStorage } from '@/utils/helper'
 const Payment: React.FC = () => {
 
     const dispatch = useDispatch<any>()
-    const profileDetails = useSelector(selectProfile)
+    // const profileDetails = useSelector(selectProfile)
     const storedData = GetLocalStorage('user');
 
     useEffect(() => {
         dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
-    }, [dispatch]);
+    }, [dispatch, storedData?.uuid]);
 
     const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []
 

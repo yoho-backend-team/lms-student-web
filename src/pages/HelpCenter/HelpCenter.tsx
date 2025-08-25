@@ -14,9 +14,9 @@ const HelpCenter = () => {
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
-    dispatch(getHelpThunk({instituteid: userDetail?.institute_id?.uuid}));
+    dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
     console.log(HelpDetails)
-  }, [dispatch]);
+  }, [HelpDetails, dispatch, userDetail?.institute_id?.uuid]);
 
   return <HelpCentre />;
 };

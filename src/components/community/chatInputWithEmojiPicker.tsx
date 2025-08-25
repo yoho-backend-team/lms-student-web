@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/ChatInputWithEmojiPicker.tsx
 import React, { useRef, useState } from 'react';
 import EmojiPicker from 'emoji-picker-react';
