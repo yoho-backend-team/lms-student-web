@@ -246,7 +246,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           {/* Header Section */}
           <div style={headerStyle}>
             <img
-              src={GetImageUrl(instituteData?.logo)}
+              src={GetImageUrl(instituteData?.logo) ?? undefined}
               alt="Institute Logo"
               style={logoStyle}
             />

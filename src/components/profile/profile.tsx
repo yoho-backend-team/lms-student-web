@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
@@ -67,7 +68,7 @@ const ProfileInformation: React.FC = () => {
 		setActiveMenuItem(itemId);
 	};
 
-	const handleGoBack = () => {};
+	const handleGoBack = () => { };
 
 	const handlePersonalInfoChange = (data: typeof personalInfo) => {
 		setPersonalInfo(data);
@@ -119,25 +120,25 @@ const ProfileInformation: React.FC = () => {
 					phone_number: personalInfo.contactNumber,
 					pincode: personalInfo.pinCode,
 					address2: personalInfo.address,
-					alternate_phone_number: personalInfo.contactNumber || "0000000000" 
+					alternate_phone_number: personalInfo.contactNumber || "0000000000"
 				}
 			};
 
 			// Call the update profile thunk
 			await dispatch(updateStudentProfileThunk(updateData));
-			
+
 			// Update local state
 			setOriginalPersonalInfo(personalInfo);
 			setOriginalProfileImage(profileData.profileImage);
 			showToast('Profile updated successfully!', 'success');
 			setIsEditing(false);
-		} catch (error) {
+		} catch (error: any) {
 			console.error('Profile update error:', error);
 			// Extract error message from different possible error structures
-			const errorMessage = error?.response?.data?.message || 
-			                     (typeof error === 'object' && error !== null && 'message' in error ? 
-			                      String(error.message) : 'Unknown error');
-			
+			const errorMessage = error?.response?.data?.message ||
+				(typeof error === 'object' && error !== null && 'message' in error ?
+					String(error.message) : 'Unknown error');
+
 			// Handle specific error cases
 			if (errorMessage.includes('duplicate key error')) {
 				showToast('Error: There was a conflict with existing data. Please try with different information.', 'error');

@@ -15,9 +15,8 @@ import { FONTS } from "@/constants/uiConstants";
 import { createticketdata, uploadticketfile } from '@/features/Tickets/services/Tickets';
 import { useBranchData } from '@/hooks/DashboardData/useBranch';
 import { useInstituteData } from '@/hooks/DashboardData/useInstitute';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
-import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { toast } from 'react-toastify';
 import { Button } from '../ui/button';
 import { GetLocalStorage } from '@/utils/helper';
@@ -45,7 +44,7 @@ export const Createtickets = () => {
   const branch = useBranchData();
   const institute = useInstituteData();
   const dispatch = useDispatch<any>();
-  const profileDetails = useSelector(selectProfile);
+  // const profileDetails = useSelector(selectProfile);
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));

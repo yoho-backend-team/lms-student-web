@@ -19,7 +19,6 @@ import InvoiceReceipt from '../../utils/InvoiceReceipt'
 import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
-import { selectUser } from '@/features/Authentication/reducers/selectors';
 import { GetLocalStorage } from '@/utils/helper';
 
 const Payment = () => {

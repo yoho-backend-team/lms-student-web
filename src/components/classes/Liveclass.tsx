@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
@@ -11,25 +12,11 @@ interface ClassItem {
 }
 
 interface LiveclassProps {
-  data: any[]; 
+  data: any[];
 }
 
 const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 
-  const classes: ClassItem[] = [
-    {
-      day: 'Day 1',
-      topic: 'HTML',
-      joinLink: 'www.google.com',
-      duration: '45 min'
-    },
-    {
-      day: 'Day 2',
-      topic: 'CSS',
-      joinLink: 'www.example.com',
-      duration: '60 min'
-    }
-  ];
 
   // Header data
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
@@ -42,7 +29,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
           <table className="w-full">
             <thead>
               <tr className='flex justify-around items-center !text-white' style={{ ...FONTS.heading_03 }}>
-                  {headers.map((header, index) => (
+                {headers.map((header, index) => (
                   <td key={index}>{header}</td>
                 ))}
               </tr>
@@ -52,7 +39,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 
         {/* Class Items */}
         {data.map((classItem, index) => (
-          <Card 
+          <Card
             key={index}
             className='overflow-y-auto scrollbar-hide bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
                         transition-all duration-300 ease-in-out
@@ -62,7 +49,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
             <table className="w-full">
               <tbody>
                 <tr className='flex justify-around items-center' style={{ ...FONTS.heading_06 }}>
-                  <td>{classItem.day || '1' }</td>
+                  <td>{classItem.day || '1'}</td>
                   <td>{classItem.courseDetails.course_name}</td>
                   <td>
                     <a className='!text-[#0400ff]' href={classItem.joinLink}>

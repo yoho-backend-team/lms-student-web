@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
@@ -5,15 +6,15 @@ import { COLORS, FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
 
 
-interface DropdownOption {
-  value: string;
-  label: string;
-}
+// interface DropdownOption {
+//   value: string;
+//   label: string;
+// }
 
-interface FilterGroup {
-  title: string;
-  options: DropdownOption[];
-}
+// interface FilterGroup {
+//   title: string;
+//   options: DropdownOption[];
+// }
 
 interface CompletedclassProps {
   data: any[];
@@ -24,70 +25,70 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
   const navigate = useNavigate();
   const headers = ['Title', 'Start Date', 'Start Time', 'Duration', 'Action'];
 
-  const [showFilters, setShowFilters] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
+  // const [showFilters, setShowFilters] = useState(false);
+  // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  // const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
   const [filteredData, setFilteredData] = useState(data);
 
   const handleClassDetailPage = (id: string) => {
     navigate(`/class/${id}`);
   };
 
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
-    setOpenDropdown(null);
-  };
+  // const toggleFilters = () => {
+  //   setShowFilters(!showFilters);
+  //   setOpenDropdown(null);
+  // };
 
-  const toggleDropdown = (title: string) => {
-    setOpenDropdown(openDropdown === title ? null : title);
-  };
+  // const toggleDropdown = (title: string) => {
+  //   setOpenDropdown(openDropdown === title ? null : title);
+  // };
 
-  const selectOption = (groupTitle: string, value: string) => {
-    const newFilters = { ...selectedFilters, [groupTitle]: value };
-    setSelectedFilters(newFilters);
-    setOpenDropdown(null);
-    applyFilters(newFilters);
-  };
+  // const selectOption = (groupTitle: string, value: string) => {
+  //   const newFilters = { ...selectedFilters, [groupTitle]: value };
+  //   setSelectedFilters(newFilters);
+  //   setOpenDropdown(null);
+  //   applyFilters(newFilters);
+  // };
 
-  const clearFilter = (groupTitle: string) => {
-    const newFilters = { ...selectedFilters };
-    delete newFilters[groupTitle];
-    setSelectedFilters(newFilters);
-    applyFilters(newFilters);
-  };
+  // const clearFilter = (groupTitle: string) => {
+  //   const newFilters = { ...selectedFilters };
+  //   delete newFilters[groupTitle];
+  //   setSelectedFilters(newFilters);
+  //   applyFilters(newFilters);
+  // };
 
-  const applyFilters = (filters: Record<string, string>) => {
-    let result = [...data];
+  // const applyFilters = (filters: Record<string, string>) => {
+  //   let result = [...data];
 
-    if (filters.Month) {
-      result = result.filter(item => {
-        const date = new Date(item.start_date);
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        return month === filters.Month;
-      });
-    }
+  //   if (filters.Month) {
+  //     result = result.filter(item => {
+  //       const date = new Date(item.start_date);
+  //       const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  //       return month === filters.Month;
+  //     });
+  //   }
 
-    if (filters.Year) {
-      result = result.filter(item => {
-        const date = new Date(item.start_date);
-        return date.getFullYear().toString() === filters.Year;
-      });
-    }
+  //   if (filters.Year) {
+  //     result = result.filter(item => {
+  //       const date = new Date(item.start_date);
+  //       return date.getFullYear().toString() === filters.Year;
+  //     });
+  //   }
 
-    if (filters.Courses) {
-      result = result.filter(item =>
-        item.courseDetails.course_name.toLowerCase().includes(filters.Courses.toLowerCase())
-      );
-    }
+  //   if (filters.Courses) {
+  //     result = result.filter(item =>
+  //       item.courseDetails.course_name.toLowerCase().includes(filters.Courses.toLowerCase())
+  //     );
+  //   }
 
-    if (filters.Classes) {
-      result = result.filter(item =>
-        item.class_name?.toLowerCase().includes(filters.Classes.toLowerCase())
-      );
-    }
+  //   if (filters.Classes) {
+  //     result = result.filter(item =>
+  //       item.class_name?.toLowerCase().includes(filters.Classes.toLowerCase())
+  //     );
+  //   }
 
-    setFilteredData(result);
-  };
+  //   setFilteredData(result);
+  // };
 
   return (
     <div style={{ backgroundColor: COLORS.bg_Colour }} className='mb-4'>

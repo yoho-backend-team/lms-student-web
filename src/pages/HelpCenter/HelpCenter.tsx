@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react';
 import HelpCentre from '../../components/Helpcenter/helpcenter';
 import { getHelpThunk } from '@/features/HelpCenter/thunks';
@@ -10,7 +11,7 @@ const HelpCenter = () => {
 
   const dispatch = useDispatch<any>();
   const HelpDetails = useSelector(selectHelpCenter)
-  const userDetail = GetLocalStorage('user');
+  const userDetail: any = GetLocalStorage('user');
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
