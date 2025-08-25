@@ -3,7 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 type TabType = 'about' | 'notes' | 'task' | 'track';
 
-const CourseButton: React.FC = () => {
+interface CourseButtonProps {
+  activeTabs: string;
+}
+
+
+const CourseButton: React.FC<CourseButtonProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import domtoimage from "dom-to-image-more";
+
 import jsPDF from "jspdf";
 import React, { useRef } from "react";
 import { GetImageUrl } from "./helper";
@@ -158,7 +157,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
     if (!receiptRef.current) return;
 
     try {
-      const dataUrl = await domtoimage.toPng(receiptRef.current, {
+      const dataUrl = await DomToImage.toPng(receiptRef.current, {
         quality: 1.0,
         bgcolor: '#ffffff',
         width: receiptRef.current.scrollWidth,

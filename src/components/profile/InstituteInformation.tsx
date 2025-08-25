@@ -15,7 +15,7 @@ interface InstituteInformationProps {
 }
 
 const InstituteInformation: React.FC<InstituteInformationProps> = ({ data, isEditing = false }) => {
-  const [formData, setFormData] = useState<InstituteInfo>(data);
+  const [formData] = useState<InstituteInfo>(data);
 
   // const handleInputChange = (key: keyof InstituteInfo, value: string) => {
   //   const updatedData = { ...formData, [key]: value };

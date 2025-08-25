@@ -28,7 +28,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
   // const [showFilters, setShowFilters] = useState(false);
   // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   // const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData] = useState(data);
 
   const handleClassDetailPage = (id: string) => {
     navigate(`/class/${id}`);

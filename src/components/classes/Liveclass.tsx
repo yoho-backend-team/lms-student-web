@@ -4,12 +4,6 @@ import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 //import { useEffect } from 'react';
 
-interface ClassItem {
-  day: string;
-  topic: string;
-  joinLink: string;
-  duration: string;
-}
 
 interface LiveclassProps {
   data: any[];
