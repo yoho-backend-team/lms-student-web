@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/ChatInputWithEmojiPicker.tsx
 import React, { useRef, useState } from 'react';
 import EmojiPicker from 'emoji-picker-react';
@@ -12,7 +13,7 @@ type Props = {
 const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [showPicker, setShowPicker] = useState(false);
-  const pickerRef = useRef<HTMLDivElement>(null);
+  const pickerRef: any = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(pickerRef, () => setShowPicker(false));
 

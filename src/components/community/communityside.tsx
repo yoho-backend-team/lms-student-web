@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/CommunitySide.tsx
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import msgframe from '@/assets/icons/community/Frame 5185.png';
-import { GetLocalStorage } from '@/utils/helper';
 import Sidebar from './sidebar';
 import ChatHeader from './chatHeader';
 import MessageList from './messageList';
@@ -19,7 +19,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
   const socket = useStudentSocket();
   const user: any = JSON.parse(localStorage.getItem('user') || '{}')
   const [searchTerm, setSearchTerm] = useState('');
-  const [isConnected, setIsConnected] = useState(false)
+  // const [isConnected, setIsConnected] = useState(false)
 
   const {
     selectedChat,

@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive();
 	const dispatch = useDispatch<any>();
 	const { showLoader, hideLoader, IsLoading } = useLoader();
+	// const storedData = GetLocalStorage('user');
 
 	useEffect(() => {
 		(async () => {

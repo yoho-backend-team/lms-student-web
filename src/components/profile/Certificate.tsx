@@ -91,18 +91,19 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
 
   const handleDownload = (certificateId: string) => {
     // Implement certificate download functionality
+    console.log(certificateId)
   };
 
   return (
     <div className="w-full">
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
-        style={{ 
+        style={{
           width: '100%',
           marginTop: '1rem',
           height: '75vh',
           fontFamily: FONTS.para_01.fontFamily
         }}>
-        
+
         {/* Header */}
         <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex justify-between items-center">
@@ -120,8 +121,8 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                 {/* Course Image */}
                 <div className="h-48 relative overflow-hidden" style={{ background: `linear-gradient(to bottom right, ${COLORS.light_blue}, ${COLORS.purple_01})` }}>
                   {certificate.courseImage ? (
-                    <img 
-                      src={certificate.courseImage} 
+                    <img
+                      src={certificate.courseImage}
                       alt={certificate.course}
                       className="w-full h-full object-cover opacity-80"
                     />
@@ -137,11 +138,11 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                       </div>
                     </div>
                   )}
-                  
+
                   {/* Decorative elements */}
                   <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
                   <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/10 rounded-full translate-y-8 -translate-x-8"></div>
-                  
+
                   {/* Grade Badge */}
                   <div className="absolute top-4 right-4">
                     <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">

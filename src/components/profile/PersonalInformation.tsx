@@ -27,7 +27,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({ data, onDataC
   };
 
   // Define which fields are editable
-  const editableFields = ['name', 'contactNumber', 'dateOfBirth', 'pinCode', 'address'];
+  // const editableFields = ['name', 'contactNumber', 'dateOfBirth', 'pinCode', 'address'];
 
   const fields = [
     { label: 'Mail Address', key: 'mailAddress' as keyof PersonalInfo, type: 'email', editable: false },

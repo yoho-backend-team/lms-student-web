@@ -6,3 +6,10 @@ export const getStudentProfile = async (params:any) => {
         return response;
     }
 };
+
+export const updateStudentProfile = async (data:any) => {
+    const response = await Client.student.profile.update(data);
+    if (response) {
+        return response;
+    }
+};

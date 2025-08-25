@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
@@ -6,7 +7,7 @@ import { useToast } from '@/components/ui/toast';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
-import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import { getStudentProfileThunk, updateStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 
 const ProfileInformation: React.FC = () => {
 	const [activeMenuItem, setActiveMenuItem] = useState('profile');
@@ -67,7 +68,7 @@ const ProfileInformation: React.FC = () => {
 		setActiveMenuItem(itemId);
 	};
 
-	const handleGoBack = () => {};
+	const handleGoBack = () => { };
 
 	const handlePersonalInfoChange = (data: typeof personalInfo) => {
 		setPersonalInfo(data);
@@ -110,13 +111,42 @@ const ProfileInformation: React.FC = () => {
 		setIsSaving(true);
 
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			// Prepare data for API update
+			const updateData = {
+				full_name: personalInfo.name,
+				gender: personalInfo.gender,
+				dob: personalInfo.dateOfBirth,
+				contact_info: {
+					phone_number: personalInfo.contactNumber,
+					pincode: personalInfo.pinCode,
+					address2: personalInfo.address,
+					alternate_phone_number: personalInfo.contactNumber || "0000000000"
+				}
+			};
+
+			// Call the update profile thunk
+			await dispatch(updateStudentProfileThunk(updateData));
+
+			// Update local state
 			setOriginalPersonalInfo(personalInfo);
 			setOriginalProfileImage(profileData.profileImage);
 			showToast('Profile updated successfully!', 'success');
 			setIsEditing(false);
-		} catch (error) {
-			showToast('Failed to update profile. Please try again.', 'error');
+		} catch (error: any) {
+			console.error('Profile update error:', error);
+			// Extract error message from different possible error structures
+			const errorMessage = error?.response?.data?.message ||
+				(typeof error === 'object' && error !== null && 'message' in error ?
+					String(error.message) : 'Unknown error');
+
+			// Handle specific error cases
+			if (errorMessage.includes('duplicate key error')) {
+				showToast('Error: There was a conflict with existing data. Please try with different information.', 'error');
+			} else if (errorMessage.includes('is not allowed to be empty')) {
+				showToast('Error: Some required fields cannot be empty. Please fill in all required information.', 'error');
+			} else {
+				showToast(`Failed to update profile: ${errorMessage}`, 'error');
+			}
 		} finally {
 			setIsSaving(false);
 		}

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/hooks/useCommunityChat.ts
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { getMessage } from '@/features/community/services/communityservices';
 import type { Chat, Community, Message } from '../type';
@@ -15,14 +16,13 @@ type UseCommunityChatArgs = {
 export function useCommunityChat({
   socket,
   userId,
-  communities,
   userName,
-  receiveEventName = 'sendMessage',
 }: UseCommunityChatArgs) {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false)
 
+  console.log(isConnected)
   const selectChat = (chat: Community) => {
     const selected: Chat = {
       _id: chat._id,
@@ -55,7 +55,7 @@ export function useCommunityChat({
   useEffect(() => {
     if (!socket) return;
 
-    const handleMessage = (message:Message) => {
+    const handleMessage = (message: Message) => {
       setMessages((prev) => [...prev, message]);
     };
 

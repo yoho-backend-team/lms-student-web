@@ -1,0 +1,1 @@
+export const selectStudentCourse = (state:any)=> state.CourseSlice.data;

@@ -25,7 +25,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ title, description, image, modu
     >
       <div className="flex justify-center items-center mb-4 md:mb-0">
         <div className="bg-[#EBEFF3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-4 rounded-md w-full max-w-[200px]">
-          <img src={GetImageUrl(image)} alt="Course Icon" className="w-full h-auto object-contain max-h-40" />
+          <img src={GetImageUrl(image) ?? undefined} alt="Course Icon" className="w-full h-auto object-contain max-h-40" />
         </div>
       </div>
 
