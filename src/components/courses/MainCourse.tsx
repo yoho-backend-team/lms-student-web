@@ -18,7 +18,6 @@ const MainCourse = () => {
 	const navigate = useNavigate();
 
 	const coursedata = useSelector(selectCourse);
-	console.log(coursedata, 'coursedata');
 
 	useEffect(() => {
 		setCourses(coursedata);

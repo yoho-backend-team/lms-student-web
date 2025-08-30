@@ -6,7 +6,7 @@ self.addEventListener('push', (event) => {
     icon: '/icon.png',
     badge: '/badge.png',
     data:{
-      url:  "/student/community"
+      url:  `${import.meta.url}/student/community`
     }
   };
 

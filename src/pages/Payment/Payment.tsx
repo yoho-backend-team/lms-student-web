@@ -31,12 +31,10 @@ const Payment = () => {
 
 	const [open, setOpen] = useState(false);
 
-	console.log(storedData, 'useer dataa')
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
 		dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
-		console.log(paymentDetails, "Payment Details")
 	}, [dispatch, paymentDetails, storedData?.uuid]);
 
 	const rating = paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0

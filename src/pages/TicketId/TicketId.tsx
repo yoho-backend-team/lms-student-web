@@ -47,8 +47,6 @@ const TicketId = () => {
   };
 
 
-  console.log(ticket.file, "ticket");
-
 
   return (
     <div className="p-6">
@@ -81,8 +79,8 @@ const TicketId = () => {
                 <Card
                   key={message._id}
                   className={`w-[250px] h-auto ${message.senderType === "InstituteAdmin"
-                      ? "self-start ml-10"
-                      : "self-end mr-10"
+                    ? "self-start ml-10"
+                    : "self-end mr-10"
                     } bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]`}
                 >
                   <CardContent className="pb-3 ">

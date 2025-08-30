@@ -51,11 +51,10 @@ export const Attendance = () => {
   const dispatch = useDispatch<any>();
   const { showLoader, hideLoader, IsLoading } = useLoader();
 
-  // console.log(selectedDate, "gfdfhdshuijh")
 
   const attendancedata = useSelector(selectAttendance)
 
-  // Generate chart data based on attendance data
+
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
 
@@ -122,12 +121,12 @@ export const Attendance = () => {
   useEffect(() => {
     dispatch(getDashBoardReports())
     if (selectedDate?.toISOString().split('T')[0] == new Date().toISOString().split('T')[0]) {
-      dispatch(getattendanceByDate({ date: selectedDate?.toISOString().split('T')[0]}));
-    }else{
-      const nextDay = new Date(selectedDate).setDate(selectedDate.getDate()+1)
+      dispatch(getattendanceByDate({ date: selectedDate?.toISOString().split('T')[0] }));
+    } else {
+      const nextDay = new Date(selectedDate).setDate(selectedDate.getDate() + 1)
       dispatch(getattendanceByDate({ date: new Date(nextDay).toISOString().split('T')[0] }));
     }
-  }, [selectedDate])
+  }, [dispatch, selectedDate])
 
   console.log(attendanceByDate, "Attendance By Date")
 
@@ -143,7 +142,7 @@ export const Attendance = () => {
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [dashData]);
+  }, [dashData, selectedDate]);
 
   useEffect(() => {
     (async () => {

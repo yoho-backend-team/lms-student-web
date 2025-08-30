@@ -24,7 +24,6 @@ const HelpCenterMain: React.FC = () => {
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
     dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
-    console.log(HelpDetails, "Help MAin")
   }, [HelpDetails, dispatch, userDetail?.institute_id?.uuid]);
 
 
@@ -93,7 +92,6 @@ const HelpCenterMain: React.FC = () => {
 
   const handleViewDetails = (data: any) => {
     setCurrentView('learning');
-    console.log(data, "set cheing")
     setvedioData(data)
   };
 

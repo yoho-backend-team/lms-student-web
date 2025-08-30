@@ -16,13 +16,13 @@ export const StudentSocketProvider = ({
 	const [socket, setSocket] = useState<Socket | null>(null);
 
 	// const user = JSON.parse(localStorage.getItem('user') ?? '{}');
-	const store:any = GetLocalStorage('user') ?? '{}'
+	const store: any = GetLocalStorage('user') ?? '{}'
 	const user = store
 
 	useEffect(() => {
 		// const url = 'https://lms-node-backend-v1.onrender.com';
-		const url = "http://localhost:3001";
-        console.log(user)
+		const url = import.meta.env.VITE_public_Backend_url;
+
 		const socketIO = io(url, {
 			query: { userId: user._id },
 			transports: ['websocket'],
@@ -31,11 +31,10 @@ export const StudentSocketProvider = ({
 		setSocket(socketIO);
 
 		socketIO.emit('registerOnline', { userId: user._id });
-		console.log('Student Socket Connected', user?.full_name);
 		return () => {
 			socketIO.disconnect();
 		};
-	}, []);
+	}, [user._id]);
 
 	return (
 		<SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

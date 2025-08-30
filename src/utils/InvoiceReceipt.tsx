@@ -147,7 +147,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   onClose,
   paymentDetails,
 }) => {
-  console.log(paymentDetails, "shdsdgwjhgytgyug")
+
   const receiptRef = useRef<HTMLDivElement>(null);
   const instituteData = paymentDetails?.fees?.[0]?.institute_id;
   const studentData = paymentDetails?.fees?.[0]?.student;
@@ -240,9 +240,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           </button>
         </div>
 
-        {/* Receipt Content */}
         <div ref={receiptRef} style={receiptStyle}>
-          {/* Header Section */}
           <div style={headerStyle}>
             <img
               src={GetImageUrl(instituteData?.logo) ?? undefined}
@@ -259,9 +257,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Details Grid */}
           <div style={detailsContainerStyle}>
-            {/* Student Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Student Details</div>
               <div style={{ lineHeight: "1.6" }}>
@@ -272,8 +268,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
               </div>
             </div>
 
-
-            {/* Course Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Course Details</div>
               <div style={{ lineHeight: "1.6" }}>
@@ -283,7 +277,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
               </div>
             </div>
 
-            {/* Fees Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Fees Details</div>
               <div style={{ lineHeight: "1.6" }}>
@@ -298,7 +291,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Payment Summary */}
           <div style={{
             marginBottom: "30px",
             padding: "0",
@@ -317,7 +309,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Transaction Table */}
           <div style={{
             padding: "0",
             border: "none",
@@ -375,24 +366,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Signature Section */}
-          {/* <div style={signatureContainerStyle}>
-            <span style={{ fontWeight: "bold" }}>Authorized Signature:</span>
-            <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
-              <img 
-                src={sign} 
-                alt="Signature" 
-                style={signatureImageStyle}
-              />
-              <img
-                src={paid}
-                alt="Paid Stamp"
-                style={paidStampStyle}
-              />
-            </div>
-          </div> */}
-
-          {/* Footer */}
           <div style={footerStyle}>
             <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "10px" }}>
               Thank You for Your Payment!

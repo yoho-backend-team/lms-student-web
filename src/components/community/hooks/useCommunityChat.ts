@@ -22,7 +22,6 @@ export function useCommunityChat({
   const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false)
 
-  console.log(isConnected)
   const selectChat = (chat: Community) => {
     const selected: Chat = {
       _id: chat._id,
@@ -90,7 +89,6 @@ export function useCommunityChat({
     };
 
     socket.emit('sendMessage', message);
-    console.log('Message EMit', message)
     setMessages((prev) => [...prev, message]);
   };
 
@@ -103,5 +101,6 @@ export function useCommunityChat({
     setMessages,
     sendMessage,
     isMine,
+    isConnected,
   };
 }

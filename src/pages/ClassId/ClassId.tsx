@@ -17,7 +17,6 @@ const ClassId = () => {
 
     const classIdData = useSelector(selectIdClass);
 
-    console.log('classIdData:', classIdData);
 
     useEffect(() => {
         if (id) {

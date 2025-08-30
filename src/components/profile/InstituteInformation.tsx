@@ -14,7 +14,7 @@ interface InstituteInformationProps {
   isEditing?: boolean;
 }
 
-const InstituteInformation: React.FC<InstituteInformationProps> = ({ data, isEditing = false }) => {
+const InstituteInformation: React.FC<InstituteInformationProps> = ({ data }) => {
   const [formData] = useState<InstituteInfo>(data);
 
   // const handleInputChange = (key: keyof InstituteInfo, value: string) => {
@@ -23,7 +23,6 @@ const InstituteInformation: React.FC<InstituteInformationProps> = ({ data, isEdi
   //   onDataChange?.(updatedData);
   // };
 
-  console.log(isEditing)
 
   // All institute fields are read-only (not editable)
   const fields = [

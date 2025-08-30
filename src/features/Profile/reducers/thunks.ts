@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getStudentProfile, updateStudentProfile } from '../services';
 import { getProfile, updateProfile } from './ProfileSlice';
 
@@ -6,7 +7,6 @@ export const getStudentProfileThunk =
 
 		try {
 			const response = await getStudentProfile(params);
-			console.log("profile", response)
 			dispatch(getProfile(response?.data));
 
 		} catch (error) {

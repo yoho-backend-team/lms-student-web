@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Card } from '../ui/card';
 import { NavbarIcons } from '@/assets/icons/navbar';

@@ -16,10 +16,10 @@ interface SpeakingComponentProps {
 	setUnlockedTopics: (topics: Record<string, string[]>) => void;
 }
 
-const SpeakingComponent = ({ 
-	currentTopic, 
-	currentLevel, 
-	levelScores, 
+const SpeakingComponent = ({
+	currentTopic,
+	currentLevel,
+	levelScores,
 	setLevelScores,
 	unlockedLevels,
 	setUnlockedLevels,
@@ -71,7 +71,7 @@ const SpeakingComponent = ({
 			silenceTimerRef.current = setTimeout(() => {
 				stopRecording();
 			}, 10000); // 10 seconds
-			
+
 			lastTranscriptRef.current = transcript;
 		} else {
 			// Clear timer when not recording
@@ -94,7 +94,7 @@ const SpeakingComponent = ({
 		}
 
 		try {
-			const stream = await navigator.mediaDevices.getUserMedia({ 
+			const stream = await navigator.mediaDevices.getUserMedia({
 				audio: {
 					echoCancellation: true,
 					noiseSuppression: true,
@@ -103,7 +103,7 @@ const SpeakingComponent = ({
 				}
 			});
 			mediaRecorderRef.current = new MediaRecorder(stream);
-			
+
 			setIsRecording(true);
 			resetTranscript();
 			setFeedback('');
@@ -111,16 +111,15 @@ const SpeakingComponent = ({
 			setScore(0);
 			setWordsPerMinute(0);
 			setPronunciationScore(0);
-			
+
 			timerRef.current = setInterval(() => {
 				setSessionTime(prev => prev + 1);
 			}, 1000);
-			
-			SpeechRecognition.startListening({ 
+
+			SpeechRecognition.startListening({
 				continuous: true,
 				language: 'en-US'
 			});
-			console.log('Speech recognition started with react-speech-recognition');
 		} catch (error) {
 			console.error('Error accessing microphone:', error);
 			setFeedback('Microphone access denied. Please allow access and try again.');
@@ -129,26 +128,25 @@ const SpeakingComponent = ({
 
 	const stopRecording = () => {
 		setIsRecording(false);
-		
+
 		if (timerRef.current) {
 			clearInterval(timerRef.current);
 		}
-		
+
 		if (silenceTimerRef.current) {
 			clearTimeout(silenceTimerRef.current);
 		}
-		
+
 		SpeechRecognition.stopListening();
-		
+
 		if (mediaRecorderRef.current) {
 			mediaRecorderRef.current.stop();
 			mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
 		}
-		
+
 		// Calculate metrics after stopping
 		setTimeout(() => {
 			const currentTranscript = transcript.trim();
-			console.log('Final transcript:', currentTranscript);
 			if (currentTranscript) {
 				calculateMetrics(currentTranscript);
 				generateAIFeedback(currentTranscript);
@@ -184,8 +182,8 @@ const SpeakingComponent = ({
 		const relevanceScore = Math.round((matchedKeywords.length / Math.max(keywords.length, 1)) * 100);
 
 		const isRelevant = relevanceScore >= 30; // At least 30% keyword match
-		const feedback = isRelevant 
-			? `Good! Your response is relevant to ${topic}.` 
+		const feedback = isRelevant
+			? `Good! Your response is relevant to ${topic}.`
 			: `Please speak more about ${topic}. Try to include relevant keywords and stay on topic.`;
 
 		return { isRelevant, score: relevanceScore, feedback };
@@ -218,7 +216,7 @@ const SpeakingComponent = ({
 		const grammarScore = Math.max(0, Math.round(100 - (errorRate * 10)));
 		const hasErrors = errorCount > 0;
 
-		const feedback = hasErrors 
+		const feedback = hasErrors
 			? `Grammar issues found: ${corrections.slice(0, 2).join(', ')}. Score: ${grammarScore}%`
 			: `Good grammar! Score: ${grammarScore}%`;
 
@@ -227,7 +225,7 @@ const SpeakingComponent = ({
 
 	const calculateMetrics = (text: string) => {
 		if (!text.trim()) return;
-		
+
 		// Check topic relevance first
 		const topicCheck = checkTopicRelevance(text, currentTopic);
 		if (!topicCheck.isRelevant) {
@@ -245,30 +243,29 @@ const SpeakingComponent = ({
 			setShowFeedbackModal(true);
 			return;
 		}
-		
+
 		const words = text.trim().split(/\s+/).filter(word => word.trim().length > 0);
 		const wordCount = words.length;
 		const minutes = sessionTime > 0 ? sessionTime / 60 : 0.1;
 		const wpm = Math.max(1, Math.round(wordCount / minutes));
-		
-		console.log('Calculating metrics:', { wordCount, sessionTime, minutes, wpm });
-		
+
+
 		setWordsPerMinute(wpm);
-		
+
 		// Pronunciation scoring
 		const avgWordLength = wordCount > 0 ? words.reduce((sum, word) => sum + word.length, 0) / wordCount : 0;
 		const complexWords = words.filter(word => word.length > 6).length;
 		const uniqueWords = new Set(words.map(w => w.toLowerCase())).size;
 		const vocabularyRatio = wordCount > 0 ? uniqueWords / wordCount : 0;
-		
+
 		let pronScore = 50;
 		pronScore += Math.min(25, avgWordLength * 3);
 		pronScore += Math.min(15, complexWords * 2);
 		pronScore += Math.min(10, vocabularyRatio * 20);
-		
+
 		const finalPronScore = Math.round(Math.min(100, pronScore));
 		setPronunciationScore(finalPronScore);
-		
+
 		// Level-wise harder scoring
 		let totalScore = 10;
 		let minTime = 30;
@@ -279,7 +276,7 @@ const SpeakingComponent = ({
 		// Add topic relevance and grammar bonus
 		totalScore += Math.round(topicCheck.score * 0.2); // Up to 20 points for topic relevance
 		totalScore += Math.round(grammarCheck.score * 0.15); // Up to 15 points for grammar
-		
+
 		// Different requirements per level
 		if (currentLevel === 'Beginner') {
 			totalScore = 15;
@@ -302,22 +299,21 @@ const SpeakingComponent = ({
 			minWords = 250;
 			wpmMin = 120;
 		}
-		
+
 		// WPM scoring
 		if (wpm >= wpmMin && wpm <= wpmMax) totalScore += 30;
 		else if (wpm >= wpmMin - 20) totalScore += 20;
 		else if (wpm >= wpmMin - 40) totalScore += 10;
-		
+
 		// Time and word requirements
 		if (sessionTime >= minTime) totalScore += 20;
 		if (wordCount >= minWords) totalScore += 15;
-		
+
 		totalScore += Math.round(finalPronScore * 0.35);
 		const finalScore = Math.min(100, Math.max(0, totalScore));
-		
-		console.log('Final scores:', { wpm, finalPronScore, finalScore });
+
 		setScore(finalScore);
-		
+
 		// Update best score
 		if (finalScore > bestScore) {
 			setBestScore(finalScore);
@@ -331,13 +327,13 @@ const SpeakingComponent = ({
 			localStorage.setItem('levelScores', JSON.stringify(newScores));
 			const currentTopics = topics[currentLevel as keyof typeof topics];
 			const currentTopicIndex = currentTopics.indexOf(currentTopic);
-			
+
 			if (currentTopicIndex < currentTopics.length - 1) {
 				const nextTopic = currentTopics[currentTopicIndex + 1];
 				const newTopics = {
 					...unlockedTopics,
-					[currentLevel]: (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]).includes(nextTopic) 
-						? (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]) 
+					[currentLevel]: (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]).includes(nextTopic)
+						? (unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[])
 						: [...(unlockedTopics[currentLevel as keyof typeof unlockedTopics] as string[]), nextTopic]
 				};
 				setUnlockedTopics(newTopics);
@@ -352,7 +348,7 @@ const SpeakingComponent = ({
 						const newLevels = [...unlockedLevels, nextLevel];
 						setUnlockedLevels(newLevels);
 						localStorage.setItem('unlockedLevels', JSON.stringify(newLevels));
-						
+
 						const firstTopicOfNextLevel = topics[nextLevel as keyof typeof topics][0];
 						const newTopics = {
 							...unlockedTopics,
@@ -372,15 +368,15 @@ const SpeakingComponent = ({
 
 	const generateAIFeedback = (text: string) => {
 		if (!text.trim()) return;
-		
+
 		const words = text.trim().split(/\s+/).filter(w => w.length > 0);
 		const wordCount = words.length;
 		const minutes = sessionTime > 0 ? sessionTime / 60 : 0.1;
 		const currentWpm = Math.round(wordCount / minutes);
-		
+
 		let feedback = '';
 		let tips = [];
-		
+
 		if (wordCount < 3) {
 			feedback = 'Try speaking more words to get better analysis.';
 			tips.push('Speak for at least 30 seconds to get detailed feedback');
@@ -397,7 +393,7 @@ const SpeakingComponent = ({
 			feedback = `Good speaking! You spoke ${wordCount} words in ${sessionTime} seconds.`;
 			tips.push('Try to speak more naturally and fluently');
 		}
-		
+
 		// Add level-specific tips
 		if (currentLevel === 'Beginner') {
 			tips.push('Focus on clear pronunciation and simple sentences');
@@ -408,11 +404,11 @@ const SpeakingComponent = ({
 		} else if (currentLevel === 'Professional') {
 			tips.push('Show leadership language and strategic thinking');
 		}
-		
+
 		// Add topic and grammar feedback
 		const topicCheck = checkTopicRelevance(text, currentTopic);
 		const grammarCheck = checkGrammar(text);
-		
+
 		let additionalFeedback = '';
 		if (topicCheck.score < 50) {
 			additionalFeedback += `\n📝 Topic Relevance: ${topicCheck.score}% - Try to include more relevant keywords about "${currentTopic}".`;
@@ -420,7 +416,7 @@ const SpeakingComponent = ({
 		if (grammarCheck.score < 80) {
 			additionalFeedback += `\n📚 Grammar: ${grammarCheck.feedback}`;
 		}
-		
+
 		setFeedback(feedback + '\n\nTips: ' + tips.join('. ') + additionalFeedback);
 	};
 
@@ -490,11 +486,11 @@ const SpeakingComponent = ({
 									<Timer size={64} color={COLORS.text_desc} className='mx-auto mb-2' />
 								)}
 							</div>
-							
+
 							<h3 style={{ ...FONTS.heading_02, color: score >= 90 ? COLORS.light_green : score >= 70 ? COLORS.blue_01 : COLORS.light_red }} className='mb-2'>
 								{score >= 90 ? 'Excellent!' : score >= 70 ? 'Good Job!' : 'Keep Practicing!'}
 							</h3>
-							
+
 							<div className='grid grid-cols-2 gap-4 mb-4'>
 								<div className='text-center p-3 rounded' style={{ backgroundColor: COLORS.white }}>
 									<p style={{ ...FONTS.heading_03, color: COLORS.blue_01 }}>{score}</p>
@@ -513,13 +509,13 @@ const SpeakingComponent = ({
 									<p style={{ ...FONTS.para_03 }}>Clarity</p>
 								</div>
 							</div>
-							
+
 							{feedback && (
 								<div className='mb-4 p-3 rounded text-left' style={{ backgroundColor: '#f0f8ff', border: `1px solid ${COLORS.blue_01}` }}>
 									<p style={{ ...FONTS.para_03, color: COLORS.text_desc, whiteSpace: 'pre-line' }}>{feedback}</p>
 								</div>
 							)}
-							
+
 							<div className='flex gap-3 justify-center'>
 								<Button
 									onClick={() => setShowFeedbackModal(false)}
@@ -570,7 +566,7 @@ const SpeakingComponent = ({
 						)}
 					</div>
 				</div>
-				
+
 				<div className='flex items-start gap-3 mb-3'>
 					<p style={{ ...FONTS.para_02, lineHeight: '1.6', flex: 1 }}>{getTopicPrompt(currentTopic, currentLevel)}</p>
 					<Button
@@ -585,7 +581,7 @@ const SpeakingComponent = ({
 						<Volume2 size={16} />
 					</Button>
 				</div>
-				
+
 				{/* Topic Keywords */}
 				<div className='mb-3 p-3 rounded-lg' style={{ backgroundColor: '#f8f9fa', border: `1px solid ${COLORS.blue_01}` }}>
 					<h4 style={{ ...FONTS.para_02, fontWeight: 'bold', color: COLORS.blue_01, marginBottom: '8px' }}>💡 Include these keywords:</h4>
@@ -610,11 +606,11 @@ const SpeakingComponent = ({
 								'Innovation & Growth': ['innovation', 'growth', 'development', 'creative', 'new', 'improvement', 'technology', 'opportunity', 'change', 'progress', 'advancement', 'transformation']
 							};
 							return (topicKeywords[currentTopic] || []).map((keyword, index) => (
-								<span 
+								<span
 									key={index}
 									className='px-2 py-1 rounded-full text-xs '
-									style={{ 
-										background: COLORS.light_blue, 
+									style={{
+										background: COLORS.light_blue,
 										...FONTS.para_03,
 										color: COLORS.white,
 									}}
@@ -626,7 +622,7 @@ const SpeakingComponent = ({
 						}
 					</div>
 				</div>
-				
+
 				<div className='mt-3 p-3 rounded' style={{ backgroundColor: COLORS.light_blue }}>
 					<p style={{ ...FONTS.para_03, color: COLORS.black, fontWeight: 'bold', textAlign: 'center' }}>
 						<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
@@ -668,17 +664,17 @@ const SpeakingComponent = ({
 			</Card>
 
 			<div className='text-center mb-6'>
-				
+
 				<Button
 					onClick={isRecording ? stopRecording : startRecording}
 					disabled={!browserSupportsSpeechRecognition}
 					className={`px-8 py-4 rounded-xl ${(isRecording || listening) ? 'animate-pulse' : ''} flex items-center gap-3`}
 					style={{
-						background: (isRecording || listening) 
-							? COLORS.light_red 
+						background: (isRecording || listening)
+							? COLORS.light_red
 							: COLORS.light_green,
 						border: 'none',
-						boxShadow: (isRecording || listening) 
+						boxShadow: (isRecording || listening)
 							? `0 4px 15px rgba(255, 107, 107, 0.4)`
 							: `0 4px 15px rgba(52, 152, 219, 0.4)`,
 						opacity: !browserSupportsSpeechRecognition ? 0.5 : 1,
@@ -692,7 +688,7 @@ const SpeakingComponent = ({
 					{(isRecording || listening) ? <Square size={28} /> : <Mic size={28} />}
 					{(isRecording || listening) ? 'Stop Recording' : 'Start Speaking'}
 				</Button>
-				
+
 				{(isRecording || listening) && (
 					<div className='mt-4 flex items-center justify-center gap-2'>
 						<Timer size={20} color={COLORS.light_red} />
