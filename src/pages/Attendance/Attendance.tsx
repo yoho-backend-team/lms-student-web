@@ -31,6 +31,7 @@ import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
 import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getattendanceByDate } from '@/features/Attendance/reducer/thunks'
+import { useNavigate } from 'react-router-dom'
 
 const chartConfig = {
   desktop: {
@@ -51,6 +52,7 @@ export const Attendance = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
   const { showLoader, hideLoader, IsLoading } = useLoader();
+  const navigate = useNavigate()
 
 
   const attendancedata = useSelector(selectAttendance)
@@ -333,9 +335,9 @@ export const Attendance = () => {
                     attendanceByDate?.map((data: any, index: number) => {
                       return (
                         <li key={index} className='p-4 flex flex-col gap-2'>
-                          <p>Class Name:{data?.class_name}</p>
-                          <p>start time:{data?.start_time?.split("T")[1]?.split(".")[0]}</p>
-                          <p>end time:{data?.end_time?.split("T")[1]?.split(".")[0]}</p>
+                          <p>Class Name: {data?.class_name}</p>
+                          <p>start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
+                          <p>end time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
                           <p>duration: {data?.duration}</p>
                         </li>
                       )
@@ -344,7 +346,7 @@ export const Attendance = () => {
                 </ul>
               </div>
               <button className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
-
+                onClick={() => navigate('/classes')}
                 style={{ ...FONTS.heading_06 }}
               >
                 View Details
