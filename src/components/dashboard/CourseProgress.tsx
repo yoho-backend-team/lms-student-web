@@ -27,8 +27,7 @@ const CourseProgress: React.FC = () => {
     const radius = 80;
     const radius2 = 100;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset =
-        circumference - (progress / 100) * circumference || 0;
+    const strokeDashoffset = circumference - (progress / 100) * circumference || 0;
 
     const { TabView } = TabViewResponsive();
 
@@ -65,23 +64,9 @@ const CourseProgress: React.FC = () => {
                             />
 
                             <svg
-                                className={`${TabView ? 'w-[248px] h-[277px]' : 'w-[258px] h-[287px]'} transform -rotate-90`}
-                                viewBox='0 0 200 200'
+                                className={`${TabView ? 'w-[248px] h-[277px]' : 'w-[258px] h-[287px]'}  transform -rotate-90`}
+                                viewBox='0 3 198 200'
                             >
-                                <defs>
-                                    {/* Gradient */}
-                                    <linearGradient id='progressGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
-                                        <stop offset='0%' stopColor='#8b5cf6' />
-                                        <stop offset='100%' stopColor='#a855f7' />
-                                    </linearGradient>
-
-                                    {/* Shadow filter */}
-                                    <filter id="shadowFilter" x="-50%" y="-50%" width="200%" height="200%">
-                                        <feDropShadow dx="4" dy="4" stdDeviation="4" floodColor="#BDC2C7BF" />
-                                    </filter>
-                                </defs>
-
-                                {/* Progress Circle */}
                                 <circle
                                     cx='100'
                                     cy='100'
@@ -92,10 +77,23 @@ const CourseProgress: React.FC = () => {
                                     strokeLinecap='round'
                                     strokeDasharray={circumference}
                                     strokeDashoffset={strokeDashoffset}
-                                    filter='url(#shadowFilter)'
-                                    className='transition-all duration-1000 ease-out'
+                                    className='transition-all duration-1000 ease-out shadow-2xl bg-gradient-to-r from-[#7B00FF] to-[#7B00FF]'
                                 />
+
+                                <defs>
+                                    <linearGradient
+                                        id='progressGradient'
+                                        x1='0%'
+                                        y1='0%'
+                                        x2='100%'
+                                        y2='0%'
+                                    >
+                                        <stop offset='0%' stopColor='#8b5cf6' />
+                                        <stop offset='100%' stopColor='#a855f7' />
+                                    </linearGradient>
+                                </defs>
                             </svg>
+
 
                             <img
                                 className={`absolute w-[170px] h-[170px]  ${TabView ? 'left-9 top-[55px]' : 'top-[60px] left-11'} `}

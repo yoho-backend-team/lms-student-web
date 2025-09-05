@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, XAxis } from 'recharts'
 import {
@@ -128,7 +129,6 @@ export const Attendance = () => {
     }
   }, [dispatch, selectedDate])
 
-  console.log(attendanceByDate, "Attendance By Date")
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -328,11 +328,19 @@ export const Attendance = () => {
                 <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
                   {selectedDate ? selectedDate.toDateString() : "Select a date"}
                 </p>
-                <ul className="space-y-2 text-gray-700" style={{ ...FONTS.heading_06 }}>
-                  <li>Classes Scheduled: {((attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0)) / 30}</li>
-                  <li>Classes Attended: {attendancedata?.data?.attendedClassCount || 0}</li>
-                  <li>Absent: {attendancedata?.data?.totalAbsentDays || 0}</li>
-                  <li>Notes: Good Performance</li>
+                <ul className="space-y-2 text-gray-700 h-72 overflow-y-scroll" style={{ ...FONTS.heading_06 }}>
+                  {
+                    attendanceByDate?.map((data: any, index: number) => {
+                      return (
+                        <li key={index} className='p-4 flex flex-col gap-2'>
+                          <p>Class Name:{data?.class_name}</p>
+                          <p>start time:{data?.start_time?.split("T")[1]?.split(".")[0]}</p>
+                          <p>end time:{data?.end_time?.split("T")[1]?.split(".")[0]}</p>
+                          <p>duration: {data?.duration}</p>
+                        </li>
+                      )
+                    })
+                  }
                 </ul>
               </div>
               <button className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
