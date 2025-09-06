@@ -21,7 +21,7 @@ const Sidebar: React.FC<Props> = ({
   formatMessageDate,
 }) => {
   return (
-    <div className="w-full lg:w-[400px] xl:w-[500px] h-[500px] bg-[#EBEFF3] rounded-xl shadow-2xl">
+    <div className="w-full lg:w-[400px] xl:w-[500px] h-[75vh] bg-[#EBEFF3] rounded-xl shadow-2xl">
       <div className="relative p-2 bg-[#EBEFF3]">
         <div className="relative mt-4">
           <input
@@ -47,7 +47,7 @@ const Sidebar: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="p-4 h-[calc(500px-80px)] relative bg-[#EBEFF3] max-h-100 overflow-y-auto
+      <div className="p-4 h-[60vh] flex flex-col gap-4 relative bg-[#EBEFF3] overflow-y-scroll
   [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:bg-gray-300
@@ -56,9 +56,8 @@ const Sidebar: React.FC<Props> = ({
         {communities.map((chat) => (
           <div
             key={chat._id}
-            className={`relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg overflow-hidden shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] transition-all ${
-              selectedChat?._id === chat._id ? 'bg-gray-200' : ''
-            }`}
+            className={`relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg overflow-hidden shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] transition-all ${selectedChat?._id === chat._id ? 'bg-gray-200' : ''
+              }`}
             onClick={() => onSelectChat(chat)}
           >
             <div className="flex items-center space-x-3">

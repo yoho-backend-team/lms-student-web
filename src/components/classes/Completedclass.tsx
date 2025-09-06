@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { COLORS, FONTS } from '@/constants/uiConstants'
@@ -28,7 +28,7 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
   // const [showFilters, setShowFilters] = useState(false);
   // const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   // const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({});
-  const [filteredData] = useState(data);
+  // const [filteredData] = useState(data);
 
   const handleClassDetailPage = (id: string) => {
     navigate(`/class/${id}`);
@@ -166,8 +166,8 @@ const Completedclass: React.FC<CompletedclassProps> = ({ data }) => {
           </table>
         </Card>
 
-        {filteredData.length > 0 ? (
-          filteredData.map((item) => (
+        {data.length > 0 ? (
+          data.map((item) => (
             <Card
               key={item.id}
               className='bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4

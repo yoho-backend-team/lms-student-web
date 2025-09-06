@@ -300,7 +300,7 @@ const Payment = () => {
 						>
 							Payment History
 						</h1>
-						<div className='p-5 flex flex-col gap-2 custom-inset-shadow'>
+						<div className='p-5 flex flex-col gap-2 h-[75vh] custom-inset-shadow overflow-y-scroll'>
 							<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
 								View PDF
 							</h1>

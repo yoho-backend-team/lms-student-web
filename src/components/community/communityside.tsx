@@ -87,7 +87,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
 
 
   return (
-    <div className="flex flex-col sticky lg:flex-row position-sticky pt-4 gap-4">
+    <div className="flex flex-col h-full sticky lg:flex-row position-sticky pt-4 gap-4">
       {/* Sidebar */}
       <Sidebar
         communities={filteredCommunities}
@@ -99,7 +99,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
       />
 
       {/* Chat Area */}
-      <div className="w-full lg:w-2/3 flex flex-col h-[500px] position-sticky">
+      <div className="w-full lg:w-2/3 flex flex-col h-[75vh] position-sticky">
         {selectedChat ? (
           <>
             <ChatHeader chat={selectedChat} />
