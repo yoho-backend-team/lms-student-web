@@ -25,7 +25,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
     selectedChat,
     selectChat,
     messages,
-    sendMessage,
+    // sendMessage,
     isMine,
   } = useCommunityChat({
     socket,
@@ -109,7 +109,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
               isMine={isMine}
               bottomRef={bottomRef}
             />
-            <ChatInputWithEmojiPicker onSend={sendMessage} />
+            <ChatInputWithEmojiPicker communities={communities} />
           </>
         ) : (
           <div className="flex-1 min-w-0 bg-[#EBEFF3] rounded-xl shadow flex items-center justify-center">

@@ -87,6 +87,7 @@ export function useCommunityChat({
       name: userName,
       time: new Date().toISOString(),
     };
+    console.log(message, "socket message")
 
     socket.emit('sendMessage', message);
     setMessages((prev) => [...prev, message]);

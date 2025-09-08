@@ -5,15 +5,28 @@ import EmojiPicker from 'emoji-picker-react';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 import cursor from '@/assets/icons/community/Icon.png';
 import { useOnClickOutside } from './hooks/useOnClickOutside';
+import { useCommunityChat } from './hooks/useCommunityChat';
+import { useStudentSocket } from '@/context/socketContext';
 
 type Props = {
-  onSend: (text: string) => void;
+  onSend?: (text: string) => void;
+  communities: any
 };
 
-const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
+const ChatInputWithEmojiPicker: React.FC<Props> = ({ communities }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef: any = useRef<HTMLDivElement>(null);
+  const socket = useStudentSocket();
+  const user: any = JSON.parse(localStorage.getItem('user') || '{}')
+
+  const { sendMessage } = useCommunityChat({
+    socket,
+    userId: user?._id,
+    userName: user?.full_name,
+    communities: communities.data,
+    receiveEventName: 'newMessage',
+  })
 
   useOnClickOutside(pickerRef, () => setShowPicker(false));
 
@@ -28,7 +41,7 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
 
   const handleSend = () => {
     if (!inputMessage.trim()) return;
-    onSend(inputMessage);
+    sendMessage(inputMessage);
     setInputMessage('');
   };
 
