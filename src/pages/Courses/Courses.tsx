@@ -28,7 +28,6 @@ const Courses = () => {
 				const params = {
 					instituteuuid: instituteId,
 					branchuuid: branchId,
-					courseId: '67a0bd83a0af9570a36c499d',
 				};
 				await dispatch(getStudentcourse(params));
 			} catch (error) {

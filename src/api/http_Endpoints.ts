@@ -11,7 +11,7 @@ const getEndpoints = (): Endpoints => {
 			log_out: '/institutes/auth/student/logout',
 		},
 		course: {
-			get: `/institutes/:instituteuuid/branches/:branchuuid/course/:courseId`,
+			get: `/institutes/:instituteuuid/branches/:branchuuid/student-new/courses`,
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {

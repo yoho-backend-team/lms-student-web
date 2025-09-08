@@ -53,7 +53,14 @@ const AppRoutes = () => {
 				<Route index element={<Dashboard />} />
 				<Route path='classes' element={<Classes />} />
 				<Route path='class/:id' element={<ClassId />} />
-				<Route path='courses' element={<Courses />} />
+				<Route path='courses'>
+					<Route index element={<Courses />} />
+					<Route path='note_materials' element={<NotesMaterials />} />
+					<Route path='about/:course' element={<AboutCourse />} />
+					<Route path='task_projects' element={<Task_Projects />} />
+					<Route path='course_track' element={<CourseTrack />} />
+				</Route>
+
 				<Route path='course/:id' element={<CourseId />} />
 				<Route path='activity-logs' element={<ActivityLogs />} />
 				<Route path='tickets' element={<Tickets />} />
@@ -69,12 +76,8 @@ const AppRoutes = () => {
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
 				<Route path='/about' element={<AboutCourse />} />
-				<Route path='note_materials' element={<NotesMaterials />} />
-				<Route path='/about/:course' element={<AboutCourse />} />
-				<Route path='task_projects' element={<Task_Projects />} />
-				<Route path='course_track' element={<CourseTrack />} />
 				<Route path='spoken-english' element={<SpokenEnglish />} />
-				<Route path='*' element={<Navigate to='/' />} />
+				{/* <Route path='*' element={<Navigate to='/' />} /> */}
 			</Route>
 		</Routes>
 	);

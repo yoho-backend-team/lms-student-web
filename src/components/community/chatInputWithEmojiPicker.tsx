@@ -33,7 +33,7 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
   };
 
   return (
-    <div className="relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2">
+    <div className="relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2 mr-4">
       <button
         type="button"
         onClick={() => setShowPicker((s) => !s)}
@@ -58,7 +58,7 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
       />
 
       <button
-        className="  bg-gray-300 hover:bg-gray-500 ml-2 text-white rounded-md p-2 transition"
+        className=" bg-gray-300 hover:bg-gray-500 ml-2 text-white rounded-md p-2 transition"
         onClick={handleSend}
         type="button"
       >
