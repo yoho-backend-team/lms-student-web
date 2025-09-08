@@ -2,6 +2,9 @@
 import React from 'react';
 import doubleicon from '@/assets/icons/community/Group 210.png';
 import type { Chat, Community } from './type';
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '@/store/store';
+import { setSelctedMsg } from '@/features/community/redux/communitySlice';
 
 type Props = {
   communities: Community[];
@@ -20,6 +23,9 @@ const Sidebar: React.FC<Props> = ({
   setSearchTerm,
   formatMessageDate,
 }) => {
+
+  const dispatch = useDispatch<AppDispatch>()
+
   return (
     <div className="w-full lg:w-[400px] xl:w-[500px] h-[75vh] bg-[#EBEFF3] rounded-xl shadow-2xl">
       <div className="relative p-2 bg-[#EBEFF3]">
@@ -58,7 +64,7 @@ const Sidebar: React.FC<Props> = ({
             key={chat._id}
             className={`relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg overflow-hidden shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] transition-all ${selectedChat?._id === chat._id ? 'bg-gray-200' : ''
               }`}
-            onClick={() => onSelectChat(chat)}
+            onClick={() => { onSelectChat(chat); dispatch(setSelctedMsg(chat)) }}
           >
             <div className="flex items-center space-x-3">
               <div className="bg-gray-900 text-white rounded-full h-12 w-12 flex items-center justify-center overflow-hidden">

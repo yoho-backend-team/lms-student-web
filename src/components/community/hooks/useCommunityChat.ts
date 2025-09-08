@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { getMessage } from '@/features/community/services/communityservices';
 import type { Chat, Community, Message } from '../type';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store/store';
+import { GetLocalStorage } from '@/utils/helper';
 
 type UseCommunityChatArgs = {
   socket: any;
@@ -16,11 +19,14 @@ type UseCommunityChatArgs = {
 export function useCommunityChat({
   socket,
   userId,
-  userName,
+  // userName,
 }: UseCommunityChatArgs) {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false)
+  const selectedMsg: any = useSelector((state: RootState) => state.community.selectedMsg)
+  const user: any = GetLocalStorage('user')
+
 
   const selectChat = (chat: Community) => {
     const selected: Chat = {
@@ -78,15 +84,15 @@ export function useCommunityChat({
   }, [socket, setMessages, messages]);
 
   const sendMessage = (text: string) => {
-    if (!socket || !selectedChat || !text.trim() || !userId) return;
 
     const message: Message = {
       content: text,
-      groupId: selectedChat._id,
-      senderId: userId,
-      name: userName,
+      groupId: selectedMsg?._id,
+      senderId: user?._id,
+      name: user?.first_name,
       time: new Date().toISOString(),
     };
+    console.log(selectedMsg, "chat pick")
     console.log(message, "socket message")
 
     socket.emit('sendMessage', message);

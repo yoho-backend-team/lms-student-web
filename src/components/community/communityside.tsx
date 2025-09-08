@@ -10,6 +10,7 @@ import type { CommunitiesProp, Community } from './type.ts';
 import { useCommunityChat } from './hooks/useCommunityChat';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import { useStudentSocket } from '@/context/socketContext.tsx';
+import { GetLocalStorage } from '@/utils/helper.ts';
 
 type Props = {
   communities: CommunitiesProp;
@@ -17,7 +18,7 @@ type Props = {
 
 const CommunitySide: React.FC<Props> = ({ communities }) => {
   const socket = useStudentSocket();
-  const user: any = JSON.parse(localStorage.getItem('user') || '{}')
+  const user: any = GetLocalStorage('user')
   const [searchTerm, setSearchTerm] = useState('');
   // const [isConnected, setIsConnected] = useState(false)
 
