@@ -41,7 +41,7 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
       </Button>
 
       <Button
-        onClick={() => navigate('task_projects')}
+        onClick={() => navigate('/task_projects')}
         className={activeTabs === 'task' ? 'cursor-pointer btnfocusshadow w-60 text-white' : inactiveBtnClass}
       >
         Task & Projects
