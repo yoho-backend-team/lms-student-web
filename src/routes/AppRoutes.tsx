@@ -1,7 +1,7 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import Task_Projects from '@/components/courses/TaskProjectsPages';
+// import Task_Projects from '@/components/courses/TaskProjectsPages';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
 import Attendance from '@/pages/Attendance/Attendance';
