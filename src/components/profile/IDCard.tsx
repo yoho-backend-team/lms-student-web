@@ -27,27 +27,26 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const dispatch = useDispatch<any>();
-	const profileDetails = useSelector(selectProfile)
+  const profileDetails = useSelector(selectProfile)
 
 
-	useEffect(() => {
-		dispatch(getStudentProfileThunk({}));
-		console.log(profileDetails)
-	}, [dispatch]);
-  
+  useEffect(() => {
+    dispatch(getStudentProfileThunk({}));
+  }, [dispatch]);
+
   // Sample data - replace with actual data from props or API
   const idCardData: IDCardData = data || {
-    studentName: profileDetails.length!=0? profileDetails.full_name : "NA",
-    studentId: profileDetails.length!=0?profileDetails.userDetail.studentId:"NA",
+    studentName: profileDetails.length != 0 ? profileDetails.full_name : "NA",
+    studentId: profileDetails.length != 0 ? profileDetails.userDetail.studentId : "NA",
     course: 'Theoretical Physics',
     batch: 'Batch 2024-25',
-    rollNumber: profileDetails.length!=0? profileDetails.roll_no:"NA",
+    rollNumber: profileDetails.length != 0 ? profileDetails.roll_no : "NA",
     validFrom: '2024-01-01',
     validUntil: '2024-12-31',
     institution: 'Classie',
     profileImage: 'https://img.freepik.com/premium-photo/character-portrait-albert-einstein-generate-by-ai_978242-594.jpg?w=2000',
     bloodGroup: 'O+',
-    emergencyContact:profileDetails.length!=0? profileDetails.contact_info.phone_number:"NA"
+    emergencyContact: profileDetails.length != 0 ? profileDetails.contact_info.phone_number : "NA"
   };
 
   const handleDownload = () => {
@@ -61,13 +60,13 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
   return (
     <div className="w-full">
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
-        style={{ 
+        style={{
           width: '100%',
           marginTop: '1rem',
           height: '75vh',
           fontFamily: FONTS.para_01.fontFamily
         }}>
-        
+
         {/* Header */}
         <div className="p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
           <div className="flex justify-between items-center">
@@ -81,10 +80,10 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
           {/* ID Card Preview */}
           <div className="mb-8 flex justify-center">
             <div className="relative w-full max-w-80 h-[500px]" style={{ perspective: '1000px' }}>
-              <div 
+              <div
                 className="relative w-full h-full transition-transform duration-700 cursor-pointer"
                 onClick={handleCardClick}
-                style={{ 
+                style={{
                   transformStyle: 'preserve-3d',
                   transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
                 }}
@@ -105,8 +104,8 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                       {/* Profile Image */}
                       <div className="flex justify-center mb-4">
                         <div className="w-20 h-20 rounded-full border-4 border-white/30 overflow-hidden bg-white/10">
-                          <img 
-                            src={idCardData.profileImage} 
+                          <img
+                            src={idCardData.profileImage}
                             alt={idCardData.studentName}
                             className="w-full h-full object-cover"
                           />
@@ -144,7 +143,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                           <span className="opacity-70">Blood Group:</span>
                           <span className="font-semibold">{idCardData.bloodGroup || 'N/A'}</span>
                         </div>
-                       
+
                       </div>
 
                       {/* Bottom Section */}
@@ -193,14 +192,14 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                       <div className="w-48 h-48 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-lg">
                         <QrCode className="w-32 h-32" style={{ color: COLORS.text_desc }} />
                       </div>
-                      
+
                       <div className="text-center">
                         <p className="text-sm opacity-90 mb-2" style={{ fontFamily: FONTS.para_01.fontFamily }}>Student ID: {idCardData.studentId}</p>
                         <p className="text-xs opacity-70" style={{ fontFamily: FONTS.para_01.fontFamily }}>Scan this QR code for quick verification</p>
                       </div>
                     </div>
 
-                   
+
 
                     {/* Decorative elements */}
                     <div className="absolute top-0 left-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 -translate-x-10"></div>
@@ -271,7 +270,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 </div>
               </div>
 
-              
+
 
               <div className="md:col-span-2">
                 <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>

@@ -2,8 +2,8 @@
 import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
-const backendUrl = 'https://lms-node-backend-v1.onrender.com/api';
-// const backendUrl = "http://localhost:3000/api"
+// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
+const backendUrl = import.meta.env.VITE_Backend_url
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -13,12 +13,11 @@ const Axios = axios.create({
 	},
 });
 
-
 Axios.interceptors.request.use((config) => {
-	const token = GetLocalStorage('authToken')
+	const token = GetLocalStorage('authToken');
 
 	if (token) {
-		config.headers['Authorization'] = `Token ${token ? token : ''}`;
+		config.headers['Authorization'] = `Token ${token}`;
 	}
 	return config;
 });
@@ -31,7 +30,7 @@ Axios.interceptors.response.use(
 			error?.response.status == 401 &&
 			error?.response?.data?.status === 'session_expired'
 		) {
-			ClearLocalStorage()
+			ClearLocalStorage();
 			window.location.reload();
 		}
 	}
@@ -40,7 +39,7 @@ Axios.interceptors.response.use(
 class HttpClient {
 	async get(
 		url: string,
-		params?: { id?: string; params?: { classId: any }; community?: string },
+		params?: any,
 		userType?: string | undefined
 	) {
 		const response = await Axios.get(url, {
@@ -62,13 +61,19 @@ class HttpClient {
 		return response.data;
 	}
 
-	async update(url: string, data?: { uuid: string }, userType?: string) {
-		const response = await Axios.put(url, data, {
-			headers: {
-				'User-Type': userType,
-			},
-		});
-		return response?.data;
+	async update(url: string, data?: any, userType?: string) {
+		try {
+			const response = await Axios.put(url, data, {
+				headers: {
+					'User-Type': userType,
+				},
+			});
+			return response?.data;
+		} catch (error) {
+			// Preserve the error structure for better error handling in components
+			console.error('API update error:', error);
+			throw error;
+		}
 	}
 
 	async delete(url: string, data?: { uuid: string }, userType?: string) {

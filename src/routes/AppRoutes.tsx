@@ -25,6 +25,7 @@ import Placement from '@/pages/Placement/Placement';
 import Profile from '@/pages/Profile/Profile';
 import TicketId from '@/pages/TicketId/TicketId';
 import Tickets from '@/pages/Tickets/Tickets';
+import SpokenEnglish from '@/pages/SpokenEnglish/SpokenEnglish';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Loader from '@/components/Loader/Loader';
@@ -32,9 +33,10 @@ import { Createtickets } from '@/components/Tickets/Createtickets';
 // import Task_Projects from '@/components/courses/Task_projects';
 
 const AppRoutes = () => {
-	const { isAuthenticated } = useAuth();
-	// const { IsLoading } = useLoader()
-	// if (IsLoading) return <Loader />;
+	const { isAuthenticated, isLoading } = useAuth();
+	// const { IsLoading } = useLoader();
+	if (isLoading) return null;
+
 	const AuthRoutes = () => (
 		<Routes>
 			<Route path='login' element={<Login />} />
@@ -51,7 +53,14 @@ const AppRoutes = () => {
 				<Route index element={<Dashboard />} />
 				<Route path='classes' element={<Classes />} />
 				<Route path='class/:id' element={<ClassId />} />
-				<Route path='courses' element={<Courses />} />
+				<Route path='courses'>
+					<Route index element={<Courses />} />
+					<Route path='note_materials' element={<NotesMaterials />} />
+					<Route path='about/:course' element={<AboutCourse />} />
+					<Route path='task_projects' element={<Task_Projects />} />
+					<Route path='course_track' element={<CourseTrack />} />
+				</Route>
+
 				<Route path='course/:id' element={<CourseId />} />
 				<Route path='activity-logs' element={<ActivityLogs />} />
 				<Route path='tickets' element={<Tickets />} />
@@ -67,11 +76,8 @@ const AppRoutes = () => {
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
 				<Route path='/about' element={<AboutCourse />} />
-				<Route path='note_materials' element={<NotesMaterials />} />
-				<Route path='/about/:course' element={<AboutCourse />} />
-				<Route path='task_projects' element={<Task_Projects />} />
-				<Route path='course_track' element={<CourseTrack />} />
-				<Route path='*' element={<Navigate to='/' />} />
+				<Route path='spoken-english' element={<SpokenEnglish />} />
+				{/* <Route path='*' element={<Navigate to='/' />} /> */}
 			</Route>
 		</Routes>
 	);

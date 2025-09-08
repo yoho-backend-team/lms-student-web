@@ -11,6 +11,7 @@ interface Course {
 	slug: string;
 	coursemodules: string;
 	duration: string;
+	uuid: string;
 }
 
 const MainCourse = () => {
@@ -18,7 +19,6 @@ const MainCourse = () => {
 	const navigate = useNavigate();
 
 	const coursedata = useSelector(selectCourse);
-	console.log(coursedata, 'coursedata');
 
 	useEffect(() => {
 		setCourses(coursedata);
@@ -33,9 +33,9 @@ const MainCourse = () => {
 					title={courses?.course_name ?? ''}
 					description={courses?.description ?? ''}
 					image={courses?.image ?? ''}
-					modules={courses?.coursemodules ?? ''}
+					modules={courses?.coursemodules.length ?? 0}
 					duration={courses?.duration ?? ''}
-					onClick={() => navigate('/about/mernstack')} // if you have route
+					onClick={() => navigate(`about/${courses?.uuid}`)} // if you have route
 				/>
 			</div>
 		</div>

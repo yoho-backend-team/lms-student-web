@@ -11,7 +11,7 @@ const getEndpoints = (): Endpoints => {
 			log_out: '/institutes/auth/student/logout',
 		},
 		course: {
-			get: `/institutes/:instituteuuid/branches/:branchuuid/course/:courseId`,
+			get: `/institutes/:instituteuuid/branches/:branchuuid/student-new/courses`,
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 		},
 		class: {
@@ -20,6 +20,7 @@ const getEndpoints = (): Endpoints => {
 		},
 		attendance: {
 			get: '/institutes/attedance/student-attendance/',
+			getDate: '/institutes/attedance/student-attendance/daily',
 			class_attendance: '/attendance/class',
 		},
 		payments: {
@@ -43,7 +44,7 @@ const getEndpoints = (): Endpoints => {
 			get: `institutes/faq/all`,
 		},
 		help: {
-			get: `/helpcenter/`,
+			get: `/helpcenter`,
 		},
 
 		reports: {

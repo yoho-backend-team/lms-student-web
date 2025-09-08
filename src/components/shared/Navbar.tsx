@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Card } from '../ui/card';
 import { NavbarIcons } from '@/assets/icons/navbar';
@@ -76,6 +77,12 @@ const Navbar = () => {
 			iconActive: NavbarIcons.PlacementActiveImg,
 			iconInactive: NavbarIcons.PlacementInActiveImg,
 		},
+		{
+			path: 'spoken-english',
+			name: 'Spoken English',
+			iconActive: NavbarIcons.CommunityActiveImg,
+			iconInactive: NavbarIcons.CommunityInActiveImg,
+		},
 	];
 
 	const handleLogout = async () => {
@@ -120,6 +127,7 @@ const Navbar = () => {
 					}}
 				> */}
 				<img
+					data-tour="logo"
 					src={GetImageUrl(instituteData?.logo) ?? undefined}
 					alt={instituteData?.institute_name}
 					title={instituteData?.institute_name}
@@ -132,6 +140,7 @@ const Navbar = () => {
 						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
 							<Card
 								key={item.path || index}
+								data-tour={`nav-${item.path || 'dashboard'}`}
 								className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
 								style={{
 									boxShadow:
@@ -161,6 +170,7 @@ const Navbar = () => {
 				<div className='flex gap-6'>
 					<Link to='notifications'>
 						<Card
+							data-tour="notifications"
 							className='bg-[#ebeff3] w-[48px] h-[48px] rounded-full flex items-center justify-center'
 							style={{
 								boxShadow: `
@@ -178,6 +188,7 @@ const Navbar = () => {
 						</Card>
 					</Link>
 					<div
+						data-tour="profile"
 						className='cursor-pointer'
 						onClick={() => setshowProfileSection(!showProfileSection)}
 					>

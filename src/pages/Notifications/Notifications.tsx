@@ -75,10 +75,9 @@ const Notifications = () => {
 	const handleNotificationClick = async (notification: any) => {
 		setSelectedNotification(notification);
 		try {
-			const response = await updateNotificationStatus({
+			await updateNotificationStatus({
 				uuid: notification?.uuid, status: 'read'
 			})
-			console.log(response, "Response from update notification status")
 		}
 		catch (error) {
 			console.error('Error updating notification status:', error);
@@ -88,18 +87,18 @@ const Notifications = () => {
 
 	const handleDeleteNotification = async (notification: any) => {
 		try {
-			const response = await deleteNotification({
+			await deleteNotification({
 				uuid: notification?.uuid
 			})
-			console.log(response, "Response from delete notification")
-			toast.success('Notification deleted successfully!', {style:{ backgroundColor: 'green', color: 'white'}});
+
+			toast.success('Notification deleted successfully!', { style: { backgroundColor: 'green', color: 'white' } });
 			setSelectedNotification(null);
 		}
 		catch (error) {
 			console.error('Error deleting notification:', error);
-			toast.error('Failed to delete notification.', 
-			 {style:{ backgroundColor: 'green', color: 'white'}}
-		);
+			toast.error('Failed to delete notification.',
+				{ style: { backgroundColor: 'green', color: 'white' } }
+			);
 		}
 	}
 
@@ -233,7 +232,7 @@ const Notifications = () => {
 							))
 						) : (
 							<div className='text-center py-8 ' style={{ ...FONTS.para_01 }}>
-                             <img src={updatedimg} alt="" className='h-[250px] w-[550px]'/>
+								<img src={updatedimg} alt="" className='h-[250px] w-[550px]' />
 								<p className='mt-5'>No available notifications data </p>
 							</div>
 						)}

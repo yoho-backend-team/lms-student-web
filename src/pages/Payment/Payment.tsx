@@ -12,351 +12,378 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPayment } from '@/features/Payment/reducers/selectors';
 import { useEffect, useState } from 'react';
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
-import { selectProfile } from '@/features/Profile/reducers/selectors';
+// import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { Button } from '@/components/ui/button';
-import InvoiceReceipt from '../../InvoiceReceipt'
+import InvoiceReceipt from '../../utils/InvoiceReceipt'
+import Loader from '@/components/Loader/Loader';
+import { useLoader } from '@/context/LoadingContext/Loader';
+import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
+import { GetLocalStorage } from '@/utils/helper';
 
 const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
-	const profileDetails = useSelector(selectProfile)
+	// const profileDetails = useSelector(selectUser)
+	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const storedData: any = GetLocalStorage('user');
 
 	const [open, setOpen] = useState(false);
-	function handleDownload() {
-		setIsDownload(true)
-		// <InvoiceReceipt />
-	}
+
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
-		dispatch(getStudentPaymentThunk({ paymentId: profileDetails?.data?.userDetail?.uuid }));
-		console.log(paymentDetails, "Payment Details")
-	}, [dispatch]);
+		dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
+	}, [dispatch, paymentDetails, storedData?.uuid]);
 
 	const rating = paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0
 	const fullStars = Math.floor(rating);
 
+	useEffect(() => {
+		(async () => {
+			try {
+				showLoader();
+				const timeoutId = setTimeout(() => {
+					hideLoader();
+				}, 5000);
+				const response = await dispatch(getDashBoardReports());
+				if (response) {
+					clearTimeout(timeoutId);
+				}
+			} finally {
+				hideLoader();
+			}
+		})();
+	}, [dispatch, hideLoader, showLoader]);
+
+
 	return (
 
 		<>
-		<div className=' lg:flex md:grid gap-8 pl-8 pr-6 mb-2'>
-			<div className='lg:w-1/4 md'>
-				<h1
-					className='font-semibold text-2xl py-6'
-					style={{ ...FONTS.heading_02 }}
-				>
-					Payment
-				</h1>
-				<div className='p-5 lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
-					<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-						<div className='flex gap-3'>
-							<img src={Profile1} alt='Profile' />
-							<p style={{ ...FONTS.heading_07 }}>Course Fees</p>
-						</div>
-						<p
-							className='text-end'
-							style={{ ...FONTS.heading_03, color: COLORS.light_green_01 }}
-						>
-							{paymentDetails.length !== 0 ? paymentDetails?.course_fees : 0}
-						</p>
-					</section>
-
-					<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-						<div className='flex gap-3'>
-							<img src={Profile2} alt='Profile' />
-							<p style={{ ...FONTS.heading_07 }}>Amount Paid</p>
-						</div>
-						<p
-							className='text-end'
-							style={{ ...FONTS.heading_03, color: COLORS.light_green }}
-						>
-							&#8377;{paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.paid_amount : 0}
-						</p>
-					</section>
-
-					<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-						<div className='flex gap-3'>
-							<img src={Profile3} alt='Profile' />
-							<p style={{ ...FONTS.heading_07 }}>Pending Amount</p>
-						</div>
-						<p
-							className='text-end'
-							style={{ ...FONTS.heading_03, color: COLORS.light_red }}
-						>
-							{paymentDetails.length !== 0 ? paymentDetails?.pending_payment : 0}
-
-						</p>
-					</section>
-
-					<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-						<div className='flex gap-3'>
-							<img src={Profile4} alt='Profile' />
-							<p style={{ ...FONTS.heading_07 }}>Status</p>
-						</div>
-						<p
-							className='text-end'
-							style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}
-						>
-							{paymentDetails.length !== 0 ? paymentDetails?.payment_status : "NA"}
-						</p>
-					</section>
-
-					<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-						<div className='flex gap-3'>
-							<img src={Profile5} alt='Profile' />
-							<p style={{ ...FONTS.heading_07 }}>Payment Method</p>
-						</div>
-						<p
-							className='text-end'
-							style={{ ...FONTS.heading_03, color: COLORS.light_orange }}
-						>
-							{paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.payment_method : "NA"}
-						</p>
-					</section>
-				</div>
-			</div>
-
-			<div className='lg:w-3/4 flex gap-8'>
-				<div className='w-1/2 sm:w-2/3'>
-					<div>
-						<h1
-							className='font-semibold text-2xl py-6'
-							style={{ ...FONTS.heading_02 }}
-						>
-							Courses Details
-						</h1>
-						<div className='p-5 grid gap-2 custom-inset-shadow'>
-							<section className='custom-inset-shadow'>
-								<img src={Group} alt='Group' className='m-auto' />
-							</section>
-							<h1
-								className='font-semibold mt-4'
-								style={{ ...FONTS.heading_05 }}
-							>
-								{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.course_name : "NA"}
-							</h1>
-							<p style={{ ...FONTS.para_02 }}>
-								{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.institute_id?.institute_name : "NA"}
-							</p>
-							<div className='flex justify-between mt-2'>
-								<section className='flex items-center gap-3 '>
-									<div
-										className='p-3 rounded-lg'
-										style={{
-											boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-										}}
-									>
-										<img src={Frame} alt='Frame' className='' />
-									</div>
-									<h2
-										className='font-semibold '
-										style={{ ...FONTS.heading_06 }}
-									>
-										{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.coursemodules.length : 0} Modules
-									</h2>
-								</section>
-								<section className='mt-5'>
-									<div className="flex items-center justify-between gap-2">
-										<div className="flex justify-end items-center">
-											{Array.from({ length: fullStars }).map((_, i) => (
-												<img key={`full-${i}`} src={Star} alt="Star" />
-											))}
-										</div>
-										<p style={{ ...FONTS.heading_06 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0}</p>
-									</div>
-									<p
-										className='text-end font-semibold'
-										style={{ ...FONTS.heading_05, color: COLORS.light_green }}
-									>
-										&#8377; {paymentDetails.length !== 0 ? paymentDetails?.course?.actual_price : 0}
-									</p>
-								</section>
-							</div>
-						</div>
+			<div className=' lg:flex md:grid gap-8 mb-2'>
+				{IsLoading && (
+					<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
+						<Loader />
 					</div>
-
-					<div className='mt-3 sm:w-full'>
-						<section className='flex justify-between items-center py-6'>
-							<h1
-								className='font-semibold text-2xl'
-								style={{ ...FONTS.heading_02 }}
-							>
-								Fees Details
-							</h1>
-							<Button
-								className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
-								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
-								style={{
-									...FONTS.para_02,
-									color: 'white',
-									// boxShadow: `
-									// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-									// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-								}}
-								onClick={() => setOpen(true)}
-							>
-								Download Receipt
-							</Button>
-						</section>
-						<div className='p-5 grid gap-2 custom-inset-shadow'>
-							<div className='flex justify-between'>
-								<section>
-									<h1 style={{ ...FONTS.heading_07 }}>Student :</h1>
-									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.student?.full_name : "NA"}</p>
-								</section>
-								<section>
-									<h1 style={{ ...FONTS.heading_07 }}>Category :</h1>
-									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.course_name : "NA"}</p>
-								</section>
-								<section>
-									<h1 style={{ ...FONTS.heading_07 }}>Enrolled Date :</h1>
-									<p style={{ ...FONTS.para_03 }}>{new Date(paymentDetails.length !== 0 ? paymentDetails?.course?.createdAt : "NA").toLocaleDateString("en-GB", {
-										day: "2-digit",
-										month: "long",
-										year: "numeric",
-									})}</p>
-								</section>
-							</div>
-
-							<section
-								className='custom-inset-shadow flex justify-between p-3 my-3'
-								style={{
-									...FONTS.heading_05,
-									background: 'linear-gradient(90deg, #7B00FF, #B200FF)',
-									WebkitBackgroundClip: 'text',
-									WebkitTextFillColor: 'transparent',
-								}}
-							>
-								<h1>Description</h1>
-								<h1>Amount</h1>
-							</section>
-
-							<div>
-								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>Tuition Amount</p>
-									<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.course_fees : 0} INR</p>
-								</section>
-
-								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>Gst Cost</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.gst : 0} INR</p>
-								</section>
-
-								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>Other Tax</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.other_taxes : 0} INR</p>
-								</section>
-
-								<section className='flex justify-between'>
-									<p style={{ ...FONTS.para_02 }}>Paid Amount</p>
-									<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.paid_amount : 0} INR</p>
-								</section>
-
-								<section
-									className='flex justify-between'
-									style={{ ...FONTS.para_02, color: COLORS.light_red }}
-								>
-									<p>Pending</p>
-									<p>{paymentDetails.length !== 0 ? paymentDetails?.pending_payment : 0} INR</p>
-								</section>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className='w-1/2'>
+				)}
+				<div className='lg:w-1/4 md'>
 					<h1
 						className='font-semibold text-2xl py-6'
 						style={{ ...FONTS.heading_02 }}
 					>
-						Payment History
+						Payment
 					</h1>
-					<div className='p-5 flex flex-col gap-2 custom-inset-shadow'>
-						<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
-							View PDF
-						</h1>
+					<div className='p-5 lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
+						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
+							<div className='flex gap-3'>
+								<img src={Profile1} alt='Profile' />
+								<p style={{ ...FONTS.heading_07 }}>Course Fees</p>
+							</div>
+							<p
+								className='text-end'
+								style={{ ...FONTS.heading_03, color: COLORS.light_green_01 }}
+							>
+								{paymentDetails.length !== 0 ? paymentDetails?.course_fees : 0}
+							</p>
+						</section>
 
-						{paymentDetails?.payment_history?.map((paidFees: any) => {
-							return (
-								paidFees.balance == 0 &&
-								<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
-									<h1
-										style={{
-											...FONTS.heading_05,
-										}}
-									>
-										{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.payment_date : "NA").toLocaleDateString("en-GB", {
-											day: "2-digit",
-											month: "long",
-											year: "numeric",
-										})}
-									</h1>
-									<button
-										className='p-2 px-4 rounded-lg cursor-pointer'
-										style={{
-											...FONTS.para_02,
-											boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-										}}
-									>
-										View PDF
-									</button>
-								</section>
-							)
-						})
-						}
+						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
+							<div className='flex gap-3'>
+								<img src={Profile2} alt='Profile' />
+								<p style={{ ...FONTS.heading_07 }}>Amount Paid</p>
+							</div>
+							<p
+								className='text-end'
+								style={{ ...FONTS.heading_03, color: COLORS.light_green }}
+							>
+								&#8377;{paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.paid_amount : 0}
+							</p>
+						</section>
 
+						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
+							<div className='flex gap-3'>
+								<img src={Profile3} alt='Profile' />
+								<p style={{ ...FONTS.heading_07 }}>Pending Amount</p>
+							</div>
+							<p
+								className='text-end'
+								style={{ ...FONTS.heading_03, color: COLORS.light_red }}
+							>
+								{paymentDetails.length !== 0 ? paymentDetails?.pending_payment : 0}
 
-						<div className='flex justify-between items-center mb-5'>
-							<h1 style={{ ...FONTS.heading_05 }}>Pay Due</h1>
-							<p style={{ ...FONTS.para_02 }}>{paymentDetails?.pending_payment != 0 ? "Pending Payments" : "No Pending Payments"}</p>
-						</div>
+							</p>
+						</section>
 
-						{paymentDetails?.payment_history?.map((paidFees: any) => {
-							return (
-								paidFees.balance !== 0 &&
-								<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
-									<h1
-										style={{
-											...FONTS.heading_05,
-										}}
-									>
-										{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.duepaymentdate : "NA"
-										).toLocaleDateString("en-GB", {
-											day: "2-digit",
-											month: "long",
-											year: "numeric",
-										})}
-									</h1>
-									<p
-										className='p-2 px-4 rounded-lg cursor-pointer'
-										style={{
-											...FONTS.para_02,
-											color: COLORS.light_red,
-											boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-										}}
-									>
-										{paymentDetails.length !== 0 ? paidFees?.balance : 0}
-									</p>
-								</section>
-							)
-						})
-						}
+						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
+							<div className='flex gap-3'>
+								<img src={Profile4} alt='Profile' />
+								<p style={{ ...FONTS.heading_07 }}>Status</p>
+							</div>
+							<p
+								className='text-end'
+								style={{ ...FONTS.heading_03, color: COLORS.purple_01 }}
+							>
+								{paymentDetails.length !== 0 ? paymentDetails?.payment_status : "NA"}
+							</p>
+						</section>
+
+						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
+							<div className='flex gap-3'>
+								<img src={Profile5} alt='Profile' />
+								<p style={{ ...FONTS.heading_07 }}>Payment Method</p>
+							</div>
+							<p
+								className='text-end'
+								style={{ ...FONTS.heading_03, color: COLORS.light_orange }}
+							>
+								{paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.payment_method : "NA"}
+							</p>
+						</section>
 					</div>
 				</div>
-			</div>
 
-		</div>
-			<InvoiceReceipt open={open} onClose={() => setOpen(false)}  paymentDetails={paymentDetails}/>
-			</>
+				<div className='lg:w-3/4 flex gap-8'>
+					<div className='w-1/2 sm:w-2/3'>
+						<div>
+							<h1
+								className='font-semibold text-2xl py-6'
+								style={{ ...FONTS.heading_02 }}
+							>
+								Courses Details
+							</h1>
+							<div className='p-5 grid gap-2 custom-inset-shadow'>
+								<section className='custom-inset-shadow'>
+									<img src={Group} alt='Group' className='m-auto' />
+								</section>
+								<h1
+									className='font-semibold mt-4'
+									style={{ ...FONTS.heading_05 }}
+								>
+									{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.course_name : "NA"}
+								</h1>
+								<p style={{ ...FONTS.para_02 }}>
+									{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.institute_id?.institute_name : "NA"}
+								</p>
+								<div className='flex justify-between mt-2'>
+									<section className='flex items-center gap-3 '>
+										<div
+											className='p-3 rounded-lg'
+											style={{
+												boxShadow: `
+      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+											}}
+										>
+											<img src={Frame} alt='Frame' className='' />
+										</div>
+										<h2
+											className='font-semibold '
+											style={{ ...FONTS.heading_06 }}
+										>
+											{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.coursemodules.length : 0} Modules
+										</h2>
+									</section>
+									<section className='mt-5'>
+										<div className="flex items-center justify-between gap-2">
+											<div className="flex justify-end items-center">
+												{Array.from({ length: fullStars }).map((_, i) => (
+													<img key={`full-${i}`} src={Star} alt="Star" />
+												))}
+											</div>
+											<p style={{ ...FONTS.heading_06 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0}</p>
+										</div>
+										<p
+											className='text-end font-semibold'
+											style={{ ...FONTS.heading_05, color: COLORS.light_green }}
+										>
+											&#8377; {paymentDetails.length !== 0 ? paymentDetails?.course?.actual_price : 0}
+										</p>
+									</section>
+								</div>
+							</div>
+						</div>
+
+						<div className='mt-3 sm:w-full'>
+							<section className='flex justify-between items-center py-6'>
+								<h1
+									className='font-semibold text-2xl'
+									style={{ ...FONTS.heading_02 }}
+								>
+									Fees Details
+								</h1>
+								<Button
+									className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
+								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
+									style={{
+										...FONTS.para_02,
+										color: 'white',
+										// boxShadow: `
+										// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+										// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+									}}
+									onClick={() => setOpen(true)}
+								>
+									Download Receipt
+								</Button>
+							</section>
+							<div className='p-5 grid gap-2 custom-inset-shadow'>
+								<div className='flex justify-between'>
+									<section>
+										<h1 style={{ ...FONTS.heading_07 }}>Student :</h1>
+										<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.student?.full_name : "NA"}</p>
+									</section>
+									<section>
+										<h1 style={{ ...FONTS.heading_07 }}>Category :</h1>
+										<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.course_name : "NA"}</p>
+									</section>
+									<section>
+										<h1 style={{ ...FONTS.heading_07 }}>Enrolled Date :</h1>
+										<p style={{ ...FONTS.para_03 }}>{new Date(paymentDetails.length !== 0 ? paymentDetails?.course?.createdAt : "NA").toLocaleDateString("en-GB", {
+											day: "2-digit",
+											month: "long",
+											year: "numeric",
+										})}</p>
+									</section>
+								</div>
+
+								<section
+									className='custom-inset-shadow flex justify-between p-3 my-3'
+									style={{
+										...FONTS.heading_05,
+										background: 'linear-gradient(90deg, #7B00FF, #B200FF)',
+										WebkitBackgroundClip: 'text',
+										WebkitTextFillColor: 'transparent',
+									}}
+								>
+									<h1>Description</h1>
+									<h1>Amount</h1>
+								</section>
+
+								<div>
+									<section className='flex justify-between'>
+										<p style={{ ...FONTS.para_02 }}>Tuition Amount</p>
+										<p style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.course_fees : 0} INR</p>
+									</section>
+
+									<section className='flex justify-between'>
+										<p style={{ ...FONTS.para_02 }}>Gst Cost</p>
+										<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.gst : 0} INR</p>
+									</section>
+
+									<section className='flex justify-between'>
+										<p style={{ ...FONTS.para_02 }}>Other Tax</p>
+										<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.other_taxes : 0} INR</p>
+									</section>
+
+									<section className='flex justify-between'>
+										<p style={{ ...FONTS.para_02 }}>Paid Amount</p>
+										<p style={{ ...FONTS.para_03 }}>&#8377; {paymentDetails.length !== 0 ? paymentDetails?.payment_history[0]?.paid_amount : 0} INR</p>
+									</section>
+
+									<section
+										className='flex justify-between'
+										style={{ ...FONTS.para_02, color: COLORS.light_red }}
+									>
+										<p>Pending</p>
+										<p>{paymentDetails.length !== 0 ? paymentDetails?.pending_payment : 0} INR</p>
+									</section>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className='w-1/2'>
+						<h1
+							className='font-semibold text-2xl py-6'
+							style={{ ...FONTS.heading_02 }}
+						>
+							Payment History
+						</h1>
+						<div className='p-5 flex flex-col gap-2 h-[75vh] custom-inset-shadow overflow-y-scroll'>
+							<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
+								View PDF
+							</h1>
+
+							{paymentDetails?.payment_history?.map((paidFees: any) => {
+								return (
+									paidFees.balance == 0 &&
+									<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+										<h1
+											style={{
+												...FONTS.heading_05,
+											}}
+										>
+											{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.payment_date : "NA").toLocaleDateString("en-GB", {
+												day: "2-digit",
+												month: "long",
+												year: "numeric",
+											})}
+										</h1>
+										<button
+											className='p-2 px-4 rounded-lg cursor-pointer'
+											style={{
+												...FONTS.para_02,
+												boxShadow: `
+      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+											}}
+										>
+											View PDF
+										</button>
+									</section>
+								)
+							})
+							}
+
+
+							<div className='flex justify-between items-center mb-5'>
+								<h1 style={{ ...FONTS.heading_05 }}>Pay Due</h1>
+								<p style={{ ...FONTS.para_02 }}>{paymentDetails?.pending_payment != 0 ? "Pending Payments" : "No Pending Payments"}</p>
+							</div>
+
+							{paymentDetails?.payment_history?.map((paidFees: any) => {
+								return (
+									paidFees.balance !== 0 &&
+									<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+										<h1
+											style={{
+												...FONTS.heading_05,
+											}}
+										>
+											{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.duepaymentdate : "NA"
+											).toLocaleDateString("en-GB", {
+												day: "2-digit",
+												month: "long",
+												year: "numeric",
+											})}
+										</h1>
+										<p
+											className='p-2 px-4 rounded-lg cursor-pointer'
+											style={{
+												...FONTS.para_02,
+												color: COLORS.light_red,
+												boxShadow: `
+      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+											}}
+										>
+											{paymentDetails.length !== 0 ? paidFees?.balance : 0}
+										</p>
+									</section>
+								)
+							})
+							}
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<InvoiceReceipt open={open} onClose={() => setOpen(false)} paymentDetails={paymentDetails} />
+		</>
 	);
 };
 
 export default Payment;
+
+

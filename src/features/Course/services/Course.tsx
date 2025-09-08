@@ -1,16 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Client from "../../../api/index"
 
 export const getcoursedata = async (params: any) => {
   try {
     const response = await Client.student.course.get(params);
-    console.log('responsecourse', response);
-    return response?.data; 
+    return response?.data;
   } catch (error) {
     console.error('Error in getcoursedata:', error);
     throw error;
   }
 }
 
-    
 
-    
+
+
