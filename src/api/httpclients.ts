@@ -76,6 +76,20 @@ class HttpClient {
 		}
 	}
 
+	async patch(url: string, data?: any, userType?: string) {
+		try {
+			const response = await Axios.patch(url, data, {
+				headers: {
+					'User-Type': userType,
+				},
+			});
+			return response?.data;
+		} catch (error) {
+			// Preserve the error structure for better error handling in components
+			console.error('API update error:', error);
+			throw error;
+		}
+	}
 	async delete(url: string, data?: { uuid: string }, userType?: string) {
 		const response = await Axios.delete(url, {
 			headers: {

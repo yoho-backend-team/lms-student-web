@@ -3,13 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 const CourseSlice=createSlice({
     name:"studentcourse",
     initialState:{
-        data:[]
+        data:[],
+        // task:[],
     },
 
     reducers:{
         setCourse:(state,action)=>{
             state.data = action.payload;
-        }
+        },
+    //      getcousetask:(state,action)=>{
+	// 	state.task=action.payload
+	//    },
     }
 
 })

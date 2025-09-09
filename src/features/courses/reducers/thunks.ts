@@ -1,4 +1,4 @@
-import { setCourse } from "./courseSlice";
+import {  setCourse } from "./courseSlice";
 import { getCourseDetails } from "../services";
 
 const getAndUpdateCourseDetails = (data:any) => async (dispatch:any) => {
@@ -12,3 +12,4 @@ const getAndUpdateCourseDetails = (data:any) => async (dispatch:any) => {
 };
 
 export default getAndUpdateCourseDetails;
+
