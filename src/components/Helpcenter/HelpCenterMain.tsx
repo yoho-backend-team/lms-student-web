@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
 import HelpCenterTabs from './HelpCenterTabs.tsx';
@@ -13,7 +14,7 @@ import { selectHelpCenter } from '@/features/HelpCenter/selectors.ts';
 
 const HelpCenterMain: React.FC = () => {
   const [activeTab, setActiveTab] = useState('All');
-  const [currentView, setCurrentView] = useState('main'); // 'main', 'learning'
+  const [currentView, setCurrentView] = useState('main');
   const [searchQuery, setSearchQuery] = useState('');
   const [vedioData, setvedioData] = useState(null);
 
@@ -39,8 +40,6 @@ const HelpCenterMain: React.FC = () => {
       : [];
 
     const categorys = helpDetailTopics.filter((item, index) => item?.category !== helpDetailTopics[index + 1]?.category)
-    // setcategoryList(categorys)
-
 
     let filterdata;
     if (activeTab == 'All') {
@@ -83,7 +82,7 @@ const HelpCenterMain: React.FC = () => {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
-    setSearchQuery(''); // Reset search when changing tabs
+    setSearchQuery('');
   };
 
   const handleSearch = (query: string) => {
