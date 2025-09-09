@@ -41,7 +41,7 @@ class Client {
         ),
 
         gettask:(params:any)=>httpClient.get(HTTP_END_POINTS.course.get_task.replace(":courseid",params.courseid),{},'student'),
-        updatetask:(data:any)=>httpClient.update(HTTP_END_POINTS.course.updatetask,data,'student')
+        updatetask:(data:any)=>httpClient.patch(HTTP_END_POINTS.course.updatetask.replace(":taskid",data.taskid),{},'student')
     },
     profile: {
       get: (params: any) =>

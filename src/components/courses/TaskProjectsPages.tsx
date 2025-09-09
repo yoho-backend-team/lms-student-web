@@ -48,7 +48,7 @@ const Taskprojects = () => {
           : 'No deadline',
 
        
-        status: item.is_active ? 'completed' : 'pending',
+        status: !item.is_active  ? 'completed' :'pending',
 
         
         answers:

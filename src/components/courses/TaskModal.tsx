@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
+import { updatetaskdata } from '@/features/Course/services/Course'
+import { uploadticketfile } from '@/features/Tickets/services/Tickets'
 
 interface TaskModalProps {
   show: boolean
@@ -12,21 +14,67 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [showQuestion, setShowQuestion] = useState(false)
   const [showNote, setShowNote] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   if (!show || !task) return null
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0])
+      setError(null)
     }
   }
 
-  const handleSubmit = () => {
-    if (selectedFile) {
-      console.log('File submitted:', selectedFile)
-      alert(`File "${selectedFile.name}" uploaded successfully!`)
-      setSelectedFile(null)
-      onClose()
+  const handleSubmit = async () => {
+    if (!selectedFile) {
+      setError('Please select a file to upload')
+      return
+    }
+
+    if (!task._id && !task.id) {
+      setError('Task ID is missing. Cannot update task.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      // Upload file first
+      let fileUrl: string | null = null
+      const fileFormData = new FormData()
+      fileFormData.append('file', selectedFile)
+
+      const uploadResponse = await uploadticketfile(fileFormData)
+      if (uploadResponse?.data?.fileUrl) {
+        fileUrl = uploadResponse.data.fileUrl
+      }
+
+      // Prepare task update payload
+      const taskUpdateData = {
+        taskid: task._id || task.id, // Use _id first, fallback to id
+        file: fileUrl || selectedFile.name, // store file URL if uploaded
+        status: 'submitted',
+        submittedAt: new Date().toISOString(),
+      }
+
+      // API call
+      const response = await updatetaskdata(taskUpdateData)
+      console.log(response, 'update api response')
+
+      if (response && response.success) {
+        alert(`File "${selectedFile.name}" uploaded successfully!`)
+        setSelectedFile(null)
+        onClose()
+      } else {
+        throw new Error(response?.message || 'Failed to update task')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit task. Please try again.')
+      console.error('Submission error:', err)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -34,6 +82,13 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <Card className="w-[800px] bg-[#EBEFF3] p-6 rounded-2xl shadow-lg">
         <h2 className="text-xl font-semibold mb-6">Assessment Page</h2>
+
+        {/* Error message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
 
         {/* Details */}
         <div className="grid grid-cols-2 gap-4">
@@ -64,6 +119,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
             <Button
               className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white"
               onClick={() => setShowQuestion(true)}
+              disabled={isSubmitting}
             >
               View
             </Button>
@@ -80,7 +136,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
                 className={`rounded-xl px-4 py-1 text-sm cursor-default
                   ${task.status === 'completed'
                     ? 'bg-gradient-to-r from-green-400 to-green-500 text-white'
-                    : 'bg-gray-200 text-[#716F6F] hover:bg-gradient-to-l hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
+                    : 'bg-gray-200 text-[#716F6F]'
                   }`}
               >
                 {task.status}
@@ -93,6 +149,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
             <Button
               className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white"
               onClick={() => setShowNote(true)}
+              disabled={isSubmitting}
             >
               View
             </Button>
@@ -138,19 +195,25 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
                            file:font-semibold file:bg-gradient-to-r 
                            file:from-[#7B00FF] file:to-[#B200FF] file:text-white 
                            hover:file:opacity-90"
+                disabled={isSubmitting}
               />
               {selectedFile && (
                 <Button
                   onClick={handleSubmit}
                   className="bg-gradient-to-r from-green-500 to-green-600 text-white"
+                  disabled={isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
                 </Button>
               )}
             </div>
           )}
 
-          <Button onClick={onClose} className="bg-gray-200 text-black hover:bg-gray-300 ml-auto">
+          <Button 
+            onClick={onClose} 
+            className="bg-gray-200 text-black hover:bg-gray-300 ml-auto"
+            disabled={isSubmitting}
+          >
             Close
           </Button>
         </div>
