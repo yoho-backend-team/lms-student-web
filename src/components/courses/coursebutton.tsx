@@ -27,14 +27,14 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
   return (
     <div className="flex justify-center gap-6 mb-12">
       <Button
-        onClick={() => navigate(`about/${coursedata?.uuid}`)}
+        onClick={() => navigate(`/courses/about/${coursedata?.uuid}`)}
         className={activeTabs === 'about' ? 'cursor-pointer btnfocusshadow w-60 text-white' : inactiveBtnClass}
       >
         About
       </Button>
 
       <Button
-        onClick={() => navigate('note_materials')}
+        onClick={() => navigate('/note_materials')}
         className={activeTabs === 'notes' ? 'cursor-pointer btnfocusshadow w-60 text-white' : inactiveBtnClass}
       >
         Class Notes & Materials
@@ -48,7 +48,7 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
       </Button>
 
       <Button
-        onClick={() => navigate('course_track')}
+        onClick={() => navigate('/course_track')}
         className={activeTabs === 'track' ? 'cursor-pointer btnfocusshadow w-60 text-white' : inactiveBtnClass}
       >
         Course Track

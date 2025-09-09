@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
@@ -41,25 +42,22 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
     setError(null)
 
     try {
-      // Upload file first
       let fileUrl: string | null = null
       const fileFormData = new FormData()
       fileFormData.append('file', selectedFile)
 
       const uploadResponse = await uploadticketfile(fileFormData)
-      if (uploadResponse?.data?.fileUrl) {
-        fileUrl = uploadResponse.data.fileUrl
+      if (uploadResponse?.data?.file) {
+        fileUrl = uploadResponse.data.file
       }
 
-      // Prepare task update payload
       const taskUpdateData = {
-        taskid: task._id || task.id, // Use _id first, fallback to id
-        file: fileUrl || selectedFile.name, // store file URL if uploaded
+        taskid: task._id,
+        file: fileUrl,
         status: 'submitted',
         submittedAt: new Date().toISOString(),
       }
 
-      // API call
       const response = await updatetaskdata(taskUpdateData)
       console.log(response, 'update api response')
 
@@ -209,8 +207,8 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
             </div>
           )}
 
-          <Button 
-            onClick={onClose} 
+          <Button
+            onClick={onClose}
             className="bg-gray-200 text-black hover:bg-gray-300 ml-auto"
             disabled={isSubmitting}
           >
