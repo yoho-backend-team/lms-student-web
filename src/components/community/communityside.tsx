@@ -6,14 +6,14 @@ import Sidebar from './sidebar';
 import ChatHeader from './chatHeader';
 import MessageList from './messageList';
 import ChatInputWithEmojiPicker from './chatInputWithEmojiPicker';
-import type { CommunitiesProp, Community } from './type.ts';
+import type { Community } from './type.ts';
 import { useCommunityChat } from './hooks/useCommunityChat';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import { useStudentSocket } from '@/context/socketContext.tsx';
 import { GetLocalStorage } from '@/utils/helper.ts';
 
 type Props = {
-  communities: CommunitiesProp;
+  communities?: any;
 };
 
 const CommunitySide: React.FC<Props> = ({ communities }) => {
@@ -32,7 +32,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
     socket,
     userId: user?._id,
     userName: user?.full_name,
-    communities: communities.data,
+    communities: communities?.data,
     receiveEventName: 'newMessage',
   });
 
@@ -41,7 +41,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
   const filteredCommunities = useMemo<Community[]>(() => {
     const list = communities?.data ?? [];
     if (!searchTerm) return list;
-    return list.filter((g) =>
+    return list?.filter((g: any) =>
       g?.batch?.batch_name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [communities?.data, searchTerm]);
