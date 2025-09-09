@@ -1,23 +1,70 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { FONTS } from '@/constants/uiConstants'
 import { useNavigate } from 'react-router-dom'
 import navigationicon from "../../assets/courses icons/navigation arrow.svg"
 import CourseButton from './coursebutton'
-import TaskModal from '../../components/courses/TaskModal'  
+import TaskModal from '../../components/courses/TaskModal'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { getStudentTask } from '@/features/Course/reducer/thunks'
+import { selectcoursetask } from '@/features/Course/reducer/selector'
+
 
 const Taskprojects = () => {
   const navigate = useNavigate()
   const [selectedTask, setSelectedTask] = useState<any>(null)
   const [showModal, setShowModal] = useState(false)
+  const [tasks, setTasks] = useState<any[]>([])
 
-  const tasks = [
-    { name: 'Raji sukla', type: 'task', task: 'Larum ipsum', overview: 'Overview of task A', question: 'What is React?', note: 'Please read documentation', deadline: '26.08.2025', status: 'completed' },
-    { name: 'Thamo', type: 'task', task: 'Lorem ipsum', overview: 'Overview of task B', question: 'Explain hooks', note: 'Revise useEffect', deadline: '12-06-2025', status: 'pending' },
-    { name: 'Dhinesh', type: 'task', task: 'Lorem ipsum', overview: 'Overview of task C', question: 'What is Redux?', note: 'Revise state management', deadline: '21-09-2025', status: 'pending' },
-    { name: 'M S Dhoni', type: 'task', task: 'Lorem ipsum', overview: 'Overview of task D', question: 'Explain lifecycle methods', note: 'Practice examples', deadline: '21-09-2025', status: 'completed' },
-  ]
+  const dispatch = useDispatch<any>()
+  const taskData = useSelector(selectcoursetask)
+  console.log(taskData,"corse student")
+
+
+  useEffect(() => {
+    dispatch(getStudentTask({ courseid: '67f3b7fcb8d2634300cc87b6' }))
+  }, [dispatch])
+
+
+  useEffect(() => {
+    if (taskData && taskData) {
+      const transformedTasks = taskData?.map((item: any) => ({
+        id: item._id,
+       
+        name: item?.instructor?.full_name || 'N/A',
+
+       
+        type: item?.task_type || 'N/A',
+        task: item?.task_name || 'N/A',
+        question: item?.question || 'N/A',
+        overview: 'Task overview',
+        note: 'Task notes',
+
+       
+        deadline: item.deadline
+          ? new Date(item.deadline).toLocaleDateString()
+          : 'No deadline',
+
+       
+        status: item.is_active ? 'completed' : 'pending',
+
+        
+        answers:
+          item.answers?.map((ans: any) => ({
+            student: ans.student || 'N/A',
+            file: ans.file,
+            status: ans.status,
+            mark: ans.mark ?? null,
+            completedAt: ans.completed_at
+              ? new Date(ans.completed_at).toLocaleString()
+              : null,
+          })) || [],
+      }))
+      setTasks(transformedTasks)
+    }
+  }, [taskData])
 
   return (
     <div className="w-full mx-auto p-4">
@@ -32,7 +79,7 @@ const Taskprojects = () => {
         <h1 className="text-black text-2xl font-semibold">Task Projects</h1>
       </div>
 
-      <CourseButton activeTabs={"task"} />
+      <CourseButton activeTabs={'task'} />
 
       <Card className="overflow-hidden bg-[#EBEFF3]">
         <div className="flex flex-col">
@@ -49,31 +96,37 @@ const Taskprojects = () => {
 
           {/* Body */}
           <div className="min-h-[500px] overflow-y-auto mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100">
-            {tasks.map((task, index) => (
-              <Card
-                key={index}
-                className="bg-[#ebeff3] p-4 mb-2 cursor-pointer hover:shadow-lg"
-                onClick={() => { setSelectedTask(task); setShowModal(true) }}
-              >
-                <div className="grid grid-cols-5 gap-4 items-center">
-                  <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.name}</div>
-                  <div className="text-center text-gray-600 capitalize" style={{ ...FONTS.para_01 }}>{task.type}</div>
-                  <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.task}</div>
-                  <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.deadline}</div>
-                  <div className="flex justify-center">
-                    <Button
-                      className={`rounded-xl px-4 py-1 text-sm cursor-pointer 
-                        ${task.status === 'completed'
-                          ? 'bg-gradient-to-r from-green-400 to-green-500 text-white'
-                          : 'bg-gray-200 text-[#716F6F] hover:bg-gradient-to-l hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
-                        }`}
-                    >
-                      {task.status}
-                    </Button>
+            {tasks.length > 0 ? (
+              tasks.map((task, index) => (
+                <Card
+                  key={task.id || index}
+                  className="bg-[#ebeff3] p-4 mb-2 cursor-pointer hover:shadow-lg"
+                  onClick={() => { setSelectedTask(task); setShowModal(true) }}
+                >
+                  <div className="grid grid-cols-5 gap-4 items-center">
+                    <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.name}</div>
+                    <div className="text-center text-gray-600 capitalize" style={{ ...FONTS.para_01 }}>{task.type}</div>
+                    <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.task}</div>
+                    <div className="text-center text-gray-600" style={{ ...FONTS.para_01 }}>{task.deadline}</div>
+                    <div className="flex justify-center">
+                      <Button
+                        className={`rounded-xl px-4 py-1 text-sm cursor-pointer 
+                          ${task.status === 'active' || task.status === 'completed'
+                            ? 'bg-gradient-to-r from-green-400 to-green-500 text-white'
+                            : 'bg-gray-200 text-[#716F6F] hover:bg-gradient-to-l hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
+                          }`}
+                      >
+                        {task.status}
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))
+            ) : (
+              <div className="text-center p-8 text-gray-500">
+                No tasks available
+              </div>
+            )}
           </div>
         </div>
       </Card>

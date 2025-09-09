@@ -40,7 +40,7 @@ class Client {
           HTTP_END_POINTS.course.get.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid), {}, "student"
         ),
 
-        gettask:(params:any)=>httpClient.get(HTTP_END_POINTS.course.get_task,params,'student'),
+        gettask:(params:any)=>httpClient.get(HTTP_END_POINTS.course.get_task.replace(":courseid",params.courseid),{},'student'),
         updatetask:(data:any)=>httpClient.update(HTTP_END_POINTS.course.updatetask,data,'student')
     },
     profile: {
