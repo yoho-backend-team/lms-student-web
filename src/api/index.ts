@@ -114,6 +114,7 @@ class Client {
 
     reports: {
       get: () => httpClient.get(HTTP_END_POINTS.reports.get, {}, "student"),
+      taskget: (data: any) => httpClient.get(HTTP_END_POINTS.reports.taskget.replace(":courseid", data?.courseid).replace(":studentid", data?.studentid))
     },
     activity: {
       get: (params: any) =>

@@ -15,3 +15,12 @@ export const getDashBoardData = async () => {
         throw new Error(error.message)
     }
 }
+
+export const getTaskReportService = async (data: any) => {
+    try {
+        const response = await Client.student.reports.taskget(data)
+        return response
+    } catch (error) {
+        console.warn(error)
+    }
+}
