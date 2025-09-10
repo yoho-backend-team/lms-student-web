@@ -4,6 +4,7 @@ import { Card } from '../ui/card'
 import { Button } from '../ui/button'
 import { updatetaskdata } from '@/features/Course/services/Course'
 import { uploadticketfile } from '@/features/Tickets/services/Tickets'
+import { GetLocalStorage } from '@/utils/helper'
 
 interface TaskModalProps {
   show: boolean
@@ -17,6 +18,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
   const [showNote, setShowNote] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const user = GetLocalStorage('user')
 
   if (!show || !task) return null
 
@@ -52,6 +54,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
       }
 
       const taskUpdateData = {
+        student: user?._id,
         taskid: task.id,
         file: fileUrl,
         status: 'completed',

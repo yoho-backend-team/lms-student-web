@@ -9,6 +9,16 @@ import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
 
 interface Course {
     total: number;
+    offline_class: {
+        total: number;
+        completed: number;
+        pending: number;
+    }
+    online_class: {
+        total: number;
+        completed: number;
+        pending: number;
+    }
 }
 
 interface RootState {
@@ -22,7 +32,9 @@ interface RootState {
 const CourseProgress: React.FC = () => {
     const CourseProgress =
         useSelector((state: RootState) => state.dashboard.data.classes) ?? [];
-    const progress = CourseProgress?.[0]?.total || 0;
+
+    const percent = parseFloat((((CourseProgress?.[0]?.offline_class?.completed + CourseProgress?.[0]?.online_class?.completed) / CourseProgress?.[0]?.total) * 100).toFixed(1))
+    const progress = percent;
 
     const radius = 80;
     const radius2 = 100;
@@ -31,7 +43,7 @@ const CourseProgress: React.FC = () => {
 
     const { TabView } = TabViewResponsive();
 
-    const centerX = 100;
+    const centerX = 95;
     const centerY = 115;
 
     const getCirclePosition = (angleDeg: number) => {
