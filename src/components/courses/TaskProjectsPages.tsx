@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
@@ -20,7 +21,7 @@ const Taskprojects = () => {
 
   const dispatch = useDispatch<any>()
   const taskData = useSelector(selectcoursetask)
-  console.log(taskData,"corse student")
+  console.log(taskData, "corse student")
 
 
   useEffect(() => {
@@ -32,25 +33,25 @@ const Taskprojects = () => {
     if (taskData && taskData) {
       const transformedTasks = taskData?.map((item: any) => ({
         id: item._id,
-       
+
         name: item?.instructor?.full_name || 'N/A',
 
-       
+
         type: item?.task_type || 'N/A',
         task: item?.task_name || 'N/A',
         question: item?.question || 'N/A',
         overview: 'Task overview',
         note: 'Task notes',
 
-       
+
         deadline: item.deadline
           ? new Date(item.deadline).toLocaleDateString()
           : 'No deadline',
 
-       
-        status: !item.is_active  ? 'completed' :'pending',
 
-        
+        status: !item.is_active ? 'completed' : 'pending',
+
+
         answers:
           item.answers?.map((ans: any) => ({
             student: ans.student || 'N/A',
@@ -99,7 +100,7 @@ const Taskprojects = () => {
             {tasks.length > 0 ? (
               tasks.map((task, index) => (
                 <Card
-                  key={task.id || index}
+                  key={index}
                   className="bg-[#ebeff3] p-4 mb-2 cursor-pointer hover:shadow-lg"
                   onClick={() => { setSelectedTask(task); setShowModal(true) }}
                 >

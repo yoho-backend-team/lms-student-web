@@ -52,12 +52,13 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
       }
 
       const taskUpdateData = {
-        taskid: task._id,
+        taskid: task.id,
         file: fileUrl,
-        status: 'submitted',
+        status: 'completed',
         submittedAt: new Date().toISOString(),
       }
 
+      console.log(taskUpdateData, "fata")
       const response = await updatetaskdata(taskUpdateData)
       console.log(response, 'update api response')
 
