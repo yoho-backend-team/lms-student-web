@@ -29,6 +29,7 @@ import SpokenEnglish from '@/pages/SpokenEnglish/SpokenEnglish';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Createtickets } from '@/components/Tickets/Createtickets';
 import Taskprojects from '@/components/courses/TaskProjectsPages';
+import CertificateView from '@/components/profile/certificateview';
 // import Loader from '@/components/Loader/Loader';
 // import { useLoader } from '@/context/LoadingContext/Loader';
 // import Task_Projects from '@/components/courses/Task_projects';
@@ -61,6 +62,7 @@ const AppRoutes = () => {
 				<Route path='/task_projects' element={<Taskprojects />} />
 				<Route path='/course_track' element={<CourseTrack />} />
 				{/* </Route> */}
+                 <Route path='/certificate-view' element={<CertificateView />} />
 
 				<Route path='course/:id' element={<CourseId />} />
 				<Route path='activity-logs' element={<ActivityLogs />} />
