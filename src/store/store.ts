@@ -13,6 +13,8 @@ import AttendanceSlice from '../features/Attendance/reducer/AttendanceSlice'
 import CourseSlice from '../features/Course/reducer/CourseSlice'
 import HelpSlice from '../features/HelpCenter/HelpSlice';
 import FaqSlice from '../features/Faq/FaqSlice'
+import certificateSlice from '../features/certificate/reducers/slice'
+
 
 const store = configureStore({
 	reducer: {
@@ -30,6 +32,7 @@ const store = configureStore({
 		CourseSlice: CourseSlice,
 		HelpSlice: HelpSlice,
 		FaqSlice,
+		certificateSlice:certificateSlice,
 	},
 });
 

@@ -128,7 +128,9 @@ class Client {
       get: (params: any) =>
         httpClient.get(HTTP_END_POINTS.help.get, params, "student"),
     },
-
+    certificate:{
+      getAll:(params:any)=>httpClient.get(HTTP_END_POINTS.certificate.get.replace(':studentId',params.studentId),params,"student")
+    },
     community: {
       get: (params: any) =>
         httpClient.get(HTTP_END_POINTS.community.get, params, "student"),

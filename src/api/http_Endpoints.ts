@@ -62,6 +62,9 @@ const getEndpoints = (): Endpoints => {
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},
+		certificate:{
+			get:'/certificate/getall/student/:studentId'
+		},
 		common: {
 			file: {
 				upload: '/upload/',

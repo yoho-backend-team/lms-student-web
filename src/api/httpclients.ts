@@ -2,8 +2,8 @@
 import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
-// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
-const backendUrl = import.meta.env.VITE_Backend_url
+const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
+// const backendUrl = import.meta.env.VITE_Backend_url
 
 const Axios = axios.create({
 	baseURL: backendUrl,

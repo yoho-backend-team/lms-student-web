@@ -55,6 +55,9 @@ export type Endpoints = {
 		get: string;
 		update: string;
 	};
+	certificate:{
+		get:string
+	},
 	common: {
 		file: {
 			upload: string;
