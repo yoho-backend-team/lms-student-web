@@ -6,6 +6,16 @@ import { selectcertificate } from '@/features/certificate/reducers/selectors';
 import { getAllcertificatesstudent } from '@/features/certificate/reducers/thunks';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import CertificateView from './certificateview';
+import { HiMiniXMark } from 'react-icons/hi2';
+import patternImg from '../../assets/certificate/pattern.png';
+import arrowLeftImg from '../../assets/certificate/arrow left.png';
+import arrowRightImg from '../../assets/certificate/arrow right.png';
+import bgImg from '../../assets/certificate/cerificate-bg.png';
+import courseBgImg from '../../assets/certificate/course button.png';
+import certifiedImg from '../../assets/certificate/certified.png';
+import { useNavigate } from 'react-router-dom';
+
 
 interface CertificateData {
   studentName: string;
@@ -31,6 +41,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
   const dispatch = useDispatch<any>();
   const certificate = useSelector(selectcertificate);
   const certificateRef = useRef<HTMLDivElement>(null);
+ const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllcertificatesstudent({ studentId: '67f3b8feb8d2634300cc8819' }));
@@ -139,12 +150,24 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
     );
   }
 
+   const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
+  // Calculate end date (assuming 6 months duration)
+  const getEndDate = (startDate: string) => {
+    const date = new Date(startDate);
+    date.setMonth(date.getMonth() + 6);
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
   return (
     <div className="w-full">
       {/* Certificate Modal */}
       {isModalOpen && selectedCertificate && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[95vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
             <div className="flex justify-between items-center p-4 border-b">
               <h3 className="text-lg font-semibold">Certificate Preview</h3>
@@ -161,47 +184,377 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                 className="border-4 border-gold-500 p-8 rounded-lg bg-white shadow-lg" 
                 style={{ background: "linear-gradient(to bottom right, #fdf6e3, #faf0e6)" }}
               >
-                <div className="text-center mb-8">
-                  <div className="mb-6">
-                    <h1 className="text-4xl font-bold mb-2" style={{ color: COLORS.text_title, fontFamily: "'Playfair Display', serif" }}>CERTIFICATE OF COMPLETION</h1>
-                    <div className="w-32 h-1 bg-gold-500 mx-auto"></div>
-                  </div>
-                  
-                  <p className="text-lg mb-2">This is to certify that</p>
-                  <h2 className="text-3xl font-bold mb-6" style={{ color: COLORS.light_blue, fontFamily: "'Cursive', 'Dancing Script', cursive" }}>
-                    {selectedCertificate.studentName}
-                  </h2>
-                  
-                  <p className="text-lg mb-6">has successfully completed the course</p>
-                  <h3 className="text-2xl font-semibold mb-4" style={{ color: COLORS.text_title }}>{selectedCertificate.course}</h3>
-                  
-                  <p className="text-md mb-2">with a grade of <span className="font-bold">{selectedCertificate.grade}</span></p>
-                  <p className="text-md mb-6">on {new Date(selectedCertificate.completionDate).toLocaleDateString()}</p>
-                  
-                  <div className="flex justify-between items-center mt-10">
-                    <div className="text-center">
-                      <div className="h-0.5 w-32 bg-black mx-auto mb-2"></div>
-                      <p>Instructor</p>
-                    </div>
-                    
-                    <div className="w-24 h-24 border-2 border-gold-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <div className="text-center text-xs font-bold">SEAL</div>
-                    </div>
-                    
-                    <div className="text-center">
-                      <div className="h-0.5 w-32 bg-black mx-auto mb-2"></div>
-                      <p>Director</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8 text-sm">
-                    <p>Certificate ID: {selectedCertificate.certificateId}</p>
-                    <p>Issued by: {selectedCertificate.institution}</p>
-                  </div>
-                </div>
+                  <div className='min-h-screen flex flex-col bg-gray-100 p-4'>
+                     <div className='mb-4'></div>
+               
+                     <div className='flex items-center justify-center'>
+                       <div className='w-full max-w-5xl'>
+                         <div className='bg-[#1BBFCA] px-6 py-3 rounded-xl flex justify-between items-center mb-6'>
+                           <h2 className='text-white text-lg font-semibold'>
+                             {certificate?.student?.full_name || 'Student'}'s Certificate
+                           </h2>
+                           <button
+                             onClick={() => navigate(-1)}
+                             className='bg-white ml-auto px-4 py-2 rounded-lg flex items-center'
+                           >
+                             <HiMiniXMark className='h-6 w-6 bg-gray-500 rounded-full text-white' />
+                           </button>
+                         </div>
+               
+                         <div className='relative overflow-hidden bg-white'>
+                           <div className='certificate-content'>
+                             <img
+                               src={bgImg}
+                               className='absolute -z-100 left-36 opacity-50 top-42 object-cover'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='pattern top'
+                               className='absolute -rotate-41 -top-70 -left-10'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='pattern bottom'
+                               className='absolute rotate-139 -bottom-70 -right-10'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='pattern left'
+                               className='absolute rotate-49 -top-0 -left-75 opacity-10'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='pattern right'
+                               className='absolute -rotate-131 -bottom-0 -right-75 opacity-10'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='top right 1'
+                               className='absolute -top-40 -right-50 rotate-90'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='top right 2'
+                               className='absolute -top-30 -right-90 rotate-90'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='top right 3'
+                               className='absolute -top-25 -right-120 rotate-90 '
+                             />
+                             <img
+                               src={patternImg}
+                               alt='bottom left 1'
+                               className='absolute -bottom-40 -left-50 rotate-0'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='bottom left 2'
+                               className='absolute -bottom-30 -left-90 rotate-0'
+                             />
+                             <img
+                               src={patternImg}
+                               alt='bottom left 3'
+                               className='absolute -bottom-25 -left-120 rotate-0 '
+                             />
+                             <h1 className='certificate-title'>Certificate</h1>
+               
+                             <div className='completion-subtitle'>
+                               <img src={arrowRightImg} className='w-11' />
+                               <span className='completion-text'>OF COMPLETION</span>
+                               <img src={arrowLeftImg} className='w-11' />
+                             </div>
+               
+                             <p className='certify-text'>This is to Certify that</p>
+               
+                             <div className='recipient-name'>
+                               {certificate.student?.full_name || 'Student Name'}
+                             </div>
+               
+                             <div className='completion-details'>
+                               <p className='completion-text-main'>
+                                 has Successfully Completed that
+                               </p>
+                               <span className='completion-text-main'>Course</span>
+                               <span className='relative'>
+                                 <img
+                                   src={courseBgImg}
+                                   alt='course'
+                                   className='course-badge'
+                                 />
+                                 <span className='course-title'>
+                                   {certificate?.certificate_name}
+                                 </span>
+                               </span>
+               
+                               <p className='duration-text'>
+                                 during the period of{' '}
+                                 <span className='duration-text1'>
+                                   {formatDate(certificate.createdAt)} - {getEndDate(certificate.createdAt)}
+                                 </span>
+                               </p>
+                             </div>
+               
+                             <div className='signature-section'>
+                               <div className='signature-left'>
+                                 <div className='signature-name'>Abdul Kalam</div>
+                                 <div className='signature-line'></div>
+                                 <div className='signature-title'>Authorised Signatory</div>
+                               </div>
+               
+                               <div className='verification-badge'>
+                                 <img
+                                   src={certifiedImg}
+                                   alt='certified'
+                                   className='w-22 h-22'
+                                 />
+                               </div>
+               
+                               <div className='signature-right'>
+                                 <div className='signature-name'>Albert Einstein</div>
+                                 <div className='signature-line'></div>
+                                 <div className='instructor-title'>Course Instructor</div>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+               
+                     <style>
+                       {`
+                         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+                         @import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+                         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pirata+One&display=swap');
+                         
+                         /* Main content area */
+                         .certificate-content {
+                           position: relative;
+                           z-index: 10;
+                           background: rgba(255, 255, 255, 1);
+                           margin: 20px;
+                           padding: 80px 120px;
+                           border-radius: 8px;
+                           text-align: center;
+                           height: calc(100% - 80px);
+                           box-sizing: border-box;
+                         }
+                         
+                         .certificate-title {
+                           font-size: 104px;
+                           font-weight: 400;
+                           color: #716F6F;
+                           letter-spacing: 4px;
+                           font-family: "Pirata One", system-ui;
+                         }
+                         
+                         .completion-subtitle {
+                           display: flex;
+                           align-items: center;
+                           justify-content: center;
+                           gap: 20px;
+                           margin-bottom: 20px;
+                         }
+                         
+                         .completion-text {
+                           font-size: 32px;
+                           color: #716F6F;
+                           font-weight: 400;
+                           letter-spacing: 4px;
+                           text-transform: uppercase;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         .arrow {
+                           width: 0;
+                           height: 0;
+                           border-left: 15px solid #8b5cf6;
+                           border-top: 10px solid transparent;
+                           border-bottom: 10px solid transparent;
+                         }
+                         
+                         .arrow.left {
+                           transform: rotate(180deg);
+                         }
+                         
+                         .certify-text {
+                           font-size: 22px;
+                           color: #716F6F;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         .recipient-name {
+                           font-family: 'Italianno', cursive;
+                           font-size: 106px;
+                           font-weight: 400;
+                           color:#2A2A2A;
+                           position: relative;
+                         }
+                         
+                         .recipient-name::after {
+                           content: '';
+                           position: absolute;
+                           bottom: 25px;
+                           left: 50%;
+                           transform: translateX(-50%);
+                           width: 600px;
+                           height: 1px;
+                           background: #716F6F;
+                         }
+                         
+                         .completion-details {
+                           margin: -5px 0px 0px 0px;
+                         }
+                         
+                         .completion-text-main {
+                           font-size: 18px;
+                           color: #716F6F;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         .course-badge {
+                           width: 180px;
+                           height: 85px;
+                           display: inline-block;
+                           margin: 0;
+                         }
+                         
+                         .course-title {
+                           font-size: 12px;
+                           color: #fff;
+                           font-weight: 600;
+                           font-family: "Montserrat", sans-serif;
+                           position: absolute;
+                           left: 32px;
+                           top: -1px
+                         }
+                         
+                         .duration-text {
+                           font-size: 20px;
+                           color: #716F6F;
+                           font-weight: 400;
+                           font-family: "Montserrat", sans-serif;
+                         }
+               
+                         .duration-text1 {
+                           font-size: 20px;
+                           color: #2A2A2A;
+                           font-weight: 700;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         .signature-section {
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;
+                           position: relative;
+                           margin-top: 30px;
+                         }
+                         
+                         .signature-left {
+                           text-align: center;
+                           flex: 1;
+                         }
+                         
+                         .signature-name {
+                           font-size: 25px;
+                           color: #FF3131;
+                           font-weight: 500;
+                           margin-bottom: 5px;
+                           font-family: "Montserrat", sans-serif;
+                           font-style: Italic
+                         }
+                         
+                         .signature-title {
+                           font-size: 18px;
+                           color: #2A2A2A;
+                           font-weight: 700;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         .signature-line {
+                           width: 150px;
+                           height: 1px;
+                           background: #d1d5db;
+                           margin: 10px auto;
+                         }
+                         
+                         .verification-badge {
+                           position: relative;
+                           display: flex;
+                           flex-direction: column;
+                           align-items: center;
+                         }
+                         
+                         .signature-right {
+                           text-align: center;
+                           flex: 1;
+                         }
+                         
+                         .instructor-title {
+                            font-size: 18px;
+                           color: #2A2A2A;
+                           font-weight: 700;
+                           font-family: "Montserrat", sans-serif;
+                         }
+                         
+                         /* Responsive adjustments */
+                         @media (max-width: 1024px) {
+                           .certificate-content {
+                             padding: 40px;
+                             margin: 20px;
+                           }
+                           
+                           .certificate-title {
+                             font-size: 60px;
+                           }
+                           
+                           .recipient-name {
+                             font-size: 50px;
+                           }
+                         }
+                         
+                         @media (max-width: 768px) {
+                           .certificate-content {
+                             padding: 30px;
+                             margin: 15px;
+                           }
+                           
+                           .certificate-title {
+                             font-size: 48px;
+                           }
+                           
+                           .recipient-name {
+                             font-size: 40px;
+                           }
+                           
+                           .completion-text {
+                             font-size: 18px;
+                             letter-spacing: 4px;
+                           }
+                           
+                           .signature-section {
+                             flex-direction: column;
+                             gap: 30px;
+                           }
+                         }
+                         
+                         @media print {
+                           body {
+                             background: none;
+                           }
+                           .certificate-container {
+                             box-shadow: none;
+                           }
+                         }
+                       `}
+                     </style>
+                   </div>
               </div>
             </div>
             
+
+
             {/* Modal Footer */}
             <div className="flex justify-end p-4 border-t gap-3">
               <button 
@@ -209,6 +562,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                 className="flex items-center px-4 py-2 rounded-md text-white"
                 style={{ backgroundColor: COLORS.light_blue }}
               >
+
                 <Download size={18} className="mr-2" />
                 Download as PDF
               </button>
@@ -221,6 +575,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
             </div>
           </div>
         </div>
+        // <CertificateView/>
       )}
 
       <div className="rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] flex flex-col"
