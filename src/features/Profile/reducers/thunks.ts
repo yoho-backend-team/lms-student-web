@@ -1,5 +1,5 @@
 import { getStudentProfile } from '../services';
-import { getProfile } from './ProfileSlice';
+import { getProfile } from '../reducers/profileSlice';
 
 export const getStudentProfileThunk =
 	(params: any) => async (dispatch: any) => {
