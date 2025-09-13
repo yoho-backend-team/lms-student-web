@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from 'react';
 import { Download, X, Eye } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
@@ -32,12 +33,12 @@ interface CertificateProps {
 }
 
 // Create a separate component for the certificate design
-const CertificateDesign: React.FC<{ certificate: any; ref?: React.RefObject<HTMLDivElement> }> = ({ 
-  certificate, 
-  ref 
+const CertificateDesign: React.FC<{ certificate: any; ref?: React.RefObject<HTMLDivElement> }> = ({
+  certificate,
+  ref
 }) => {
   const navigate = useNavigate();
-  
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
@@ -363,7 +364,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch<any>();
   const certificate = useSelector(selectcertificate);
-  const certificateRef = useRef<HTMLDivElement>(null);
+  const certificateRef = useRef<HTMLDivElement | any>(null);
   const hiddenCertificateRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -420,20 +421,20 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
       hiddenDiv.style.top = '0';
       hiddenDiv.style.width = '794px'; // A4 width in pixels
       document.body.appendChild(hiddenDiv);
-      
+
       // Render the certificate in the hidden div
       const { createRoot } = await import('react-dom/client');
       const root = createRoot(hiddenDiv);
-      
+
       root.render(
-        <CertificateDesign 
-          certificate={certificateData} 
+        <CertificateDesign
+          certificate={certificateData}
         />
       );
-      
+
       // Wait for the component to render
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       // Capture the certificate as an image
       const canvas = await html2canvas(hiddenDiv, {
         scale: 2, // Higher scale for better quality
@@ -441,28 +442,28 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
         allowTaint: true,
         backgroundColor: null
       });
-      
+
       // Clean up
       root.unmount();
       document.body.removeChild(hiddenDiv);
-      
+
       // Convert canvas to image data
       const imgData = canvas.toDataURL('image/png');
-      
+
       // Calculate PDF dimensions
       const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
+      // const pageHeight = 297; // A4 height in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
+
       // Create PDF
       const pdf = new jsPDF('p', 'mm', 'a4');
-      
+
       // Add image to PDF
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      
+
       // Download the PDF
       pdf.save(`certificate-${certificateData.certificateId}.pdf`);
-      
+
     } catch (error) {
       console.error('Error generating PDF:', error);
     }
@@ -494,18 +495,18 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                 <X size={24} />
               </button>
             </div>
-            
+
             {/* Modal Content */}
             <div className="overflow-y-auto p-6 flex-1">
-              <CertificateDesign 
-                certificate={selectedCertificate} 
+              <CertificateDesign
+                certificate={selectedCertificate}
                 ref={certificateRef}
               />
             </div>
 
             {/* Modal Footer */}
             <div className="flex justify-end p-4 border-t gap-3">
-              <button 
+              <button
                 onClick={() => handleDownload(selectedCertificate)}
                 className="flex items-center px-4 py-2 rounded-md text-white"
                 style={{ backgroundColor: COLORS.light_blue }}
@@ -513,7 +514,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                 <Download size={18} className="mr-2" />
                 Download as PDF
               </button>
-              <button 
+              <button
                 onClick={closeModal}
                 className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100"
               >
