@@ -35,7 +35,7 @@ const Payment = () => {
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
 		dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
-	}, [dispatch, paymentDetails, storedData?.uuid]);
+	}, [dispatch, storedData?.uuid]);
 
 	const rating = paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0
 	const fullStars = Math.floor(rating);
@@ -218,9 +218,6 @@ const Payment = () => {
 									style={{
 										...FONTS.para_02,
 										color: 'white',
-										// boxShadow: `
-										// 		rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-										// 		rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 									}}
 									onClick={() => setOpen(true)}
 								>
@@ -305,10 +302,10 @@ const Payment = () => {
 								View PDF
 							</h1>
 
-							{paymentDetails?.payment_history?.map((paidFees: any) => {
+							{paymentDetails?.payment_history?.map((paidFees: any, index: number) => {
 								return (
 									paidFees.balance == 0 &&
-									<section key={paidFees.index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
+									<section key={index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
 										<h1
 											style={{
 												...FONTS.heading_05,
