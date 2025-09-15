@@ -28,7 +28,7 @@ const Updates: React.FC = () => {
     prev = dts.filter((items: any) => items.createdAt != nowdate)
 
     return (
-        <div className='flex flex-col gap-5 divshadow w-full h-[47vh] rounded-[16px] p-5 overflow-hidden'>
+        <div className='flex flex-col gap-5 divshadow w-full h-[426px] rounded-[16px] p-5 overflow-hidden'>
             <div className="flex flex-row justify-between">
                 <h1 style={{ ...FONTS.heading_02 }}>Updates</h1>
                 <p style={{ ...FONTS.para_01 }}><span>{data.length}</span> New Messages</p>
