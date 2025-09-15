@@ -3,7 +3,7 @@
 import jsPDF from "jspdf";
 import React, { useRef } from "react";
 import { GetImageUrl } from "./helper";
-import * as DomToImage from "dom-to-image";
+import DomToImage from "dom-to-image";
 
 const formatDate = (d: Date) => d.toLocaleDateString("en-GB");
 const formatTime = (d: Date) => d.toLocaleTimeString("en-GB");
