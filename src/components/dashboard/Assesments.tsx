@@ -1,18 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // AssessmentCard.jsx
 // import { FONTS } from "@/constants/uiConstants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { TabViewResponsive } from "@/hooks/TabViewResponce/TabViewResponsive";
+import { getTaskReportService } from "@/features/Dashboard/services";
+import type { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 // import { useSelector } from "react-redux";
 
 
 const Assesments = () => {
 
-    // const Attendance = useSelector((state: any) => state.dashboard.data) ?? []
+    const dashboard: any = useSelector((state: RootState) => state.dashboard.data)
+    const [task, settask] = useState<any>({});
 
-    const [activeTab, setactiveTab] = useState<'average' | 'exam' | 'completed'>('average');
+    const [activeTab, setactiveTab] = useState<'total' | 'pending' | 'completed'>('total');
+
 
     const { TabView } = TabViewResponsive()
 
@@ -25,6 +31,13 @@ const Assesments = () => {
         { top: "top-[35px]", left: "left-[318px]" },
         { top: "top-[33px]", left: "left-[381px]" },
     ];
+
+    useEffect(() => {
+        (async () => {
+            const response = await getTaskReportService({ studentid: dashboard?.user?._id, courseid: dashboard?.courses?.[0]?.course?._id })
+            settask(response?.track)
+        })()
+    }, [dashboard?.courses, dashboard?.user?._id]);
 
     return (
         <>
@@ -56,24 +69,24 @@ const Assesments = () => {
                                 </div>
                             </div>
                             {
-                                activeTab === 'average' &&
+                                activeTab === 'total' &&
                                 <div>
                                     <div className="absolute w-[12px] h-[118px] top-[35px] left-[72px] bg-[#ebeff3] rounded-2xl border-[0.4px] border-solid border-[#f4f6f8] shadow-[2px_2px_4px_#ffffffbf,inset_1px_1px_2px_#bdc2c7bf]" />
                                     <div className="flex flex-col w-[52px] h-[54px] items-center justify-center gap-2.5 px-[13px] py-3.5 absolute top-[99px] left-[50px] rounded-[56px] shadow-[inset_4px_4px_8px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#73e2bbbf,inset_-8px_-8px_12px_#73e2bbcc,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)]">
                                         <div className="relative w-fit [font-family:'Quicksand',Helvetica] font-semibold text-black text-lg tracking-[0] leading-[normal]">
-                                            4%
+                                            {task?.total}
                                         </div>
                                     </div>
                                 </div>
                             }
 
                             {
-                                activeTab === 'exam' &&
+                                activeTab === 'pending' &&
                                 <div>
                                     <div className="absolute w-[12px] h-[110px] top-[45px] left-[50%] bg-[#ebeff3] rounded-2xl border-[0.4px] border-solid border-[#f4f6f8] shadow-[2px_2px_4px_#ffffffbf,inset_1px_1px_2px_#bdc2c7bf]" />
                                     <div className="flex flex-col w-[52px] h-[54px] items-center justify-center gap-2.5 px-[13px] py-3.5 absolute top-[99px] left-[45%] rounded-[56px] shadow-[inset_4px_4px_8px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#73e2bbbf,inset_-8px_-8px_12px_#73e2bbcc,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)]">
                                         <div className="relative w-fit [font-family:'Quicksand',Helvetica] font-semibold text-black text-lg tracking-[0] leading-[normal]">
-                                            4%
+                                            {task?.pending}
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +98,7 @@ const Assesments = () => {
                                     <div className="absolute w-[12px] h-[100px] top-[60px] left-[80%] bg-[#ebeff3] rounded-2xl border-[0.4px] border-solid border-[#f4f6f8] shadow-[2px_2px_4px_#ffffffbf,inset_1px_1px_2px_#bdc2c7bf]" />
                                     <div className="flex flex-col w-[52px] h-[54px] items-center justify-center gap-2.5 px-[13px] py-3.5 absolute top-[99px] left-[75%] rounded-[56px] shadow-[inset_4px_4px_8px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#73e2bbbf,inset_-8px_-8px_12px_#73e2bbcc,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)]">
                                         <div className="relative w-fit [font-family:'Quicksand',Helvetica] font-semibold text-black text-lg tracking-[0] leading-[normal]">
-                                            4%
+                                            {task?.completed}
                                         </div>
                                     </div>
                                 </div>
@@ -98,8 +111,8 @@ const Assesments = () => {
                 </CardContent>
                 <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
                     <Button
-                        onClick={() => setactiveTab('average')}
-                        className={activeTab === 'average' ?
+                        onClick={() => setactiveTab('total')}
+                        className={activeTab === 'total' ?
                             "flex w-[114px] h-[42px] items-center text-white justify-center gap-2.5 px-3 py-2 relative rounded-lg shadow-[inset_-2px_4px_15px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#6ae1b7,inset_-8px_-8px_12px_#6ae1b7,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)]"
                             :
                             "flex w-[114px] h-[42px] items-center text-[#706f6f]  justify-center gap-2.5 px-4 py-3.5 relative bg-[#ebeff3] rounded-lg border border-solid border-[#f4f7f9] shadow-[inset_2px_2px_8px_#bdc2c7bf,4px_4px_8px_#ffffffbf] hover:shadow-[inset_-2px_4px_15px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#6ae1b7,inset_-8px_-8px_12px_#6ae1b7,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] hover:bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)] hover:text-white"
@@ -110,14 +123,14 @@ const Assesments = () => {
                             src="https://c.animaapp.com/mck68j5cT59wYP/img/vuesax-linear-chart.svg"
                         /> */}
                         {/* <span className="relative w-fit mr-[-0.50px] [font-family:'Quicksand',Helvetica] font-bold text-white text-sm text-center tracking-[0] leading-[normal]"> */}
-                        Average
+                        total
                         {/* </span> */}
                     </Button>
 
                     <Button
-                        onClick={() => setactiveTab('exam')}
+                        onClick={() => setactiveTab('pending')}
                         variant="outline"
-                        className={activeTab === 'exam' ?
+                        className={activeTab === 'pending' ?
                             "flex w-[114px] h-[42px] items-center text-white justify-center gap-2.5 px-3 py-2 relative rounded-lg shadow-[inset_-2px_4px_15px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#6ae1b7,inset_-8px_-8px_12px_#6ae1b7,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)] hover:text-white"
                             :
                             "flex w-[114px] h-[42px] items-center text-[#706f6f]  justify-center gap-2.5 px-4 py-3.5 relative bg-[#ebeff3] rounded-lg border border-solid border-[#f4f7f9] shadow-[inset_2px_2px_8px_#bdc2c7bf,4px_4px_8px_#ffffffbf] hover:shadow-[inset_-2px_4px_15px_#ffffffbf,inset_8px_8px_12px_#ffffff40,inset_-4px_-4px_8px_#6ae1b7,inset_-8px_-8px_12px_#6ae1b7,4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40] hover:bg-[linear-gradient(90deg,rgba(106,225,183,1)_0%,rgba(106,225,183,0.92)_52%,rgba(106,225,183,1)_100%)] hover:text-white"
@@ -128,7 +141,7 @@ const Assesments = () => {
                             src="https://c.animaapp.com/mck68j5cT59wYP/img/vuesax-linear-clipboard-text.svg"
                         /> */}
                         {/* <span className="relative w-fit mt-[-3.00px] mb-[-1.00px] mr-[-4.00px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm tracking-[0] leading-[normal]"> */}
-                        Exam
+                        pending
                         {/* </span> */}
                     </Button>
 
@@ -146,7 +159,7 @@ const Assesments = () => {
                             src="https://c.animaapp.com/mck68j5cT59wYP/img/vuesax-linear-task-square.svg"
                         /> */}
                         {/* <span className="relative w-fit mt-[-3.00px] mb-[-1.00px] mr-[-5.50px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm tracking-[0] leading-[normal]"> */}
-                        Completed Task
+                        Completed
                         {/* </span> */}
                     </Button>
                 </div>

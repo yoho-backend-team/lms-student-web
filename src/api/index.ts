@@ -37,8 +37,11 @@ class Client {
     course: {
       get: (params: any) =>
         httpClient.get(
-          HTTP_END_POINTS.course.get.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid).replace(":courseId", params.courseId), {}, "student"
+          HTTP_END_POINTS.course.get.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid), {}, "student"
         ),
+
+      gettask: (params: any) => httpClient.get(HTTP_END_POINTS.course.get_task.replace(":courseid", params.courseid), {}, 'student'),
+      updatetask: (data: any) => httpClient.patch(HTTP_END_POINTS.course.updatetask.replace(":taskid", data.taskid), data, 'student')
     },
     profile: {
       get: (params: any) =>
@@ -111,6 +114,7 @@ class Client {
 
     reports: {
       get: () => httpClient.get(HTTP_END_POINTS.reports.get, {}, "student"),
+      taskget: (data: any) => httpClient.get(HTTP_END_POINTS.reports.taskget.replace(":courseid", data?.courseid).replace(":studentid", data?.studentid))
     },
     activity: {
       get: (params: any) =>
@@ -124,7 +128,9 @@ class Client {
       get: (params: any) =>
         httpClient.get(HTTP_END_POINTS.help.get, params, "student"),
     },
-
+    certificate: {
+      getAll: (params: any) => httpClient.get(HTTP_END_POINTS.certificate.get.replace(':studentId', params.studentId), params, "student")
+    },
     community: {
       get: (params: any) =>
         httpClient.get(HTTP_END_POINTS.community.get, params, "student"),

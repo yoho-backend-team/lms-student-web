@@ -2,8 +2,8 @@
 import { ClearLocalStorage, GetLocalStorage } from '@/utils/helper';
 import axios from 'axios';
 
-// const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
-const backendUrl = import.meta.env.VITE_Backend_url
+const backendUrl = 'https://lms-node-backend-v1.onrender.com/api'
+// const backendUrl = import.meta.env.VITE_Backend_url
 
 const Axios = axios.create({
 	baseURL: backendUrl,
@@ -46,6 +46,10 @@ class HttpClient {
 			params: params,
 			headers: {
 				'User-Type': userType,
+				'Cache-Control': 'no-cache',
+				'Pragma': 'co-cache',
+				'If-None-Match': '',
+				'If-Modifiec-Since': '',
 			},
 		});
 		return response?.data;
@@ -76,6 +80,20 @@ class HttpClient {
 		}
 	}
 
+	async patch(url: string, data?: any, userType?: string) {
+		try {
+			const response = await Axios.patch(url, data, {
+				headers: {
+					'User-Type': userType,
+				},
+			});
+			return response?.data;
+		} catch (error) {
+			// Preserve the error structure for better error handling in components
+			console.error('API update error:', error);
+			throw error;
+		}
+	}
 	async delete(url: string, data?: { uuid: string }, userType?: string) {
 		const response = await Axios.delete(url, {
 			headers: {

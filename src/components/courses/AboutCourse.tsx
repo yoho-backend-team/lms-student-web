@@ -42,7 +42,7 @@ const AboutCourse: React.FC = () => {
         </Button>
         <h1 className="" style={FONTS.heading_02}>About</h1>
       </div>
-     <CourseButton activeTabs="track" />
+      <CourseButton activeTabs="track" />
 
 
 
@@ -51,7 +51,7 @@ const AboutCourse: React.FC = () => {
           title={courses?.course_name ?? ''}
           description={courses?.description ?? ''}
           image={courses?.image ?? ''}
-          modules={courses?.coursemodules ?? ''}
+          modules={courses?.coursemodules.length ?? 0}
           duration={courses?.duration ?? ''}
         />
 

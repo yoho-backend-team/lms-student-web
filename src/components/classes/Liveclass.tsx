@@ -15,6 +15,10 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
   // Header data
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
 
+  const handeljoin = (url: string) => {
+    window.open(url, '_blank')
+  }
+
   return (
     <div className='m-2'>
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
@@ -44,17 +48,18 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
               <tbody>
                 <tr className='flex justify-around items-center' style={{ ...FONTS.heading_06 }}>
                   <td>{classItem.day || '1'}</td>
-                  <td>{classItem.courseDetails.course_name}</td>
+                  <td>{classItem?.class_name}</td>
                   <td>
-                    <a className='!text-[#0400ff]' href={classItem.joinLink}>
-                      {classItem.joinLink || 'www.google.com'}
+                    <a className='!text-[#0400ff] text-wrap' href={classItem.joinLink}>
+                      {classItem.video_url || 'nill'}
                     </a>
                   </td>
-                  <td>{classItem.duration}</td>
+                  <td>{classItem?.duration}</td>
                   <td>
                     <Button
-                      className='bg-[#ebeff3] rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow  shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] '
+                      className='bg-[#ebeff3] rounded-xl btnshadow text-[#716F6F] text-[14px] hover:!text-white btnhovershadow  shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] focus:!text-white'
                       variant="outline"
+                      onClick={() => handeljoin(classItem?.video_url)}
                     >
                       Join Now
                     </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getattendancedata, getattendancedatabyDate } from '../services/Attendace';
 import { getAttendanceByDate, getattendancedetails } from './AttendanceSlice';
 

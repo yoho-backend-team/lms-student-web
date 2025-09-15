@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, XAxis } from 'recharts'
 import {
@@ -24,12 +25,12 @@ import {
 } from '@/components/ui/select'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectAttendance, selectAttendanceByDate } from '@/features/Attendance/reducer/selectors'
-import { getattendancedata } from '@/features/Attendance/services/Attendace'
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks'
 import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
 import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
-import { getattendanceByDate } from '@/features/Attendance/reducer/thunks'
+import { getattendanceByDate, getStudentattendance } from '@/features/Attendance/reducer/thunks'
+import { useNavigate } from 'react-router-dom'
 
 const chartConfig = {
   desktop: {
@@ -50,10 +51,11 @@ export const Attendance = () => {
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
   const { showLoader, hideLoader, IsLoading } = useLoader();
+  const navigate = useNavigate()
 
 
   const attendancedata = useSelector(selectAttendance)
-
+  
 
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
@@ -73,23 +75,28 @@ export const Attendance = () => {
   const attendanceCards = [
     {
       label: "Classes Attend",
-      current: attendancedata?.data?.attendedClassCount || 0,
+       type: "totalOnly",
+       current: attendancedata?.data?.attendedClassCount || 0,
       total: (attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0),
       color: COLORS.light_blue,
     },
     {
       label: "Present Days",
+       type: "currentAndTotal",
       current: attendancedata?.data?.totalPresentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_pink,
     },
     {
       label: "Absent Days",
-      current: attendancedata?.data?.totalAbsentDays || 0,
+       type: "currentAndTotal",
+      current: attendancedata?.dat?.totalAbsentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_green_02,
     }
   ]
+console.log(attendanceCards,'datacon attendance data')
+
 
   const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
@@ -128,7 +135,6 @@ export const Attendance = () => {
     }
   }, [dispatch, selectedDate])
 
-  console.log(attendanceByDate, "Attendance By Date")
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -138,7 +144,8 @@ export const Attendance = () => {
         year: selectedDate.getFullYear(),
         instituteId: dashData.institute.uuid,
       };
-      getattendancedata(payload);
+      console.log(payload, 'payload')
+      dispatch(getStudentattendance(payload));
     }, 3000);
 
     return () => clearTimeout(timeout);
@@ -161,7 +168,7 @@ export const Attendance = () => {
     })();
   }, [dispatch, hideLoader, showLoader]);
 
-
+console.log(attendancedata,"overall data")
 
   return (
     <>
@@ -272,9 +279,15 @@ export const Attendance = () => {
               <CardHeader className='md:w-auto md:text-[10px] h-full'>
                 <div className="max-w-screen-xl flex justify-between">
                   <span style={{ ...FONTS.heading_04 }}>{card.label}</span>
-                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
-                    <span style={{ color: card.color }}>{card.current}</span>
-                    <span className="text-sm text-gray-500">/{card.total}</span>
+                                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
+                    {card.type === "totalOnly" ? (
+                      <span style={{ color: card.color }}>{card.total}</span>
+                    ) : (
+                      <>
+                        <span style={{ color: card.color }}>{card.current}</span>
+                        <span className="text-2xl text-gray-500">/{card.total}</span>
+                      </>
+                    )}
                   </span>
                 </div>
               </CardHeader>
@@ -319,30 +332,63 @@ export const Attendance = () => {
             />
           </div>
 
-          <div className="flex flex-col w-full">
-            <h3 className="text-lg font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>
-              Day Overview
-            </h3>
-            <div className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]" style={{ backgroundColor: COLORS.bg_Colour }}>
-              <div>
-                <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
-                  {selectedDate ? selectedDate.toDateString() : "Select a date"}
-                </p>
-                <ul className="space-y-2 text-gray-700" style={{ ...FONTS.heading_06 }}>
-                  <li>Classes Scheduled: {((attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0)) / 30}</li>
-                  <li>Classes Attended: {attendancedata?.data?.attendedClassCount || 0}</li>
-                  <li>Absent: {attendancedata?.data?.totalAbsentDays || 0}</li>
-                  <li>Notes: Good Performance</li>
-                </ul>
-              </div>
-              <button className="w-max-sm mt-4 self-start px-4 py-2 rounded-md bg-gray btnshadow text-white text-[14px] hover:!text-white btnhovershadow cursor-pointer "
+        <div className="flex flex-col w-full">
+          <h3
+            className="text-lg font-semibold mb-4 mt-2"
+            style={{ ...FONTS.heading_02 }}
+          >
+            Day Overview
+          </h3>
 
-                style={{ ...FONTS.heading_06 }}
-              >
-                View Details
-              </button>
-            </div>
-          </div>
+  <div
+    className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+    style={{ backgroundColor: COLORS.bg_Colour }}
+  >
+    <div>
+      <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
+        {selectedDate ? selectedDate.toDateString() : "Select a date"}
+      </p>
+
+      <ul
+        className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
+        style={{ ...FONTS.heading_06 }}
+      >
+        {attendanceByDate && attendanceByDate.length > 0 ? (
+          attendanceByDate.map((data: any, index: number) => (
+            <li key={index} className="p-4 flex flex-col gap-2">
+              <p>Class Name: {data?.class_name}</p>
+              <p>Start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
+              <p>End time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
+              <p>Duration: {data?.duration}</p>
+            </li>
+          ))
+        ) : (
+          <li className="p-4 text-gray-500 text-center italic">
+            {selectedDate
+              ? "No class scheduled for this date"
+              : "Please select a date to view schedule"}
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <button
+      className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${
+        attendanceByDate && attendanceByDate.length > 0
+          ? "bg-gray text-white hover:!text-white btnhovershadow"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+      }`}
+      onClick={() =>
+        attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
+      }
+      style={{ ...FONTS.heading_06 }}
+      disabled={!attendanceByDate || attendanceByDate.length === 0}
+    >
+      View Details
+    </button>
+  </div>
+</div>
+
         </div>
       </div>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Client from "../../../api/index"
 
 export const getcoursedata = async (params: any) => {
@@ -10,6 +11,25 @@ export const getcoursedata = async (params: any) => {
   }
 }
 
+export const taskdataget = async (params: any) => {
+  try {
+    const response = await Client.student.course.gettask(params)
+    console.log(response, 'services course')
+    return response?.data;
+  }
+  catch (error) {
+    console.log('Error in taskdata', error);
+  }
+}
 
+export const updatetaskdata = async (data: any) => {
+  try {
+    const response = await Client.student.course.updatetask(data)
+    return response;
+  }
+  catch (error) {
+    console.log(' Failed updated task is error', error)
+  }
+}
 
 

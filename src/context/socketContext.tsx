@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
@@ -15,12 +16,10 @@ export const StudentSocketProvider = ({
 }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 
-	// const user = JSON.parse(localStorage.getItem('user') ?? '{}');
 	const store: any = GetLocalStorage('user') ?? '{}'
 	const user = store
 
 	useEffect(() => {
-		// const url = 'https://lms-node-backend-v1.onrender.com';
 		const url = import.meta.env.VITE_public_Backend_url;
 
 		const socketIO = io(url, {
