@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetLocalStorage } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
@@ -15,13 +16,11 @@ export const StudentSocketProvider = ({
 }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 
-	// const user = JSON.parse(localStorage.getItem('user') ?? '{}');
-	const store: string = GetLocalStorage('user') ?? '{}'
-	const user = JSON.parse(store)
+	const store: any = GetLocalStorage('user') ?? '{}'
+	const user = store
 
 	useEffect(() => {
-		const url = 'https://lms-node-backend-v1.onrender.com';
-		// const url = "http://localhost:3000";
+		const url = import.meta.env.VITE_public_Backend_url;
 
 		const socketIO = io(url, {
 			query: { userId: user._id },
@@ -31,11 +30,10 @@ export const StudentSocketProvider = ({
 		setSocket(socketIO);
 
 		socketIO.emit('registerOnline', { userId: user._id });
-		console.log('Student Socket Connected', user.last_name);
 		return () => {
 			socketIO.disconnect();
 		};
-	}, []);
+	}, [user._id]);
 
 	return (
 		<SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

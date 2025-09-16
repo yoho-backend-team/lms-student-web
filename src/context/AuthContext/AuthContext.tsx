@@ -1,6 +1,5 @@
 import {
 	ClearLocalStorage,
-	GetLocalStorage,
 	StoreLocalStorage,
 } from '@/utils/helper';
 import { createContext, useContext, useEffect, useState } from 'react';

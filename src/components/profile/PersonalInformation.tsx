@@ -27,7 +27,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({ data, onDataC
   };
 
   // Define which fields are editable
-  const editableFields = ['name', 'contactNumber', 'dateOfBirth', 'pinCode', 'address'];
+  // const editableFields = ['name', 'contactNumber', 'dateOfBirth', 'pinCode', 'address'];
 
   const fields = [
     { label: 'Mail Address', key: 'mailAddress' as keyof PersonalInfo, type: 'email', editable: false },
@@ -51,7 +51,6 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({ data, onDataC
               {field.label}
             </label>
             {isEditing && field.editable ? (
-              // Editable fields with colored border to indicate editability
               field.type === 'select' ? (
                 <select
                   value={formData[field.key]}
@@ -104,7 +103,6 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({ data, onDataC
                 />
               )
             ) : (
-              // Read-only display
               <div className="relative rounded-lg px-4 py-3 text-sm leading-relaxed shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] min-h-[44px] flex items-center"
                 style={{
                   backgroundColor: COLORS.bg_Colour,

@@ -1,7 +1,7 @@
 import AboutCourse from '@/components/courses/AboutCourse';
 import CourseTrack from '@/components/courses/Course_Track';
 import { useAuth } from '@/context/AuthContext/AuthContext';
-import Task_Projects from '@/components/courses/TaskProjectsPages';
+// import Task_Projects from '@/components/courses/TaskProjectsPages';
 import MainLayout from '@/layout/MainLayout';
 import ActivityLogs from '@/pages/ActivityLogs/ActivityLogs';
 import Attendance from '@/pages/Attendance/Attendance';
@@ -28,6 +28,8 @@ import Tickets from '@/pages/Tickets/Tickets';
 import SpokenEnglish from '@/pages/SpokenEnglish/SpokenEnglish';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Createtickets } from '@/components/Tickets/Createtickets';
+import Taskprojects from '@/components/courses/TaskProjectsPages';
+import CertificateView from '@/components/profile/certificateview';
 // import Loader from '@/components/Loader/Loader';
 // import { useLoader } from '@/context/LoadingContext/Loader';
 // import Task_Projects from '@/components/courses/Task_projects';
@@ -53,7 +55,15 @@ const AppRoutes = () => {
 				<Route index element={<Dashboard />} />
 				<Route path='classes' element={<Classes />} />
 				<Route path='class/:id' element={<ClassId />} />
-				<Route path='courses' element={<Courses />} />
+				{/* <Route path='courses'> */}x
+				<Route path='/courses' element={<Courses />} />
+				<Route path='/note_materials' element={<NotesMaterials />} />
+				<Route path='courses/about/:course' element={<AboutCourse />} />
+				<Route path='/task_projects' element={<Taskprojects />} />
+				<Route path='/course_track' element={<CourseTrack />} />
+				{/* </Route> */}
+                 <Route path='/certificate-view' element={<CertificateView />} />
+
 				<Route path='course/:id' element={<CourseId />} />
 				<Route path='activity-logs' element={<ActivityLogs />} />
 				<Route path='tickets' element={<Tickets />} />
@@ -69,12 +79,8 @@ const AppRoutes = () => {
 				<Route path='placement' element={<Placement />} />
 				<Route path='payment' element={<Payment />} />
 				<Route path='/about' element={<AboutCourse />} />
-				<Route path='note_materials' element={<NotesMaterials />} />
-				<Route path='/about/:course' element={<AboutCourse />} />
-				<Route path='task_projects' element={<Task_Projects />} />
-				<Route path='course_track' element={<CourseTrack />} />
 				<Route path='spoken-english' element={<SpokenEnglish />} />
-				<Route path='*' element={<Navigate to='/' />} />
+				{/* <Route path='*' element={<Navigate to='/' />} /> */}
 			</Route>
 		</Routes>
 	);

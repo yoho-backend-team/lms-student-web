@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -14,11 +15,11 @@ import { FONTS } from "@/constants/uiConstants";
 import { createticketdata, uploadticketfile } from '@/features/Tickets/services/Tickets';
 import { useBranchData } from '@/hooks/DashboardData/useBranch';
 import { useInstituteData } from '@/hooks/DashboardData/useInstitute';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
-import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { toast } from 'react-toastify';
 import { Button } from '../ui/button';
+import { GetLocalStorage } from '@/utils/helper';
 
 export const Createtickets = () => {
   const navigate = useNavigate();
@@ -43,20 +44,21 @@ export const Createtickets = () => {
   const branch = useBranchData();
   const institute = useInstituteData();
   const dispatch = useDispatch<any>();
-  const profileDetails = useSelector(selectProfile);
+  // const profileDetails = useSelector(selectProfile);
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
   }, [dispatch]);
 
-  const [myData, setMyData] = useState(null);
+  const [myData, setMyData] = useState<any>('');
 
   useEffect(() => {
-    const storedData = localStorage.getItem('user');
+    const storedData = GetLocalStorage('user');
     if (storedData) {
-      setMyData(JSON.parse(storedData));
+      setMyData(storedData);
     }
   }, []);
+
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -75,7 +77,7 @@ export const Createtickets = () => {
     try {
       setIsLoading(true);
       setFileUploadError(null);
-      
+
       // Create preview if it's an image
       if (file.type.startsWith("image/")) {
         const imageUrl = URL.createObjectURL(file);
@@ -98,7 +100,7 @@ export const Createtickets = () => {
       setFileUrl(uploadedPath);
       setErrors(prev => ({ ...prev, file: '' }));
       toast.success("File uploaded successfully.");
-    } catch (error) {
+    } catch (error: any) {
       console.error("File upload failed:", error);
       setFileUploadError(error?.message || "Failed to upload file");
       toast.error(error?.message || "Failed to upload file");
@@ -142,7 +144,7 @@ export const Createtickets = () => {
         toast.success("Ticket created successfully!");
         navigate("/tickets");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Ticket creation error:", error);
       setTicketCreationError(error?.message || "Failed to create ticket");
       toast.error(error?.message || "Failed to create ticket");
@@ -186,7 +188,7 @@ export const Createtickets = () => {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <Select 
+            <Select
               onValueChange={(value) => {
                 setProblem(value);
                 setErrors(prev => ({ ...prev, problem: '' }));

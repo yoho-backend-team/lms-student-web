@@ -28,7 +28,7 @@ const Updates: React.FC = () => {
     prev = dts.filter((items: any) => items.createdAt != nowdate)
 
     return (
-        <div className='flex flex-col gap-5 divshadow w-full h-full rounded-[16px] p-5'>
+        <div className='flex flex-col gap-5 divshadow w-full h-[47vh] rounded-[16px] p-5 overflow-hidden'>
             <div className="flex flex-row justify-between">
                 <h1 style={{ ...FONTS.heading_02 }}>Updates</h1>
                 <p style={{ ...FONTS.para_01 }}><span>{data.length}</span> New Messages</p>
@@ -45,7 +45,7 @@ const Updates: React.FC = () => {
                             <h1 style={{ ...FONTS.heading_04 }}>No New Message found</h1>
                             <p style={{ ...FONTS.para_02 }}>Any updates will appear here when available</p>
                         </div> :
-                        <div>
+                        <div className='flex flex-col gap-4 h-[30vh] overflow-y-scroll'>
                             {
                                 data?.map((item, index) => {
                                     return (
@@ -53,7 +53,7 @@ const Updates: React.FC = () => {
                                             key={index}
                                             className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${item?.status === 'unread'
                                                 ? 'border-l-4 border-[#7b00ff]'
-                                                : 'border-l-4 border-[#ebeff3]'
+                                                : 'border-none'
                                                 }`}
                                         // onClick={() => handleNotificationClick(notification)}
                                         >
@@ -99,15 +99,15 @@ const Updates: React.FC = () => {
                                 <h1 style={{ ...FONTS.heading_04 }}>No New Message found</h1>
                                 <p style={{ ...FONTS.para_02 }}>Any updates will appear here when available</p>
                             </div> :
-                            <div>
+                            <div className='flex flex-col gap-4 h-[30vh] overflow-y-scroll'>
                                 {
                                     prev?.map((item, index) => {
                                         return (
                                             <Card
                                                 key={index}
-                                                className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${item?.status === 'unread'
+                                                className={` relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${item?.status === 'unread'
                                                     ? 'border-l-4 border-[#7b00ff]'
-                                                    : 'border-l-4 border-[#ebeff3]'
+                                                    : 'border-none'
                                                     }`}
                                             // onClick={() => handleNotificationClick(notification)}
                                             >

@@ -2,35 +2,81 @@ import React from 'react';
 import { Card, CardContent } from '../ui/card';
 import eclip from '../../assets/dashboard/ellipse-2-4.svg';
 import dots from '../../assets/dashboard/dotcircle.png';
+import sun from '../../assets/dashboard/sun.png';
+import moon from '../../assets/dashboard/moon.png';
 import { useSelector } from 'react-redux';
+import { TabViewResponsive } from '@/hooks/TabViewResponce/TabViewResponsive';
+
+interface Course {
+    total: number;
+    offline_class: {
+        total: number;
+        completed: number;
+        pending: number;
+    }
+    online_class: {
+        total: number;
+        completed: number;
+        pending: number;
+    }
+}
+
+interface RootState {
+    dashboard: {
+        data: {
+            classes: Course[];
+        };
+    };
+}
 
 const CourseProgress: React.FC = () => {
     const CourseProgress =
-        useSelector((state: any) => state.dashboard.data.classes) ?? [];
-    const progress = CourseProgress?.[0]?.total || 0;
+        useSelector((state: RootState) => state.dashboard.data.classes) ?? [];
+
+    const percent = parseFloat((((CourseProgress?.[0]?.offline_class?.completed + CourseProgress?.[0]?.online_class?.completed) / CourseProgress?.[0]?.total) * 100).toFixed(1))
+    const progress = percent;
+
     const radius = 80;
+    const radius2 = 100;
     const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset =
-        circumference - (progress / 100) * circumference || 0;
+    const strokeDashoffset = circumference - (progress / 100) * circumference || 0;
+
+    const { TabView } = TabViewResponsive();
+
+    const centerX = 95;
+    const centerY = 115;
+
+    const getCirclePosition = (angleDeg: number) => {
+        const angleRad = (angleDeg - 90) * (Math.PI / 180);
+        const x = centerX + radius2 * Math.cos(angleRad);
+        const y = centerY + radius2 * Math.sin(angleRad);
+        return { x, y };
+    };
+
+    const sunAngle = ((progress) % 100) * 3.6;
+    const { x: sunX, y: sunY } = getCirclePosition(sunAngle);
+
+    const moonAngle = (1 / 100) * 360;
+    const { x: moonX, y: moonY } = getCirclePosition(moonAngle);
 
     return (
         <Card className='flex w-full h-[365px] items-start justify-center gap-2.5 p-5 relative bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]'>
-            <CardContent className='flex flex-col w-[242px] h-[325px] items-center gap-5 relative p-0'>
-                <div className='flex flex-col h-[287px] items-center gap-5 relative self-stretch w-full'>
-                    <div className="relative self-stretch mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-bold text-dark text-xl tracking-[0] leading-[normal]">
+            <CardContent className={`flex flex-col ${TabView ? 'w-80' : 'w-full'}  h-[325px] items-center gap-5 relative p-0`}>
+                <div className='flex flex-col h-[277px] items-center gap-5 relative self-stretch w-full'>
+                    <div className="relative self-stretch mt-2 [font-family:'Quicksand',Helvetica] font-bold text-dark text-xl tracking-[0] leading-[normal]">
                         Courses Progress
                     </div>
 
-                    <div className='relative w-full h-[242px]'>
-                        <div className='relative w-[258px] h-[274px] -top-5 left-8'>
+                    <div className={`relative w-full h-[242px] ${TabView ? 'left-6' : ''}`}>
+                        <div className={TabView ? `relative w-[248px] h-[264px] -top-6 left-2` : `relative w-[258px] h-[274px] -top-5 left-8`}>
                             <img
-                                className='absolute w-[258px] h-[258px] top-4 left-0'
+                                className={TabView ? `absolute w-[248px] h-[248px] top-4 left-0` : 'absolute w-[258px] h-[258px] top-4 left-0'}
                                 alt='Ellipse'
                                 src={eclip}
                             />
 
                             <svg
-                                className='w-[258px] h-[287px] transform -rotate-90'
+                                className={`${TabView ? 'w-[248px] h-[277px]' : 'w-[258px] h-[287px]'}  transform -rotate-90`}
                                 viewBox='0 3 198 200'
                             >
                                 <circle
@@ -60,13 +106,40 @@ const CourseProgress: React.FC = () => {
                                 </defs>
                             </svg>
 
+
                             <img
-                                className='absolute w-[170px] h-[170px] top-[60px] left-11'
+                                className={`absolute w-[170px] h-[170px]  ${TabView ? 'left-9 top-[55px]' : 'top-[60px] left-11'} `}
                                 alt='Group'
                                 src={dots}
                             />
 
-                            <div className='absolute w-[81px] h-[81px] top-[99px] left-[85px] bg-[#ebeff3] rounded-[40.33px] shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]'>
+                            {/* Sun Icon */}
+                            <img
+                                src={sun}
+                                alt='Sun'
+                                className='absolute'
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    left: sunX + 20 - 16,
+                                    top: sunY + 20 - 16,
+                                }}
+                            />
+
+                            {/* Moon Icon */}
+                            <img
+                                src={moon}
+                                alt='Moon'
+                                className='absolute'
+                                style={{
+                                    width: 35,
+                                    height: 35,
+                                    left: moonX + 20 - 16,
+                                    top: moonY + 20 - 16,
+                                }}
+                            />
+
+                            <div className={`absolute w-[81px] h-[81px] ${TabView ? 'top-[95px] left-[80px]' : 'top-[99px] left-[85px]'}  bg-[#ebeff3] rounded-[40.33px] shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]`}>
                                 <div className='flex flex-col w-[63px] items-center gap-2 relative top-[17px] left-[9px]'>
                                     <div className="relative w-[62px] mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-semibold text-dark text-xs text-center tracking-[0] leading-4">
                                         Progress
@@ -81,12 +154,12 @@ const CourseProgress: React.FC = () => {
                     </div>
                 </div>
 
-                <div className='flex items-center left-6 justify-between relative self-stretch w-full flex-[0_0_auto]'>
-                    <div className="relative w-fit mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm tracking-[0] leading-[normal]">
+                <div className={`flex items-center ${TabView ? 'pb-2' : 'mt-2'} justify-between relative self-stretch w-full flex-[0_0_auto]`}>
+                    <div className={`relative w-fit [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm tracking-[0] leading-[normal]`}>
                         Total Classes
                     </div>
 
-                    <div className="relative w-[67px] mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm text-right tracking-[0] leading-[normal]">
+                    <div className={`relative [font-family:'Quicksand',Helvetica] font-bold text-[#706f6f] text-sm text-right tracking-[0] leading-[normal]`}>
                         {CourseProgress?.[0]?.total} Classes
                     </div>
                 </div>

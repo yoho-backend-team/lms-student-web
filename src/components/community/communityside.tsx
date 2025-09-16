@@ -1,37 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/CommunitySide.tsx
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import msgframe from '@/assets/icons/community/Frame 5185.png';
-import { GetLocalStorage } from '@/utils/helper';
 import Sidebar from './sidebar';
 import ChatHeader from './chatHeader';
 import MessageList from './messageList';
 import ChatInputWithEmojiPicker from './chatInputWithEmojiPicker';
-import type { CommunitiesProp, Community } from './type.ts';
+import type { Community } from './type.ts';
 import { useCommunityChat } from './hooks/useCommunityChat';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import { useStudentSocket } from '@/context/socketContext.tsx';
+import { GetLocalStorage } from '@/utils/helper.ts';
 
 type Props = {
-  communities: CommunitiesProp;
+  communities?: any;
 };
 
 const CommunitySide: React.FC<Props> = ({ communities }) => {
   const socket = useStudentSocket();
-  const user: any = JSON.parse(localStorage.getItem('user') || '{}')
+  const user: any = GetLocalStorage('user')
   const [searchTerm, setSearchTerm] = useState('');
-  const [isConnected, setIsConnected] = useState(false)
+  // const [isConnected, setIsConnected] = useState(false)
 
   const {
     selectedChat,
     selectChat,
     messages,
-    sendMessage,
+    // sendMessage,
     isMine,
   } = useCommunityChat({
     socket,
     userId: user?._id,
     userName: user?.full_name,
-    communities: communities.data,
+    communities: communities?.data,
     receiveEventName: 'newMessage',
   });
 
@@ -40,7 +41,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
   const filteredCommunities = useMemo<Community[]>(() => {
     const list = communities?.data ?? [];
     if (!searchTerm) return list;
-    return list.filter((g) =>
+    return list?.filter((g: any) =>
       g?.batch?.batch_name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [communities?.data, searchTerm]);
@@ -87,7 +88,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
 
 
   return (
-    <div className="flex flex-col sticky lg:flex-row position-sticky pt-4 gap-4">
+    <div className="flex flex-col h-full sticky lg:flex-row position-sticky pt-4 gap-4">
       {/* Sidebar */}
       <Sidebar
         communities={filteredCommunities}
@@ -99,7 +100,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
       />
 
       {/* Chat Area */}
-      <div className="w-full lg:w-2/3 flex flex-col h-[500px] position-sticky">
+      <div className="w-full lg:w-2/3 flex flex-col h-[75vh] position-sticky">
         {selectedChat ? (
           <>
             <ChatHeader chat={selectedChat} />
@@ -109,7 +110,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
               isMine={isMine}
               bottomRef={bottomRef}
             />
-            <ChatInputWithEmojiPicker onSend={sendMessage} />
+            <ChatInputWithEmojiPicker communities={communities} />
           </>
         ) : (
           <div className="flex-1 min-w-0 bg-[#EBEFF3] rounded-xl shadow flex items-center justify-center">

@@ -11,6 +11,7 @@ import { selectActivityLogs } from '@/features/ActivityLog/reducers/selectors';
 import { getAllActivityLogs } from '@/features/ActivityLog/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import updatesimg from '../../assets/dashboard/updates.png';
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
 const ActivityLogs = () => {
   const [handleFilter, setHandleFilter] = useState(false);
@@ -38,7 +39,7 @@ const ActivityLogs = () => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12;
-    
+
     return `${day}/${month}/${year}, ${formattedHours}:${minutes} ${ampm}`;
   };
 
@@ -62,48 +63,57 @@ const ActivityLogs = () => {
 
   return (
     <div>
-     <div className="flex items-center justify-between px-6 py-6">
-  {/* Left side - Back button and title */}
-  <div className="flex items-center gap-6">
-    <div
-      className="p-2 rounded-lg cursor-pointer"
-      style={{
-        boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-      }}
-      onClick={() => navigate(-1)}
-    >
-      <img src={backBtn} alt="BackBtn" className="w-6 h-6" />
-    </div>
-    <h1 style={{ ...FONTS.heading_02 }}>Activity Log</h1>
-  </div>
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-6">
+        <div className="flex items-center gap-6">
+          <div
+            className="p-2 rounded-lg cursor-pointer"
+            style={{
+              boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+            }}
+            onClick={() => navigate(-1)}
+          >
+            <img src={backBtn} alt="BackBtn" className="w-6 h-6" />
+          </div>
+          <h1 style={{ ...FONTS.heading_02 }}>Activity Log</h1>
+        </div>
 
-  {/* Right side - Filter button */}
-  <button
-    className="p-2 rounded-lg cursor-pointer"
-    onClick={() => {
-      setHandleFilter(!handleFilter);
-      setShowFromCalendar(false);
-      setShowToCalendar(false);
-    }}
-    style={{
-      boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-    }}
-  >
-    <img src={filter} alt="Filter" className="w-6 h-6" />
-  </button>
-</div>
+        <button
+          className="p-2 rounded-lg cursor-pointer"
+          onClick={() => {
+            setHandleFilter(!handleFilter);
+            setShowFromCalendar(false);
+            setShowToCalendar(false);
+          }}
+          style={{
+            boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+          }}
+        >
+          <img src={filter} alt="Filter" className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Main Layout */}
       <div className="flex lg:flex-row gap-5 md:flex-col-reverse">
-        {/* Main Content */}
+        {/* Logs */}
         <div className="lg:w-3/4 md:w-full relative">
           {filteredLogs.length > 0 ? (
             filteredLogs.map((data: any) => (
-              <section key={data.id} className="flex justify-between items-start py-6 gap-12 my-4 relative">
+              <section
+                key={data.id}
+                className="flex justify-between items-start py-6 gap-12 my-4 relative"
+              >
                 <div className="lg:w-[170px] pl-6 !text-sm md:w-[160px]">
-                  <p style={{ ...FONTS.heading_07 }}>{formatFullDate(data?.createdAt)}</p>
+                  <p style={{ ...FONTS.heading_07 }}>
+                    {formatFullDate(data?.createdAt)}
+                  </p>
                 </div>
                 <div className="grid gap-6 w-3/4 relative pb-10">
                   <div className="btnshadow h-full w-3 rounded-2xl absolute left-0 text-transparent"></div>
-                  <h3 className="pl-14" style={{ ...FONTS.heading_05, color: COLORS.text_title }}>
+                  <h3
+                    className="pl-14"
+                    style={{ ...FONTS.heading_05, color: COLORS.text_title }}
+                  >
                     {data?.title}
                   </h3>
                   <section className="flex items-center gap-6 relative">
@@ -113,7 +123,7 @@ const ActivityLogs = () => {
                         style={{
                           background: COLORS.blue_user,
                           boxShadow:
-                            'rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset',
+                            "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
                         }}
                       >
                         <img src={User} alt="User-icon" />
@@ -124,12 +134,16 @@ const ActivityLogs = () => {
                         style={{
                           background: COLORS.green_text,
                           boxShadow:
-                            'rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset',
+                            "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
                         }}
                       ></div>
                     </div>
                     <div className="p-3 custom-inset-shadow md:w-[380px]">
-                      <p style={{ ...FONTS.heading_07, color: COLORS.green_text }}>{data?.details}</p>
+                      <p
+                        style={{ ...FONTS.heading_07, color: COLORS.green_text }}
+                      >
+                        {data?.details}
+                      </p>
                     </div>
                   </section>
                 </div>
@@ -137,41 +151,47 @@ const ActivityLogs = () => {
             ))
           ) : (
             <div className="flex flex-col w-full items-center gap-3 py-10">
-              <img src={updatesimg} alt="No logs" className="w-[646px] h-[200px]" />
-              <h1 style={{ ...FONTS.heading_04 }} className="pt-10  !text-2xl">No Logs Found</h1>
-              <p style={{ ...FONTS.para_02 }}>Try adjusting your filters or date range.</p>
+              <img
+                src={updatesimg}
+                alt="No logs"
+                className="w-[646px] h-[200px]"
+              />
+              <h1
+                style={{ ...FONTS.heading_04 }}
+                className="pt-10  !text-2xl"
+              >
+                No Logs Found
+              </h1>
+              <p style={{ ...FONTS.para_02 }}>
+                Try adjusting your filters or date range.
+              </p>
             </div>
           )}
 
           {/* Pagination */}
           {!fromDate && !toDate && filteredLogs.length > 0 && (
-            <div className="flex justify-end items-center mt-10 pb-10 gap-2 pt-10">
+            <div className="flex justify-end items-center mt-10 pb-10 gap-4 pt-10">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
               >
-                ‹
+                <FaArrowLeft />
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`rounded-full w-10 h-10 flex items-center justify-center font-semibold text-sm transition-all duration-200 ${
-                    currentPage === page
-                      ? 'bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white shadow-md scale-105'
-                      : 'bg-[#ebeff3] text-black hover:bg-gradient-to-r hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
+
+              <span className="text-sm font-medium text-gray-700">
+                Page <span className="font-semibold">{currentPage}</span> of{" "}
+                <span className="font-semibold">{totalPages}</span>
+              </span>
+
               <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
                 className="rounded-full w-10 h-10 flex items-center justify-center bg-[#ebeff3] text-black shadow-md disabled:opacity-40"
               >
-                ›
+                <FaArrowRight />
               </button>
             </div>
           )}
@@ -179,8 +199,6 @@ const ActivityLogs = () => {
 
         {/* Filter Panel */}
         <div className="lg:w-[500px] md:w-fit">
-         
-
           {handleFilter && (
             <div className="lg:grid md:flex lg:gap-0 md:gap-12 lg:grid-cols-1">
               <section className="flex gap-6 lg:justify-end mt-4">
@@ -197,11 +215,11 @@ const ActivityLogs = () => {
                       boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
                     }}
                   >
-                    {fromDate ? formatDate(fromDate) : 'DD/MM/YYYY'}
+                    {fromDate ? formatDate(fromDate) : "DD/MM/YYYY"}
                     {fromDate && (
                       <span
-                        title='Clear From Date'
-                        className='ml-1 text-gray-500 hover:text-blue-600 cursor-pointer'
+                        title="Clear From Date"
+                        className="ml-1 text-gray-500 hover:text-blue-600 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           setFromDate(undefined);
@@ -227,11 +245,11 @@ const ActivityLogs = () => {
                       boxShadow: `rgba(255, 255, 255, 0.7) 5px 5px 4px, rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
                     }}
                   >
-                    {toDate ? formatDate(toDate) : 'DD/MM/YYYY'}
+                    {toDate ? formatDate(toDate) : "DD/MM/YYYY"}
                     {toDate && (
                       <span
-                        title='Clear To Date'
-                        className='ml-1 text-gray-500 hover:text-blue-600 cursor-pointer'
+                        title="Clear To Date"
+                        className="ml-1 text-gray-500 hover:text-blue-600 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           setToDate(undefined);
@@ -245,8 +263,15 @@ const ActivityLogs = () => {
                 </div>
               </section>
 
+              {/* Fixed Calendar Rendering */}
               {showFromCalendar && (
-                <div className="mt-6 p-1 rounded-lg" style={{ boxShadow: 'rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset' }}>
+                <div
+                  className="mt-6 p-1 rounded-lg"
+                  style={{
+                    boxShadow:
+                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
+                  }}
+                >
                   <Calendar
                     mode="single"
                     selected={fromDate}
@@ -258,14 +283,18 @@ const ActivityLogs = () => {
                       }
                     }}
                     className="rounded-lg bg-gray-100 w-full"
-                    style={{ backgroundColor: COLORS.bg_Colour }}
-                    captionLayout="dropdown"
                   />
                 </div>
               )}
 
               {showToCalendar && (
-                <div className="mt-6 p-1 rounded-lg" style={{ boxShadow: 'rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset' }}>
+                <div
+                  className="mt-6 p-1 rounded-lg"
+                  style={{
+                    boxShadow:
+                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
+                  }}
+                >
                   <Calendar
                     mode="single"
                     selected={toDate}
@@ -277,8 +306,6 @@ const ActivityLogs = () => {
                       }
                     }}
                     className="rounded-lg bg-gray-100 w-full"
-                    style={{ backgroundColor: COLORS.bg_Colour }}
-                    captionLayout="dropdown"
                   />
                 </div>
               )}

@@ -11,8 +11,10 @@ const getEndpoints = (): Endpoints => {
 			log_out: '/institutes/auth/student/logout',
 		},
 		course: {
-			get: `/institutes/:instituteuuid/branches/:branchuuid/course/:courseId`,
+			get: `/institutes/:instituteuuid/branches/:branchuuid/student-new/courses`,
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
+			get_task: "/task-project/get/:courseid",
+			updatetask: '/task-project/update/:taskid'
 		},
 		class: {
 			get: `/institutes/class/`,
@@ -44,11 +46,12 @@ const getEndpoints = (): Endpoints => {
 			get: `institutes/faq/all`,
 		},
 		help: {
-			get: `/helpcenter/`,
+			get: `/helpcenter`,
 		},
 
 		reports: {
 			get: '/institutes/reports/users/student',
+			taskget: '/task-project/:courseid/report/:studentid'
 		},
 		community: {
 			get: `/institutes/community/course/:courseId`,
@@ -58,6 +61,9 @@ const getEndpoints = (): Endpoints => {
 			get: `/institutes/auth/profile/me/`,
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
+		},
+		certificate:{
+			get:'/certificate/getall/student/:studentId'
 		},
 		common: {
 			file: {

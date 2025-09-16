@@ -1,11 +1,12 @@
-import { getcoursedata } from '../services/Course';
-import { getcoursedetails } from './CourseSlice';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { getcoursedata, taskdataget } from '../services/Course';
+import { getcoursedetails, getcousetask } from '../reducer/CourseSlice';
 
 
 export const getStudentcourse = (params: any = {}) => async (dispatch: any) => {
   try {
     const response = await getcoursedata(params);
-    console.log('Course response:', response);
     dispatch(getcoursedetails(response));
     return response;
   } catch (error) {
@@ -13,3 +14,15 @@ export const getStudentcourse = (params: any = {}) => async (dispatch: any) => {
     throw error;
   }
 };
+
+export const getStudentTask =(params:any)=>async (dispatch:any)=>{
+  try{
+    const response = await taskdataget(params)
+    dispatch(getcousetask(response))
+    console.log(response,'thunks course data')
+    return response;
+  }
+  catch(error){
+    console.log('error fetching course data task',error)
+  }
+}

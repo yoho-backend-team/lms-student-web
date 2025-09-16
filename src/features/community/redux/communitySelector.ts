@@ -1,3 +1,5 @@
-export const selectCommunities = (state:any) => state.community.data;
-export const selectMessages = (state:any) => state.community.date;
+import type { RootState } from "@/store/store";
+
+export const selectCommunities = (state: RootState) => state.community.data;
+export const selectMessages = (state: RootState) => state.community.data;
 // export const selectLoading = (state) => state.communities.loading;

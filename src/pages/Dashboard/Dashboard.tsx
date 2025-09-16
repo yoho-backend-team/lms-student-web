@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive();
 	const dispatch = useDispatch<any>();
 	const { showLoader, hideLoader, IsLoading } = useLoader();
+	// const storedData = GetLocalStorage('user');
 
 	useEffect(() => {
 		(async () => {
@@ -56,14 +57,19 @@ const Dashboard: React.FC = () => {
 
 				{TabView ? (
 					<div className='flex flex-col gap-5 '>
-						<div className='transform transition-all duration-700 ease-out hover:scale-[1.02]'>
-							<ProfileCard />
-						</div>
 						<div className='flex flex-row gap-5'>
 							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 								<InstituteDetails />
 							</div>
-							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+							<div className='transform transition-all duration-700 ease-out hover:scale-[1.02]'>
+								<ProfileCard />
+							</div>
+						</div>
+						<div className='flex flex-row gap-5'>
+							<div className='transform transition-all *:h-80 duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+								<Assesments />
+							</div>
+							<div className='transform transition-all *:h-80 duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 								<CourseProgress />
 							</div>
 						</div>
@@ -93,12 +99,9 @@ const Dashboard: React.FC = () => {
 							</div>
 						</div>
 						<div className='grid grid-cols-2 gap-5'>
-							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
-								<Assesments />
-							</div>
-							<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
+							{/* <div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 								<DashCalender />
-							</div>
+							</div> */}
 						</div>
 						<div className='transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg'>
 							<Updates />
@@ -145,7 +148,7 @@ const Dashboard: React.FC = () => {
 				</div>
 			</div>
 
-			
+
 		</>
 	);
 };

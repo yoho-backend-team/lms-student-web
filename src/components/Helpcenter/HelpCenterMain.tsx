@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { FONTS, COLORS } from '@/constants/uiConstants';
 import HelpCenterTabs from './HelpCenterTabs.tsx';
@@ -5,7 +6,7 @@ import HelpCenterSearch from './HelpCenterSearch.tsx';
 import HelpTopicCard from './HelpTopicCard.tsx';
 import LearningResources from './LearningResources.tsx';
 import HelpCenterEmptyState from './HelpCenterEmptyState.tsx';
-import type { Tab, HelpTopic } from './types.ts';
+import type { HelpTopic } from './types.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks.ts';
 import { getHelpThunk } from '@/features/HelpCenter/thunks.ts';
@@ -13,7 +14,7 @@ import { selectHelpCenter } from '@/features/HelpCenter/selectors.ts';
 
 const HelpCenterMain: React.FC = () => {
   const [activeTab, setActiveTab] = useState('All');
-  const [currentView, setCurrentView] = useState('main'); // 'main', 'learning'
+  const [currentView, setCurrentView] = useState('main');
   const [searchQuery, setSearchQuery] = useState('');
   const [vedioData, setvedioData] = useState(null);
 
@@ -24,24 +25,11 @@ const HelpCenterMain: React.FC = () => {
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
     dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
-    console.log(HelpDetails, "Help MAin")
-  }, [dispatch]);
+  }, [HelpDetails, dispatch, userDetail?.institute_id?.uuid]);
 
-  // const tabs: Tab[] = [
-  //   { id: 'All', label: 'All', count: 5 },
-  //   { id: 'Profile', label: 'Profile', count: 5 },
-  //   { id: 'Classes', label: 'Classes', count: 5 },
-  //   { id: 'Password', label: 'Password', count: 5 },
-  //   { id: 'Attendance', label: 'Attendance', count: 0 },
-  //   { id: 'Payment', label: 'Payment', count: 5 },
-  //   { id: 'Login & Sign Up', label: 'Login & Sign Up', count: 0 },
-  // ];
 
-  // Common help topics for all tabs - ready for API integration
   const getHelpTopics = (category: string): { data: HelpTopic[], categorys: HelpTopic[] } => {
-    // Return empty array for certain categories to demonstrate empty state
 
-    // Map HelpDetails to HelpTopic objects
     const helpDetailTopics: HelpTopic[] = Array.isArray(HelpDetails)
       ? HelpDetails.map((item: any) => ({
         title: item.question,
@@ -52,8 +40,6 @@ const HelpCenterMain: React.FC = () => {
       : [];
 
     const categorys = helpDetailTopics.filter((item, index) => item?.category !== helpDetailTopics[index + 1]?.category)
-    // setcategoryList(categorys)
-
 
     let filterdata;
     if (activeTab == 'All') {
@@ -96,7 +82,7 @@ const HelpCenterMain: React.FC = () => {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
-    setSearchQuery(''); // Reset search when changing tabs
+    setSearchQuery('');
   };
 
   const handleSearch = (query: string) => {
@@ -105,7 +91,6 @@ const HelpCenterMain: React.FC = () => {
 
   const handleViewDetails = (data: any) => {
     setCurrentView('learning');
-    console.log(data, "set cheing")
     setvedioData(data)
   };
 

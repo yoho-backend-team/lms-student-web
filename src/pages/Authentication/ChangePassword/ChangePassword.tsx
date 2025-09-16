@@ -21,47 +21,35 @@ const Login = () => {
 		formState: { errors },
 	} = useForm<ChangePassword>({});
 	const [showPassword, setShowPassword] = useState(false);
-	  const location = useLocation();
-	  const { email } = location.state || {};
+	const location = useLocation();
+	const { email } = location.state || {};
 	const navigate = useNavigate();
 
-	// const onSubmit = async (data: ChangePassword) => {
-	// 	try {
-	// 		if (data.newPassword === data.confirmPassword) {
-	// 			navigate('/login');
-	// 		} else {
-	// 			console.log('Credentials Not-Matched');
-	// 		}
-	// 	} catch (error: any) {
-	// 		console.log('error', error);
-	// 	}
-	// };
 
 	const onSubmit = async (formData: ChangePassword) => {
-    try {
-      if (formData.newPassword !== formData.confirmPassword) {
-        toast.error('Passwords do not match');
-        return;
-      }
-	  console.log(email, 'email')
-      const payload = {
-        email,
-        new_password: formData.newPassword,
-        confirm_password: formData.confirmPassword,
-      };
+		try {
+			if (formData.newPassword !== formData.confirmPassword) {
+				toast.error('Passwords do not match');
+				return;
+			}
+			const payload = {
+				email,
+				new_password: formData.newPassword,
+				confirm_password: formData.confirmPassword,
+			};
 
-      const response = await resetpasswordClient(payload, {});
-	  console.log(response, 'response')
-	  if(response){
-		  toast.success('Password reset successfully', {style:{ backgroundColor: 'green', color: 'white'}});
-		  navigate('/login');
-	  }
-	  
-    } catch (error) {
-      console.error('Reset Password Error:', error);
-      toast.error('Something went wrong', {style:{ backgroundColor: 'red', color: 'white'}});
-    }
-  };
+			const response = await resetpasswordClient(payload, {});
+
+			if (response) {
+				toast.success('Password reset successfully', { style: { backgroundColor: 'green', color: 'white' } });
+				navigate('/login');
+			}
+
+		} catch (error) {
+			console.error('Reset Password Error:', error);
+			toast.error('Something went wrong', { style: { backgroundColor: 'red', color: 'white' } });
+		}
+	};
 
 	return (
 		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>

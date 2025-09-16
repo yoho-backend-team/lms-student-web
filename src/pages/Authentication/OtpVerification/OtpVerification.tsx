@@ -55,7 +55,7 @@ const OtpVerification = () => {
 			const token = GetLocalStorage('otptoken')
 			const params_data: any = { email, token, otp: enteredOtp }
 			const response = await updateVerifyOtpClient(params_data, {})
-			console.log(response, 'otp response')
+
 			if (response) {
 				RemoveLocalStorage('otp')
 				RemoveLocalStorage('otptoken')

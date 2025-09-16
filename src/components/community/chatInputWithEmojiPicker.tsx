@@ -1,18 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/ChatInputWithEmojiPicker.tsx
 import React, { useRef, useState } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 import cursor from '@/assets/icons/community/Icon.png';
 import { useOnClickOutside } from './hooks/useOnClickOutside';
+import { useCommunityChat } from './hooks/useCommunityChat';
+import { useStudentSocket } from '@/context/socketContext';
 
 type Props = {
-  onSend: (text: string) => void;
+  onSend?: (text: string) => void;
+  communities: any
 };
 
-const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
+const ChatInputWithEmojiPicker: React.FC<Props> = ({ communities }) => {
   const [inputMessage, setInputMessage] = useState('');
   const [showPicker, setShowPicker] = useState(false);
-  const pickerRef = useRef<HTMLDivElement>(null);
+  const pickerRef: any = useRef<HTMLDivElement>(null);
+  const socket = useStudentSocket();
+  const user: any = JSON.parse(localStorage.getItem('user') || '{}')
+
+  const { sendMessage } = useCommunityChat({
+    socket,
+    userId: user?._id,
+    userName: user?.full_name,
+    communities: communities.data,
+    receiveEventName: 'newMessage',
+  })
 
   useOnClickOutside(pickerRef, () => setShowPicker(false));
 
@@ -27,12 +41,12 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
 
   const handleSend = () => {
     if (!inputMessage.trim()) return;
-    onSend(inputMessage);
+    sendMessage(inputMessage);
     setInputMessage('');
   };
 
   return (
-    <div className="relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2">
+    <div className="relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2 mr-4">
       <button
         type="button"
         onClick={() => setShowPicker((s) => !s)}
@@ -57,7 +71,7 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ onSend }) => {
       />
 
       <button
-        className="  bg-gray-300 hover:bg-gray-500 ml-2 text-white rounded-md p-2 transition"
+        className=" bg-gray-300 hover:bg-gray-500 ml-2 text-white rounded-md p-2 transition"
         onClick={handleSend}
         type="button"
       >

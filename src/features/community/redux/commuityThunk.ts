@@ -1,44 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { createAsyncThunk } from '@reduxjs/toolkit';
- import { getAllCommunities, getMessage } from '../../../features/community/services/communityservices';
+import { getAllCommunities, getMessage } from '../../../features/community/services/communityservices';
 import { setCommunities, setMessage } from './communitySlice';
 
-export const getAllCommunitiesData = (params:any) => async  (dispatch:any) => {
+export const getAllCommunitiesData = (params: any) => async (dispatch: any) => {
   try {
     const response = await getAllCommunities(params);
     dispatch(setCommunities(response));
   } catch (error) {
     console.error(error);
-  } 
+  }
   // finally {
-    // dispatch(setLoading(false));
+  // dispatch(setLoading(false));
   // }
 };
 
 
-export const getMessages = (params:any) => async (dispatch : any) => {
-  try{
+export const getMessages = (params: any) => async (dispatch: any) => {
+  try {
     const response = await getMessage(params);
-    console.log("Chat Response", response)
     dispatch(setMessage(response));
 
   }
-  catch(error){
+  catch (error) {
     console.log(error);
   }
 }
 
-
-
-
-// export const getAllCommunities = createAsyncThunk(
-//   'community/getAllCommunities',
-//   async (searchParam: string, thunkAPI) => {
-//     try {
-//       const data = await fetchCommunitiesService(searchParam);
-//       console.log('thunks data:',data);
-//       return data;
-//     } catch (err: any) {
-//       return thunkAPI.rejectWithValue(err.response?.data || err.message);
-//     }
-//   }
-// );

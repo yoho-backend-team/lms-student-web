@@ -14,14 +14,15 @@ interface InstituteInformationProps {
   isEditing?: boolean;
 }
 
-const InstituteInformation: React.FC<InstituteInformationProps> = ({ data, onDataChange, isEditing = false }) => {
-  const [formData, setFormData] = useState<InstituteInfo>(data);
+const InstituteInformation: React.FC<InstituteInformationProps> = ({ data }) => {
+  const [formData] = useState<InstituteInfo>(data);
 
-  const handleInputChange = (key: keyof InstituteInfo, value: string) => {
-    const updatedData = { ...formData, [key]: value };
-    setFormData(updatedData);
-    onDataChange?.(updatedData);
-  };
+  // const handleInputChange = (key: keyof InstituteInfo, value: string) => {
+  //   const updatedData = { ...formData, [key]: value };
+  //   setFormData(updatedData);
+  //   onDataChange?.(updatedData);
+  // };
+
 
   // All institute fields are read-only (not editable)
   const fields = [

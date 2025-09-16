@@ -1,4 +1,4 @@
-import domtoimage from "dom-to-image-more";
+
 import jsPDF from "jspdf";
 import React, { useRef } from "react";
 import { GetImageUrl } from "./helper";
@@ -147,7 +147,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   onClose,
   paymentDetails,
 }) => {
-  console.log(paymentDetails,"shdsdgwjhgytgyug")
+
   const receiptRef = useRef<HTMLDivElement>(null);
   const instituteData = paymentDetails?.fees?.[0]?.institute_id;
   const studentData = paymentDetails?.fees?.[0]?.student;
@@ -155,9 +155,9 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
 
   const handleDownload = async () => {
     if (!receiptRef.current) return;
-    
+
     try {
-      const dataUrl = await domtoimage.toPng(receiptRef.current, {
+      const dataUrl = await DomToImage.toPng(receiptRef.current, {
         quality: 1.0,
         bgcolor: '#ffffff',
         width: receiptRef.current.scrollWidth,
@@ -167,35 +167,35 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           transformOrigin: 'top left',
         }
       });
-      
+
       const pdf = new jsPDF("p", "mm", "a4");
       const img = new Image();
-      
+
       img.onload = () => {
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        
+
         // Calculate proper scaling
         const imgAspectRatio = img.width / img.height;
-        const pageAspectRatio = pageWidth / pageHeight;
-        
+        // const pageAspectRatio = pageWidth / pageHeight;
+
         let imgWidth = pageWidth;
         let imgHeight = pageWidth / imgAspectRatio;
-        
+
         // If image is taller than page, scale to fit height
         if (imgHeight > pageHeight) {
           imgHeight = pageHeight;
           imgWidth = pageHeight * imgAspectRatio;
         }
-        
+
         // Center the image on the page
         const xOffset = (pageWidth - imgWidth) / 2;
         const yOffset = (pageHeight - imgHeight) / 2;
-        
+
         pdf.addImage(img, "PNG", xOffset, yOffset, imgWidth, imgHeight);
         pdf.save(`receipt-${Date.now()}.pdf`);
       };
-      
+
       img.src = dataUrl;
     } catch (err) {
       console.error("Error generating PDF:", err);
@@ -240,12 +240,10 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
           </button>
         </div>
 
-        {/* Receipt Content */}
         <div ref={receiptRef} style={receiptStyle}>
-          {/* Header Section */}
           <div style={headerStyle}>
             <img
-              src={GetImageUrl(instituteData?.logo)}
+              src={GetImageUrl(instituteData?.logo) ?? undefined}
               alt="Institute Logo"
               style={logoStyle}
             />
@@ -259,21 +257,17 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Details Grid */}
           <div style={detailsContainerStyle}>
-            {/* Student Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Student Details</div>
-                <div  style={{ lineHeight: "1.6" }}>
-                  <div><strong>Name:</strong> {studentData?.full_name}</div>
-                  <div><strong>ID:</strong> {studentData?.roll_no}</div>
-                  <div><strong>Email:</strong> {studentData?.email}</div>
-                  <div><strong>Contact:</strong> {studentData?.contact_info?.phone_number}</div>
-                </div>
+              <div style={{ lineHeight: "1.6" }}>
+                <div><strong>Name:</strong> {studentData?.full_name}</div>
+                <div><strong>ID:</strong> {studentData?.roll_no}</div>
+                <div><strong>Email:</strong> {studentData?.email}</div>
+                <div><strong>Contact:</strong> {studentData?.contact_info?.phone_number}</div>
+              </div>
             </div>
 
-
-            {/* Course Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Course Details</div>
               <div style={{ lineHeight: "1.6" }}>
@@ -283,7 +277,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
               </div>
             </div>
 
-            {/* Fees Details */}
             <div style={detailSectionStyle}>
               <div style={sectionTitleStyle}>Fees Details</div>
               <div style={{ lineHeight: "1.6" }}>
@@ -298,26 +291,24 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Payment Summary */}
-          <div style={{ 
-            marginBottom: "30px", 
-            padding: "0", 
-            backgroundColor: "transparent", 
-            borderRadius: "0" 
+          <div style={{
+            marginBottom: "30px",
+            padding: "0",
+            backgroundColor: "transparent",
+            borderRadius: "0"
           }}>
             <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "8px" }}>
               Payment Made on {formatDate(new Date())} at {formatTime(new Date())}
             </div>
-            <div style={{ 
-              color: "#000", 
-              fontWeight: "bold", 
-              fontSize: "16px" 
+            <div style={{
+              color: "#000",
+              fontWeight: "bold",
+              fontSize: "16px"
             }}>
               Amount Paid: {paymentDetails?.totalAmount}
             </div>
           </div>
 
-          {/* Transaction Table */}
           <div style={{
             padding: "0",
             border: "none",
@@ -334,7 +325,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             }}>
               Transaction Details
             </div>
-            
+
             <table style={tableStyle}>
               <thead>
                 <tr>
@@ -375,24 +366,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
             </div>
           </div>
 
-          {/* Signature Section */}
-          {/* <div style={signatureContainerStyle}>
-            <span style={{ fontWeight: "bold" }}>Authorized Signature:</span>
-            <div style={{ display: "flex", alignItems: "center", position: "relative" }}>
-              <img 
-                src={sign} 
-                alt="Signature" 
-                style={signatureImageStyle}
-              />
-              <img
-                src={paid}
-                alt="Paid Stamp"
-                style={paidStampStyle}
-              />
-            </div>
-          </div> */}
-
-          {/* Footer */}
           <div style={footerStyle}>
             <div style={{ fontWeight: "bold", fontSize: "14px", marginBottom: "10px" }}>
               Thank You for Your Payment!
