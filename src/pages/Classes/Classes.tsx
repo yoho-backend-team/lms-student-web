@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Completedclass from '@/components/classes/Completedclass';
 import Liveclass from '@/components/classes/Liveclass';
 import Upcomingclass from '@/components/classes/Upcomingclass';
