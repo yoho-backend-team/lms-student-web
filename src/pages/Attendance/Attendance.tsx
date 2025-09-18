@@ -55,7 +55,19 @@ export const Attendance = () => {
 
 
   const attendancedata = useSelector(selectAttendance)
-  
+  console.log(attendancedata,'attendancedata useeselactor')
+
+
+  const presentDates =
+  attendancedata?.data?.formattedAttendance?.attendance
+    ?.filter((att: any) => att.status === "present")
+    .map((att: any) => new Date(att.date)) || [];
+
+const absentDates =
+  attendancedata?.data?.formattedAttendance?.attendance
+    ?.filter((att: any) => att.status === "absent")
+    .map((att: any) => new Date(att.date)) || [];
+
 
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
@@ -67,7 +79,7 @@ export const Attendance = () => {
         desktop: att.presentDays || 0
       };
     });
-  }, [attendancedata])
+  }, [selectedMonth])
 
   const chartData = generateChartData();
 
@@ -90,14 +102,14 @@ export const Attendance = () => {
     {
       label: "Absent Days",
        type: "currentAndTotal",
-      current: attendancedata?.dat?.totalAbsentDays || 0,
+      current: attendancedata?.data?.totalAbsentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_green_02,
     }
   ]
 console.log(attendanceCards,'datacon attendance data')
 
-
+console.log( attendancedata?.data?.totalAbsentDays,'absenttotal days ')
   const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
@@ -140,7 +152,7 @@ console.log(attendanceCards,'datacon attendance data')
     const timeout = setTimeout(() => {
       const payload = {
         userId: dashData.user.uuid,
-        month: selectedDate.getMonth() + 1,
+        month: selectedDate.getMonth(),
         year: selectedDate.getFullYear(),
         instituteId: dashData.institute.uuid,
       };
@@ -320,16 +332,25 @@ console.log(attendancedata,"overall data")
         <div className="flex flex-row gap-6 pt-6 ">
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
-            <Calendar
-              mode="single"
-              required
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              month={selectedDate}
-              onMonthChange={handleCalendarMonthChange}
-              className="border **:gap-5 **:py-0.5 md:**:gap-2 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-              style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
-            />
+           <Calendar
+  mode="single"
+  required
+  selected={selectedDate}
+  onSelect={setSelectedDate}
+  month={selectedDate}
+  onMonthChange={handleCalendarMonthChange}
+  modifiers={{
+    present: presentDates,
+    absent: absentDates,
+  }}
+  modifiersClassNames={{
+    present: "bg-gray-300 text-green-700 font-semibold ",
+    absent: "bg-red-100 text-red-700 font-semibold ",
+  }}
+  className="border **:gap-5 **:py-0.5  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+  style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+/>
+
           </div>
 
         <div className="flex flex-col w-full">
@@ -395,4 +416,4 @@ console.log(attendancedata,"overall data")
   )
 }
 
-export default Attendance
+export default Attendance;
