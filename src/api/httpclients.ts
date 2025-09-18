@@ -46,6 +46,10 @@ class HttpClient {
 			params: params,
 			headers: {
 				'User-Type': userType,
+				'Cache-Control': 'no-cache',
+				'Pragma': 'co-cache',
+				'If-None-Match': '',
+				'If-Modifiec-Since': '',
 			},
 		});
 		return response?.data;

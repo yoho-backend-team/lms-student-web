@@ -36,7 +36,7 @@ const FAQInterface: React.FC = () => {
 
   const handleContactSupport = () => {
     // Navigate to tickets page
-    navigate('/tickets');
+    navigate('/help-center');
   };
 
   return (
