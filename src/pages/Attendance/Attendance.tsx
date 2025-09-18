@@ -55,18 +55,18 @@ export const Attendance = () => {
 
 
   const attendancedata = useSelector(selectAttendance)
-  console.log(attendancedata,'attendancedata useeselactor')
+  console.log(attendancedata, 'attendancedata useeselactor')
 
 
   const presentDates =
-  attendancedata?.data?.formattedAttendance?.attendance
-    ?.filter((att: any) => att.status === "present")
-    .map((att: any) => new Date(att.date)) || [];
+    attendancedata?.data?.formattedAttendance?.attendance
+      ?.filter((att: any) => att.status === "present")
+      .map((att: any) => new Date(att.date)) || [];
 
-const absentDates =
-  attendancedata?.data?.formattedAttendance?.attendance
-    ?.filter((att: any) => att.status === "absent")
-    .map((att: any) => new Date(att.date)) || [];
+  const absentDates =
+    attendancedata?.data?.formattedAttendance?.attendance
+      ?.filter((att: any) => att.status === "absent")
+      .map((att: any) => new Date(att.date)) || [];
 
 
   const generateChartData = useCallback(() => {
@@ -87,29 +87,29 @@ const absentDates =
   const attendanceCards = [
     {
       label: "Classes Attend",
-       type: "totalOnly",
-       current: attendancedata?.data?.attendedClassCount || 0,
+      type: "totalOnly",
+      current: attendancedata?.data?.attendedClassCount || 0,
       total: (attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0),
       color: COLORS.light_blue,
     },
     {
       label: "Present Days",
-       type: "currentAndTotal",
+      type: "currentAndTotal",
       current: attendancedata?.data?.totalPresentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_pink,
     },
     {
       label: "Absent Days",
-       type: "currentAndTotal",
+      type: "currentAndTotal",
       current: attendancedata?.data?.totalAbsentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_green_02,
     }
   ]
-console.log(attendanceCards,'datacon attendance data')
+  console.log(attendanceCards, 'datacon attendance data')
 
-console.log( attendancedata?.data?.totalAbsentDays,'absenttotal days ')
+  console.log(attendancedata?.data?.totalAbsentDays, 'absenttotal days ')
   const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
@@ -180,7 +180,7 @@ console.log( attendancedata?.data?.totalAbsentDays,'absenttotal days ')
     })();
   }, [dispatch, hideLoader, showLoader]);
 
-console.log(attendancedata,"overall data")
+  console.log(attendancedata, "overall data")
 
   return (
     <>
@@ -291,7 +291,7 @@ console.log(attendancedata,"overall data")
               <CardHeader className='md:w-auto md:text-[10px] h-full'>
                 <div className="max-w-screen-xl flex justify-between">
                   <span style={{ ...FONTS.heading_04 }}>{card.label}</span>
-                                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
+                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
                     {card.type === "totalOnly" ? (
                       <span style={{ color: card.color }}>{card.total}</span>
                     ) : (
@@ -332,83 +332,82 @@ console.log(attendancedata,"overall data")
         <div className="flex flex-row gap-6 pt-6 ">
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
-           <Calendar
-  mode="single"
-  required
-  selected={selectedDate}
-  onSelect={setSelectedDate}
-  month={selectedDate}
-  onMonthChange={handleCalendarMonthChange}
-  modifiers={{
-    present: presentDates,
-    absent: absentDates,
-  }}
-  modifiersClassNames={{
-    present: "bg-gray-300 text-green-700 font-semibold ",
-    absent: "bg-red-100 text-red-700 font-semibold ",
-  }}
-  className="border **:gap-5 **:py-0.5  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-  style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
-/>
+            <Calendar
+              mode="single"
+              required
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              month={selectedDate}
+              onMonthChange={handleCalendarMonthChange}
+              modifiers={{
+                present: presentDates,
+                absent: absentDates,
+              }}
+              modifiersClassNames={{
+                present: "bg-gray-300 text-green-700 font-semibold ",
+                absent: "bg-red-100 text-red-700 font-semibold ",
+              }}
+              className="border **:gap-5 **  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+              style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+            />
 
           </div>
 
-        <div className="flex flex-col w-full">
-          <h3
-            className="text-lg font-semibold mb-4 mt-2"
-            style={{ ...FONTS.heading_02 }}
-          >
-            Day Overview
-          </h3>
+          <div className="flex flex-col w-full">
+            <h3
+              className="text-lg font-semibold mb-4 mt-2"
+              style={{ ...FONTS.heading_02 }}
+            >
+              Day Overview
+            </h3>
 
-  <div
-    className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-    style={{ backgroundColor: COLORS.bg_Colour }}
-  >
-    <div>
-      <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
-        {selectedDate ? selectedDate.toDateString() : "Select a date"}
-      </p>
+            <div
+              className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+              style={{ backgroundColor: COLORS.bg_Colour }}
+            >
+              <div>
+                <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
+                  {selectedDate ? selectedDate.toDateString() : "Select a date"}
+                </p>
 
-      <ul
-        className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
-        style={{ ...FONTS.heading_06 }}
-      >
-        {attendanceByDate && attendanceByDate.length > 0 ? (
-          attendanceByDate.map((data: any, index: number) => (
-            <li key={index} className="p-4 flex flex-col gap-2">
-              <p>Class Name: {data?.class_name}</p>
-              <p>Start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
-              <p>End time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
-              <p>Duration: {data?.duration}</p>
-            </li>
-          ))
-        ) : (
-          <li className="p-4 text-gray-500 text-center italic">
-            {selectedDate
-              ? "No class scheduled for this date"
-              : "Please select a date to view schedule"}
-          </li>
-        )}
-      </ul>
-    </div>
+                <ul
+                  className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
+                  style={{ ...FONTS.heading_06 }}
+                >
+                  {attendanceByDate && attendanceByDate.length > 0 ? (
+                    attendanceByDate.map((data: any, index: number) => (
+                      <li key={index} className="p-4 flex flex-col gap-2">
+                        <p>Class Name: {data?.class_name}</p>
+                        <p>Start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
+                        <p>End time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
+                        <p>Duration: {data?.duration}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-4 text-gray-500 text-center italic">
+                      {selectedDate
+                        ? "No class scheduled for this date"
+                        : "Please select a date to view schedule"}
+                    </li>
+                  )}
+                </ul>
+              </div>
 
-    <button
-      className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${
-        attendanceByDate && attendanceByDate.length > 0
-          ? "bg-gray text-white hover:!text-white btnhovershadow"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-      }`}
-      onClick={() =>
-        attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
-      }
-      style={{ ...FONTS.heading_06 }}
-      disabled={!attendanceByDate || attendanceByDate.length === 0}
-    >
-      View Details
-    </button>
-  </div>
-</div>
+              <button
+                className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
+                    ? "bg-gray text-white hover:!text-white btnhovershadow"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                onClick={() =>
+                  attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
+                }
+                style={{ ...FONTS.heading_06 }}
+                disabled={!attendanceByDate || attendanceByDate.length === 0}
+              >
+                View Details
+              </button>
+            </div>
+          </div>
 
         </div>
       </div>
