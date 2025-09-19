@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect } from 'react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
@@ -5,69 +7,207 @@ import { COLORS, FONTS } from '@/constants/uiConstants';
 import { CheckCircle, X, ChevronLeft, ChevronRight, Trophy, Target, Zap, Heart, Volume2 } from 'lucide-react';
 
 interface GrammarComponentProps {
-	grammarCompleted: boolean;
-	setGrammarCompleted: (completed: boolean) => void;
-	grammarTestScore: number;
-	setGrammarTestScore: (score: number) => void;
+  grammarCompleted: boolean;
+  setGrammarCompleted: (completed: boolean) => void;
+  grammarTestScore: number;
+  setGrammarTestScore: (score: number) => void;
 }
 
 const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestScore, setGrammarTestScore }: GrammarComponentProps) => {
-	const [showGrammarTest, setShowGrammarTest] = useState(false);
-	const [currentQuestion, setCurrentQuestion] = useState(0);
-	const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
-	const [currentPage, setCurrentPage] = useState(0);
-	const [showExplanation, setShowExplanation] = useState(false);
-	const [streak, setStreak] = useState(0);
-	const [hearts, setHearts] = useState(5);
-	const [showResult, setShowResult] = useState(false);
-	const [isPlaying, setIsPlaying] = useState(false);
-	const itemsPerPage = 7;
+  const [showGrammarTest, setShowGrammarTest] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [hearts, setHearts] = useState(5);
+  const [showResult, setShowResult] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showCareerGoals, setShowCareerGoals] = useState(false);
+  const [currentCareerQuestion, setCurrentCareerQuestion] = useState(0);
+  const [selectedCareerAnswers, setSelectedCareerAnswers] = useState<number[]>([]);
+  const [showCareerExplanation, setShowCareerExplanation] = useState(false);
+  const [careerTestScore, setCareerTestScore] = useState(0);
+  const [showCareerResult, setShowCareerResult] = useState(false);
+  
+  const itemsPerPage = 7;
 
-	useEffect(() => {
-		const savedStreak = localStorage.getItem('grammarStreak');
-		if (savedStreak) setStreak(parseInt(savedStreak));
-	}, []);
+  useEffect(() => {
+    const savedStreak = localStorage.getItem('grammarStreak');
+    if (savedStreak) setStreak(parseInt(savedStreak));
+    
 
-	const speakText = (text: string) => {
-		if ('speechSynthesis' in window) {
-			if (isPlaying) {
-				window.speechSynthesis.cancel();
-				setIsPlaying(false);
-				return;
-			}
+    if (grammarCompleted) {
+      setShowCareerGoals(true);
+    }
+  }, [grammarCompleted]);
 
-			const utterance = new SpeechSynthesisUtterance(text);
-			utterance.rate = 0.8;
-			utterance.pitch = 1;
-			utterance.volume = 1;
-			
-			utterance.onstart = () => setIsPlaying(true);
-			utterance.onend = () => {
-				setIsPlaying(false);
-			};
-			utterance.onboundary = () => {
-				// Keep playing state updated during speech
-				if (!window.speechSynthesis.speaking) {
-					setIsPlaying(false);
-				}
-			};
-			utterance.onerror = () => {
-				setIsPlaying(false);
-			};
+  const speakText = (text: string) => {
+    if ('speechSynthesis' in window) {
+      if (isPlaying) {
+        window.speechSynthesis.cancel();
+        setIsPlaying(false);
+        return;
+      }
 
-			window.speechSynthesis.speak(utterance);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = () => setIsPlaying(true);
+      utterance.onend = () => {
+        setIsPlaying(false);
+      };
+      utterance.onboundary = () => {
+        if (!window.speechSynthesis.speaking) {
+          setIsPlaying(false);
+        }
+      };
+      utterance.onerror = () => {
+        setIsPlaying(false);
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+  const savedCareerAnswers = localStorage.getItem('careerAnswers');
+  if (savedCareerAnswers) {
+    setSelectedCareerAnswers(JSON.parse(savedCareerAnswers));
+  }
+}, []);
+
+
+   	const grammarQuestions = [
+		{
+			question: "Which sentence is grammatically correct?",
+			options: ["He go to school daily", "He goes to school daily", "He going to school daily", "He gone to school daily"],
+			correct: 1,
+			explanation: "Third person singular (he/she/it) requires 's' or 'es' at the end of the verb in present simple tense."
+		},
+		{
+			question: "Choose the correct past tense:",
+			options: ["I eated lunch", "I eat lunch", "I ate lunch", "I eating lunch"],
+			correct: 2,
+			explanation: "'Eat' is an irregular verb. Its past tense is 'ate', not 'eated'."
+		},
+		{
+			question: "Which is the correct question form?",
+			options: ["Do you like tea?", "You like tea?", "Like you tea?", "You do like tea?"],
+			correct: 0,
+			explanation: "Yes/No questions in present simple use 'Do/Does' + subject + base verb."
+		},
+		{
+			question: "Select the correct article:",
+			options: ["I saw a elephant", "I saw an elephant", "I saw the elephant", "I saw elephant"],
+			correct: 1,
+			explanation: "Use 'an' before words that start with vowel sounds. 'Elephant' starts with 'e' sound."
+		},
+		{
+			question: "Which sentence uses correct subject-verb agreement?",
+			options: ["They was playing", "They were playing", "They is playing", "They are play"],
+			correct: 1,
+			explanation: "Plural subjects like 'they' use 'were' in past continuous, not 'was'."
+		},
+		{
+			question: "Complete: I _____ to the store yesterday.",
+			options: ["go", "goes", "went", "going"],
+			correct: 2,
+			explanation: "'Yesterday' indicates past time, so we use past tense 'went'."
+		},
+		{
+			question: "Choose the correct preposition: She is good _____ math.",
+			options: ["in", "at", "on", "with"],
+			correct: 1,
+			explanation: "We use 'good at' when talking about skills or abilities."
+		},
+		{
+			question: "Which is the correct comparative form?",
+			options: ["more big", "bigger", "most big", "bigest"],
+			correct: 1,
+			explanation: "Short adjectives like 'big' form comparatives by adding '-er': bigger."
+		},
+		{
+			question: "Select the correct modal verb: You _____ wear a helmet while riding.",
+			options: ["can", "must", "might", "would"],
+			correct: 1,
+			explanation: "'Must' expresses strong obligation or necessity for safety."
+		},
+		{
+			question: "Choose the correct form: I enjoy _____ books.",
+			options: ["read", "to read", "reading", "reads"],
+			correct: 2,
+			explanation: "After 'enjoy', we use gerund (verb + ing): enjoying reading."
 		}
-	};
+	];
 
-	useEffect(() => {
-		return () => {
-			if (window.speechSynthesis) {
-				window.speechSynthesis.cancel();
-			}
-		};
-	}, []);
+	 const careerGoalsContent = {
+    childtitle: 'Career Goals',
+    questions: [
+      {
+        title: 'What is a SMART goal?',
+        options: [
+          { text: 'A simple, manageable, achievable, realistic, timely goal', correct: false },
+          { text: 'Specific, measurable, achievable, relevant, time-bound goal', correct: true },
+          { text: 'Smart, meaningful, actionable, reasonable, targeted goal', correct: false },
+          { text: 'Strategic, manageable, actionable, realistic, timely goal', correct: false },
+        ],
+        explanation: 'SMART stands for Specific, Measurable, Achievable, Relevant, and Time-bound.',
+      },
+      {
+        title: 'Why are career goals important?',
+        options: [
+          { text: 'They help you get promotions faster', correct: false },
+          { text: 'They provide direction and motivation', correct: true },
+          { text: 'They impress your boss', correct: false },
+          { text: 'They guarantee success', correct: false },
+        ],
+        explanation: 'Career goals give you direction and help you stay motivated and focused.',
+      },
+      {
+        title: 'How often should you review your career goals?',
+        options: [
+          { text: 'Once a year', correct: false },
+          { text: 'Every 6-12 months', correct: true },
+          { text: 'Only when you change jobs', correct: false },
+          { text: 'Once every 5 years', correct: false },
+        ],
+        explanation: 'Regular reviews (every 6-12 months) help keep your goals relevant.',
+      },
+      {
+        title: 'What should you consider when setting career goals?',
+        options: [
+          { text: 'Only your current skills', correct: false },
+          { text: 'Your interests, values, skills, and market trends', correct: true },
+          { text: 'What your friends are doing', correct: false },
+          { text: 'Only the salary potential', correct: false },
+        ],
+        explanation: 'Effective goals consider multiple factors including your interests and market conditions.',
+      },
+      {
+        title: 'Which is an example of a long-term career goal?',
+        options: [
+          { text: 'Complete a training course this month', correct: false },
+          { text: 'Become a department head in 5 years', correct: true },
+          { text: 'Update your resume', correct: false },
+          { text: 'Network with 3 people this week', correct: false },
+        ],
+        explanation: 'Long-term goals typically span 3-5 years or more.',
+      },
+    ],
+  };
 
-	const grammarContent = [
+   	const grammarContent = [
 		{
 			title: "1. Tenses (Present, Past, Future)",
 			content: (
@@ -284,121 +424,181 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		}
 	];
 
-	const totalPages = Math.ceil(grammarContent.length / itemsPerPage);
-	const currentItems = grammarContent.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+	  const handleAnswerSelect = (answerIndex: number) => {
+    const newAnswers = [...selectedAnswers];
+    newAnswers[currentQuestion] = answerIndex;
+    setSelectedAnswers(newAnswers);
+    
+    setShowExplanation(true);
+    
+    if (answerIndex === grammarQuestions[currentQuestion].correct) {
+      const newStreak = streak + 1;
+      setStreak(newStreak);
+      localStorage.setItem('grammarStreak', newStreak.toString());
+    } else {
+      setHearts(Math.max(0, hearts - 1));
+      setStreak(0);
+      localStorage.setItem('grammarStreak', '0');
+    }
+  };
 
-	const grammarQuestions = [
-		{
-			question: "Which sentence is grammatically correct?",
-			options: ["He go to school daily", "He goes to school daily", "He going to school daily", "He gone to school daily"],
-			correct: 1,
-			explanation: "Third person singular (he/she/it) requires 's' or 'es' at the end of the verb in present simple tense."
-		},
-		{
-			question: "Choose the correct past tense:",
-			options: ["I eated lunch", "I eat lunch", "I ate lunch", "I eating lunch"],
-			correct: 2,
-			explanation: "'Eat' is an irregular verb. Its past tense is 'ate', not 'eated'."
-		},
-		{
-			question: "Which is the correct question form?",
-			options: ["Do you like tea?", "You like tea?", "Like you tea?", "You do like tea?"],
-			correct: 0,
-			explanation: "Yes/No questions in present simple use 'Do/Does' + subject + base verb."
-		},
-		{
-			question: "Select the correct article:",
-			options: ["I saw a elephant", "I saw an elephant", "I saw the elephant", "I saw elephant"],
-			correct: 1,
-			explanation: "Use 'an' before words that start with vowel sounds. 'Elephant' starts with 'e' sound."
-		},
-		{
-			question: "Which sentence uses correct subject-verb agreement?",
-			options: ["They was playing", "They were playing", "They is playing", "They are play"],
-			correct: 1,
-			explanation: "Plural subjects like 'they' use 'were' in past continuous, not 'was'."
-		},
-		{
-			question: "Complete: I _____ to the store yesterday.",
-			options: ["go", "goes", "went", "going"],
-			correct: 2,
-			explanation: "'Yesterday' indicates past time, so we use past tense 'went'."
-		},
-		{
-			question: "Choose the correct preposition: She is good _____ math.",
-			options: ["in", "at", "on", "with"],
-			correct: 1,
-			explanation: "We use 'good at' when talking about skills or abilities."
-		},
-		{
-			question: "Which is the correct comparative form?",
-			options: ["more big", "bigger", "most big", "bigest"],
-			correct: 1,
-			explanation: "Short adjectives like 'big' form comparatives by adding '-er': bigger."
-		},
-		{
-			question: "Select the correct modal verb: You _____ wear a helmet while riding.",
-			options: ["can", "must", "might", "would"],
-			correct: 1,
-			explanation: "'Must' expresses strong obligation or necessity for safety."
-		},
-		{
-			question: "Choose the correct form: I enjoy _____ books.",
-			options: ["read", "to read", "reading", "reads"],
-			correct: 2,
-			explanation: "After 'enjoy', we use gerund (verb + ing): enjoying reading."
-		}
-	];
+  const handleNext = () => {
+    setShowExplanation(false);
+    if (currentQuestion < grammarQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      handleTestSubmit();
+    }
+  };
 
-	const handleAnswerSelect = (answerIndex: number) => {
-		const newAnswers = [...selectedAnswers];
-		newAnswers[currentQuestion] = answerIndex;
-		setSelectedAnswers(newAnswers);
-		
-		// Show immediate feedback
-		setShowExplanation(true);
-		
-		// Update hearts and streak
-		if (answerIndex === grammarQuestions[currentQuestion].correct) {
-			const newStreak = streak + 1;
-			setStreak(newStreak);
-			localStorage.setItem('grammarStreak', newStreak.toString());
-		} else {
-			setHearts(Math.max(0, hearts - 1));
-			setStreak(0);
-			localStorage.setItem('grammarStreak', '0');
-		}
-	};
+  const handleTestSubmit = () => {
+    let correctAnswers = 0;
+    selectedAnswers.forEach((answer, index) => {
+      if (answer === grammarQuestions[index].correct) {
+        correctAnswers++;
+      }
+    });
+    const score = Math.round((correctAnswers / grammarQuestions.length) * 100);
+    setGrammarTestScore(score);
+    localStorage.setItem('grammarTestScore', JSON.stringify(score));
+    if (score >= 80) {
+      setGrammarCompleted(true);
+      localStorage.setItem('grammarCompleted', 'true');
+      setShowCareerGoals(true); // Show career goals after completing grammar
+    }
+    setShowResult(true);
+  };
 
-	const handleNext = () => {
-		setShowExplanation(false);
-		if (currentQuestion < grammarQuestions.length - 1) {
-			setCurrentQuestion(currentQuestion + 1);
-		} else {
-			handleTestSubmit();
-		}
-	};
+ const handleCareerAnswerSelect = (answerIndex: number) => {
+  const newAnswers = [...selectedCareerAnswers];
+  newAnswers[currentCareerQuestion] = answerIndex;
+  setSelectedCareerAnswers(newAnswers);
+  localStorage.setItem('careerAnswers', JSON.stringify(newAnswers)); 
+  setShowCareerExplanation(true);
+};
 
-	const handleTestSubmit = () => {
-		let correctAnswers = 0;
-		selectedAnswers.forEach((answer, index) => {
-			if (answer === grammarQuestions[index].correct) {
-				correctAnswers++;
-			}
-		});
-		const score = Math.round((correctAnswers / grammarQuestions.length) * 100);
-		setGrammarTestScore(score);
-		localStorage.setItem('grammarTestScore', JSON.stringify(score));
-		if (score >= 80) {
-			setGrammarCompleted(true);
-			localStorage.setItem('grammarCompleted', 'true');
-		}
-		setShowResult(true);
-	};
 
-	return (
+  const handleCareerNext = () => {
+    setShowCareerExplanation(false);
+    if (currentCareerQuestion < careerGoalsContent.questions.length - 1) {
+      setCurrentCareerQuestion(currentCareerQuestion + 1);
+    } else {
+      handleCareerTestSubmit();
+    }
+  };
+
+  const handleCareerTestSubmit = () => {
+    let correctAnswers = 0;
+    selectedCareerAnswers.forEach((answer, index) => {
+      if (careerGoalsContent.questions[index].options[answer]?.correct) {
+        correctAnswers++;
+      }
+    });
+    const score = Math.round((correctAnswers / careerGoalsContent.questions.length) * 100);
+    setCareerTestScore(score);
+    setShowCareerResult(true);
+  };
+
+  // If grammar is completed, show career goals instead of grammar content
+  if (showCareerGoals) {
+    return (
+      <Card className='p-4 mb-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75), inset -2px -2px 3px rgba(255, 255, 255, 0.7)` }}>
+        <div className='flex justify-between items-start mb-4'>
+          <h3 style={{ ...FONTS.heading_04 }}>{careerGoalsContent.childtitle}</h3>
+        </div>
+        
+        {!showCareerResult ? (
+          <>
+            <p style={{ ...FONTS.para_02 }}>
+              Question {currentCareerQuestion + 1} of {careerGoalsContent.questions.length}
+            </p>
+
+            <div className='space-y-3 mt-4'>
+              {careerGoalsContent.questions[currentCareerQuestion].options.map((option, index) => {
+                const isSelected = selectedCareerAnswers[currentCareerQuestion] === index;
+                const isCorrect = option.correct;
+                let bgColor = COLORS.white;
+                let borderColor = COLORS.text_desc;
+                let textColor = COLORS.text_desc;
+
+                if (showCareerExplanation) {
+                  if (isCorrect) {
+                    bgColor = '#e8f5e8';
+                    borderColor = COLORS.light_green;
+                    textColor = COLORS.green_text;
+                  } else if (isSelected) {
+                    bgColor = '#ffe8e8';
+                    borderColor = COLORS.light_red;
+                    textColor = COLORS.light_red;
+                  }
+                } else if (isSelected) {
+                  bgColor = COLORS.light_blue;
+                  borderColor = COLORS.blue_01;
+                  textColor = COLORS.white;
+                }
+
+                return (
+                  <div
+                    key={index}
+                    className={`p-4 rounded-lg border-2 ${!showCareerExplanation ? 'cursor-pointer hover:shadow-md' : ''}`}
+                    style={{ background: bgColor, borderColor: borderColor, color: textColor }}
+                    onClick={() => !showCareerExplanation && handleCareerAnswerSelect(index)}
+                  >
+                    {option.text}
+                  </div>
+                );
+              })}
+            </div>
+
+            {showCareerExplanation && (
+              <div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
+                <p style={{ ...FONTS.para_03, color: COLORS.text_desc }}>
+                  {careerGoalsContent.questions[currentCareerQuestion].explanation}
+                </p>
+              </div>
+            )}
+
+            {showCareerExplanation && (
+              <Button
+                onClick={handleCareerNext}
+                className='mt-4 px-6 py-2 rounded-lg'
+                style={{ background: COLORS.light_green, color: COLORS.white }}
+              >
+                {currentCareerQuestion < careerGoalsContent.questions.length - 1 ? 'Continue' : 'Finish'}
+              </Button>
+            )}
+          </>
+        ) : (
+          <div className='text-center py-8'>
+            <Trophy size={64} color={careerTestScore >= 80 ? COLORS.light_orange : COLORS.text_desc} className='mx-auto mb-4' />
+            <p style={{ ...FONTS.heading_03 }}>Score: {careerTestScore}%</p>
+            <p style={{ ...FONTS.para_02 }}>
+              {careerTestScore >= 80 ? 'Great job! You understand Career Goals.' : 'Keep practicing to improve your knowledge.'}
+            </p>
+            <Button
+              onClick={() => {
+                setShowCareerResult(false);
+                setCurrentCareerQuestion(0);
+                setSelectedCareerAnswers([]);
+                setShowCareerExplanation(false);
+              }}
+              className='px-6 py-2 rounded-lg mt-4'
+              style={{ background: COLORS.blue_01, color: COLORS.white }}
+            >
+              Restart Career Goals
+            </Button>
+          </div>
+        )}
+      </Card>
+    );
+  }
+
+  const totalPages = Math.ceil(grammarContent.length / itemsPerPage);
+const currentItems = grammarContent.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+
+   	return (
 		<>
-			{/* Grammar Test Modal */}
 			{showGrammarTest && (
 				<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
 					<Card className='p-6 max-w-2xl w-full mx-4' style={{ backgroundColor: COLORS.bg_Colour }}>
@@ -437,7 +637,6 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										{grammarQuestions[currentQuestion].options.map((option, index) => {
 											const isSelected = selectedAnswers[currentQuestion] === index;
 											const isCorrect = index === grammarQuestions[currentQuestion].correct;
-											// const showFeedback = showExplanation && isSelected;
 											
 											let bgColor = COLORS.white;
 											let borderColor = COLORS.text_desc;
@@ -503,7 +702,6 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 											background: COLORS.text_desc,
 											...FONTS.para_02,
 											color: COLORS.white,
-
 										}}
 									>
 										Exit
@@ -730,3 +928,6 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 };
 
 export default GrammarComponent;
+
+
+
