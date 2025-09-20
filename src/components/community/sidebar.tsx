@@ -53,7 +53,7 @@ const Sidebar: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="p-4 h-[60vh] flex flex-col gap-4 relative bg-[#EBEFF3] overflow-y-scroll
+      <div className="p-4 h-[80vh] flex flex-col gap-4 relative bg-[#EBEFF3] overflow-y-scroll
   [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:bg-gray-300
@@ -66,7 +66,7 @@ const Sidebar: React.FC<Props> = ({
               }`}
             onClick={() => { onSelectChat(chat); dispatch(setSelctedMsg(chat)) }}
           >
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center  space-x-3">
               <div className="bg-gray-900 text-white rounded-full h-12 w-12 flex items-center justify-center overflow-hidden">
                 {chat.batch?.groupImage ? (
                   <img

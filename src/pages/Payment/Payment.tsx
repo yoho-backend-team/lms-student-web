@@ -67,14 +67,14 @@ const Payment = () => {
 						<Loader />
 					</div>
 				)}
-				<div className='lg:w-1/4 md'>
+				<div className='lg:w-1/4 md '>
 					<h1
 						className='font-semibold text-2xl py-6'
 						style={{ ...FONTS.heading_02 }}
 					>
 						Payment
 					</h1>
-					<div className='p-5 lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
+					<div className='p-5 lg:grid h-[84vh] lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
 						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
 							<div className='flex gap-3'>
 								<img src={Profile1} alt='Profile' />
@@ -144,7 +144,7 @@ const Payment = () => {
 				</div>
 
 				<div className='lg:w-3/4 flex gap-8'>
-					<div className='w-1/2 sm:w-2/3'>
+					<div className='w-1/2 sm:w-2/3 h-[84vh]'>
 						<div>
 							<h1
 								className='font-semibold text-2xl py-6'
@@ -290,14 +290,14 @@ const Payment = () => {
 						</div>
 					</div>
 
-					<div className='w-1/2'>
+					<div className='w-1/2 '>
 						<h1
 							className='font-semibold text-2xl py-6'
 							style={{ ...FONTS.heading_02 }}
 						>
 							Payment History
 						</h1>
-						<div className='p-5 flex flex-col gap-2 h-[75vh] custom-inset-shadow overflow-y-scroll'>
+						<div className='p-5 flex flex-col gap-2 h-[84vh] custom-inset-shadow overflow-y-scroll'>
 							<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
 								View PDF
 							</h1>

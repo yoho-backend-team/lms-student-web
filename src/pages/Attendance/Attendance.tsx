@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, XAxis } from 'recharts'
 import {
@@ -329,6 +328,7 @@ console.log(attendancedata,"overall data")
               onMonthChange={handleCalendarMonthChange}
               className="border **:gap-5 **:py-0.5 md:**:gap-2 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
               style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+                showOutsideDays={false} 
             />
           </div>
 

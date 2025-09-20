@@ -20,10 +20,12 @@ const Classes = () => {
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'completed'>('live');
   const dispatch = useDispatch<AppDispatch>();
   const classData = useSelector(selectClass)?.data || [];
+  console.log(classData,"class data")
 
   // const id = classData.map((item: any) => item.uuid);
 
   const coursesDetails = useCourses();
+  console.log(coursesDetails,"course details")
 
   const { showLoader, hideLoader, IsLoading } = useLoader();
 

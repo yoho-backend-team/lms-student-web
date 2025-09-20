@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Card } from '../ui/card';
 import { NavbarIcons } from '@/assets/icons/navbar';
@@ -34,7 +33,7 @@ const Navbar = () => {
 		dispatch(getStudentProfileThunk({}));
 	}, [dispatch]);
 
-	const navItems = [
+	const navItemsWithChildren = [
 		{
 			path: '',
 			name: 'Dashboard',
@@ -52,6 +51,12 @@ const Navbar = () => {
 			name: 'Courses',
 			iconActive: NavbarIcons.CourseActiveImg,
 			iconInactive: NavbarIcons.CourseInActiveImg,
+			childPaths: [
+				'courses/about',
+				'note_materials',
+				'task_projects',
+				'course_track'
+			]
 		},
 		{
 			path: 'attendance',
@@ -85,6 +90,39 @@ const Navbar = () => {
 		},
 	];
 
+	const isNavItemActive = (item: any) => {
+		const parentPath = item.path === '' ? '/' : `/${item.path}`;
+
+		if (location.pathname === parentPath) {
+			return true;
+		}
+
+		if (location.pathname.startsWith(parentPath + '/')) {
+			return true;
+		}
+
+		if (item.childPaths) {
+			return item.childPaths.some((childPath: any) => {
+				const fullChildPath = `/${childPath}`;
+
+				if (childPath.includes('/') && location.pathname.startsWith(fullChildPath)) {
+					return true;
+				}
+
+				if (!childPath.includes('/') && (
+					location.pathname === fullChildPath ||
+					location.pathname.startsWith(fullChildPath + '/')
+				)) {
+					return true;
+				}
+
+				return false;
+			});
+		}
+
+		return false;
+	};
+
 	const handleLogout = async () => {
 		try {
 			const response = await getStudentLogoutClient({});
@@ -113,19 +151,6 @@ const Navbar = () => {
 	return (
 		<nav>
 			<div className='flex justify-between gap-3 px-6'>
-				{/* <Card
-					className='bg-[#ebeff3] min-w-[72px] h-[48px] rounded-sm flex items-center justify-center cursor-pointer'
-					style={{
-						boxShadow: `
-					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
-					  rgba(189, 194, 199, 0.75) 5px 5px 4px
-					`,
-					}}
-					onClick={() => {
-						navigate('/');
-						setshowProfileSection(false);
-					}}
-				> */}
 				<img
 					data-tour="logo"
 					src={GetImageUrl(instituteData?.logo) ?? undefined}
@@ -133,38 +158,35 @@ const Navbar = () => {
 					title={instituteData?.institute_name}
 					className='w-14 h-12 rounded-full p-1'
 				/>
-				{/* </Card> */}
 
 				<div className='flex lg:gap-10 md:gap-5'>
-					{navItems?.map((item, index) => (
-						<Link to={item.path} onClick={() => setshowProfileSection(false)}>
-							<Card
-								key={item.path || index}
-								data-tour={`nav-${item.path || 'dashboard'}`}
-								className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
-								style={{
-									boxShadow:
-										location.pathname === `/${item.path}`
+					{navItemsWithChildren?.map((item, index) => {
+						const isActive = isNavItemActive(item);
+
+						return (
+							<Link key={item.path || index} to={item.path} onClick={() => setshowProfileSection(false)}>
+								<Card
+									data-tour={`nav-${item.path || 'dashboard'}`}
+									className='bg-[#ebeff3] w-[48px] h-[48px] flex items-center justify-center shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
+									style={{
+										boxShadow: isActive
 											? `
 					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
 					  rgba(189, 194, 199, 0.75) 5px 5px 4px
 					`
 											: undefined,
-								}}
-							>
-								<img
-									src={
-										location.pathname === `/${item.path}`
-											? item.iconActive
-											: item.iconInactive
-									}
-									alt='nav-icon'
-									title={item.name}
-									style={{ width: 24, height: 24 }}
-								/>
-							</Card>
-						</Link>
-					))}
+									}}
+								>
+									<img
+										src={isActive ? item.iconActive : item.iconInactive}
+										alt='nav-icon'
+										title={item.name}
+										style={{ width: 24, height: 24 }}
+									/>
+								</Card>
+							</Link>
+						);
+					})}
 				</div>
 
 				<div className='flex gap-6'>
@@ -210,9 +232,9 @@ const Navbar = () => {
             `,
 							}}
 						>
-							<Card className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] cursor-pointer flex gap-2 justify-center'>
+							<Card className='bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] cursor-pointer flex gap-2 justify-center  hover:bg-gradient-to-l from-[#7B00FF] to-[#B200FF] hover:text-white'>
 								<Link
-									className=' flex justify-center gap-2'
+									className=' flex justify-center gap-2 '
 									to='profile'
 									onClick={() => setshowProfileSection(false)}
 								>
@@ -221,7 +243,9 @@ const Navbar = () => {
 										alt='profile-icon'
 										style={{ width: 28, height: 28 }}
 									/>
-									<p style={{ ...FONTS.para_01 }}>Profile</p>
+									<p className="hover:text-white text-xl" style={{ fontFamily: '"Quicksand", sans-serif' }}>
+										Profile
+									</p>
 								</Link>
 							</Card>
 							<Button

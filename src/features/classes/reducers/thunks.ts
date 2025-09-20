@@ -7,6 +7,7 @@ export const getClassDetails =
         try {
             const response = await getLiveClassDetails(params);
             dispatch(getclassdetails(response));
+            return response
         } catch (error) {
             console.log(error);
         }

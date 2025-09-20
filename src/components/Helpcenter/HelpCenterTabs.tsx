@@ -4,6 +4,7 @@ import { FONTS, COLORS } from '@/constants/uiConstants';
 import type { HelpCenterTabsProps } from './types.ts';
 
 const HelpCenterTabs: React.FC<HelpCenterTabsProps> = ({ tabs, activeTab, onTabChange }) => {
+  console.log(tabs,"tabs")
   return (
     <div className="mb-4">
       {/* Desktop/Tablet View */}

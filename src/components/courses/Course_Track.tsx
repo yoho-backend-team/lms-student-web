@@ -4,10 +4,11 @@ import icons from "../../assets/courses icons/demo human.png"
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
+import { GetImageUrl } from '@/utils/helper';
 
 
 interface TimelineItem {
-  icon: string;
+  icon: any;
   title: string;
   side: "left" | "right";
   color?: string;
@@ -15,23 +16,23 @@ interface TimelineItem {
 
 const techTimeline: TimelineItem[] = [
   {
-    icon: icons,
+    icon: "https://www.shutterstock.com/image-vector/html5-css3-js-icon-set-260nw-1621463065.jpg",
     title: "HTML, CSS, Javascript",
     side: "right",
     color: "bg-purple-600",
   },
   {
-    icon: icons,
+    icon: "https://miro.medium.com/1*gt7D9sVdfvyp3TR63C9_Rg.jpeg",
     title: "Mangodb, Express, Node.js",
     side: "left",
   },
   {
-    icon: icons,
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcR5U16C8yXgBpl7-Bc7Itjx3_LRl425zINA&s",
     title: "React",
     side: "right",
   },
   {
-    icon: icons,
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA58mH1EAjc2uEChw2pMg-Lkm9iUhR1U6Fbw&s",
     title: "python",
     side: "left",
   },
