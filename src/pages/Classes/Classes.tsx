@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Completedclass from '@/components/classes/Completedclass';
 import Liveclass from '@/components/classes/Liveclass';
 import Upcomingclass from '@/components/classes/Upcomingclass';
@@ -103,7 +104,7 @@ const Classes = () => {
           </div>
         </Card>
 
-        <div className="mt-6">
+        <div className="mt-6 w-full">
           {activeTab === 'live' && <Liveclass data={classData} />}
           {activeTab === 'upcoming' && <Upcomingclass data={classData} />}
           {activeTab === 'completed' && <Completedclass data={classData} />}
