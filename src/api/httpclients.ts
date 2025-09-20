@@ -28,7 +28,9 @@ Axios.interceptors.response.use(
 		if (
 			error?.response &&
 			error?.response.status == 401 &&
-			error?.response?.data?.status === 'session_expired'
+			error?.response?.data?.status === 'session_expired' ||
+			error?.response?.data?.message === 'session_expired' ||
+			error?.response?.data?.message === "invalid algorithm"
 		) {
 			ClearLocalStorage();
 			window.location.reload();
