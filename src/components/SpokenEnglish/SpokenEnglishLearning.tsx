@@ -373,7 +373,6 @@ const SpokenEnglishLearning = () => {
 									levelScores={levelScores}
 									setLevelScores={(scores) => {
 										setLevelScores(scores);
-										// Award XP for good speaking scores
 										const latestScore = Object.values(scores).pop() as number;
 										if (latestScore >= 90) addXP(30);
 										else if (latestScore >= 70) addXP(20);
