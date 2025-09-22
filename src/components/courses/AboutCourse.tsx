@@ -51,7 +51,7 @@ const AboutCourse: React.FC = () => {
           title={courses?.course_name ?? ''}
           description={courses?.description ?? ''}
           image={courses?.image ?? ''}
-          modules={courses?.coursemodules.length ?? 0}
+          modules={courses?.coursemodules?.length ?? 0}
           duration={courses?.duration ?? ''}
         />
 
