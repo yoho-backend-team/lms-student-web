@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from 'react';
 import Communityside from '../../components/community/communityside';
 // import { useAppDispatch } from '../../features/community/redux/hooks';
@@ -9,11 +10,13 @@ import { useLoader } from '@/context/LoadingContext/Loader';
 import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
+import { GetLocalStorage } from '@/utils/helper';
 
 const Community = () => {
-	const communities = useSelector(selectCommunities);
+	const communities: any = useSelector(selectCommunities);
 	const dispatch = useDispatch<AppDispatch>();
 	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const user = GetLocalStorage("user")
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -25,8 +28,15 @@ const Community = () => {
 		};
 
 		fetchData();
-	}, [dispatch]);
+	}, [dispatch, user?._id]);
 
+
+	const data: any = { data: [] }
+	communities?.data?.forEach((item: any) => {
+		if (item?.batch?.student?.includes(user?._id)) {
+			data?.data?.push(item)
+		}
+	})
 
 	useEffect(() => {
 		(async () => {
@@ -55,7 +65,7 @@ const Community = () => {
 					</div>
 				)}
 				<p className='text-2xl font-semibold'>Community</p>
-				<Communityside communities={communities} />
+				<Communityside communities={data} />
 			</div>
 
 		</>

@@ -74,7 +74,7 @@ const Payment = () => {
 					>
 						Payment
 					</h1>
-					<div className='p-5 lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
+					<div className='p-5 h-[75vh] lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
 						<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
 							<div className='flex gap-3'>
 								<img src={Profile1} alt='Profile' />
