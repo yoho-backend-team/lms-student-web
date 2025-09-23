@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@/store/store';
 import { selectClass } from '@/features/classes/reducers/selectors';
 import { useCourses } from '@/hooks/DashboardData/useCourses';
-import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
@@ -25,7 +24,7 @@ const Classes = () => {
 
   const coursesDetails = useCourses();
 
-  const { showLoader, hideLoader, IsLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
 
 
 
@@ -77,11 +76,6 @@ const Classes = () => {
   return (
     <>
       <div style={{ backgroundColor: COLORS.bg_Colour }} className='mt-2 px-4'>
-        {IsLoading && (
-          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-            <Loader />
-          </div>
-        )}
         <h1 style={{ ...FONTS.heading_01 }} className='mb-4'>Classes</h1>
 
         <Card style={{ backgroundColor: COLORS.bg_Colour }} className="p-4">

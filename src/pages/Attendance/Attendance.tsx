@@ -50,7 +50,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
-  const { showLoader, hideLoader, IsLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate()
 
 
@@ -173,11 +173,6 @@ export const Attendance = () => {
 
       <div className="p-4">
         {/* Header */}
-        {IsLoading && (
-          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-            <Loader />
-          </div>
-        )}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
