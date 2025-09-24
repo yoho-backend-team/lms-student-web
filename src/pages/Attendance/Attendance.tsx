@@ -50,12 +50,12 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
-  const { showLoader, hideLoader, IsLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate()
 
 
   const attendancedata = useSelector(selectAttendance)
-  
+
 
   const generateChartData = useCallback(() => {
     if (!attendancedata?.data?.formattedAttendance) return [];
@@ -75,27 +75,27 @@ export const Attendance = () => {
   const attendanceCards = [
     {
       label: "Classes Attend",
-       type: "totalOnly",
-       current: attendancedata?.data?.attendedClassCount || 0,
+      type: "totalOnly",
+      current: attendancedata?.data?.attendedClassCount || 0,
       total: (attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0),
       color: COLORS.light_blue,
     },
     {
       label: "Present Days",
-       type: "currentAndTotal",
+      type: "currentAndTotal",
       current: attendancedata?.data?.totalPresentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_pink,
     },
     {
       label: "Absent Days",
-       type: "currentAndTotal",
+      type: "currentAndTotal",
       current: attendancedata?.dat?.totalAbsentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_green_02,
     }
   ]
-console.log(attendanceCards,'datacon attendance data')
+  console.log(attendanceCards, 'datacon attendance data')
 
 
   const handleMonthChange = (newMonth: typeof months[number]) => {
@@ -149,7 +149,7 @@ console.log(attendanceCards,'datacon attendance data')
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [dashData, selectedDate]);
+  }, [dashData, dispatch, selectedDate]);
 
   useEffect(() => {
     (async () => {
@@ -168,18 +168,11 @@ console.log(attendanceCards,'datacon attendance data')
     })();
   }, [dispatch, hideLoader, showLoader]);
 
-console.log(attendancedata,"overall data")
-
   return (
     <>
 
       <div className="p-4">
         {/* Header */}
-        {IsLoading && (
-          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-            <Loader />
-          </div>
-        )}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
@@ -262,7 +255,7 @@ console.log(attendancedata,"overall data")
         </div>
 
         <div className="flex flex-row gap-4 justify-center pt-6">
-          {attendanceCards.map((card) => (
+          {attendanceCards?.map((card) => (
             <Card
               key={card.label}
               className="
@@ -279,7 +272,7 @@ console.log(attendancedata,"overall data")
               <CardHeader className='md:w-auto md:text-[10px] h-full'>
                 <div className="max-w-screen-xl flex justify-between">
                   <span style={{ ...FONTS.heading_04 }}>{card.label}</span>
-                                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
+                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
                     {card.type === "totalOnly" ? (
                       <span style={{ color: card.color }}>{card.total}</span>
                     ) : (
@@ -317,7 +310,7 @@ console.log(attendancedata,"overall data")
           ))}
         </div>
 
-        <div className="flex flex-row gap-6 pt-6 ">
+        <div className="flex flex-row gap-6 pt-6 h-[45vh] ">
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
             <Calendar
@@ -332,62 +325,61 @@ console.log(attendancedata,"overall data")
             />
           </div>
 
-        <div className="flex flex-col w-full">
-          <h3
-            className="text-lg font-semibold mb-4 mt-2"
-            style={{ ...FONTS.heading_02 }}
-          >
-            Day Overview
-          </h3>
+          <div className="flex flex-col w-full">
+            <h3
+              className="text-lg font-semibold mb-4 mt-2"
+              style={{ ...FONTS.heading_02 }}
+            >
+              Day Overview
+            </h3>
 
-  <div
-    className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
-    style={{ backgroundColor: COLORS.bg_Colour }}
-  >
-    <div>
-      <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
-        {selectedDate ? selectedDate.toDateString() : "Select a date"}
-      </p>
+            <div
+              className="flex flex-col justify-between rounded-md p-6 h-full shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+              style={{ backgroundColor: COLORS.bg_Colour }}
+            >
+              <div>
+                <p className="text-sm mb-2 text-gray-700" style={{ ...FONTS.para_01 }}>
+                  {selectedDate ? selectedDate.toDateString() : "Select a date"}
+                </p>
 
-      <ul
-        className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
-        style={{ ...FONTS.heading_06 }}
-      >
-        {attendanceByDate && attendanceByDate.length > 0 ? (
-          attendanceByDate.map((data: any, index: number) => (
-            <li key={index} className="p-4 flex flex-col gap-2">
-              <p>Class Name: {data?.class_name}</p>
-              <p>Start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
-              <p>End time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
-              <p>Duration: {data?.duration}</p>
-            </li>
-          ))
-        ) : (
-          <li className="p-4 text-gray-500 text-center italic">
-            {selectedDate
-              ? "No class scheduled for this date"
-              : "Please select a date to view schedule"}
-          </li>
-        )}
-      </ul>
-    </div>
+                <ul
+                  className="space-y-2 text-gray-700 h-64 overflow-y-scroll"
+                  style={{ ...FONTS.heading_06 }}
+                >
+                  {attendanceByDate && attendanceByDate.length > 0 ? (
+                    attendanceByDate.map((data: any, index: number) => (
+                      <li key={index} className="p-4 flex flex-col gap-2">
+                        <p>Class Name: {data?.class_name}</p>
+                        <p>Start time: {data?.start_time?.split("T")[1]?.split(".")[0]}</p>
+                        <p>End time: {data?.end_time?.split("T")[1]?.split(".")[0]}</p>
+                        <p>Duration: {data?.duration}</p>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="p-4 text-gray-500 text-center italic">
+                      {selectedDate
+                        ? "No class scheduled for this date"
+                        : "Please select a date to view schedule"}
+                    </li>
+                  )}
+                </ul>
+              </div>
 
-    <button
-      className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${
-        attendanceByDate && attendanceByDate.length > 0
-          ? "bg-gray text-white hover:!text-white btnhovershadow"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-      }`}
-      onClick={() =>
-        attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
-      }
-      style={{ ...FONTS.heading_06 }}
-      disabled={!attendanceByDate || attendanceByDate.length === 0}
-    >
-      View Details
-    </button>
-  </div>
-</div>
+              <button
+                className={`w-max-sm mt-2 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
+                  ? "bg-gray text-white hover:!text-white btnhovershadow"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                onClick={() =>
+                  attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
+                }
+                style={{ ...FONTS.heading_06 }}
+                disabled={!attendanceByDate || attendanceByDate.length === 0}
+              >
+                View Details
+              </button>
+            </div>
+          </div>
 
         </div>
       </div>

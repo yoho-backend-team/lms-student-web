@@ -14,13 +14,12 @@ import DashCalender from '@/components/ui/calendarDash';
 import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 import { useLoader } from '@/context/LoadingContext/Loader';
-import Loader from '@/components/Loader/Loader';
 import TourButton from '@/components/ui/TourButton';
 
 const Dashboard: React.FC = () => {
 	const { TabView } = TabViewResponsive();
 	const dispatch = useDispatch<any>();
-	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const { showLoader, hideLoader } = useLoader();
 	// const storedData = GetLocalStorage('user');
 
 	useEffect(() => {
@@ -46,11 +45,6 @@ const Dashboard: React.FC = () => {
 				className='flex flex-col h-full w-full p-5 gap-5 overflow-x-hidden '
 				style={{ scrollbarWidth: 'none' }}
 			>
-				{IsLoading && (
-					<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-						<Loader />
-					</div>
-				)}
 				<div className='animate-slide-down'>
 					<TourButton />
 				</div>
