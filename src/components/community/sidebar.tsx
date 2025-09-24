@@ -62,8 +62,9 @@ const Sidebar: React.FC<Props> = ({
         {communities.map((chat) => (
           <div
             key={chat._id}
-            className={`relative z-10 flex items-center justify-between p-3 bg-[#EBEFF3] rounded-lg overflow-hidden shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] transition-all ${selectedChat?._id === chat._id ? 'bg-gray-200' : ''
+            className={`px-2 relative z-10 flex items-center justify-between bg-[#EBEFF3] rounded-lg overflow-hidden shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] transition-all ${selectedChat?._id === chat._id ? 'bg-gray-200' : ''
               }`}
+            style={{ height: "120px" }}
             onClick={() => { onSelectChat(chat); dispatch(setSelctedMsg(chat)) }}
           >
             <div className="flex items-center  space-x-3">

@@ -154,6 +154,10 @@ class Client {
   notificatinsubscription = {
     post: (data: any) => httpClient.post(HTTP_END_POINTS.notificationSubscription.post, data)
   }
+
+  speak_eng = {
+    put: (data: any) => httpClient.update(HTTP_END_POINTS.speak_eng.put, data)
+  }
 }
 
 export default new Client();

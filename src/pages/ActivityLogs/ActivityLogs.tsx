@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backBtn from '../../assets/icons/common/back_arrow.png';
 import vector_H from '../../assets/icons/activitylog/Vector-H.png';
 import User from '../../assets/icons/activitylog/User.png';
 import filter from '../../assets/icons/common/filter.png';
 import { useEffect, useState } from 'react';
-import { Calendar } from '@/components/ui/calendar';
+// import { Calendar } from '@/components/ui/calendar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActivityLogs } from '@/features/ActivityLog/reducers/selectors';
@@ -12,6 +13,7 @@ import { getAllActivityLogs } from '@/features/ActivityLog/reducers/thunks';
 import type { AppDispatch } from '@/store/store';
 import updatesimg from '../../assets/dashboard/updates.png';
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import DashCalender from '@/components/ui/calendarDash';
 
 const ActivityLogs = () => {
   const [handleFilter, setHandleFilter] = useState(false);
@@ -20,6 +22,8 @@ const ActivityLogs = () => {
   const [showFromCalendar, setShowFromCalendar] = useState(false);
   const [showToCalendar, setShowToCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  // const [selectedDate, setselectedDate] = useState<Date | undefined>(undefined);
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -96,12 +100,12 @@ const ActivityLogs = () => {
       {/* Main Layout */}
       <div className="flex lg:flex-row gap-5 md:flex-col-reverse">
         {/* Logs */}
-        <div className="lg:w-3/4 md:w-full relative">
+        <div className="lg:w-3/4 md:w-full relative mt-15">
           {filteredLogs.length > 0 ? (
             filteredLogs.map((data: any) => (
               <section
                 key={data.id}
-                className="flex justify-between items-start py-6 gap-12 my-4 relative"
+                className="flex justify-between items-start py-6 gap-12 my-4 relative -mt-18"
               >
                 <div className="lg:w-[170px] pl-6 !text-sm md:w-[160px]">
                   <p style={{ ...FONTS.heading_07 }}>
@@ -272,7 +276,11 @@ const ActivityLogs = () => {
                       "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
                   }}
                 >
-                  <Calendar
+                  <DashCalender
+                    setSelectDate={setFromDate}
+                    setShowFromCalendar={setShowFromCalendar}
+                  />
+                  {/* <Calendar
                     mode="single"
                     required
                     selected={fromDate}
@@ -287,8 +295,7 @@ const ActivityLogs = () => {
                     showOutsideDays={false} 
                     onMonthChange={() => { }} 
                     className="rounded-lg bg-gray-100 w-full"
-                  />
-
+                  /> */}
                 </div>
               )}
 
@@ -300,7 +307,11 @@ const ActivityLogs = () => {
                       "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
                   }}
                 >
-                  <Calendar
+                  <DashCalender
+                    setSelectDate={setToDate}
+                    setShowFromCalendar={setShowToCalendar}
+                  />
+                  {/* <Calendar
                     mode="single"
                     selected={toDate}
                     onSelect={(selectedDate) => {
@@ -311,7 +322,7 @@ const ActivityLogs = () => {
                       }
                     }}
                     className="rounded-lg bg-gray-100 w-full"
-                  />
+                  /> */}
                 </div>
               )}
             </div>

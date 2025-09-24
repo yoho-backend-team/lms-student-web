@@ -55,8 +55,8 @@ export type Endpoints = {
 		get: string;
 		update: string;
 	};
-	certificate:{
-		get:string
+	certificate: {
+		get: string
 	},
 	common: {
 		file: {
@@ -67,4 +67,7 @@ export type Endpoints = {
 	notificationSubscription: {
 		post: string;
 	};
+	speak_eng: {
+		put: string;
+	}
 };
