@@ -1,123 +1,185 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
 import { useLoader } from '@/context/LoadingContext/Loader';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 import { FONTS } from '@/constants/uiConstants';
 import img from '../../../src/assets/classes/Group 197.png'
+import { selectPlacementData } from '@/features/placement/reducers/selectors';
+import { getPlacementthunks } from '@/features/placement/reducers/thunks';
+import { GetLocalStorage } from '@/utils/helper';
 
+interface Company {
+  name: string;
+  email: string;
+  phone: number;
+  address: string;
+  _id: string;
+}
+
+interface Job {
+  name: string;
+  description: string;
+  skils: string[];
+  _id: string;
+}
+
+interface Schedule {
+  interviewDate: string;
+  venue: string;
+  address: string;
+  _id: string;
+}
+
+interface PlacementItem {
+  _id: string;
+  company: Company;
+  job: Job;
+  schedule: Schedule;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const Placement: React.FC = () => {
-	const dispatch = useDispatch<any>();
-	const { showLoader, hideLoader } = useLoader();
+  const dispatch = useDispatch<any>();
+  const { showLoader, hideLoader } = useLoader();
+ const placementData = useSelector(selectPlacementData) as PlacementItem[];
+  const studentData = GetLocalStorage('userData');
 
-	useEffect(() => {
-		(async () => {
-			try {
-				showLoader();
-				const timeoutId = setTimeout(() => {
-					hideLoader();
-				}, 5000);
-				const response = await dispatch(getDashBoardReports());
-				if (response) {
-					clearTimeout(timeoutId);
-				}
-			} finally {
-				hideLoader();
-			}
-		})();
-	}, [dispatch, hideLoader, showLoader]);
+  useEffect(() => {
+    dispatch(getPlacementthunks({ studentId: studentData?._id }));
+  }, [dispatch, studentData?._id]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        showLoader();
+        const timeoutId = setTimeout(() => {
+          hideLoader();
+        }, 5000);
+        const response = await dispatch(getDashBoardReports());
+        if (response) {
+          clearTimeout(timeoutId);
+        }
+      } finally {
+        hideLoader();
+      }
+    })();
+  }, [dispatch, hideLoader, showLoader]);
 
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
-	return (
-		<>
-			<div className='p-5'>
-				<div>
-					<h1 className='text-black text-2xl font-semibold mb-6' style={{ ...FONTS.heading_01 }}>Placement</h1>
-				</div>
-				<div className=''>
-					<div className='cursor-pointer grid grid-cols-1 md:grid-cols-[1fr_2fr] bg-[#EBEFF3] text-[#444447] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg'>
-						<div className='bg-[#EBEFF3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md max-w-[400px] col-start-1 flex items-center justify-center'>
-							<img src={img} className='object-fill' ></img>
-						</div>
-						<div className='grid gap-6'>
-							<div className='grid grid-cols-2 gap-6'>
-								<div className='cursor-pointer  bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
-									<h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Company Details</h3>
-									<ul className="grid gap-2">
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Company Name</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Company Address</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Contact Email</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Contact Number</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-									</ul>
-								</div>
-								<div className='cursor-pointer  bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
-									<h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Company Details</h3>
-									<ul className="grid gap-2">
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Job Name</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Job Description</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
-										<li className="grid grid-cols-[150px_10px_1fr] gap-8">
-											<span style={{ ...FONTS.heading_07 }}>Skills</span>
-											<span>:</span>
-											<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-										</li>
+  console.log(placementData, 'placement useselectors');
 
-									</ul>
-								</div>
+  return (
+    <>
+      <div className='p-5'>
+        <div>
+          <h1 className='text-black text-2xl font-semibold mb-6' style={{ ...FONTS.heading_01 }}>
+            Placement
+          </h1>
+        </div>
+        
+        {placementData && placementData?.length > 0 ? (
+          <div className='grid gap-6'>
+            {placementData.map((placement) => (
+              <div key={placement._id} className='cursor-pointer grid grid-cols-1 md:grid-cols-[1fr_2fr] bg-[#EBEFF3] text-[#444447] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg'>
+                <div className='bg-[#EBEFF3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md max-w-[400px] col-start-1 flex items-center justify-center'>
+                  <img src={img} className='object-fill' alt="Company" />
+                </div>
+                <div className='grid gap-6'>
+                  <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                    {/* Company Details */}
+                    <div className='cursor-pointer bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
+                      <h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Company Details</h3>
+                      <ul className="grid gap-2">
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Company Name</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.company?.name}</span>
+                        </li>
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Company Address</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.company?.address}</span>
+                        </li>
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Contact Email</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.company?.email}</span>
+                        </li>
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Contact Number</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.company?.phone}</span>
+                        </li>
+                      </ul>
+                    </div>
 
-							</div>
-							<div className='cursor-pointer  bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
-								<h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Company Details</h3>
-								<ul className="grid grid-cols-3 gap-2">
-									<li className="">
-										<span style={{ ...FONTS.heading_07 }}>Job Name</span>
-										<span className='p-2'>:</span>
-										<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-									</li>
-									<li className=" ">
-										<span style={{ ...FONTS.heading_07 }}>Job Description</span>
-										<span className='p-2'>:</span>
-										<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-									</li>
-									<li className="">
-										<span style={{ ...FONTS.heading_07 }}>Skills</span>
-										<span className='p-2'>:</span>
-										<span style={{ ...FONTS.heading_04 }}>Yoho Tech</span>
-									</li>
+                    {/* Job Details */}
+                    <div className='cursor-pointer bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
+                      <h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Job Details</h3>
+                      <ul className="grid gap-2">
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Job Name</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.job?.name}</span>
+                        </li>
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Job Description</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>{placement?.job?.description}</span>
+                        </li>
+                        <li className="grid grid-cols-[150px_10px_1fr] gap-8">
+                          <span style={{ ...FONTS.heading_07 }}>Skills</span>
+                          <span>:</span>
+                          <span style={{ ...FONTS.heading_04 }}>
+                            {placement?.job?.skils.join(', ')}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
 
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	);
+                  {/* Interview Details */}
+                  <div className='cursor-pointer bg-[#EBEFF3] text-[rgb(68,68,71)] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg grid gap-4'>
+                    <h3 className='font-semibold' style={{ ...FONTS.heading_04 }}>Interview Details</h3>
+                    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <li className="flex flex-col">
+                        <span style={{ ...FONTS.heading_07 }}>Interview Date</span>
+                        <span style={{ ...FONTS.heading_04 }}>
+                          {formatDate(placement?.schedule?.interviewDate)}
+                        </span>
+                      </li>
+                      <li className="flex flex-col">
+                        <span style={{ ...FONTS.heading_07 }}>Venue</span>
+                        <span style={{ ...FONTS.heading_04 }}>{placement?.schedule?.venue}</span>
+                      </li>
+                      <li className="flex flex-col">
+                        <span style={{ ...FONTS.heading_07 }}>Address</span>
+                        <span style={{ ...FONTS.heading_04 }}>{placement?.schedule?.address}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className='flex items-center justify-center h-64'>
+            <p style={{ ...FONTS.heading_04 }}>No placement data available</p>
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Placement;

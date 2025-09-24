@@ -36,9 +36,11 @@ const Login = () => {
 		try {
 			if (data.email) {
 				const response: any = await dispatch(getStudentLogin(data, {}));
+				console.log(response, 'response')
 				if (response?.profile) {
 					toast.success('Login successful!', { style: { backgroundColor: 'green', color: 'white' } });
 					login(response?.data?.token);
+					StoreLocalStorage('userData', response?.data?.user)
 					navigate('/');
 				} else {
 					StoreLocalStorage('otp', response?.data?.otp)
