@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ticketicon from "../../assets/icons/Tickets/back.png";
 import messageicon from "../../assets/icons/Tickets/Frame 301.png";
@@ -189,13 +189,13 @@ const TicketId = () => {
           <CardFooter className="px-4">
             <div className="flex items-center w-full gap-3 flex-wrap sm:flex-nowrap">
               {/* Message Icon */}
-              <div className="p-2 bg-[#ebeff3] rounded-md flex-shrink-0">
+              {/* <div className="p-2 bg-[#ebeff3] rounded-md flex-shrink-0">
                 <img
                   src={messageicon}
                   alt="Message"
                   className="w-10 h-10 sm:w-12 sm:h-12 object-contain cursor-pointer"
                 />
-              </div>
+              </div> */}
 
               {/* Input Box */}
               <div
