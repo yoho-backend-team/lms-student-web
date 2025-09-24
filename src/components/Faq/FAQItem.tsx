@@ -1,6 +1,8 @@
 import React from 'react';
-import { Plus, Minus } from 'lucide-react';
+// import { Plus, Minus } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
+import plus from "../../../src/assets/faq/Add.png"
+import minus from "../../../src/assets/faq/minus.png"
 
 interface FAQItemProps {
   id: string;
@@ -37,19 +39,20 @@ const FAQItem: React.FC<FAQItemProps> = ({ id, question, content, isExpanded, on
             {question}
           </span>
           <div 
-            className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
+            className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200"
             style={{ 
-              backgroundColor: COLORS.white,
-              boxShadow: `
-                rgba(255, 255, 255, 0.7) 2px 2px 3px, 
-                rgba(189, 194, 199, 0.75) 1px 1px 2px inset
-              `
+              backgroundColor: COLORS.bg_Colour,
+               boxShadow: `
+              rgba(255, 255, 255, 0.7) 3px 3px 5px, 
+              rgba(189, 194, 199, 0.75) 2px 2px 3px inset
+            `,
             }}
           >
             {isExpanded ? (
-              <Minus size={16} color={COLORS.text_desc} strokeWidth={2.5} />
+              <img src ={minus} size={16} backgroundColor = {COLORS.bg_Colour} strokeWidth={2.5} />
+              
             ) : (
-              <Plus size={16} color={COLORS.text_desc} strokeWidth={2.5} />
+               <img src ={plus} size={16} color={COLORS.grey} strokeWidth={2.5} />
             )}
           </div>
         </button>

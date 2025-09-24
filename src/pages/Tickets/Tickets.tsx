@@ -32,7 +32,7 @@ const Tickets = () => {
   const [filter, setFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const itemsPerPage = 4;
+  const itemsPerPage = 10;
   const dispatch = useDispatch<AppDispatch>();
   const ticketData = useSelector(selectTicket);
   
@@ -40,36 +40,36 @@ const Tickets = () => {
     return ticketData?.data?.tickets || [];
   }, [ticketData]);
 
+  const totalPages = ticketData?.data?.totalPages || 1
+
   const handleCreate = () => {
     navigate("/tickets/create-ticket");
   };
 
-  const filteredTickets = useMemo(() => {
-    if (filter === "all") return memoizedTickets;
-    return memoizedTickets.filter((ticket: Ticket) => {
-      if (filter === "open") return ticket.status === "opened";
-      if (filter === "closed") return ticket.status === "closed";
-      return false;
-    });
-  }, [memoizedTickets, filter]);
-
-  const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
-  const paginatedTickets = useMemo(() => {
-    return filteredTickets.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    );
-  }, [filteredTickets, currentPage, itemsPerPage]);
-
-  const handlePageChange = (page: number) => {
+   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      setCurrentPage(page)
     }
-  };
+  }
 
-  useEffect(() => {
-    dispatch(getStudentticket({ page: 2, limit: 10 }));
-  }, [dispatch]);
+  const handleFilterChange = (newFilter: string) => {
+    setFilter(newFilter)
+    setCurrentPage(1) 
+  }
+
+  
+
+  
+
+ useEffect(() => {
+    dispatch(
+      getStudentticket({
+        page: currentPage,
+        limit: itemsPerPage,
+        status: filter === "all" ? undefined : filter === "open" ? "opened" : "closed",
+      }),
+    )
+  }, [dispatch, currentPage, filter, itemsPerPage])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -103,10 +103,7 @@ const Tickets = () => {
             }`}
             style={FONTS.heading_05}
             variant="outline"
-            onClick={() => {
-              setFilter(label);
-              setCurrentPage(1);
-            }}
+           onClick={() => handleFilterChange(label)}
           >
             {label.charAt(0).toUpperCase() + label.slice(1)}
           </Button>
@@ -114,7 +111,7 @@ const Tickets = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 gap-6 w-full">
-        {paginatedTickets.map((ticket: Ticket) => (
+        {memoizedTickets.map((ticket: Ticket) => (
           <Card
             key={ticket._id}
             onClick={() => navigate(`/ticket/${ticket.ticket_id}`, { state: ticket })}
@@ -181,9 +178,8 @@ const Tickets = () => {
         ))}
       </div>
 
-      {totalPages >= 1 && (
-        <div className="flex justify-end items-center mt-10 gap-2">
-          
+       {totalPages > 1 && (
+        <div className="flex justify-end items-center mt-10 gap-4">
           <Button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
@@ -194,21 +190,11 @@ const Tickets = () => {
             <ChevronLeft size={20} />
           </Button>
 
-          {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
-            <Button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={`rounded-full w-10 h-10 px-0 transition-all duration-200 cursor-pointer
-                ${
-                  currentPage === pageNumber
-                    ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white"
-                    : "bg-[#ebeff3] text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),_inset_2px_2px_3px_rgba(189,194,199,0.75)]"
-                }`}
-              variant="ghost"
-            >
-              {pageNumber}
-            </Button>
-          ))}
+          <div className="flex items-center px-4 py-2 bg-[#ebeff3] rounded-full shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]">
+            <span style={FONTS.heading_05} className="text-black">
+              Page {currentPage} of {totalPages}
+            </span>
+          </div>
 
           <Button
             onClick={() => handlePageChange(currentPage + 1)}
