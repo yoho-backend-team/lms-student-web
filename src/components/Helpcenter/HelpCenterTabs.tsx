@@ -4,11 +4,17 @@ import { FONTS, COLORS } from '@/constants/uiConstants';
 import type { HelpCenterTabsProps } from './types.ts';
 
 const HelpCenterTabs: React.FC<HelpCenterTabsProps> = ({ tabs, activeTab, onTabChange }) => {
+
+  const filteredTabs = tabs.filter((item, index, self) =>
+    index === self.findIndex(t => t.category === item.category)
+  );
+
+
   return (
     <div className="mb-4">
       {/* Desktop/Tablet View */}
       <div className="hidden md:flex flex-wrap gap-2 lg:gap-3">
-        {tabs.map((tab, index) => (
+        {filteredTabs?.map((tab, index) => (
           <button
             key={index}
             onClick={() => onTabChange(tab?.category ?? 'All')}

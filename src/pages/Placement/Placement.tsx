@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from 'react';
-import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
@@ -9,7 +9,7 @@ import img from '../../../src/assets/classes/Group 197.png'
 
 const Placement: React.FC = () => {
 	const dispatch = useDispatch<any>();
-	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const { showLoader, hideLoader } = useLoader();
 
 	useEffect(() => {
 		(async () => {
@@ -32,11 +32,6 @@ const Placement: React.FC = () => {
 
 	return (
 		<>
-			{IsLoading && (
-				<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-					<Loader />
-				</div>
-			)}
 			<div className='p-5'>
 				<div>
 					<h1 className='text-black text-2xl font-semibold mb-6' style={{ ...FONTS.heading_01 }}>Placement</h1>

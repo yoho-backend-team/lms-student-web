@@ -36,10 +36,10 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
 
   return (
-    <div className='m-2'>
+    <div className='mt-2 w-full'>
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
         {/* Header Card */}
-        <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4'>
+        <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4' >
           <table className="w-full">
             <thead>
               <tr className='flex justify-around items-center !text-white' style={{ ...FONTS.heading_03 }}>
@@ -60,14 +60,14 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
                         hover:-translate-y-1 
                         hover:shadow-[6px_6px_8px_rgba(0,0,0,0.1),-2px_-2px_6px_rgba(255,255,255,0.8)]
                         cursor-pointer"'          >
-            <table className="w-full">
+            <table className="">
               <tbody>
                 <tr className='flex justify-around items-center' style={{ ...FONTS.heading_06 }}>
                   <td>{classItem.day || '1' }</td>
                   <td>{classItem.courseDetails.course_name}</td>
                   <td>
-                    <a className='!text-[#0400ff]' href={classItem.joinLink}>
-                      {classItem.joinLink || 'www.google.com'}
+                    <a className='!text-[#0400ff] text-wrap' href={classItem.joinLink}>
+                      {classItem?.video_url ? `${classItem?.video_url?.slice(0, 30)}...` : 'nill'}
                     </a>
                   </td>
                   <td>{classItem.duration}</td>

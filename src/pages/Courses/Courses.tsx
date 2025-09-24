@@ -6,7 +6,6 @@ import type { AppDispatch } from '@/store/store';
 import { GetLocalStorage } from '@/utils/helper';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
 
@@ -17,7 +16,7 @@ const Courses = () => {
 
 	// const instituteuuid = useInstituteData();
 
-	const { showLoader, hideLoader, IsLoading } = useLoader();
+	const { showLoader, hideLoader } = useLoader();
 
 
 	useEffect(() => {
@@ -59,11 +58,6 @@ const Courses = () => {
 
 	return (
 		<div>
-			{IsLoading && (
-				<div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-					<Loader />
-				</div>
-			)}
 			<MainCourse />
 		</div>
 	);

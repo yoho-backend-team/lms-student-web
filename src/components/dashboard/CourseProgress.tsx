@@ -33,30 +33,30 @@ const CourseProgress: React.FC = () => {
     const CourseProgress =
         useSelector((state: RootState) => state.dashboard.data.classes) ?? [];
 
-    const percent = parseFloat((((CourseProgress?.[0]?.offline_class?.completed + CourseProgress?.[0]?.online_class?.completed) / CourseProgress?.[0]?.total) * 100).toFixed(1))
+    const percent = parseFloat((((CourseProgress?.[0]?.offline_class?.completed + CourseProgress?.[0]?.online_class?.completed) / CourseProgress?.[0]?.total) * 100).toFixed(1));
     const progress = percent;
 
     const radius = 80;
-    const radius2 = 100;
+    const radius2 = 100; // orbit radius for sun/moon icons
     const circumference = 2 * Math.PI * radius;
     const strokeDashoffset = circumference - (progress / 100) * circumference || 0;
 
     const { TabView } = TabViewResponsive();
 
-    const centerX = 95;
-    const centerY = 115;
+    const centerX = 100;
+    const centerY = 100;
 
     const getCirclePosition = (angleDeg: number) => {
-        const angleRad = (angleDeg - 90) * (Math.PI / 180);
+        const angleRad = (angleDeg - 90) * (Math.PI / 180); // Start from top
         const x = centerX + radius2 * Math.cos(angleRad);
         const y = centerY + radius2 * Math.sin(angleRad);
         return { x, y };
     };
 
-    const sunAngle = ((progress) % 100) * 3.6;
+    const sunAngle = (progress / 100) * 360;
     const { x: sunX, y: sunY } = getCirclePosition(sunAngle);
 
-    const moonAngle = (1 / 100) * 360;
+    const moonAngle = 0; // Always at top
     const { x: moonX, y: moonY } = getCirclePosition(moonAngle);
 
     return (
@@ -76,8 +76,8 @@ const CourseProgress: React.FC = () => {
                             />
 
                             <svg
-                                className={`${TabView ? 'w-[248px] h-[277px]' : 'w-[258px] h-[287px]'}  transform -rotate-90`}
-                                viewBox='0 3 198 200'
+                                className={`${TabView ? 'w-[248px] h-[277px]' : 'w-[258px] h-[287px]'} transform -rotate-90`}
+                                viewBox='0 0 197 205'
                             >
                                 <circle
                                     cx='100'
@@ -89,9 +89,8 @@ const CourseProgress: React.FC = () => {
                                     strokeLinecap='round'
                                     strokeDasharray={circumference}
                                     strokeDashoffset={strokeDashoffset}
-                                    className='transition-all duration-1000 ease-out shadow-2xl bg-gradient-to-r from-[#7B00FF] to-[#7B00FF]'
+                                    className='transition-all duration-1000 ease-out'
                                 />
-
                                 <defs>
                                     <linearGradient
                                         id='progressGradient'
@@ -106,27 +105,18 @@ const CourseProgress: React.FC = () => {
                                 </defs>
                             </svg>
 
-
-                            <img
-                                className={`absolute w-[170px] h-[170px]  ${TabView ? 'left-9 top-[55px]' : 'top-[60px] left-11'} `}
-                                alt='Group'
-                                src={dots}
-                            />
-
-                            {/* Sun Icon */}
                             <img
                                 src={sun}
                                 alt='Sun'
-                                className='absolute'
+                                className='absolute transition-all duration-500'
                                 style={{
                                     width: 50,
                                     height: 50,
-                                    left: sunX + 20 - 16,
-                                    top: sunY + 20 - 16,
+                                    left: progress < 70 && progress > 30 ? sunX : (progress < 30 ? sunX + 5 : (progress <= 0 ? sunX : sunX - 5)), // center the image
+                                    top: progress < 70 && progress > 30 ? sunY + 20 : (progress < 30 ? sunY + 15 : sunY + 15),
                                 }}
                             />
 
-                            {/* Moon Icon */}
                             <img
                                 src={moon}
                                 alt='Moon'
@@ -134,12 +124,18 @@ const CourseProgress: React.FC = () => {
                                 style={{
                                     width: 35,
                                     height: 35,
-                                    left: moonX + 20 - 16,
-                                    top: moonY + 20 - 16,
+                                    left: moonX + 10,
+                                    top: moonY + 20,
                                 }}
                             />
 
-                            <div className={`absolute w-[81px] h-[81px] ${TabView ? 'top-[95px] left-[80px]' : 'top-[99px] left-[85px]'}  bg-[#ebeff3] rounded-[40.33px] shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]`}>
+                            <img
+                                className={`absolute w-[170px] h-[170px] ${TabView ? 'left-9 top-[55px]' : 'top-[60px] left-11'}`}
+                                alt='Dots'
+                                src={dots}
+                            />
+
+                            <div className={`absolute w-[81px] h-[81px] ${TabView ? 'top-[95px] left-[80px]' : 'top-[99px] left-[85px]'} bg-[#ebeff3] rounded-[40.33px] shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]`}>
                                 <div className='flex flex-col w-[63px] items-center gap-2 relative top-[17px] left-[9px]'>
                                     <div className="relative w-[62px] mt-[-1.00px] [font-family:'Quicksand',Helvetica] font-semibold text-dark text-xs text-center tracking-[0] leading-4">
                                         Progress

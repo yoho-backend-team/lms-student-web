@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "./button";
 import { Card, CardContent, CardTitle } from "./card";
 
@@ -8,7 +8,12 @@ const months = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-export const DashCalender = () => {
+interface props {
+  setSelectDate?: (data: Date | undefined) => void
+  setShowFromCalendar?: (data: boolean) => void
+}
+
+export const DashCalender: React.FC<props> = ({ setSelectDate, setShowFromCalendar }) => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -55,6 +60,12 @@ export const DashCalender = () => {
   };
 
   const calendarData = getDaysInMonth(currentYear, currentMonth);
+
+  const handelSelectDate = (day: number | null) => {
+    const date = new Date(currentYear, currentMonth, day ?? 1)
+    setSelectDate?.(date)
+    setShowFromCalendar?.(false)
+  }
 
   return (
     <div>
@@ -121,6 +132,7 @@ export const DashCalender = () => {
                 return (
                   <div
                     key={`day-${index}`}
+                    onClick={() => handelSelectDate?.(day)}
                     className={`h-8 w-8 flex items-center justify-center rounded-full transition ${isToday
                       ? "bg-[linear-gradient(135deg,rgba(123,0,255,1)_0%,rgba(178,0,255,1)_100%)] text-white font-bold"
                       : day

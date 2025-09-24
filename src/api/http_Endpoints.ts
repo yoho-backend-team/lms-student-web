@@ -62,8 +62,8 @@ const getEndpoints = (): Endpoints => {
 			// update: `/institutes/auth/student/update/${getStudentDetails()?.uuid}`,
 			update: '/institutes/auth/profile/me/',
 		},
-		certificate:{
-			get:'/certificate/getall/student/:studentId'
+		certificate: {
+			get: '/certificate/getall/student/:studentId'
 		},
 		common: {
 			file: {
@@ -73,6 +73,9 @@ const getEndpoints = (): Endpoints => {
 		notificationSubscription: {
 			post: '/notification/subscribe',
 		},
+		speak_eng: {
+			put: '/speaking-eng/progress'
+		}
 	};
 };
 
