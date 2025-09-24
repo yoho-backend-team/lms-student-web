@@ -20,13 +20,13 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
   }
 
   return (
-    <div className='m-2'>
-      <Card style={{ backgroundColor: COLORS.bg_Colour }}>
+    <div className='m2-2 w-full'>
+      <Card style={{ backgroundColor: COLORS.bg_Colour }} className='w-full'>
         {/* Header Card */}
         <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4'>
           <table className="w-full">
             <thead>
-              <tr className='flex justify-around items-center !text-white' style={{ ...FONTS.heading_03 }}>
+              <tr className='flex justify-center gap-56 items-center !text-white' style={{ ...FONTS.heading_03 }}>
                 {headers.map((header, index) => (
                   <td key={index}>{header}</td>
                 ))}
@@ -49,9 +49,9 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
                 <tr className='flex justify-around items-center' style={{ ...FONTS.heading_06 }}>
                   <td>{classItem.day || '1'}</td>
                   <td>{classItem?.class_name}</td>
-                  <td>
-                    <a className='!text-[#0400ff] text-wrap' href={classItem.joinLink}>
-                      {classItem.video_url || 'nill'}
+                  <td className=''>
+                    <a className='!text-[#0400ff]' href={classItem.joinLink}>
+                      {classItem?.video_url ? `${classItem?.video_url?.slice(0, 30)}...` : 'nill'}
                     </a>
                   </td>
                   <td>{classItem?.duration}</td>

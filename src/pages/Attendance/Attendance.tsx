@@ -50,7 +50,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
-  const { showLoader, hideLoader, IsLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate()
 
 
@@ -89,11 +89,14 @@ export const Attendance = () => {
       label: "Classes Attend",
       type: "totalOnly",
       current: attendancedata?.data?.attendedClassCount || 0,
+      type: "totalOnly",
+      current: attendancedata?.data?.attendedClassCount || 0,
       total: (attendancedata?.data?.offlineClassCount || 0) + (attendancedata?.data?.onlineClassCount || 0),
       color: COLORS.light_blue,
     },
     {
       label: "Present Days",
+      type: "currentAndTotal",
       type: "currentAndTotal",
       current: attendancedata?.data?.totalPresentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
@@ -107,6 +110,7 @@ export const Attendance = () => {
       color: COLORS.light_green_02,
     }
   ]
+  console.log(attendanceCards, 'datacon attendance data')
   console.log(attendanceCards, 'datacon attendance data')
 
   console.log(attendancedata?.data?.totalAbsentDays, 'absenttotal days ')
@@ -161,7 +165,7 @@ export const Attendance = () => {
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [dashData, selectedDate]);
+  }, [dashData, dispatch, selectedDate]);
 
   useEffect(() => {
     (async () => {
@@ -187,11 +191,6 @@ export const Attendance = () => {
 
       <div className="p-4">
         {/* Header */}
-        {IsLoading && (
-          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-            <Loader />
-          </div>
-        )}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
@@ -274,7 +273,7 @@ export const Attendance = () => {
         </div>
 
         <div className="flex flex-row gap-4 justify-center pt-6">
-          {attendanceCards.map((card) => (
+          {attendanceCards?.map((card) => (
             <Card
               key={card.label}
               className="
@@ -291,6 +290,7 @@ export const Attendance = () => {
               <CardHeader className='md:w-auto md:text-[10px] h-full'>
                 <div className="max-w-screen-xl flex justify-between">
                   <span style={{ ...FONTS.heading_04 }}>{card.label}</span>
+                  <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
                   <span className="text-2xl font-bold" style={{ ...FONTS.heading_01 }}>
                     {card.type === "totalOnly" ? (
                       <span style={{ color: card.color }}>{card.total}</span>
@@ -329,7 +329,7 @@ export const Attendance = () => {
           ))}
         </div>
 
-        <div className="flex flex-row gap-6 pt-6 ">
+        <div className="flex flex-row gap-6 pt-6 h-[45vh] ">
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
             <Calendar
@@ -353,6 +353,13 @@ export const Attendance = () => {
 
           </div>
 
+          <div className="flex flex-col w-full">
+            <h3
+              className="text-lg font-semibold mb-4 mt-2"
+              style={{ ...FONTS.heading_02 }}
+            >
+              Day Overview
+            </h3>
           <div className="flex flex-col w-full">
             <h3
               className="text-lg font-semibold mb-4 mt-2"
