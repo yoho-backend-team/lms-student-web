@@ -27,7 +27,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectAttendance, selectAttendanceByDate } from '@/features/Attendance/reducer/selectors'
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks'
 import { selectDashBoard } from '@/features/Dashboard/reducers/selectors'
-import Loader from '@/components/Loader/Loader';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { getattendanceByDate, getStudentattendance } from '@/features/Attendance/reducer/thunks'
 import { useNavigate } from 'react-router-dom'
@@ -55,6 +54,18 @@ export const Attendance = () => {
 
 
   const attendancedata = useSelector(selectAttendance)
+  console.log(attendancedata, 'attendancedata useeselactor')
+
+
+  const presentDates =
+    attendancedata?.data?.formattedAttendance?.attendance
+      ?.filter((att: any) => att.status === "present")
+      .map((att: any) => new Date(att.date)) || [];
+
+  const absentDates =
+    attendancedata?.data?.formattedAttendance?.attendance
+      ?.filter((att: any) => att.status === "absent")
+      .map((att: any) => new Date(att.date)) || [];
 
 
   const generateChartData = useCallback(() => {
@@ -67,7 +78,7 @@ export const Attendance = () => {
         desktop: att.presentDays || 0
       };
     });
-  }, [attendancedata])
+  }, [attendancedata.data.formattedAttendance])
 
   const chartData = generateChartData();
 
@@ -90,14 +101,14 @@ export const Attendance = () => {
     {
       label: "Absent Days",
       type: "currentAndTotal",
-      current: attendancedata?.dat?.totalAbsentDays || 0,
+      current: attendancedata?.data?.totalAbsentDays || 0,
       total: attendancedata?.data?.totalWorkingDays || 0,
       color: COLORS.light_green_02,
     }
   ]
   console.log(attendanceCards, 'datacon attendance data')
 
-
+  console.log(attendancedata?.data?.totalAbsentDays, 'absenttotal days ')
   const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))
@@ -140,7 +151,7 @@ export const Attendance = () => {
     const timeout = setTimeout(() => {
       const payload = {
         userId: dashData.user.uuid,
-        month: selectedDate.getMonth() + 1,
+        month: selectedDate.getMonth(),
         year: selectedDate.getFullYear(),
         instituteId: dashData.institute.uuid,
       };
@@ -320,9 +331,18 @@ export const Attendance = () => {
               onSelect={setSelectedDate}
               month={selectedDate}
               onMonthChange={handleCalendarMonthChange}
-              className="border **:gap-5 **:py-0.5 md:**:gap-2 rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
+              modifiers={{
+                present: presentDates,
+                absent: absentDates,
+              }}
+              modifiersClassNames={{
+                present: "bg-gray-300 text-green-700 font-semibold ",
+                absent: "bg-red-100 text-red-700 font-semibold ",
+              }}
+              className="border **:gap-5 **  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
               style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
             />
+
           </div>
 
           <div className="flex flex-col w-full">
@@ -338,12 +358,12 @@ export const Attendance = () => {
               style={{ backgroundColor: COLORS.bg_Colour }}
             >
               <div>
-                <p className="text-sm mb-2 text-gray-700" style={{ ...FONTS.para_01 }}>
+                <p className="text-sm mb-4 text-gray-700" style={{ ...FONTS.para_01 }}>
                   {selectedDate ? selectedDate.toDateString() : "Select a date"}
                 </p>
 
                 <ul
-                  className="space-y-2 text-gray-700 h-64 overflow-y-scroll"
+                  className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
                   style={{ ...FONTS.heading_06 }}
                 >
                   {attendanceByDate && attendanceByDate.length > 0 ? (
@@ -366,7 +386,7 @@ export const Attendance = () => {
               </div>
 
               <button
-                className={`w-max-sm mt-2 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
+                className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
                   ? "bg-gray text-white hover:!text-white btnhovershadow"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
@@ -387,4 +407,4 @@ export const Attendance = () => {
   )
 }
 
-export default Attendance
+export default Attendance;
