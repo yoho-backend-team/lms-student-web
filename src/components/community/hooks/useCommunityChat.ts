@@ -27,7 +27,6 @@ export function useCommunityChat({
   const selectedMsg: any = useSelector((state: RootState) => state.community.selectedMsg)
   const user: any = GetLocalStorage('user')
 
-
   const selectChat = (chat: Community) => {
     const selected: Chat = {
       _id: chat._id,
@@ -54,7 +53,7 @@ export function useCommunityChat({
 
   useEffect(() => {
     fetchMessages(selectedChat?._id);
-  }, [selectedChat?._id]);
+  }, [selectedChat?._id, userId]);
 
 
   useEffect(() => {
@@ -91,12 +90,12 @@ export function useCommunityChat({
       senderId: user?._id,
       name: user?.first_name,
       time: new Date().toISOString(),
+      message: text
     };
-    console.log(selectedMsg, "chat pick")
-    console.log(message, "socket message")
 
     socket.emit('sendMessage', message);
-    setMessages((prev) => [...prev, message]);
+    console.log('msg sending')
+    fetchMessages(selectedChat?._id)
   };
 
   const isMine = (m: Message) => (m.sender ?? m.senderId) === userId;

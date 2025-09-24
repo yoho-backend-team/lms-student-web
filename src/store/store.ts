@@ -14,7 +14,7 @@ import CourseSlice from '../features/Course/reducer/CourseSlice'
 import HelpSlice from '../features/HelpCenter/HelpSlice';
 import FaqSlice from '../features/Faq/FaqSlice'
 import certificateSlice from '../features/certificate/reducers/slice'
-
+import PlacementSlice from '../features/placement/reducers/placementSlice';
 
 const store = configureStore({
 	reducer: {
@@ -33,6 +33,7 @@ const store = configureStore({
 		HelpSlice: HelpSlice,
 		FaqSlice,
 		certificateSlice:certificateSlice,
+		PlacementSlice:PlacementSlice,
 	},
 });
 

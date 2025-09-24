@@ -49,7 +49,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
-  const { showLoader, hideLoader } = useLoader();
+  const { showLoader, hideLoader, IsLoading } = useLoader();
   const navigate = useNavigate()
 
 
@@ -160,7 +160,7 @@ export const Attendance = () => {
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [dashData, dispatch, selectedDate]);
+  }, [dashData, selectedDate]);
 
   useEffect(() => {
     (async () => {
@@ -179,11 +179,18 @@ export const Attendance = () => {
     })();
   }, [dispatch, hideLoader, showLoader]);
 
+  console.log(attendancedata, "overall data")
+
   return (
     <>
 
       <div className="p-4">
         {/* Header */}
+        {IsLoading && (
+          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
+            <Loader />
+          </div>
+        )}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
@@ -266,7 +273,7 @@ export const Attendance = () => {
         </div>
 
         <div className="flex flex-row gap-4 justify-center pt-6">
-          {attendanceCards?.map((card) => (
+          {attendanceCards.map((card) => (
             <Card
               key={card.label}
               className="
@@ -321,7 +328,7 @@ export const Attendance = () => {
           ))}
         </div>
 
-        <div className="flex flex-row gap-6 pt-6 h-[45vh] ">
+        <div className="flex flex-row gap-6 pt-6 ">
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold mb-4 mt-2" style={{ ...FONTS.heading_02 }}>Calendar</h2>
             <Calendar
