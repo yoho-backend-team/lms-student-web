@@ -39,6 +39,7 @@ const Login = () => {
 				if (response?.profile) {
 					toast.success('Login successful!', { style: { backgroundColor: 'green', color: 'white' } });
 					login(response?.data?.token);
+					StoreLocalStorage('userData', response?.data?.user)
 					navigate('/');
 				} else {
 					StoreLocalStorage('otp', response?.data?.otp)
