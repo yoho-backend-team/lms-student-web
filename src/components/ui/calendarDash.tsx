@@ -4,16 +4,29 @@ import { Card, CardContent, CardTitle } from "./card";
 
 const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const months = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 interface props {
-  setSelectDate?: (data: Date | undefined) => void
-  setShowFromCalendar?: (data: boolean) => void
+  setSelectDate?: (data: Date | undefined) => void;
+  setShowFromCalendar?: (data: boolean) => void;
 }
 
-export const DashCalender: React.FC<props> = ({ setSelectDate, setShowFromCalendar }) => {
+export const DashCalender: React.FC<props> = ({
+  setSelectDate,
+  setShowFromCalendar,
+}) => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -62,10 +75,10 @@ export const DashCalender: React.FC<props> = ({ setSelectDate, setShowFromCalend
   const calendarData = getDaysInMonth(currentYear, currentMonth);
 
   const handelSelectDate = (day: number | null) => {
-    const date = new Date(currentYear, currentMonth, day ?? 1)
-    setSelectDate?.(date)
-    setShowFromCalendar?.(false)
-  }
+    const date = new Date(currentYear, currentMonth, day ?? 1);
+    setSelectDate?.(date);
+    setShowFromCalendar?.(false);
+  };
 
   return (
     <div>
@@ -133,12 +146,13 @@ export const DashCalender: React.FC<props> = ({ setSelectDate, setShowFromCalend
                   <div
                     key={`day-${index}`}
                     onClick={() => handelSelectDate?.(day)}
-                    className={`h-8 w-8 flex items-center justify-center rounded-full transition ${isToday
-                      ? "bg-[linear-gradient(135deg,rgba(123,0,255,1)_0%,rgba(178,0,255,1)_100%)] text-white font-bold"
-                      : day
+                    className={`h-8 w-8 flex items-center justify-center rounded-full transition ${
+                      isToday
+                        ? "bg-[linear-gradient(135deg,rgba(123,0,255,1)_0%,rgba(178,0,255,1)_100%)] text-white font-bold"
+                        : day
                         ? "text-[#706f6f] text-sm font-medium hover:bg-gray-200"
                         : "text-transparent"
-                      }`}
+                    }`}
                   >
                     {day || ""}
                   </div>
