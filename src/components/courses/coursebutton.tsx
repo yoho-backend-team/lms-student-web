@@ -15,14 +15,14 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
   const coursedata = useSelector(selectCourse);
 
   const activeTabs: TabType = location.pathname.includes(
-    "/courses/note_materials"
+    "/note_materials"
   )
     ? "notes"
-    : location.pathname.includes("/courses/task_projects")
+    : location.pathname.includes("/task_projects")
     ? "task"
-    : location.pathname.includes("/courses/course_track")
+    : location.pathname.includes("/course_track")
     ? "track"
-    : location.pathname.includes(`/courses/about`)
+    : location.pathname.includes(`/about`)
     ? "about"
     : "about";
 
