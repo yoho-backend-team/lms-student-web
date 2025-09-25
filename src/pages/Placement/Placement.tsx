@@ -43,8 +43,8 @@ interface PlacementItem {
 const Placement: React.FC = () => {
   const dispatch = useDispatch<any>();
   const { showLoader, hideLoader } = useLoader();
- const placementData = useSelector(selectPlacementData) as PlacementItem[];
-  const studentData = GetLocalStorage('userData');
+  const placementData = useSelector(selectPlacementData) as PlacementItem[];
+  const studentData = GetLocalStorage('user');
 
   useEffect(() => {
     dispatch(getPlacementthunks({ studentId: studentData?._id }));
@@ -86,7 +86,7 @@ const Placement: React.FC = () => {
             Placement
           </h1>
         </div>
-        
+
         {placementData && placementData?.length > 0 ? (
           <div className='grid gap-6'>
             {placementData.map((placement) => (
