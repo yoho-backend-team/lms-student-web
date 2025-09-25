@@ -119,7 +119,6 @@ const Navbar = () => {
   return (
     <nav>
       <div className="flex justify-between gap-3 px-6">
-        {/* Logo with tooltip */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -142,7 +141,6 @@ const Navbar = () => {
           </Tooltip>
         </TooltipProvider>
 
-        {/* Navigation items with tooltips */}
         <div className="flex lg:gap-10 md:gap-5">
           {navItems.map((item, index) => (
             <TooltipProvider key={item.path || index}>
