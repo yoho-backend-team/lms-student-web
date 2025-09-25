@@ -35,7 +35,7 @@ const MainCourse = () => {
 					image={courses?.image ?? ''}
 					modules={courses?.coursemodules?.length ?? 0}
 					duration={courses?.duration ?? ''}
-					onClick={() => navigate(`about/${courses?.uuid}`)} // if you have route
+					onClick={() => navigate(`${courses?.uuid}/about`)} 
 				/>
 			</div>
 		</div>
