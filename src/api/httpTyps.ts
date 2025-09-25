@@ -9,8 +9,10 @@ export type Endpoints = {
 	};
 	course: {
 		get: string;
+		getById: string;
 		get_task: string;
 		updatetask: string;
+		getByBatch: string;
 	};
 	class: {
 		get: string;
@@ -70,7 +72,7 @@ export type Endpoints = {
 	speak_eng: {
 		put: string;
 	},
-	placement:{
-		get:string;
+	placement: {
+		get: string;
 	}
 };

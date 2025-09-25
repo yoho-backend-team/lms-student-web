@@ -1,45 +1,36 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import icons from "../../assets/courses icons/demo human.png"
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '@/store/store';
+import { GetLocalStorage } from '@/utils/helper';
+import { getBatchUUIDThunks } from '@/features/Course/reducer/thunks';
 
 
-interface TimelineItem {
-  icon: string;
-  title: string;
-  side: "left" | "right";
-  color?: string;
-}
-
-const techTimeline: TimelineItem[] = [
-  {
-    icon: icons,
-    title: "HTML, CSS, Javascript",
-    side: "right",
-    color: "bg-purple-600",
-  },
-  {
-    icon: icons,
-    title: "Mangodb, Express, Node.js",
-    side: "left",
-  },
-  {
-    icon: icons,
-    title: "React",
-    side: "right",
-  },
-  {
-    icon: icons,
-    title: "python",
-    side: "left",
-  },
-];
 
 const CourseTrack: React.FC = () => {
   const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>()
+
+  useEffect(() => {
+    (async () => {
+      const params = {
+        instituteuuid: GetLocalStorage("instituteId"),
+        branchuuid: GetLocalStorage("branchId"),
+        batchid: GetLocalStorage("batchId")
+      }
+      dispatch(getBatchUUIDThunks(params))
+    })()
+  }, [dispatch]);
+
+  console.log(courseTrack)
 
   return (
     <div className="w-full mx-auto p-4">
@@ -79,7 +70,7 @@ const CourseTrack: React.FC = () => {
           <div className="relative flex flex-col items-center overflow-auto h-[500px]" style={{ scrollbarWidth: 'none' }}>
 
 
-            {techTimeline.map((item, index) => {
+            {courseTrack?.coursemodules?.map((item: any, index: number) => {
               const isEven = index % 2 === 0;
               return (
                 <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl">
@@ -89,11 +80,12 @@ const CourseTrack: React.FC = () => {
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
                       <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-2xl p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
-                        <span className="text-base font-medium text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] rounded-2xl flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-2xl font-medium text-gray-700">{item?.title}</span>
+                        <span className="text-base font-medium text-gray-700">{item?.description}</span>
                       </div>
                     )}
                   </div>
@@ -107,12 +99,13 @@ const CourseTrack: React.FC = () => {
                   {/* Right Section */}
                   <div className="w-1/2 flex justify-start pl-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
-                        <span className="text-base font-medium text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] flex flex-col rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-2xl font-medium text-gray-700">{item?.title}</span>
+                        <span className="text-base font-medium text-gray-700">{item?.description}</span>
                       </div>
                     ) : (
                       <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     )}
                   </div>

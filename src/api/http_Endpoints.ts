@@ -12,9 +12,11 @@ const getEndpoints = (): Endpoints => {
 		},
 		course: {
 			get: `/institutes/:instituteuuid/branches/:branchuuid/student-new/courses`,
+			getById: `/institutes/:instituteuuid/branches/:branchuuid/course/:courseId`,
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 			get_task: "/task-project/get/:courseid",
-			updatetask: '/task-project/update/:taskid'
+			updatetask: '/task-project/update/:taskid',
+			getByBatch: "/institutes/:instituteuuid/branches/:branchuuid/batches/:batchId",
 		},
 		class: {
 			get: `/institutes/class/`,
@@ -75,10 +77,10 @@ const getEndpoints = (): Endpoints => {
 		},
 		speak_eng: {
 			put: '/speaking-eng/progress'
-		}, 
+		},
 		placement: {
-      get: `/placements/fetch/`,
-    },
+			get: `/placements/fetch/`,
+		},
 	};
 };
 
