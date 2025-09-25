@@ -5,6 +5,7 @@ import type { Chat, Community } from './type';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@/store/store';
 import { setSelctedMsg } from '@/features/community/redux/communitySlice';
+import { StoreLocalStorage } from '@/utils/helper';
 
 type Props = {
   communities: Community[];
@@ -73,6 +74,7 @@ const Sidebar: React.FC<Props> = ({
               onClick={() => {
                 onSelectChat(chat);
                 dispatch(setSelctedMsg(chat));
+                StoreLocalStorage('chatId', chat)
               }}
             >
               {/* Left Section - Avatar & Info */}

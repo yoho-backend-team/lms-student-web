@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Download, QrCode } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import * as htmlToImage from 'html-to-image';
+import { saveAs } from 'file-saver';
 
 interface IDCardData {
   studentName: string;
@@ -25,10 +27,11 @@ interface IDCardProps {
 
 const IDCard: React.FC<IDCardProps> = ({ data }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [profileImgBase64, setProfileImgBase64] = useState<string | null>(null);
+  const frontRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch<any>();
-  const profileDetails = useSelector(selectProfile)
-
+  const profileDetails = useSelector(selectProfile);
 
   useEffect(() => {
     dispatch(getStudentProfileThunk({}));
@@ -49,13 +52,50 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
     emergencyContact: profileDetails.length != 0 ? profileDetails.contact_info.phone_number : "NA"
   };
 
-  const handleDownload = () => {
-    // Implement ID card download functionality
+  // Convert remote image to Base64 to handle CORS issues
+  useEffect(() => {
+    const fetchImageAsBase64 = async (url: string) => {
+      try {
+        const response = await fetch(url, { mode: 'cors' });
+        if (!response.ok) throw new Error('Failed to fetch image');
+        const blob = await response.blob();
+        return await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } catch (err) {
+        console.error('Failed to fetch image for Base64:', err);
+        return null;
+      }
+    };
+
+    if (idCardData.profileImage) {
+      fetchImageAsBase64(idCardData.profileImage).then((base64) => {
+        if (base64) setProfileImgBase64(base64);
+      });
+    }
+  }, [idCardData.profileImage]);
+
+  const handleDownload = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!frontRef.current) return;
+
+    try {
+      const dataUrl = await htmlToImage.toPng(frontRef.current, {
+        quality: 1,
+        cacheBust: true,
+        backgroundColor: '#ffffff',
+      });
+      saveAs(dataUrl, `${idCardData.studentName || 'IDCard'}_IDCard.png`);
+    } catch (err) {
+      console.error('Failed to download ID Card:', err);
+      alert('Failed to download ID Card. Make sure all images allow CORS.');
+    }
   };
 
-  const handleCardClick = () => {
-    setIsFlipped(!isFlipped);
-  };
+  const handleCardClick = () => setIsFlipped(!isFlipped);
 
   return (
     <div className="w-full">
@@ -89,7 +129,11 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 }}
               >
                 {/* Card Front */}
-                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
+                <div 
+                  ref={frontRef}
+                  className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden" 
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
                   {/* Half Color Design */}
                   <div className="h-full relative">
                     {/* Top Half - Colored */}
@@ -104,11 +148,15 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                       {/* Profile Image */}
                       <div className="flex justify-center mb-4">
                         <div className="w-20 h-20 rounded-full border-4 border-white/30 overflow-hidden bg-white/10">
-                          <img
-                            src={idCardData.profileImage}
-                            alt={idCardData.studentName}
-                            className="w-full h-full object-cover"
-                          />
+                          {profileImgBase64 ? (
+                            <img
+                              src={profileImgBase64}
+                              alt={idCardData.studentName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gray-200 animate-pulse" />
+                          )}
                         </div>
                       </div>
 
@@ -143,7 +191,6 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                           <span className="opacity-70">Blood Group:</span>
                           <span className="font-semibold">{idCardData.bloodGroup || 'N/A'}</span>
                         </div>
-
                       </div>
 
                       {/* Bottom Section */}
@@ -158,10 +205,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
 
                         {/* Right side - Download button */}
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDownload();
-                          }}
+                          onClick={handleDownload}
                           className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-all duration-200 shadow-md"
                           style={{ backgroundColor: COLORS.bg_Colour }}
                           title="Download ID Card"
@@ -179,7 +223,7 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 </div>
 
                 {/* Card Back */}
-                <div className="absolute inset-0 w-full h-full rounded-2xl  overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
                   <div className="h-full relative" style={{ background: `linear-gradient(135deg, ${COLORS.purple_01}, ${COLORS.light_blue})`, color: COLORS.white }}>
                     {/* Header */}
                     <div className="text-center p-6 border-b border-white/20">
@@ -198,8 +242,6 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                         <p className="text-xs opacity-70" style={{ fontFamily: FONTS.para_01.fontFamily }}>Scan this QR code for quick verification</p>
                       </div>
                     </div>
-
-
 
                     {/* Decorative elements */}
                     <div className="absolute top-0 left-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 -translate-x-10"></div>
@@ -269,8 +311,6 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                   {idCardData.bloodGroup || 'Not provided'}
                 </div>
               </div>
-
-
 
               <div className="md:col-span-2">
                 <label className="block font-medium mb-2 text-sm leading-relaxed" style={{ color: COLORS.text_desc, fontFamily: FONTS.para_01.fontFamily }}>

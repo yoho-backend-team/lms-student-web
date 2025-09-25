@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { getMessage } from '@/features/community/services/communityservices';
 import type { Chat, Community, Message } from '../type';
 import { useSelector } from 'react-redux';
-import type { RootState } from '@/store/store';
+// import type { RootState } from '@/store/store';
 import { GetLocalStorage } from '@/utils/helper';
 
 type UseCommunityChatArgs = {
@@ -24,7 +24,7 @@ export function useCommunityChat({
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState<boolean>(false)
-  const selectedMsg: any = useSelector((state: RootState) => state.community.selectedMsg)
+  const selectedMsg: any = useSelector((state: any) => state.community.selectedMsg)
   const user: any = GetLocalStorage('user')
 
   const selectChat = (chat: Community) => {
@@ -53,13 +53,15 @@ export function useCommunityChat({
 
   useEffect(() => {
     fetchMessages(selectedChat?._id);
-  }, [selectedChat?._id, userId]);
+  // }, [selectedChat?._id,messages, userId]);
+    }, [selectedChat?._id, userId]);
 
 
   useEffect(() => {
-    if (!socket) return;
+    // if (!socket) return;
 
     const handleMessage = (message: Message) => {
+      console.log(message, 'mess')
       setMessages((prev) => [...prev, message]);
     };
 
@@ -75,10 +77,12 @@ export function useCommunityChat({
     socket.on("connect", handleConnection);
     socket.on("disconnect", handleDisconnection);
 
+    
     return () => {
       socket.off("newMessage", handleMessage);
       socket.off("connect", handleConnection);
       socket.off("disconnect", handleDisconnection);
+
     };
   }, [socket, setMessages, messages]);
 
@@ -94,8 +98,7 @@ export function useCommunityChat({
     };
 
     socket.emit('sendMessage', message);
-    console.log('msg sending')
-    fetchMessages(selectedChat?._id)
+    setMessages((prev) => [...prev, message]);
   };
 
   const isMine = (m: Message) => (m.sender ?? m.senderId) === userId;

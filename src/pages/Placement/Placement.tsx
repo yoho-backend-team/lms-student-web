@@ -44,7 +44,7 @@ const Placement: React.FC = () => {
   const dispatch = useDispatch<any>();
   const { showLoader, hideLoader } = useLoader();
  const placementData = useSelector(selectPlacementData) as PlacementItem[];
-  const studentData = GetLocalStorage('userData');
+  const studentData = GetLocalStorage('user');
 
   useEffect(() => {
     dispatch(getPlacementthunks({ studentId: studentData?._id }));
