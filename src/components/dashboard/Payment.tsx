@@ -14,6 +14,7 @@ const Payment: React.FC = () => {
 
   useEffect(() => {
     const storedData = GetLocalStorage("user");
+    console.log("first", storedData);  
     setStudent(storedData);
   }, []);
 

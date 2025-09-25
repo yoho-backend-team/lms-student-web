@@ -50,7 +50,7 @@ const Login = () => {
             return;
           } else {
             StoreLocalStorage("token", response?.data?.token);
-            StoreLocalStorage("user", JSON.stringify(response?.data?.user));
+            StoreLocalStorage("user", response?.data?.user);
             toast.success(response?.message || "Login successful!", {
               style: { backgroundColor: "green", color: "white" },
             });
