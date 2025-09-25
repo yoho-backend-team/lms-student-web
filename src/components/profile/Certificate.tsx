@@ -194,8 +194,8 @@ const CertificateDesign: React.FC<{ certificate: any; ref?: React.RefObject<HTML
           @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pirata+One&display=swap');
           
           /* Main content area */
-          .certificate-content {
-            position: relative;
+          .certificate-content { 
+            position: relative;z
             z-index: 10;
             background: rgba(255, 255, 255, 1);
             margin: 20px;

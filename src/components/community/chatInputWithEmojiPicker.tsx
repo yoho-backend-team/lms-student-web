@@ -31,9 +31,17 @@ const ChatInputWithEmojiPicker: React.FC<Props> = ({ communities }) => {
   useOnClickOutside(pickerRef, () => setShowPicker(false));
 
   const handleSelectEmoji = (emojiData: any) => {
-    setInputMessage((prev) => prev + emojiData.emoji);
-    setShowPicker(false);
-  };
+  let selectedEmoji = emojiData.emoji;
+
+  // Skip if it's just two letters (flag shortcodes like "AF")
+  if (/^[A-Z]{2}$/.test(selectedEmoji)) {
+    return; // Do nothing, don't insert letters
+  }
+
+  setInputMessage((prev) => prev + selectedEmoji);
+  setShowPicker(false);
+};
+
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') handleSend();

@@ -107,14 +107,14 @@ const Notifications = () => {
 		const date = new Date(isoString);
 
 		const day = String(date.getUTCDate()).padStart(2, '0');
-		const month = String(date.getUTCMonth() + 1).padStart(2, '0'); 
+		const month = String(date.getUTCMonth() + 1).padStart(2, '0');
 		const year = date.getUTCFullYear();
 
 		return `${day}-${month}-${year}`;
 	}
 
 	return (
-		<div className='py-4'>
+		<div className='py-4 '>
 			<div className='flex items-center gap-6'>
 				<div
 					className='cursor-pointer p-2 rounded-md'
@@ -136,7 +136,7 @@ const Notifications = () => {
 
 			<div className='grid md:grid-cols-2 gap-6 w-full mt-4'>
 				<Card
-					className='relative bg-[#ebeff3] px-5 h-[510px]'
+					className='relative bg-[#ebeff3] px-5 h-[70vh]'
 					style={{
 						boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px, 
@@ -240,7 +240,7 @@ const Notifications = () => {
 				</Card>
 
 				<Card
-					className='relative bg-[#ebeff3] h-[510px]'
+					className='relative bg-[#ebeff3] h-[70vh]'
 					style={{
 						boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px, 

@@ -1,41 +1,63 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react'
-import payments from '../../assets/dashboard/payments.png'
-import { FONTS } from '@/constants/uiConstants'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks'
-import { GetLocalStorage } from '@/utils/helper'
+import React, { useEffect, useState } from "react";
+import payments from "../../assets/dashboard/payments.png";
+import { FONTS } from "@/constants/uiConstants";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getStudentPaymentThunk } from "@/features/Payment/reducers/thunks";
+import { GetLocalStorage } from "@/utils/helper";
 
 const Payment: React.FC = () => {
+  const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch<any>()
-    // const profileDetails = useSelector(selectProfile)
-    const storedData: any = GetLocalStorage('user');
+  const [student, setStudent] = useState<any>(null);
 
-    useEffect(() => {
-        dispatch(getStudentPaymentThunk({ paymentId: storedData?.uuid }));
-    }, [dispatch, storedData?.uuid]);
+  useEffect(() => {
+    const storedData = GetLocalStorage("user");
+    setStudent(storedData);
+  }, []);
 
-    const Payments: any = useSelector((state: any) => state.PaymentSlice.data) ?? []
+  useEffect(() => {
+    if (student?.uuid) {
+      dispatch(getStudentPaymentThunk({ paymentId: student.uuid }));
+    }
+  }, [dispatch, student]);
 
-    const navigate = useNavigate()
-    return (
-        <div className='flex flex-row p-5 gap-10 divshadow w-full h-[300px] rounded-[16px]'>
-            <div className="flex flex-col justify-between">
-                <div className='flex flex-col gap-4'>
-                    <h1 style={{ ...FONTS.heading_02 }}>Payment</h1>
-                    <p style={{ ...FONTS.heading_06 }}>Payment Pending for <span style={{ ...FONTS.heading_04 }}>April</span></p>
-                    <p style={{ ...FONTS.heading_06 }}>Amount to pay:</p>
-                    <p style={{ ...FONTS.heading_03, fontSize: '30px' }}>{Payments?.pending_payment}</p>
-                </div>
-                <button type="button" onClick={() => navigate('/payment')} className='btnshadow w-[145px] h-[42px] rounded-xl btnhovershadow hover:!text-white focus:!text-white' style={{ ...FONTS.heading_06 }}>Check Payments</button>
-            </div>
-            <div>
-                <img src={payments} alt="" className='mt-10' />
-            </div>
+  const paymentData: any = useSelector((state: any) => state.PaymentSlice.data);
+  console.log("first", paymentData);
+  const paymentHistory = paymentData?.payment_history ?? [];
+  const currentPending = paymentHistory[paymentHistory.length - 1] || null;
+
+  return (
+    <div className="flex flex-row p-5 gap-10 divshadow w-full h-[300px] rounded-[16px]">
+      <div className="flex flex-col justify-between">
+        <div className="flex flex-col gap-4">
+          <h1 style={{ ...FONTS.heading_02 }}>Payment</h1>
+          <p style={{ ...FONTS.heading_06 }}>
+            Due date:{" "}
+            <span style={{ ...FONTS.heading_04 }}>
+              {currentPending?.duepaymentdate || "N/A"}
+            </span>
+          </p>
+          <p style={{ ...FONTS.heading_06 }}>Amount to pay:</p>
+          <p style={{ ...FONTS.heading_03, fontSize: "30px" }}>
+            ₹{currentPending?.balance || 0}
+          </p>
         </div>
-    )
-}
+        <button
+          type="button"
+          onClick={() => navigate("/payment")}
+          className="btnshadow w-[145px] h-[42px] rounded-xl btnhovershadow hover:!text-white focus:!text-white"
+          style={{ ...FONTS.heading_06 }}
+        >
+          Check Payments
+        </button>
+      </div>
+      <div>
+        <img src={payments} alt="Payments" className="mt-10" />
+      </div>
+    </div>
+  );
+};
 
-export default Payment
+export default Payment;

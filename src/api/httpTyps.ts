@@ -69,5 +69,8 @@ export type Endpoints = {
 	};
 	speak_eng: {
 		put: string;
+	},
+	placement:{
+		get:string;
 	}
 };

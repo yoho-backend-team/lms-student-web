@@ -75,7 +75,10 @@ const getEndpoints = (): Endpoints => {
 		},
 		speak_eng: {
 			put: '/speaking-eng/progress'
-		}
+		}, 
+		placement: {
+      get: `/placements/fetch/`,
+    },
 	};
 };
 
