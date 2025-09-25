@@ -159,10 +159,10 @@ class Client {
     put: (data: any) => httpClient.update(HTTP_END_POINTS.speak_eng.put, data)
   }
 
-   placement={
-    get:(params:any)=>httpClient.get(HTTP_END_POINTS.placement.get+ params.studentId, params, 'student')
+  placement = {
+    get: (params: any) => httpClient.get(HTTP_END_POINTS.placement.get + params.studentId, params, 'student')
   }
-  
+
 }
 
 export default new Client();
