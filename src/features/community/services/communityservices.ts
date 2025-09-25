@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Client from '../../../api/index';
 
 
-export const getAllCommunities = async (params:any) => {
+export const getAllCommunities = async (params: any) => {
   try {
     const response = await Client.student.community.get(params);
-    return response; 
+    return response;
   } catch (error) {
     console.error('Error fetching communities:', error);
-    throw error; 
+    throw error;
   }
 };
 
 
-export const getMessage = async (params:any) => {
+export const getMessage = async (params: any) => {
   try {
     const response = await Client.student.community.get_messages(params);
     return response;

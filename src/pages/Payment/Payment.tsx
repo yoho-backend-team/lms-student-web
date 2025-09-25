@@ -27,7 +27,7 @@ const Payment = () => {
 	// const profileDetails = useSelector(selectUser)
 	const { showLoader, hideLoader } = useLoader();
 	const storedData: any = GetLocalStorage('user');
-	console.log(storedData,"store data")
+	console.log(storedData.uuid,"store data")
 
 	const [open, setOpen] = useState(false);
 

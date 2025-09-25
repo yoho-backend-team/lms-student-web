@@ -48,7 +48,7 @@ export const Attendance = () => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedDate.getFullYear())
   const [showFilters, setShowFilters] = useState<boolean>(false)
   const dispatch = useDispatch<any>();
-  const { showLoader, hideLoader, IsLoading } = useLoader();
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate()
 
 
@@ -77,7 +77,7 @@ export const Attendance = () => {
         desktop: att.presentDays || 0
       };
     });
-  }, [attendancedata.data.formattedAttendance])
+  }, [attendancedata?.data?.formattedAttendance])
 
   const chartData = generateChartData();
 
@@ -159,7 +159,7 @@ export const Attendance = () => {
     }, 3000);
 
     return () => clearTimeout(timeout);
-  }, [dashData, selectedDate]);
+  }, [dashData, dispatch, selectedDate]);
 
   useEffect(() => {
     (async () => {
@@ -178,18 +178,11 @@ export const Attendance = () => {
     })();
   }, [dispatch, hideLoader, showLoader]);
 
-  console.log(attendancedata, "overall data")
 
   return (
     <>
 
       <div className="p-4">
-        {/* Header */}
-        {IsLoading && (
-          <div className='w-full h-[100vh] absolute z-10 bg-transparent backdrop-blur-sm transition-all duration-500 ease-in-out'>
-            <Loader />
-          </div>
-        )}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-semibold mb-0 mx-1" style={{ ...FONTS.heading_01 }}>Attendance</h2>
 
@@ -370,7 +363,7 @@ export const Attendance = () => {
                 </p>
 
                 <ul
-                  className="space-y-2 text-gray-700 h-72 overflow-y-scroll"
+                  className="space-y-2 grid grid-cols-2 text-gray-700 h-42 overflow-y-scroll"
                   style={{ ...FONTS.heading_06 }}
                 >
                   {attendanceByDate && attendanceByDate.length > 0 ? (
