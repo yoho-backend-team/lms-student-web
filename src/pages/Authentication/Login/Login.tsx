@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from "@/components/ui/card";
 import Logo from "../../../assets/Student PNG.png";
 import { COLORS, FONTS } from "@/constants/uiConstants";
