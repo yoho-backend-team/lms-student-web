@@ -19,12 +19,12 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
   )
     ? "notes"
     : location.pathname.includes("/task_projects")
-    ? "task"
-    : location.pathname.includes("/course_track")
-    ? "track"
-    : location.pathname.includes(`/about`)
-    ? "about"
-    : "about";
+      ? "task"
+      : location.pathname.includes("/course_track")
+        ? "track"
+        : location.pathname.includes(`/about`)
+          ? "about"
+          : "about";
 
   const inactiveBtnClass =
     "w-60 cursor-pointer bg-[#EBEFF3] hover:bg-[#EBEFF3] focus:bg-[#EBEFF3] hover:bg-gradient-to-r focus:bg-gradient-to-r from-[#7B00FF] to-[#B200FF] hover:text-white focus:text-white text-[#444] px-6 py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] focus:outline-none focus:ring-2 focus:ring-[#7B00FF] focus:ring-opacity-50 transition-all duration-200";
@@ -32,7 +32,7 @@ const CourseButton: React.FC<CourseButtonProps> = () => {
   return (
     <div className="flex justify-center gap-6 mb-12">
       <Button
-        onClick={() => navigate(`/courses/${coursedata?.uuid}/about`)}
+        onClick={() => navigate(`/courses/${coursedata?._id}/about`)}
         className={
           activeTabs === "about"
             ? "cursor-pointer btnfocusshadow w-60 text-white"

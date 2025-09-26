@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import icons from "../../assets/courses icons/demo human.png"
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '@/store/store';
-import { GetLocalStorage } from '@/utils/helper';
-import { getBatchUUIDThunks } from '@/features/Course/reducer/thunks';
-
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store/store';
 
 
 const CourseTrack: React.FC = () => {
@@ -17,20 +14,8 @@ const CourseTrack: React.FC = () => {
 
   const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>()
 
-  useEffect(() => {
-    (async () => {
-      const params = {
-        instituteuuid: GetLocalStorage("instituteId"),
-        branchuuid: GetLocalStorage("branchId"),
-        batchid: GetLocalStorage("batchId")
-      }
-      dispatch(getBatchUUIDThunks(params))
-    })()
-  }, [dispatch]);
-
-  console.log(courseTrack)
+  console.log(courseTrack, "check")
 
   return (
     <div className="w-full mx-auto p-4">
