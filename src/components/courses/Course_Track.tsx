@@ -10,11 +10,31 @@ import type { RootState } from '@/store/store';
 
 const CourseTrack: React.FC = () => {
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [timelineStatus, setTimelineStatus] = useState<string[]>([]);
 
   const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
 
   console.log(courseTrack, "check")
+
+  // Initialize timelineStatus with 'pending' for all modules
+  React.useEffect(() => {
+    if (courseTrack?.coursemodules) {
+      setTimelineStatus(courseTrack.coursemodules.map(() => 'pending'));
+    }
+  }, [courseTrack]);
+
+  const toggleDropdown = (index: number): void => {
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
+
+  const handleStatusChange = (index: number, status: string): void => {
+    const newStatus = [...timelineStatus];
+    newStatus[index] = status;
+    setTimelineStatus(newStatus);
+    setActiveDropdown(null);
+  };
 
   return (
     <div className="w-full mx-auto p-4">
@@ -61,7 +81,7 @@ const CourseTrack: React.FC = () => {
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
                       <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={item?.icon} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     ) : (
                       <div className="bg-[#EBEFF3] rounded-2xl flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
@@ -89,7 +109,7 @@ const CourseTrack: React.FC = () => {
                       </div>
                     ) : (
                       <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={item?.icon} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     )}
                   </div>
