@@ -14,3 +14,10 @@ export const updateStudentProfile = async (data: any) => {
         return response;
     }
 };
+
+export const ImageUpload = async (data: any) => {
+    const response = await Client.common.file.upload(data);
+    if (response) {
+        return response;
+    }
+};
