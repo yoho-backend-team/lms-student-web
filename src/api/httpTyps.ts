@@ -13,10 +13,12 @@ export type Endpoints = {
 		get_task: string;
 		updatetask: string;
 		getByBatch: string;
+		getcoursetract: string;
 	};
 	class: {
 		get: string;
 		getwithId: string;
+
 	};
 	attendance: {
 		get: string;

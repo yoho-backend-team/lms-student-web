@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Profile1 from '../../assets/icons/payments/profile-1.png';
 import Profile2 from '../../assets/icons/payments/profile-2.png';
 import Profile3 from '../../assets/icons/payments/profile-3.png';
@@ -10,9 +9,8 @@ import Star from '../../assets/icons/payments/Star.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPayment } from '@/features/Payment/reducers/selectors';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getStudentPaymentThunk } from '@/features/Payment/reducers/thunks';
-// import { selectProfile } from '@/features/Profile/reducers/selectors';
 import { getStudentProfileThunk } from '@/features/Profile/reducers/thunks';
 import { Button } from '@/components/ui/button';
 import InvoiceReceipt from '../../utils/InvoiceReceipt'
@@ -24,13 +22,15 @@ const Payment = () => {
 
 	const dispatch = useDispatch<any>();
 	const paymentDetails = useSelector(selectPayment)
-	// const profileDetails = useSelector(selectUser)
 	const { showLoader, hideLoader } = useLoader();
 	const storedData: any = GetLocalStorage('user');
-	console.log(storedData.uuid,"store data")
+	console.log(paymentDetails, "payment")
 
 	const [open, setOpen] = useState(false);
-
+	const [selectedPayment, setSelectedPayment] = useState<any>(null);
+	const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+	const [openDropDown, setOpenDropDown] = useState(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
@@ -57,9 +57,20 @@ const Payment = () => {
 		})();
 	}, [dispatch, hideLoader, showLoader]);
 
+	// Close dropdown if clicked outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+				setOpenDropDown(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [dropdownRef]);
 
 	return (
-
 		<>
 			<div className=' lg:flex md:grid gap-8 mb-2'>
 				<div className='lg:w-1/4 md'>
@@ -166,8 +177,8 @@ const Payment = () => {
 											className='p-3 rounded-lg'
 											style={{
 												boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+                        rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+                        rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 											}}
 										>
 											<img src={Frame} alt='Frame' className='' />
@@ -209,7 +220,7 @@ const Payment = () => {
 								</h1>
 								<Button
 									className='p-2 px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white 
-								shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
+                  shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
 									style={{
 										...FONTS.para_02,
 										color: 'white',
@@ -293,41 +304,86 @@ const Payment = () => {
 							Payment History
 						</h1>
 						<div className='p-5 flex flex-col gap-2 h-[84vh] custom-inset-shadow overflow-y-scroll'>
-							<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
-								View PDF
-							</h1>
+							<div ref={dropdownRef} className="relative flex-1">
+								<div className="flex items-center gap-4 w-full">
+									<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
+										View PDF
+									</h1>
 
-							{paymentDetails?.payment_history?.map((paidFees: any, index: number) => {
-								return (
-									paidFees.balance == 0 &&
-									<section key={index} className='custom-inset-shadow flex justify-between items-center p-3 my-3'>
-										<h1
-											style={{
-												...FONTS.heading_05,
-											}}
-										>
-											{new Date(paymentDetails?.payment_history?.length !== 0 ? paidFees?.payment_date : "NA").toLocaleDateString("en-GB", {
+									<button
+										className='p-2 px-4 rounded-lg cursor-pointer w-full text-left'
+										style={{
+											...FONTS.para_02,
+											color: COLORS.light_red,
+											boxShadow: `
+        rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+        rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+										}}
+										onClick={() => setOpenDropDown((prev) => !prev)}
+									>
+										{selectedMonth || "Select month"}
+									</button>
+								</div>
+
+
+								{openDropDown && (
+									<div className="absolute z-50 ml-20 w-[80%] max-h-48 overflow-y-auto border rounded mt-1 bg-white shadow-lg">
+										{paymentDetails?.payment_history?.map((history: any, i: number) => {
+											const month = new Date(history?.payment_date).toLocaleString("en-GB", {
 												day: "2-digit",
 												month: "long",
 												year: "numeric",
-											})}
-										</h1>
-										<button
-											className='p-2 px-4 rounded-lg cursor-pointer'
-											style={{
-												...FONTS.para_02,
-												boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
-											}}
-										>
-											View PDF
-										</button>
-									</section>
-								)
-							})
-							}
+											});
+											return (
+												<div
+													key={i}
+													className="p-2 hover:bg-gray-100 cursor-pointer"
+													onClick={() => {
+														setSelectedMonth(month);
+														const payment = paymentDetails?.payment_history?.find(
+															(p: any) => new Date(p.payment_date).toLocaleString("en-GB")
+														);
+														setSelectedPayment(payment || null);
+														setOpenDropDown(false);
+													}}
+												>
+													{month}
+												</div>
+											);
+										})}
+									</div>
+								)}
+							</div>
 
+
+							{selectedPayment && (
+								<div className="fixed inset-0 z-50 flex items-center justify-center">
+									{/* Overlay */}
+									<div
+										className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+										onClick={() => setSelectedPayment(null)}
+									></div>
+
+									{/* Modal */}
+									<div className="relative bg-white p-6 shadow-lg rounded-lg z-50 w-[90%] max-w-md">
+										<h1 style={{ ...FONTS.heading_05, textAlign: "center" }}>Payment Details</h1>
+										<div className="mt-4 space-y-2">
+											<p><strong>Transaction ID:</strong> {selectedPayment.transaction_id}</p>
+											<p><strong>Paid Amount:</strong> ₹{selectedPayment.paid_amount}</p>
+											<p><strong>Balance:</strong> ₹{selectedPayment.balance}</p>
+											<p><strong>Payment Method:</strong> {selectedPayment.payment_method}</p>
+											<p><strong>Payment Date:</strong> {new Date(selectedPayment.payment_date).toLocaleDateString("en-GB")}</p>
+											<p><strong>Due Date:</strong> {new Date(selectedPayment.duepaymentdate).toLocaleDateString("en-GB")}</p>
+										</div>
+										<button
+											onClick={() => setSelectedPayment(null)}
+											className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg"
+										>
+											Close
+										</button>
+									</div>
+								</div>
+							)}
 
 							<div className='flex justify-between items-center mb-5'>
 								<h1 style={{ ...FONTS.heading_05 }}>Pay Due</h1>
@@ -356,8 +412,8 @@ const Payment = () => {
 												...FONTS.para_02,
 												color: COLORS.light_red,
 												boxShadow: `
-      										rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-      										rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+                          rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+                          rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 											}}
 										>
 											{paymentDetails.length !== 0 ? paidFees?.balance : 0}
@@ -377,5 +433,3 @@ const Payment = () => {
 };
 
 export default Payment;
-
-
