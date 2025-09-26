@@ -14,7 +14,8 @@ const getEndpoints = (): Endpoints => {
 			get: `/institutes/:instituteuuid/branches/:branchuuid/student-new/courses`,
 			// getwithclass: `/institutes/${institute}/branches/${branch}/course/${course}/classes`
 			get_task: "/task-project/get/:courseid",
-			updatetask: '/task-project/update/:taskid'
+			updatetask: '/task-project/update/:taskid',
+			getcoursetract:'institutes/:instituteId/branches/:branchId/batches/course/:courseId/student/:studentId',
 		},
 		class: {
 			get: `/institutes/class/`,

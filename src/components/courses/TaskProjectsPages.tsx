@@ -117,7 +117,7 @@ const Taskprojects = () => {
                             : 'bg-gray-200 text-[#716F6F] hover:bg-gradient-to-l hover:from-[#7B00FF] hover:to-[#B200FF] hover:text-white'
                           }`}
                       >
-                        {task.status}
+                        {task?.answers[0]?.status}
                       </Button>
                     </div>
                   </div>
@@ -133,7 +133,7 @@ const Taskprojects = () => {
       </Card>
 
       {/* Modal */}
-      <TaskModal show={showModal} onClose={() => setShowModal(false)} task={selectedTask} />
+      <TaskModal show={showModal} onClose={() => setShowModal(false)} task={selectedTask}/>
     </div>
   )
 }

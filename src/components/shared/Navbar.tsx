@@ -110,10 +110,18 @@ const Navbar = () => {
   const cancelLogout = () => setShowLogoutModal(false);
 
   const isNavActive = (itemPath: string) => {
-    return (
+    if (itemPath === "" && location.pathname === "/") return true;
+    if (
       location.pathname === `/${itemPath}` ||
-      (itemPath === "" && location.pathname === "/")
-    );
+      location.pathname.startsWith(`/${itemPath}/`)
+    ) {
+      return true;
+    }
+    if (itemPath === "courses" && location.pathname.startsWith("/course/")) {
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -123,6 +131,7 @@ const Navbar = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <img
+                data-tour="logo"
                 src={GetImageUrl(instituteData?.logo) ?? undefined}
                 alt={instituteData?.institute_name}
                 className="w-14 h-12 rounded-full p-1 cursor-pointer"
@@ -148,6 +157,7 @@ const Navbar = () => {
                 <TooltipTrigger asChild>
                   <Link
                     to={item.path}
+                    data-tour={`nav-${item.path || "dashboard"}`}
                     onClick={() => setshowProfileSection(false)}
                   >
                     <Card
@@ -188,6 +198,7 @@ const Navbar = () => {
               <TooltipTrigger asChild>
                 <Link to="notifications">
                   <Card
+                    data-tour="notifications"
                     className="bg-[#ebeff3] w-[48px] h-[48px] rounded-full flex items-center justify-center"
                     style={{
                       boxShadow: `rgba(255, 255, 255, 0.7) -4px -4px 4px, rgba(189, 194, 199, 0.75) 5px 5px 4px`,
@@ -215,6 +226,7 @@ const Navbar = () => {
               <TooltipTrigger asChild>
                 <div
                   className="cursor-pointer"
+                  data-tour="profile"
                   onClick={() => setshowProfileSection(!showProfileSection)}
                 >
                   <img

@@ -1,20 +1,18 @@
-
-
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
-import { GetImageUrl } from '@/utils/helper';
+
 
 interface TimelineItem {
-  icon: any;
+  icon: string;
   title: string;
   side: "left" | "right";
   color?: string;
 }
 
-const techTimeline: TimelineItem[] = [
+ const techTimeline: TimelineItem[] = [
   {
     icon: "https://www.shutterstock.com/image-vector/html5-css3-js-icon-set-260nw-1621463065.jpg",
     title: "HTML, CSS, Javascript",
@@ -38,35 +36,16 @@ const techTimeline: TimelineItem[] = [
   },
 ];
 
-type Status = 'pending' | 'completed';
 
 const CourseTrack: React.FC = () => {
   const [showVideoModal, setShowVideoModal] = useState(false);
-  const [timelineStatus, setTimelineStatus] = useState<Status[]>(
-    techTimeline.map(() => 'pending')
-  );
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const handleStatusChange = (index: number, status: Status) => {
-    const newStatus = [...timelineStatus];
-    newStatus[index] = status;
-    setTimelineStatus(newStatus);
-    setActiveDropdown(null);
-    
-    // If completed, automatically move to next timeline if exists
-    if (status === 'completed' && index < techTimeline.length - 1) {
-      // You can add any additional logic here for moving to next timeline
-      console.log(`Moving to next timeline: ${index + 1}`);
-    }
-  };
-
-  const toggleDropdown = (index: number) => {
-    setActiveDropdown(activeDropdown === index ? null : index);
-  };
+  
 
   return (
     <div className="w-full mx-auto p-4">
+
       <div className="flex items-center gap-3 mb-6">
         <Button
           onClick={() => navigate(-1)}
@@ -77,9 +56,12 @@ const CourseTrack: React.FC = () => {
         <h1 className="text-black text-2xl font-semibold">Course Track</h1>
       </div>
 
+
       <CourseButton activeTabs={"track"} />
 
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
         <div className="w-full flex justify-center">
           <div
             className="aspect-video w-full  shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg overflow-hidden cursor-pointer"
@@ -94,12 +76,13 @@ const CourseTrack: React.FC = () => {
           </div>
         </div>
 
+
         <div className="flex justify-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md w-full">
           <div className="relative flex flex-col items-center overflow-auto h-[500px]" style={{ scrollbarWidth: 'none' }}>
+
+
             {techTimeline.map((item, index) => {
               const isEven = index % 2 === 0;
-              const status = timelineStatus[index];
-              
               return (
                 <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl">
                   <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow rounded-full"></div>
@@ -119,11 +102,7 @@ const CourseTrack: React.FC = () => {
 
                   {/* Middle Connector */}
                   <div className="relative w-0">
-                    <div className={`w-10 h-10 rounded-full border-4 border-white absolute left-1/2 transform -translate-x-1/2 z-20 ${
-                      status === 'completed' 
-                        ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-[0_0_15px_rgba(34,197,94,0.5)]' 
-                        : 'bg-gradient-to-br from-[#B200FF] to-[#7B00FF] shadow-[0_0_15px_rgba(178,0,255,0.5)]'
-                    }`}></div>
+                    <div className="w-10 h-10 rounded-full border-4 border-white bg-gradient-to-br from-[#B200FF] to-[#7B00FF] shadow-[0_0_15px_rgba(178,0,255,0.5)] absolute left-1/2 transform -translate-x-1/2 z-20"></div>
                     <div className="absolute w-1 h-full bg-gradient-to-b from-[#ccc] to-[#eee] left-1/2 transform -translate-x-1/2 z-0 rounded-full"></div>
                   </div>
 
@@ -139,45 +118,15 @@ const CourseTrack: React.FC = () => {
                       </div>
                     )}
                   </div>
-
-                  {/* Status Dropdown Button - Positioned on the right side */}
-                  <div className="absolute right-0 top-30 transform  z-30">
-                    <div className="relative">
-                      <button
-                        onClick={() => toggleDropdown(index)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                          status === 'completed'
-                            ? 'bg-green-500 text-white shadow-lg'
-                            : 'bg-[#EBEFF3] text-gray-700 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
-                        } hover:scale-105`}
-                      >
-                        {status === 'completed' ? '✓ Completed' : 'Pending'}
-                      </button>
-                      
-                      {activeDropdown === index && status === 'pending' && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-40">
-                          <button
-                            onClick={() => handleStatusChange(index, 'pending')}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-t-lg border-b border-gray-200"
-                          >
-                            Pending
-                          </button>
-                          <button
-                            onClick={() => handleStatusChange(index, 'completed')}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-b-lg text-green-600 font-medium"
-                          >
-                            Mark as Completed
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
                 </div>
+
               );
             })}
           </div>
         </div>
+
       </div>
+
 
       {showVideoModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
