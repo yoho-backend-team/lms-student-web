@@ -19,10 +19,12 @@ const Classes = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
   const classData = useSelector(selectClass)?.data || [];
+  console.log(classData,"class data")
 
   // const id = classData.map((item: any) => item.uuid);
 
   const coursesDetails = useCourses();
+  console.log(coursesDetails,"course details")
 
   const { showLoader, hideLoader } = useLoader();
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, XAxis } from 'recharts'
 import {
@@ -129,7 +128,7 @@ export const Attendance = () => {
     setSelectedYear(newMonth.getFullYear())
   }
 
-  const years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i)
+  const years = Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - 10 + i)
 
 
   const dashData = useSelector(selectDashBoard)
@@ -341,6 +340,7 @@ export const Attendance = () => {
               }}
               className="border **:gap-5 **  rounded-lg shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)]"
               style={{ ...FONTS.heading_02, backgroundColor: COLORS.bg_Colour }}
+              showOutsideDays={false}
             />
 
           </div>
@@ -388,12 +388,17 @@ export const Attendance = () => {
               <button
                 className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
                   ? "bg-gray text-white hover:!text-white btnhovershadow"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : " bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white cursor-not-allowed "
                   }`}
                 onClick={() =>
                   attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
                 }
-                style={{ ...FONTS.heading_06 }}
+                style={{
+                  fontFamily: 'Quicksand',
+                  fontWeight: 600,
+                  fontSize: '16px',
+                  
+                }}
                 disabled={!attendanceByDate || attendanceByDate.length === 0}
               >
                 View Details

@@ -295,6 +295,7 @@ const ActivityLogs = () => {
                   />
                   {/* <Calendar
                     mode="single"
+                    required
                     selected={fromDate}
                     onSelect={(selectedDate) => {
                       if (selectedDate) {
@@ -303,6 +304,9 @@ const ActivityLogs = () => {
                         setCurrentPage(1);
                       }
                     }}
+                    month={fromDate} 
+                    showOutsideDays={false} 
+                    onMonthChange={() => { }} 
                     className="rounded-lg bg-gray-100 w-full"
                   /> */}
                 </div>

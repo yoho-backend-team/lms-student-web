@@ -11,6 +11,8 @@ interface LiveclassProps {
 
 const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 
+  console.log(data,"data in live class")
+
 
   // Header data
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
@@ -27,7 +29,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
           <table className="w-full">
             <thead>
               <tr className='flex justify-center gap-56 items-center !text-white' style={{ ...FONTS.heading_03 }}>
-                {headers.map((header, index) => (
+                {headers?.map((header, index) => (
                   <td key={index}>{header}</td>
                 ))}
               </tr>
@@ -36,7 +38,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
         </Card>
 
         {/* Class Items */}
-        {data.map((classItem, index) => (
+        {data?.map((classItem, index) => (
           <Card
             key={index}
             className='overflow-y-auto scrollbar-hide bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4

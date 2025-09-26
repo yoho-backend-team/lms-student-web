@@ -21,12 +21,36 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 	const [hearts, setHearts] = useState(5);
 	const [showResult, setShowResult] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
+	const [showCareerGoals, setShowCareerGoals] = useState(false);
+	const [currentCareerQuestion, setCurrentCareerQuestion] = useState(0);
+	const [selectedCareerAnswers, setSelectedCareerAnswers] = useState<number[]>([]);
+	const [showCareerExplanation, setShowCareerExplanation] = useState(false);
+	const [careerTestScore, setCareerTestScore] = useState(0);
+	const [showCareerResult, setShowCareerResult] = useState(false);
+	const [showSkills, setShowSkills] = useState(false);
+	const [showWorkExperience, setShowWorkExperience] = useState(false);
+	const [currentSkillsQuestion, setCurrentSkillsQuestion] = useState(0);
+	const [selectedSkillsAnswers, setSelectedSkillsAnswers] = useState<number[]>([]);
+	const [showSkillsExplanation, setShowSkillsExplanation] = useState(false);
+	const [skillsTestScore, setSkillsTestScore] = useState(0);
+	const [showSkillsResult, setShowSkillsResult] = useState(false);
+
+	const [currentWorkQuestion, setCurrentWorkQuestion] = useState(0);
+	const [selectedWorkAnswers, setSelectedWorkAnswers] = useState<number[]>([]);
+	const [showWorkExplanation, setShowWorkExplanation] = useState(false);
+	const [workTestScore, setWorkTestScore] = useState(0);
+	const [showWorkResult, setShowWorkResult] = useState(false);
+
 	const itemsPerPage = 7;
 
 	useEffect(() => {
 		const savedStreak = localStorage.getItem('grammarStreak');
 		if (savedStreak) setStreak(parseInt(savedStreak));
-	}, []);
+
+		if (grammarCompleted) {
+			setShowCareerGoals(true);
+		}
+	}, [grammarCompleted]);
 
 	const speakText = (text: string) => {
 		if ('speechSynthesis' in window) {
@@ -40,13 +64,12 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 			utterance.rate = 0.8;
 			utterance.pitch = 1;
 			utterance.volume = 1;
-			
+
 			utterance.onstart = () => setIsPlaying(true);
 			utterance.onend = () => {
 				setIsPlaying(false);
 			};
 			utterance.onboundary = () => {
-				// Keep playing state updated during speech
 				if (!window.speechSynthesis.speaking) {
 					setIsPlaying(false);
 				}
@@ -67,19 +90,257 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		};
 	}, []);
 
+	useEffect(() => {
+		const savedCareerAnswers = localStorage.getItem('careerAnswers');
+		if (savedCareerAnswers) {
+			setSelectedCareerAnswers(JSON.parse(savedCareerAnswers));
+		}
+	}, []);
+
+	const grammarQuestions = [
+		{
+			question: "Which sentence is grammatically correct?",
+			options: ["He go to school daily", "He goes to school daily", "He going to school daily", "He gone to school daily"],
+			correct: 1,
+			explanation: "Third person singular (he/she/it) requires 's' or 'es' at the end of the verb in present simple tense."
+		},
+		{
+			question: "Choose the correct past tense:",
+			options: ["I eated lunch", "I eat lunch", "I ate lunch", "I eating lunch"],
+			correct: 2,
+			explanation: "'Eat' is an irregular verb. Its past tense is 'ate', not 'eated'."
+		},
+		{
+			question: "Which is the correct question form?",
+			options: ["Do you like tea?", "You like tea?", "Like you tea?", "You do like tea?"],
+			correct: 0,
+			explanation: "Yes/No questions in present simple use 'Do/Does' + subject + base verb."
+		},
+		{
+			question: "Select the correct article:",
+			options: ["I saw a elephant", "I saw an elephant", "I saw the elephant", "I saw elephant"],
+			correct: 1,
+			explanation: "Use 'an' before words that start with vowel sounds. 'Elephant' starts with 'e' sound."
+		},
+		{
+			question: "Which sentence uses correct subject-verb agreement?",
+			options: ["They was playing", "They were playing", "They is playing", "They are play"],
+			correct: 1,
+			explanation: "Plural subjects like 'they' use 'were' in past continuous, not 'was'."
+		},
+		{
+			question: "Complete: I _____ to the store yesterday.",
+			options: ["go", "goes", "went", "going"],
+			correct: 2,
+			explanation: "'Yesterday' indicates past time, so we use past tense 'went'."
+		},
+		{
+			question: "Choose the correct preposition: She is good _____ math.",
+			options: ["in", "at", "on", "with"],
+			correct: 1,
+			explanation: "We use 'good at' when talking about skills or abilities."
+		},
+		{
+			question: "Which is the correct comparative form?",
+			options: ["more big", "bigger", "most big", "bigest"],
+			correct: 1,
+			explanation: "Short adjectives like 'big' form comparatives by adding '-er': bigger."
+		},
+		{
+			question: "Select the correct modal verb: You _____ wear a helmet while riding.",
+			options: ["can", "must", "might", "would"],
+			correct: 1,
+			explanation: "'Must' expresses strong obligation or necessity for safety."
+		},
+		{
+			question: "Choose the correct form: I enjoy _____ books.",
+			options: ["read", "to read", "reading", "reads"],
+			correct: 2,
+			explanation: "After 'enjoy', we use gerund (verb + ing): enjoying reading."
+		}
+	];
+
+	const careerGoalsContent = {
+		childtitle: 'Career Goals',
+		questions: [
+			{
+				title: 'What is a SMART goal?',
+				options: [
+					{ text: 'A simple, manageable, achievable, realistic, timely goal', correct: false },
+					{ text: 'Specific, measurable, achievable, relevant, time-bound goal', correct: true },
+					{ text: 'Smart, meaningful, actionable, reasonable, targeted goal', correct: false },
+					{ text: 'Strategic, manageable, actionable, realistic, timely goal', correct: false },
+				],
+				explanation: 'SMART stands for Specific, Measurable, Achievable, Relevant, and Time-bound.',
+			},
+			{
+				title: 'Why are career goals important?',
+				options: [
+					{ text: 'They help you get promotions faster', correct: false },
+					{ text: 'They provide direction and motivation', correct: true },
+					{ text: 'They impress your boss', correct: false },
+					{ text: 'They guarantee success', correct: false },
+				],
+				explanation: 'Career goals give you direction and help you stay motivated and focused.',
+			},
+			{
+				title: 'How often should you review your career goals?',
+				options: [
+					{ text: 'Once a year', correct: false },
+					{ text: 'Every 6-12 months', correct: true },
+					{ text: 'Only when you change jobs', correct: false },
+					{ text: 'Once every 5 years', correct: false },
+				],
+				explanation: 'Regular reviews (every 6-12 months) help keep your goals relevant.',
+			},
+			{
+				title: 'What should you consider when setting career goals?',
+				options: [
+					{ text: 'Only your current skills', correct: false },
+					{ text: 'Your interests, values, skills, and market trends', correct: true },
+					{ text: 'What your friends are doing', correct: false },
+					{ text: 'Only the salary potential', correct: false },
+				],
+				explanation: 'Effective goals consider multiple factors including your interests and market conditions.',
+			},
+			{
+				title: 'Which is an example of a long-term career goal?',
+				options: [
+					{ text: 'Complete a training course this month', correct: false },
+					{ text: 'Become a department head in 5 years', correct: true },
+					{ text: 'Update your resume', correct: false },
+					{ text: 'Network with 3 people this week', correct: false },
+				],
+				explanation: 'Long-term goals typically span 3-5 years or more.',
+			},
+		],
+	};
+
+	const skillsAndStrengthsContent = {
+		childtitle: 'Skills & Strengths',
+		questions: [
+			{
+				title: 'What are hard skills?',
+				options: [
+					{ text: 'Personal attributes that help you work well with others', correct: false },
+					{ text: 'Technical, teachable abilities specific to a job', correct: true },
+					{ text: 'Skills that are difficult to learn', correct: false },
+					{ text: "Natural talents you're born with", correct: false },
+				],
+				explanation: 'Hard skills are technical, measurable abilities gained through training.',
+			},
+			{
+				title: 'Which is an example of a soft skill?',
+				options: [
+					{ text: 'Programming in Python', correct: false },
+					{ text: 'Speaking a foreign language', correct: false },
+					{ text: 'Communication', correct: true },
+					{ text: 'Operating machinery', correct: false },
+				],
+				explanation: 'Soft skills are interpersonal skills like communication and teamwork.',
+			},
+			{
+				title: 'How can you identify your strengths?',
+				options: [
+					{ text: 'Ask for feedback from others', correct: false },
+					{ text: 'Reflect on tasks you enjoy and do well', correct: false },
+					{ text: 'Take assessments and analyze past successes', correct: false },
+					{ text: 'All of the above', correct: true },
+				],
+				explanation: 'Multiple approaches help identify your true strengths.',
+			},
+			{
+				title: 'Why is it important to develop both hard and soft skills?',
+				options: [
+					{ text: 'Hard skills get you hired, soft skills get you promoted', correct: true },
+					{ text: 'Soft skills are more important than hard skills', correct: false },
+					{ text: 'Employers only care about hard skills', correct: false },
+					{ text: 'Soft skills are easier to develop', correct: false },
+				],
+				explanation: 'Both skill types are valuable for career success.',
+			},
+			{
+				title: 'How can you improve your skills?',
+				options: [
+					{ text: 'Take courses and practice regularly', correct: true },
+					{ text: 'Wait for natural improvement over time', correct: false },
+					{ text: 'Only learn from mistakes', correct: false },
+					{ text: 'Focus only on your strongest skills', correct: false },
+				],
+				explanation: 'Active learning and practice are key to skill development.',
+			},
+		],
+	};
+
+	const workExperienceContent = {
+		childtitle: 'Work Experience',
+		questions: [
+			{
+				title: 'How should you describe your work experience on a resume?',
+				options: [
+					{ text: 'List every task you ever performed', correct: false },
+					{ text: 'Use action verbs and quantify achievements', correct: true },
+					{ text: 'Write long paragraphs about each job', correct: false },
+					{ text: 'Focus only on job titles and dates', correct: false },
+				],
+				explanation: 'Use action verbs and numbers to demonstrate impact.',
+			},
+			{
+				title: 'What is the most effective way to explain employment gaps?',
+				options: [
+					{ text: 'Lie about the dates', correct: false },
+					{ text: 'Be honest and focus on skills gained during that time', correct: true },
+					{ text: 'Avoid mentioning them', correct: false },
+					{ text: 'Make excuses', correct: false },
+				],
+				explanation: 'Honesty and emphasis on relevant skills is the best approach.',
+			},
+			{
+				title: 'How far back should your work history go on a resume?',
+				options: [
+					{ text: '10-15 years', correct: true },
+					{ text: 'Your entire career history', correct: false },
+					{ text: 'Only your current job', correct: false },
+					{ text: 'Only the last 5 years', correct: false },
+				],
+				explanation: 'Typically, include 10-15 years of relevant experience.',
+			},
+			{
+				title: 'What should you include when describing work experience?',
+				options: [
+					{ text: 'Only job titles', correct: false },
+					{ text: 'Responsibilities, achievements, and skills used', correct: true },
+					{ text: 'Your salary at each position', correct: false },
+					{ text: 'Reasons for leaving each job', correct: false },
+				],
+				explanation: 'Focus on responsibilities, achievements, and relevant skills.',
+			},
+			{
+				title: 'How can you make unrelated experience relevant?',
+				options: [
+					{ text: 'Focus on transferable skills', correct: true },
+					{ text: 'Exaggerate your responsibilities', correct: false },
+					{ text: 'Leave it off your resume', correct: false },
+					{ text: 'Change job titles to sound more relevant', correct: false },
+				],
+				explanation: 'Highlight transferable skills that apply to the target role.',
+			},
+		],
+	};
+
 	const grammarContent = [
 		{
 			title: "1. Tenses (Present, Past, Future)",
 			content: (
 				<div className='ml-4 space-y-2'>
-					<p style={{ ...FONTS.para_03 }}><strong>Present Simple:</strong> Used for facts and regular actions.<br/>Example: I go to school every day.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Present Continuous:</strong> Actions happening now.<br/>Example: I am talking to you.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Present Perfect:</strong> Action that just happened or has relevance to now.<br/>Example: I have eaten lunch.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Past Simple:</strong> Completed actions in the past.<br/>Example: She watched a movie yesterday.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Past Continuous:</strong> Ongoing past actions.<br/>Example: They were playing football.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Past Perfect:</strong> Past before another past action.<br/>Example: He had left before I arrived.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Future Simple:</strong> To show future actions.<br/>Example: I will call you later.</p>
-					<p style={{ ...FONTS.para_03 }}><strong>Future Continuous:</strong> Action in progress at a future time.<br/>Example: I will be studying at 8 p.m.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Present Simple:</strong> Used for facts and regular actions.<br />Example: I go to school every day.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Present Continuous:</strong> Actions happening now.<br />Example: I am talking to you.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Present Perfect:</strong> Action that just happened or has relevance to now.<br />Example: I have eaten lunch.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Past Simple:</strong> Completed actions in the past.<br />Example: She watched a movie yesterday.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Past Continuous:</strong> Ongoing past actions.<br />Example: They were playing football.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Past Perfect:</strong> Past before another past action.<br />Example: He had left before I arrived.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Future Simple:</strong> To show future actions.<br />Example: I will call you later.</p>
+					<p style={{ ...FONTS.para_03 }}><strong>Future Continuous:</strong> Action in progress at a future time.<br />Example: I will be studying at 8 p.m.</p>
 				</div>
 			)
 		},
@@ -284,81 +545,13 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		}
 	];
 
-	const totalPages = Math.ceil(grammarContent.length / itemsPerPage);
-	const currentItems = grammarContent.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
-
-	const grammarQuestions = [
-		{
-			question: "Which sentence is grammatically correct?",
-			options: ["He go to school daily", "He goes to school daily", "He going to school daily", "He gone to school daily"],
-			correct: 1,
-			explanation: "Third person singular (he/she/it) requires 's' or 'es' at the end of the verb in present simple tense."
-		},
-		{
-			question: "Choose the correct past tense:",
-			options: ["I eated lunch", "I eat lunch", "I ate lunch", "I eating lunch"],
-			correct: 2,
-			explanation: "'Eat' is an irregular verb. Its past tense is 'ate', not 'eated'."
-		},
-		{
-			question: "Which is the correct question form?",
-			options: ["Do you like tea?", "You like tea?", "Like you tea?", "You do like tea?"],
-			correct: 0,
-			explanation: "Yes/No questions in present simple use 'Do/Does' + subject + base verb."
-		},
-		{
-			question: "Select the correct article:",
-			options: ["I saw a elephant", "I saw an elephant", "I saw the elephant", "I saw elephant"],
-			correct: 1,
-			explanation: "Use 'an' before words that start with vowel sounds. 'Elephant' starts with 'e' sound."
-		},
-		{
-			question: "Which sentence uses correct subject-verb agreement?",
-			options: ["They was playing", "They were playing", "They is playing", "They are play"],
-			correct: 1,
-			explanation: "Plural subjects like 'they' use 'were' in past continuous, not 'was'."
-		},
-		{
-			question: "Complete: I _____ to the store yesterday.",
-			options: ["go", "goes", "went", "going"],
-			correct: 2,
-			explanation: "'Yesterday' indicates past time, so we use past tense 'went'."
-		},
-		{
-			question: "Choose the correct preposition: She is good _____ math.",
-			options: ["in", "at", "on", "with"],
-			correct: 1,
-			explanation: "We use 'good at' when talking about skills or abilities."
-		},
-		{
-			question: "Which is the correct comparative form?",
-			options: ["more big", "bigger", "most big", "bigest"],
-			correct: 1,
-			explanation: "Short adjectives like 'big' form comparatives by adding '-er': bigger."
-		},
-		{
-			question: "Select the correct modal verb: You _____ wear a helmet while riding.",
-			options: ["can", "must", "might", "would"],
-			correct: 1,
-			explanation: "'Must' expresses strong obligation or necessity for safety."
-		},
-		{
-			question: "Choose the correct form: I enjoy _____ books.",
-			options: ["read", "to read", "reading", "reads"],
-			correct: 2,
-			explanation: "After 'enjoy', we use gerund (verb + ing): enjoying reading."
-		}
-	];
-
 	const handleAnswerSelect = (answerIndex: number) => {
 		const newAnswers = [...selectedAnswers];
 		newAnswers[currentQuestion] = answerIndex;
 		setSelectedAnswers(newAnswers);
-		
-		// Show immediate feedback
+
 		setShowExplanation(true);
-		
-		// Update hearts and streak
+
 		if (answerIndex === grammarQuestions[currentQuestion].correct) {
 			const newStreak = streak + 1;
 			setStreak(newStreak);
@@ -392,13 +585,396 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 		if (score >= 80) {
 			setGrammarCompleted(true);
 			localStorage.setItem('grammarCompleted', 'true');
+			setShowCareerGoals(true);
 		}
 		setShowResult(true);
 	};
 
+	const handleCareerAnswerSelect = (answerIndex: number) => {
+		const newAnswers = [...selectedCareerAnswers];
+		newAnswers[currentCareerQuestion] = answerIndex;
+		setSelectedCareerAnswers(newAnswers);
+		localStorage.setItem('careerAnswers', JSON.stringify(newAnswers));
+		setShowCareerExplanation(true);
+	};
+
+	const handleCareerNext = () => {
+		setShowCareerExplanation(false);
+		if (currentCareerQuestion < careerGoalsContent.questions.length - 1) {
+			setCurrentCareerQuestion(currentCareerQuestion + 1);
+		} else {
+			handleCareerTestSubmit();
+		}
+	};
+
+	const handleCareerTestSubmit = () => {
+		let correctAnswers = 0;
+		selectedCareerAnswers.forEach((answer, index) => {
+			if (careerGoalsContent.questions[index].options[answer]?.correct) {
+				correctAnswers++;
+			}
+		});
+		const score = Math.round((correctAnswers / careerGoalsContent.questions.length) * 100);
+		setCareerTestScore(score);
+		setShowCareerResult(true);
+		setShowSkills(true);
+	};
+
+	// Skills handlers
+	const handleSkillsAnswerSelect = (answerIndex: number) => {
+		const newAnswers = [...selectedSkillsAnswers];
+		newAnswers[currentSkillsQuestion] = answerIndex;
+		setSelectedSkillsAnswers(newAnswers);
+		setShowSkillsExplanation(true);
+	};
+
+	const handleSkillsNext = () => {
+		setShowSkillsExplanation(false);
+		if (currentSkillsQuestion < skillsAndStrengthsContent.questions.length - 1) {
+			setCurrentSkillsQuestion(currentSkillsQuestion + 1);
+		} else {
+			handleSkillsTestSubmit();
+		}
+	};
+
+	const handleSkillsTestSubmit = () => {
+		let correctAnswers = 0;
+		selectedSkillsAnswers.forEach((answer, index) => {
+			if (skillsAndStrengthsContent.questions[index].options[answer]?.correct) {
+				correctAnswers++;
+			}
+		});
+		const score = Math.round((correctAnswers / skillsAndStrengthsContent.questions.length) * 100);
+		setSkillsTestScore(score);
+		setShowSkillsResult(true);
+		setShowWorkExperience(true);
+	};
+
+	// Work Experience handlers
+	const handleWorkAnswerSelect = (answerIndex: number) => {
+		const newAnswers = [...selectedWorkAnswers];
+		newAnswers[currentWorkQuestion] = answerIndex;
+		setSelectedWorkAnswers(newAnswers);
+		setShowWorkExplanation(true);
+	};
+
+	const handleWorkNext = () => {
+		setShowWorkExplanation(false);
+		if (currentWorkQuestion < workExperienceContent.questions.length - 1) {
+			setCurrentWorkQuestion(currentWorkQuestion + 1);
+		} else {
+			handleWorkTestSubmit();
+		}
+	};
+
+	const handleWorkTestSubmit = () => {
+		let correctAnswers = 0;
+		selectedWorkAnswers.forEach((answer, index) => {
+			if (workExperienceContent.questions[index].options[answer]?.correct) {
+				correctAnswers++;
+			}
+		});
+		const score = Math.round((correctAnswers / workExperienceContent.questions.length) * 100);
+		setWorkTestScore(score);
+		setShowWorkResult(true);
+	};
+
+	// Work Experience Component
+	if (showWorkExperience) {
+		return (
+			<Card className='p-4 mb-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75), inset -2px -2px 3px rgba(255, 255, 255, 0.7)` }}>
+				<div className='flex justify-between items-start mb-4'>
+					<h3 style={{ ...FONTS.heading_04 }}>{workExperienceContent.childtitle}</h3>
+				</div>
+
+				{!showWorkResult ? (
+					<>
+						<p style={{ ...FONTS.para_02 }}>
+							Question {currentWorkQuestion + 1} of {workExperienceContent.questions.length}
+						</p>
+
+						<div className='space-y-3 mt-4'>
+							<h4 style={{ ...FONTS.heading_05, marginBottom: '12px' }}>
+								{workExperienceContent.questions[currentWorkQuestion].title}
+							</h4>
+							{workExperienceContent.questions[currentWorkQuestion].options.map((option, index) => {
+								const isSelected = selectedWorkAnswers[currentWorkQuestion] === index;
+								const isCorrect = option.correct;
+								let bgColor = COLORS.white;
+								let borderColor = COLORS.text_desc;
+								let textColor = COLORS.text_desc;
+
+								if (showWorkExplanation) {
+									if (isCorrect) {
+										bgColor = '#e8f5e8';
+										borderColor = COLORS.light_green;
+										textColor = COLORS.green_text;
+									} else if (isSelected) {
+										bgColor = '#ffe8e8';
+										borderColor = COLORS.light_red;
+										textColor = COLORS.light_red;
+									}
+								} else if (isSelected) {
+									bgColor = COLORS.light_blue;
+									borderColor = COLORS.blue_01;
+									textColor = COLORS.white;
+								}
+
+								return (
+									<div
+										key={index}
+										className={`p-4 rounded-lg border-2 ${!showWorkExplanation ? 'cursor-pointer hover:shadow-md' : ''}`}
+										style={{ background: bgColor, borderColor: borderColor, color: textColor }}
+										onClick={() => !showWorkExplanation && handleWorkAnswerSelect(index)}
+									>
+										{option.text}
+									</div>
+								);
+							})}
+						</div>
+
+						{showWorkExplanation && (
+							<div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
+								<p style={{ ...FONTS.para_03, color: COLORS.text_desc }}>
+									{workExperienceContent.questions[currentWorkQuestion].explanation}
+								</p>
+							</div>
+						)}
+
+						{showWorkExplanation && (
+							<Button
+								onClick={handleWorkNext}
+								className='mt-4 px-6 py-2 rounded-lg'
+								style={{ background: COLORS.light_green, color: COLORS.white }}
+							>
+								{currentWorkQuestion < workExperienceContent.questions.length - 1 ? 'Continue' : 'Finish'}
+							</Button>
+						)}
+					</>
+				) : (
+					<div className='text-center py-8'>
+						<Trophy size={64} color={workTestScore >= 80 ? COLORS.light_orange : COLORS.text_desc} className='mx-auto mb-4' />
+						<p style={{ ...FONTS.heading_03 }}>Score: {workTestScore}%</p>
+						<p style={{ ...FONTS.para_02 }}>
+							{workTestScore >= 80 ? 'Great job! You understand Work Experience.' : 'Keep practicing to improve your knowledge.'}
+						</p>
+						<Button
+							onClick={() => {
+								setShowWorkResult(false);
+								setCurrentWorkQuestion(0);
+								setSelectedWorkAnswers([]);
+								setShowWorkExplanation(false);
+							}}
+							className='px-6 py-2 rounded-lg mt-4'
+							style={{ background: COLORS.blue_01, color: COLORS.white }}
+						>
+							Restart Work Experience
+						</Button>
+					</div>
+				)}
+			</Card>
+		);
+	}
+
+	// Skills & Strengths Component
+	if (showSkills) {
+		return (
+			<Card className='p-4 mb-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75), inset -2px -2px 3px rgba(255, 255, 255, 0.7)` }}>
+				<div className='flex justify-between items-start mb-4'>
+					<h3 style={{ ...FONTS.heading_04 }}>{skillsAndStrengthsContent.childtitle}</h3>
+				</div>
+
+				{!showSkillsResult ? (
+					<>
+						<p style={{ ...FONTS.para_02 }}>
+							Question {currentSkillsQuestion + 1} of {skillsAndStrengthsContent.questions.length}
+						</p>
+
+						<div className='space-y-3 mt-4'>
+							<h4 style={{ ...FONTS.heading_05, marginBottom: '12px' }}>
+								{skillsAndStrengthsContent.questions[currentSkillsQuestion].title}
+							</h4>
+							{skillsAndStrengthsContent.questions[currentSkillsQuestion].options.map((option, index) => {
+								const isSelected = selectedSkillsAnswers[currentSkillsQuestion] === index;
+								const isCorrect = option.correct;
+								let bgColor = COLORS.white;
+								let borderColor = COLORS.text_desc;
+								let textColor = COLORS.text_desc;
+
+								if (showSkillsExplanation) {
+									if (isCorrect) {
+										bgColor = '#e8f5e8';
+										borderColor = COLORS.light_green;
+										textColor = COLORS.green_text;
+									} else if (isSelected) {
+										bgColor = '#ffe8e8';
+										borderColor = COLORS.light_red;
+										textColor = COLORS.light_red;
+									}
+								} else if (isSelected) {
+									bgColor = COLORS.light_blue;
+									borderColor = COLORS.blue_01;
+									textColor = COLORS.white;
+								}
+
+								return (
+									<div
+										key={index}
+										className={`p-4 rounded-lg border-2 ${!showSkillsExplanation ? 'cursor-pointer hover:shadow-md' : ''}`}
+										style={{ background: bgColor, borderColor: borderColor, color: textColor }}
+										onClick={() => !showSkillsExplanation && handleSkillsAnswerSelect(index)}
+									>
+										{option.text}
+									</div>
+								);
+							})}
+						</div>
+
+						{showSkillsExplanation && (
+							<div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
+								<p style={{ ...FONTS.para_03, color: COLORS.text_desc }}>
+									{skillsAndStrengthsContent.questions[currentSkillsQuestion].explanation}
+								</p>
+							</div>
+						)}
+
+						{showSkillsExplanation && (
+							<Button
+								onClick={handleSkillsNext}
+								className='mt-4 px-6 py-2 rounded-lg'
+								style={{ background: COLORS.light_green, color: COLORS.white }}
+							>
+								{currentSkillsQuestion < skillsAndStrengthsContent.questions.length - 1 ? 'Continue' : 'Finish'}
+							</Button>
+						)}
+					</>
+				) : (
+					<div className='text-center py-8'>
+						<Trophy size={64} color={skillsTestScore >= 80 ? COLORS.light_orange : COLORS.text_desc} className='mx-auto mb-4' />
+						<p style={{ ...FONTS.heading_03 }}>Score: {skillsTestScore}%</p>
+						<p style={{ ...FONTS.para_02 }}>
+							{skillsTestScore >= 80 ? 'Great job! You understand Skills & Strengths.' : 'Keep practicing to improve your knowledge.'}
+						</p>
+						<Button
+							onClick={() => {
+								setShowSkillsResult(false);
+								setCurrentSkillsQuestion(0);
+								setSelectedSkillsAnswers([]);
+								setShowSkillsExplanation(false);
+							}}
+							className='px-6 py-2 rounded-lg mt-4'
+							style={{ background: COLORS.blue_01, color: COLORS.white }}
+						>
+							Restart Skills & Strengths
+						</Button>
+					</div>
+				)}
+			</Card>
+		);
+	}
+
+	// Career Goals Component
+	if (showCareerGoals) {
+		return (
+			<Card className='p-4 mb-6' style={{ backgroundColor: COLORS.bg_Colour, boxShadow: `inset 2px 2px 3px rgba(189, 194, 199, 0.75), inset -2px -2px 3px rgba(255, 255, 255, 0.7)` }}>
+				<div className='flex justify-between items-start mb-4'>
+					<h3 style={{ ...FONTS.heading_04 }}>{careerGoalsContent.childtitle}</h3>
+				</div>
+
+				{!showCareerResult ? (
+					<>
+						<p style={{ ...FONTS.para_02 }}>
+							Question {currentCareerQuestion + 1} of {careerGoalsContent.questions.length}
+						</p>
+
+						<div className='space-y-3 mt-4'>
+							<h4 style={{ ...FONTS.heading_05, marginBottom: '12px' }}>
+								{careerGoalsContent.questions[currentCareerQuestion].title}
+							</h4>
+							{careerGoalsContent.questions[currentCareerQuestion].options.map((option, index) => {
+								const isSelected = selectedCareerAnswers[currentCareerQuestion] === index;
+								const isCorrect = option.correct;
+								let bgColor = COLORS.white;
+								let borderColor = COLORS.text_desc;
+								let textColor = COLORS.text_desc;
+
+								if (showCareerExplanation) {
+									if (isCorrect) {
+										bgColor = '#e8f5e8';
+										borderColor = COLORS.light_green;
+										textColor = COLORS.green_text;
+									} else if (isSelected) {
+										bgColor = '#ffe8e8';
+										borderColor = COLORS.light_red;
+										textColor = COLORS.light_red;
+									}
+								} else if (isSelected) {
+									bgColor = COLORS.light_blue;
+									borderColor = COLORS.blue_01;
+									textColor = COLORS.white;
+								}
+
+								return (
+									<div
+										key={index}
+										className={`p-4 rounded-lg border-2 ${!showCareerExplanation ? 'cursor-pointer hover:shadow-md' : ''}`}
+										style={{ background: bgColor, borderColor: borderColor, color: textColor }}
+										onClick={() => !showCareerExplanation && handleCareerAnswerSelect(index)}
+									>
+										{option.text}
+									</div>
+								);
+							})}
+						</div>
+
+						{showCareerExplanation && (
+							<div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
+								<p style={{ ...FONTS.para_03, color: COLORS.text_desc }}>
+									{careerGoalsContent.questions[currentCareerQuestion].explanation}
+								</p>
+							</div>
+						)}
+
+						{showCareerExplanation && (
+							<Button
+								onClick={handleCareerNext}
+								className='mt-4 px-6 py-2 rounded-lg'
+								style={{ background: COLORS.light_green, color: COLORS.white }}
+							>
+								{currentCareerQuestion < careerGoalsContent.questions.length - 1 ? 'Continue' : 'Finish'}
+							</Button>
+						)}
+					</>
+				) : (
+					<div className='text-center py-8'>
+						<Trophy size={64} color={careerTestScore >= 80 ? COLORS.light_orange : COLORS.text_desc} className='mx-auto mb-4' />
+						<p style={{ ...FONTS.heading_03 }}>Score: {careerTestScore}%</p>
+						<p style={{ ...FONTS.para_02 }}>
+							{careerTestScore >= 80 ? 'Great job! You understand Career Goals.' : 'Keep practicing to improve your knowledge.'}
+						</p>
+						<Button
+							onClick={() => {
+								setShowCareerResult(false);
+								setCurrentCareerQuestion(0);
+								setSelectedCareerAnswers([]);
+								setShowCareerExplanation(false);
+							}}
+							className='px-6 py-2 rounded-lg mt-4'
+							style={{ background: COLORS.blue_01, color: COLORS.white }}
+						>
+							Restart Career Goals
+						</Button>
+					</div>
+				)}
+			</Card>
+		);
+	}
+
+	const totalPages = Math.ceil(grammarContent.length / itemsPerPage);
+	const currentItems = grammarContent.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
 	return (
 		<>
-			{/* Grammar Test Modal */}
 			{showGrammarTest && (
 				<div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
 					<Card className='p-6 max-w-2xl w-full mx-4' style={{ backgroundColor: COLORS.bg_Colour }}>
@@ -419,9 +995,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 						<div className='mb-4'>
 							<p style={{ ...FONTS.para_02 }}>Question {currentQuestion + 1} of {grammarQuestions.length}</p>
 							<div className='w-full bg-gray-200 rounded-full h-3 mt-2'>
-								<div 
+								<div
 									className='h-3 rounded-full transition-all duration-500'
-									style={{ 
+									style={{
 										width: `${((currentQuestion + 1) / grammarQuestions.length) * 100}%`,
 										background: COLORS.light_green
 									}}
@@ -437,12 +1013,11 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										{grammarQuestions[currentQuestion].options.map((option, index) => {
 											const isSelected = selectedAnswers[currentQuestion] === index;
 											const isCorrect = index === grammarQuestions[currentQuestion].correct;
-											// const showFeedback = showExplanation && isSelected;
-											
+
 											let bgColor = COLORS.white;
 											let borderColor = COLORS.text_desc;
 											let textColor = COLORS.text_desc;
-											
+
 											if (showExplanation) {
 												if (isCorrect) {
 													bgColor = '#e8f5e8';
@@ -458,9 +1033,9 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 												borderColor = COLORS.blue_01;
 												textColor = COLORS.white;
 											}
-											
+
 											return (
-												<div 
+												<div
 													key={index}
 													className={`p-4 rounded-lg border-2 transition-all duration-300 ${!showExplanation ? 'cursor-pointer hover:shadow-md hover:bg-white' : ''}`}
 													onClick={() => !showExplanation && handleAnswerSelect(index)}
@@ -480,7 +1055,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 											);
 										})}
 									</div>
-									
+
 									{showExplanation && (
 										<div className='mt-4 p-4 rounded-lg' style={{ backgroundColor: '#f0f8ff', border: `2px solid ${COLORS.blue_01}` }}>
 											<h4 style={{ ...FONTS.para_02, fontWeight: 'bold', color: COLORS.blue_01 }} className='mb-2'>Explanation:</h4>
@@ -488,7 +1063,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 										</div>
 									)}
 								</div>
-								
+
 								<div className='flex justify-between'>
 									<Button
 										onClick={() => {
@@ -503,12 +1078,11 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 											background: COLORS.text_desc,
 											...FONTS.para_02,
 											color: COLORS.white,
-
 										}}
 									>
 										Exit
 									</Button>
-									
+
 									{showExplanation && (
 										<Button
 											onClick={handleNext}
@@ -533,8 +1107,8 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 								</h3>
 								<p style={{ ...FONTS.heading_03, color: COLORS.blue_01 }} className='mb-2'>Score: {grammarTestScore}%</p>
 								<p style={{ ...FONTS.para_02, color: COLORS.text_desc }} className='mb-6'>
-									{grammarTestScore >= 80 
-										? 'Speaking practice is now unlocked!' 
+									{grammarTestScore >= 80
+										? 'Speaking practice is now unlocked!'
 										: 'You need 80% or higher to unlock speaking practice.'}
 								</p>
 								<div className='flex gap-4 justify-center'>
@@ -616,7 +1190,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 								}
 								return '';
 							};
-							
+
 							return (
 								<div key={index}>
 									<div className='flex items-center justify-between mb-2'>
@@ -663,7 +1237,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 							);
 						})}
 					</div>
-					
+
 					{!grammarCompleted && currentPage === 2 && (
 						<div className='text-center mt-6 pt-4 border-t' style={{ borderColor: COLORS.text_desc }}>
 							<Button
@@ -689,7 +1263,7 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 							</Button>
 						</div>
 					)}
-					
+
 					<div className='flex justify-between items-center mt-6 pt-4 border-t' style={{ borderColor: COLORS.text_desc }}>
 						<Button
 							onClick={() => setCurrentPage(currentPage - 1)}
@@ -704,11 +1278,11 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 						>
 							<ChevronLeft size={16} /> Previous
 						</Button>
-						
+
 						<span style={{ ...FONTS.para_02, color: COLORS.text_desc }}>
 							Page {currentPage + 1} of {totalPages}
 						</span>
-						
+
 						<Button
 							onClick={() => setCurrentPage(currentPage + 1)}
 							disabled={currentPage === totalPages - 1}
@@ -730,3 +1304,5 @@ const GrammarComponent = ({ grammarCompleted, setGrammarCompleted, grammarTestSc
 };
 
 export default GrammarComponent;
+
+
