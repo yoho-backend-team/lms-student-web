@@ -40,19 +40,18 @@ const FAQItem: React.FC<FAQItemProps> = ({ id, question, content, isExpanded, on
           </span>
           <div 
             className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center transition-all duration-200"
-            style={{ 
+            style={{
               backgroundColor: COLORS.bg_Colour,
-               boxShadow: `
+              boxShadow: `
               rgba(255, 255, 255, 0.7) 3px 3px 5px, 
               rgba(189, 194, 199, 0.75) 2px 2px 3px inset
             `,
             }}
           >
             {isExpanded ? (
-              <img src ={minus} size={16} backgroundColor = {COLORS.bg_Colour} strokeWidth={2.5} />
-              
+              <img src={minus} width={16} height={16} alt="collapse" />
             ) : (
-               <img src ={plus} size={16} color={COLORS.grey} strokeWidth={2.5} />
+              <img src={plus} width={16} height={16} alt="expand" />
             )}
           </div>
         </button>
