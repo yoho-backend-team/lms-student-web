@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getBatchDataUUID, getcoursedata, getcoursedataUUID, taskdataget } from '../services/Course';
+import { getcoursedata, getcoursedataUUID, getCourseTrackData, taskdataget } from '../services/Course';
 import { getcoursedetails, getcousetask, selectedCourse } from '../reducer/CourseSlice';
 
 
@@ -25,9 +25,9 @@ export const getcourseUUIDThunks = (params: any) => async (dispatch: any) => {
     throw error;
   }
 };
-export const getBatchUUIDThunks = (params: any) => async (dispatch: any) => {
+export const getCourseTrackThunks = (params: any) => async (dispatch: any) => {
   try {
-    const response = await getBatchDataUUID(params);
+    const response = await getCourseTrackData(params);
     dispatch(selectedCourse(response));
     return response;
   } catch (error) {

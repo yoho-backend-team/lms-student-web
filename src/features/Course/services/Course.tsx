@@ -19,9 +19,9 @@ export const getcoursedataUUID = async (params: any) => {
     throw error;
   }
 }
-export const getBatchDataUUID = async (params: any) => {
+export const getCourseTrackData = async (params: any) => {
   try {
-    const response = await Client.student.course.getByBatch(params);
+    const response = await Client.student.course.coursetrack(params);
     return response?.data;
   } catch (error) {
     console.error('Error in getcoursedata:', error);
