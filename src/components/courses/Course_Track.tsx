@@ -128,32 +128,14 @@ const CourseTrack: React.FC = () => {
 
                   <div className="absolute right-0 top-30 mt-6 mr-4 transform  z-30">
                     <div className="relative">
-                      <button
-                        onClick={() => toggleDropdown(index)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${status === 'completed'
+                      <div
+                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${item?.status === 'completed'
                           ? 'bg-green-500 text-white shadow-lg'
                           : 'bg-[#EBEFF3] text-gray-700 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
                           } hover:scale-105`}
                       >
                         {item?.status === 'completed' ? '✓ Completed' : (item?.status === 'in-progress' ? 'in-progress' : 'Pending')}
-                      </button>
-
-                      {activeDropdown === index && status === 'pending' && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 z-40">
-                          <button
-                            onClick={() => handleStatusChange(index, 'pending')}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-t-lg border-b border-gray-200"
-                          >
-                            Pending
-                          </button>
-                          <button
-                            onClick={() => handleStatusChange(index, 'completed')}
-                            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-b-lg text-green-600 font-medium"
-                          >
-                            Mark as Completed
-                          </button>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
