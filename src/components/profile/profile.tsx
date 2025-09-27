@@ -19,46 +19,48 @@ const ProfileInformation: React.FC = () => {
 	const dispatch = useDispatch<any>();
 	const profileDetails = useSelector(selectProfile);
 
+	console.log(profileDetails, "checking the data")
+
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
 	}, [dispatch]);
 
 	// Sample data - replace with actual data from props or API
 	const [profileData, setProfileData] = useState({
-		name: profileDetails.length != 0 ? profileDetails.full_name : 'NA',
+		name: profileDetails?.length != 0 ? profileDetails?.full_name : 'NA',
 		traineeId:
-			profileDetails.length != 0 ? profileDetails.userDetail.studentId : 'NA',
-		profileImage: profileDetails.length != 0 ? profileDetails.image : 'NA',
+			profileDetails?.length != 0 ? profileDetails?.userDetail?.studentId : 'NA',
+		profileImage: profileDetails?.length != 0 ? profileDetails?.image : 'NA',
 	});
 
 	const [personalInfo, setPersonalInfo] = useState({
-		mailAddress: profileDetails.length != 0 ? profileDetails.email : 'NA',
-		name: profileDetails.length != 0 ? profileDetails.full_name : 'NA',
-		gender: profileDetails.length != 0 ? profileDetails.gender : 'NA',
+		mailAddress: profileDetails?.length != 0 ? profileDetails?.email : 'NA',
+		name: profileDetails?.length != 0 ? profileDetails?.full_name : 'NA',
+		gender: profileDetails?.length != 0 ? profileDetails.gender : 'NA',
 		contactNumber:
-			profileDetails.length != 0
-				? profileDetails.contact_info.phone_number
+			profileDetails?.length != 0
+				? profileDetails?.contact_info?.phone_number
 				: 'NA',
-		dateOfBirth: profileDetails.length != 0 ? profileDetails.dob : 'NA',
+		dateOfBirth: profileDetails?.length != 0 ? profileDetails?.dob : 'NA',
 		pinCode:
-			profileDetails.length != 0 ? profileDetails.contact_info.pincode : 'NA',
+			profileDetails?.length != 0 ? profileDetails?.contact_info?.pincode : 'NA',
 		address:
-			profileDetails.length != 0 ? profileDetails.contact_info.address2 : 'NA',
+			profileDetails?.length != 0 ? profileDetails?.contact_info?.address2 : 'NA',
 	});
 
 	const [instituteInfo, setInstituteInfo] = useState({
 		course: 'Theoretical Physics',
 		batch: 'Batch 2024-25',
-		rollNumber: profileDetails.length != 0 ? profileDetails.roll_no : 'NA',
+		rollNumber: profileDetails?.length != 0 ? profileDetails?.roll_no : 'NA',
 		studentId:
-			profileDetails.length != 0 ? profileDetails.userDetail.studentId : 'NA',
+			profileDetails?.length != 0 ? profileDetails?.userDetail?.studentId : 'NA',
 	});
 
 	// Store original data to compare changes
 	const [originalPersonalInfo, setOriginalPersonalInfo] =
 		useState(personalInfo);
 	const [originalProfileImage, setOriginalProfileImage] = useState(
-		profileData.profileImage
+		profileData?.profileImage
 	);
 
 	const handleMenuItemClick = (itemId: string) => {
@@ -72,7 +74,7 @@ const ProfileInformation: React.FC = () => {
 
 	const handlePersonalInfoChange = (data: typeof personalInfo) => {
 		setPersonalInfo(data);
-		if (data.name !== profileData.name) {
+		if (data?.name !== profileData.name) {
 			setProfileData((prev) => ({ ...prev, name: data.name }));
 		}
 	};
@@ -113,14 +115,14 @@ const ProfileInformation: React.FC = () => {
 		try {
 			// Prepare data for API update
 			const updateData = {
-				full_name: personalInfo.name,
-				gender: personalInfo.gender,
-				dob: personalInfo.dateOfBirth,
+				full_name: personalInfo?.name,
+				gender: personalInfo?.gender,
+				dob: personalInfo?.dateOfBirth,
 				contact_info: {
-					phone_number: personalInfo.contactNumber,
-					pincode: personalInfo.pinCode,
-					address2: personalInfo.address,
-					alternate_phone_number: personalInfo.contactNumber || "0000000000"
+					phone_number: personalInfo?.contactNumber,
+					pincode: personalInfo?.pinCode,
+					address2: personalInfo?.address,
+					alternate_phone_number: personalInfo?.contactNumber || "0000000000"
 				}
 			};
 
@@ -129,7 +131,7 @@ const ProfileInformation: React.FC = () => {
 
 			// Update local state
 			setOriginalPersonalInfo(personalInfo);
-			setOriginalProfileImage(profileData.profileImage);
+			setOriginalProfileImage(profileData?.profileImage);
 			showToast('Profile updated successfully!', 'success');
 			setIsEditing(false);
 		} catch (error: any) {
@@ -166,7 +168,7 @@ const ProfileInformation: React.FC = () => {
 		setProfileData((prev) => ({
 			...prev,
 			profileImage: originalProfileImage,
-			name: originalPersonalInfo.name,
+			name: originalPersonalInfo?.name,
 		}));
 		setIsEditing(false);
 		setShowCancelDialog(false);
@@ -177,9 +179,9 @@ const ProfileInformation: React.FC = () => {
 			<div className='flex flex-col xl:flex-row gap-4 p-2 sm:p-4 max-w-[1400px] mx-auto'>
 				<div className='w-full xl:w-[320px] 2xl:w-[380px] flex-shrink-0'>
 					<ProfileSidebar
-						name={profileData.name}
-						traineeId={profileData.traineeId}
-						profileImage={profileData.profileImage}
+						name={profileData?.name}
+						traineeId={profileData?.traineeId}
+						profileImage={profileData?.profileImage}
 						activeMenuItem={activeMenuItem}
 						onMenuItemClick={handleMenuItemClick}
 						onGoBack={handleGoBack}

@@ -11,7 +11,7 @@ interface LiveclassProps {
 
 const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 
-  console.log(data,"data in live class")
+  console.log(data, "data in live class")
 
 
   // Header data
@@ -28,7 +28,7 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
         <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4'>
           <table className="w-full">
             <thead>
-              <tr className='flex justify-center gap-56 items-center !text-white' style={{ ...FONTS.heading_03 }}>
+              <tr className='flex justify-around items-center !text-white' style={{ ...FONTS.heading_03 }}>
                 {headers?.map((header, index) => (
                   <td key={index}>{header}</td>
                 ))}
