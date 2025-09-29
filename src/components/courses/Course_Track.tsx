@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
@@ -15,8 +16,8 @@ const CourseTrack: React.FC = () => {
   const { course } = useParams();
 
   const [showVideoModal, setShowVideoModal] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-  const [timelineStatus, setTimelineStatus] = useState<string[]>([]);
+  const [] = useState<number | null>(null);
+  const [timelineStatus,] = useState<string[]>([]);
 
   const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
@@ -35,16 +36,7 @@ const CourseTrack: React.FC = () => {
     dispatch(getCourseTrackThunks(params))
   }, [course, dispatch, user?._id]);
 
-  const toggleDropdown = (index: number): void => {
-    setActiveDropdown(activeDropdown === index ? null : index);
-  };
 
-  const handleStatusChange = (index: number, status: string): void => {
-    const newStatus = [...timelineStatus];
-    newStatus[index] = status;
-    setTimelineStatus(newStatus);
-    setActiveDropdown(null);
-  };
 
   return (
     <div className="w-full mx-auto p-4">
