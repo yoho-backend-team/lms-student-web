@@ -19,6 +19,7 @@ export const getattendanceByDate =
         try {
             const response = await getattendancedatabyDate(params);
             dispatch(getAttendanceByDate(response.data));
+            return response
         } catch (error) {
             console.log(error);
         }
