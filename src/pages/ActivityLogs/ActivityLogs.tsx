@@ -56,24 +56,24 @@ const ActivityLogs = () => {
 
   const allLogs = activityLogs1?.data ?? [];
 
- const filteredLogs = allLogs.filter((log: any) => {
-  const logDate = new Date(log.createdAt);
+  const filteredLogs = allLogs.filter((log: any) => {
+    const logDate = new Date(log.createdAt);
 
-  let from = fromDate ? new Date(fromDate) : null;
-  let to = toDate ? new Date(toDate) : null;
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
 
     if (from) {
-    from.setHours(0, 0, 0, 0);
-  }
-  if (to) {
-    to.setHours(23, 59, 59, 999);
-  }
+      from.setHours(0, 0, 0, 0);
+    }
+    if (to) {
+      to.setHours(23, 59, 59, 999);
+    }
 
-  if (from && logDate < from) return false;
-  if (to && logDate > to) return false;
+    if (from && logDate < from) return false;
+    if (to && logDate > to) return false;
 
-  return true;
-});
+    return true;
+  });
 
 
   const totalPages = activityLogs1?.pagination?.totalPages ?? 1;

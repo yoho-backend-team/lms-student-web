@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/hooks/useAutoScroll.ts
 import { useEffect, useRef } from 'react';
 
@@ -6,7 +7,7 @@ export function useAutoScroll<T extends HTMLElement>(deps: any[]) {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, deps);
+  }, [deps]);
 
   return bottomRef;
 }

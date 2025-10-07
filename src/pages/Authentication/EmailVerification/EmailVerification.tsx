@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from "@/components/ui/card";
 import Logo from "../../../assets/icons/navbar/icons8-ionic-50.png";
 import { COLORS, FONTS } from "@/constants/uiConstants";
@@ -51,7 +52,7 @@ const EmailVerification = () => {
       setIsLoading(false);
     }
   };
-  
+
 
   return (
     <div className="flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4">
@@ -108,9 +109,8 @@ const EmailVerification = () => {
                       message: "Please enter a valid email address",
                     },
                   })}
-                  className={`w-full px-4 py-3 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none ${
-                    errors.email ? "border border-red-500" : ""
-                  }`}
+                  className={`w-full px-4 py-3 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none ${errors.email ? "border border-red-500" : ""
+                    }`}
                   placeholder="Enter your email"
                   disabled={isLoading}
                 />
@@ -127,11 +127,10 @@ const EmailVerification = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full py-3 rounded-md transition-all duration-200 ${
-                  isLoading
+                className={`w-full py-3 rounded-md transition-all duration-200 ${isLoading
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-gradient-to-r from-[#7B00FF] to-[#B200FF] hover:from-[#6a00e0] hover:to-[#9a00e0]"
-                }`}
+                  }`}
                 style={{ ...FONTS.heading_04, color: COLORS.white }}
               >
                 {isLoading ? (

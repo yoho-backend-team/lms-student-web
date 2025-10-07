@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { FONTS } from '@/constants/uiConstants';
 import { useSelector } from 'react-redux';

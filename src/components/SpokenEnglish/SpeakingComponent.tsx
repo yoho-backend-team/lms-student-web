@@ -41,7 +41,7 @@ const SpeakingComponent = ({
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const lastTranscriptRef = useRef<string>('');
-	
+
 
 	useEffect(() => {
 		const savedBestScore = localStorage.getItem(`bestScore-${currentLevel}-${currentTopic}`);
@@ -203,7 +203,7 @@ const SpeakingComponent = ({
 		];
 
 		let errorCount = 0;
-		let corrections: string[] = [];
+		const corrections: string[] = [];
 
 		commonErrors.forEach(error => {
 			const matches = text.match(error.pattern);
@@ -273,7 +273,7 @@ const SpeakingComponent = ({
 		let minTime = 30;
 		let minWords = 30;
 		let wpmMin = 80;
-		let wpmMax = 200;
+		const wpmMax = 200;
 
 		// Add topic relevance and grammar bonus
 		totalScore += Math.round(topicCheck.score * 0.2); // Up to 20 points for topic relevance
@@ -377,7 +377,7 @@ const SpeakingComponent = ({
 		const currentWpm = Math.round(wordCount / minutes);
 
 		let feedback = '';
-		let tips = [];
+		const tips = [];
 
 		if (wordCount < 3) {
 			feedback = 'Try speaking more words to get better analysis.';

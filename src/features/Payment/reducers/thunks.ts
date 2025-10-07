@@ -1,8 +1,9 @@
-import { getStudentPayment } from '../services'; 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getStudentPayment } from '../services';
 import { getPayment } from './PaymentSlice';
 
 export const getStudentPaymentThunk =
-    (params:any) => async (dispatch: any) => {
+    (params: any) => async (dispatch: any) => {
         try {
             const response = await getStudentPayment(params);
             dispatch(getPayment(response.data));

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from 'react';
 import { Download, QrCode } from 'lucide-react';
 import { COLORS, FONTS } from '@/constants/uiConstants';
@@ -129,9 +130,9 @@ const IDCard: React.FC<IDCardProps> = ({ data }) => {
                 }}
               >
                 {/* Card Front */}
-                <div 
+                <div
                   ref={frontRef}
-                  className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden" 
+                  className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   {/* Half Color Design */}

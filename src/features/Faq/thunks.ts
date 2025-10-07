@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // thunks.ts
 import { getHelp } from './FaqSlice';
 import { getStudentFaq } from './service/index';

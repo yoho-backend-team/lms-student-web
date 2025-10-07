@@ -25,7 +25,7 @@ interface NoteData {
 const NotesMaterials = () => {
   const navigate = useNavigate()
   const [courses, setCourses] = useState<Course | null>(null);
-  
+
   const coursedata = useSelector(selectCourse);
 
   useEffect(() => {
@@ -46,14 +46,14 @@ const NotesMaterials = () => {
   ]
 
   // Function to generate a sample PDF blob (you can replace this with actual PDF generation)
- const generateSamplePDF = (date: string, time: string): Blob => {
-  const content = `BT
+  const generateSamplePDF = (date: string, time: string): Blob => {
+    const content = `BT
 /F1 24 Tf
 100 700 Td
 (Class Notes - ${date} at ${time}) Tj
 ET`;
 
-  const pdf = `%PDF-1.4
+    const pdf = `%PDF-1.4
 1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
 3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]/Contents 4 0 R/Resources<</Font<</F1 5 0 R>>>>>>endobj
@@ -75,14 +75,15 @@ startxref
 420
 %%EOF`;
 
-  return new Blob([pdf], { type: "application/pdf" });
-};
+    return new Blob([pdf], { type: "application/pdf" });
+  };
 
   // Function to handle download
-  const handleDownload = (note: NoteData, _index: number) => {
+  const handleDownload = (note: NoteData, index: number) => {
     try {
       let blob: Blob;
       let fileName: string;
+      console.log(index)
 
       if (note.fileUrl) {
         fetch(note.fileUrl)
@@ -104,7 +105,7 @@ startxref
       } else {
         blob = note.pdfBlob || generateSamplePDF(note.date, note.time);
         fileName = note.fileName || `Class_Notes_${note.date.replace(/-/g, '_')}.pdf`;
-        
+
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
@@ -133,7 +134,7 @@ startxref
         </Button>
         <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
       </div>
-      
+
       <Mainbutton activeTabs={"notes"} />
 
       <h1 className="text-black text-2xl font-semibold mb-6">Upload Notes</h1>
@@ -166,7 +167,7 @@ startxref
                     <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>
                       {note.time}
                     </div>
-                
+
                     <div className="flex justify-center">
                       <Button
                         onClick={() => handleDownload(note, index)}

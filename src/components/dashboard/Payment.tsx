@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import payments from "../../assets/dashboard/payments.png";
 import { FONTS } from "@/constants/uiConstants";
@@ -14,7 +15,7 @@ const Payment: React.FC = () => {
 
   useEffect(() => {
     const storedData = GetLocalStorage("user");
-    console.log("StoreData", storedData);  
+    console.log("StoreData", storedData);
     setStudent(storedData);
   }, []);
 

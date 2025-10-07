@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
@@ -9,7 +10,7 @@ interface TaskModalProps {
   show: boolean
   onClose: () => void
   task: any
-  
+
 }
 
 const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
@@ -29,63 +30,63 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
     }
   }
 
- const handleSubmit = async () => {
-  if (!selectedFile) {
-    setError('Please select a file to upload')
-    return
-  }
-
-  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
-  if (!allowedTypes.includes(selectedFile.type)) {
-    setError('Only PDF or image files (jpg, jpeg, png) are allowed')
-    return
-  }
-
-  if (!task._id && !task.id) {
-    setError('Task ID is missing. Cannot update task.')
-    return
-  }
-
-  setIsSubmitting(true)
-  setError(null)
-
-  try {
-    let fileUrl: string | null = null
-    const fileFormData = new FormData()
-    fileFormData.append('file', selectedFile)
-
-    const uploadResponse = await uploadticketfile(fileFormData)
-    if (uploadResponse?.data?.file) {
-      fileUrl = uploadResponse.data.file
+  const handleSubmit = async () => {
+    if (!selectedFile) {
+      setError('Please select a file to upload')
+      return
     }
 
-    const taskUpdateData = {
-      student: user?._id,
-      taskid: task.id,
-      file: fileUrl,
-      status: 'completed',
-      submittedAt: new Date().toISOString(),
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
+    if (!allowedTypes.includes(selectedFile.type)) {
+      setError('Only PDF or image files (jpg, jpeg, png) are allowed')
+      return
     }
 
-    const response = await updatetaskdata(taskUpdateData)
-
-    if (response && response.success) {
-      alert(`File "${selectedFile.name}" uploaded successfully!`)
-      setSelectedFile(null)
-      onClose()
-    } else {
-      throw new Error(response?.message || 'Failed to update task')
+    if (!task._id && !task.id) {
+      setError('Task ID is missing. Cannot update task.')
+      return
     }
-  } catch (err: any) {
-    setError(err.message || 'Failed to submit task. Please try again.')
-    console.error('Submission error:', err)
-  } finally {
-    setIsSubmitting(false)
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      let fileUrl: string | null = null
+      const fileFormData = new FormData()
+      fileFormData.append('file', selectedFile)
+
+      const uploadResponse = await uploadticketfile(fileFormData)
+      if (uploadResponse?.data?.file) {
+        fileUrl = uploadResponse.data.file
+      }
+
+      const taskUpdateData = {
+        student: user?._id,
+        taskid: task.id,
+        file: fileUrl,
+        status: 'completed',
+        submittedAt: new Date().toISOString(),
+      }
+
+      const response = await updatetaskdata(taskUpdateData)
+
+      if (response && response.success) {
+        alert(`File "${selectedFile.name}" uploaded successfully!`)
+        setSelectedFile(null)
+        onClose()
+      } else {
+        throw new Error(response?.message || 'Failed to update task')
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit task. Please try again.')
+      console.error('Submission error:', err)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
-}
 
 
-console.log(task,"task")
+  console.log(task, "task")
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
