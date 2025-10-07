@@ -47,87 +47,133 @@ const Dashboard: React.FC = () => {
           <TourButton />
         </div>
 
-       {/* Mobile & Tablet View (TabView = true) */}
-{TabView ? (
-  <div className="grid grid-cols-1 gap-3 xs:gap-4 sm:gap-5">
-    {/* First Row - Institute & Profile */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
-      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-        <InstituteDetails />
-      </div>
-      <div className="transform transition-all duration-700 ease-out hover:scale-[1.02]">
-        <ProfileCard />
-      </div>
-    </div>
-
-    {/* Second Row - Assessments & Course Progress */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
-      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-        <Assesments />
-      </div>
-      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-        <CourseProgress />
-      </div>
-    </div>
-
-    {/* Third Row - Attendance & Payment */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
-      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-        <Attendance />
-      </div>
-      <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-        <Payment />
-      </div>
-    </div>
-
-    {/* Fourth Row - Updates */}
-    <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-      <Updates />
-    </div>
-  </div>
-) : (
-          /* Desktop View (TabView = false) */
-          <div className="flex flex-col gap-4 sm:gap-5">
-            {/* First Row - 3 columns */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-8 gap-4 sm:gap-5">
-              <div className="lg:col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+        {/* Mobile & Tablet View (TabView = true) */}
+        {TabView ? (
+          <div className="grid grid-cols-1 gap-3 xs:gap-4 sm:gap-5">
+            {/* First Row - Institute & Profile */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
+              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
                 <InstituteDetails />
               </div>
-              <div className="lg:col-span-4 transform transition-all duration-700 ease-out hover:scale-[1.02]">
+              <div className="transform transition-all duration-700 ease-out hover:scale-[1.02]">
                 <ProfileCard />
               </div>
-              <div className="lg:col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+            </div>
+
+            {/* Second Row - Assessments & Course Progress */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
+              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                <Assesments />
+              </div>
+              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
                 <CourseProgress />
               </div>
             </div>
 
-            {/* Second Row - 3 columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
+            {/* Third Row - Attendance & Payment */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 xs:gap-4 sm:gap-5">
               <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
                 <Attendance />
               </div>
               <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
                 <Payment />
               </div>
-              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-                <Assesments />
+            </div>
+
+            {/* Fourth Row - Updates */}
+            <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+              <Updates />
+            </div>
+          </div>
+        ) : (
+          /* Desktop View - Different layouts for 1024px and larger screens */
+          <div className="flex flex-col gap-4 sm:gap-5">
+            {/* For 1024px only */}
+            <div className="lg:block xl:hidden 2xl:hidden">
+              {/* First Row - Profile Card Full Width */}
+              <div className="transform transition-all duration-700 ease-out hover:scale-[1.02]">
+                <ProfileCard />
+              </div>
+
+              {/* Second Row - Institute & Course Progress */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 mt-4 sm:mt-5">
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <InstituteDetails />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <CourseProgress />
+                </div>
+              </div>
+
+              {/* Third Row - Attendance & Payment */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:mt-5">
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Attendance />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Payment />
+                </div>
+              </div>
+
+              {/* Fourth Row - Assessments & Calendar */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 mt-4 sm:mt-5">
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Assesments />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <DashCalender />
+                </div>
+              </div>
+
+              {/* Fifth Row - Updates Full Width */}
+              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg mt-4 sm:mt-5">
+                <Updates />
               </div>
             </div>
 
-            {/* Third Row - 2 columns */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-              <div className="lg:col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-                <Updates />
+            {/* For screens larger than 1024px (your original layout) */}
+            <div className="lg:hidden xl:block">
+              {/* First Row - 3 columns */}
+              <div className="grid grid-cols-8 gap-4 sm:gap-5">
+                <div className="col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <InstituteDetails />
+                </div>
+                <div className="col-span-4 transform transition-all duration-700 ease-out hover:scale-[1.02]">
+                  <ProfileCard />
+                </div>
+                <div className="col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <CourseProgress />
+                </div>
               </div>
-              <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
-                <DashCalender />
+
+              {/* Second Row - 3 columns */}
+              <div className="grid grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5">
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Attendance />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Payment />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Assesments />
+                </div>
+              </div>
+
+              {/* Third Row - 2 columns */}
+              <div className="grid grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5">
+                <div className="col-span-2 transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <Updates />
+                </div>
+                <div className="transform transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-lg">
+                  <DashCalender />
+                </div>
               </div>
             </div>
           </div>
         )}
 
         {/* Bottom Info Cards - Keep your original row layout */}
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between gap-3 sm:gap-0">
           <div className="divshadow p-2 rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50">
             <p style={{ ...FONTS.heading_06 }}>
               Course Name:{" "}
