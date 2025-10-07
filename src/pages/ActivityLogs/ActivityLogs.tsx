@@ -1,4 +1,3 @@
-
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backBtn from '../../assets/icons/common/back_arrow.png';
 import vector_H from '../../assets/icons/activitylog/Vector-H.png';
@@ -122,7 +121,7 @@ const ActivityLogs = () => {
                   </p>
                 </div>
                 <div className="grid gap-6 w-3/4 relative pb-10">
-                   <div className="btnshadow h-full w-3 rounded-2xl absolute left-0 text-transparent
+                  <div className="btnshadow h-full w-3 rounded-2xl absolute left-0 text-transparent
                     sm:left-[-5px] xs:left-[-8px]"></div>
                   <h3
                     className="pl-14"
@@ -133,7 +132,7 @@ const ActivityLogs = () => {
                   <section className="flex items-center gap-6 relative">
                     <div className="relative">
                       <div
-                           className="h-8 w-8 rounded-full flex p-1 absolute left-[-10px] top-[-5px]
+                        className="h-8 w-8 rounded-full flex p-1 absolute left-[-10px] top-[-5px]
                      sm:left-[-8px] xs:left-[-6px]"
                         style={{
                           background: COLORS.blue_user,
@@ -212,10 +211,10 @@ const ActivityLogs = () => {
           )}
         </div>
 
-        <div className="lg:w-[500px] w-fit">
+        <div className="lg:w-[500px] w-full">
           {handleFilter && (
-            <div className="lg:grid lg:gap-0 lg:grid-cols-1  flex flex-col gap-3">
-              <section className="flex gap-6 lg:justify-end mt-2">
+            <div className="flex flex-col lg:items-end md:items-end sm:items-end items-center w-full pr-6">
+              <section className="flex gap-6 justify-end mt-2">
                 <div>
                   <p style={{ ...FONTS.heading_07 }}>From</p>
                   <button
@@ -278,13 +277,7 @@ const ActivityLogs = () => {
               </section>
 
               {showFromCalendar && (
-                <div
-                  className="mt-3 lg:mt-3 p-1 rounded-lg bg-red-400"
-                  style={{
-                    boxShadow:
-                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
-                  }}
-                >
+                <div className="mt-3 sm:pr-[21%] md:pr[25%]  p-1 rounded-lg flex justify-start">
                   <DashCalender
                     setSelectDate={setFromDate}
                     setShowFromCalendar={setShowFromCalendar}
@@ -292,15 +285,8 @@ const ActivityLogs = () => {
                 </div>
               )}
 
-
               {showToCalendar && (
-                <div
-                  className="mt-3 lg:mt-3 p-1 rounded-lg bg-red-400"
-                  style={{
-                    boxShadow:
-                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
-                  }}
-                >
+                <div className="mt-3 sm:pr-[21%] md:pr[25%] p-1 rounded-lg flex justify-center">
                   <DashCalender
                     setSelectDate={setToDate}
                     setShowFromCalendar={setShowToCalendar}
