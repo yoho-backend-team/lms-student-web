@@ -93,6 +93,10 @@ const TicketId = () => {
         };
         console.log(ticket)
         console.log(new_message)
+        setTicket((prev: any) => ({
+          ...prev,
+          messages: [...(prev?.messages || []), { ...new_message, createdAt: new Date() }],
+        }));
         socket.emit("sendStudentTicketMessage", new_message);
         setMessage("");
       } else {
@@ -151,7 +155,7 @@ const TicketId = () => {
             <div className="flex flex-col gap-4">
               {ticket?.messages?.map((msg: any, index: number) => (
                 <Card
-                  key={msg._id || index}
+                  key={index}
                   className={`w-[250px] h-auto ${msg.senderType === "InstituteAdmin"
                     ? "self-start ml-10"
                     : "self-end mr-10"
