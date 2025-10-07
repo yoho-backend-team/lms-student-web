@@ -82,18 +82,18 @@ const Sidebar: React.FC<Props> = ({
                   {chat.batch?.groupImage ? (
                     <img
                       src={chat.batch.groupImage}
-                      alt={chat.batch.batch_name}
+                      alt={chat.batch.name}
                       className="h-full w-full object-cover"
                     />
                   ) : (
                     <span className="text-lg font-bold">
-                      {chat.batch?.batch_name?.charAt(0).toUpperCase()}
+                      {chat.batch?.name?.charAt(0).toUpperCase()}
                     </span>
                   )}
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900">
-                    {chat.batch?.batch_name || chat.group}
+                    {chat.batch?.name || chat.group}
                   </h3>
                   <p className="text-sm text-gray-600">
                     {chat.last_message?.message}

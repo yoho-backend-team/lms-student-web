@@ -9,17 +9,10 @@ import {
   updateVerifyOtpClient,
 } from "@/features/Authentication/services";
 import { toast } from "react-toastify";
-import {
-  //   GetLocalStorage,
-  RemoveLocalStorage,
-  StoreLocalStorage,
-} from "@/utils/helper";
-// import { useAuth } from "@/context/AuthContext/AuthContext";
+import { RemoveLocalStorage, StoreLocalStorage } from "@/utils/helper";
 
 const OtpVerification = () => {
   const navigate = useNavigate();
-  // const { login } = useAuth();
-  //   const otpData = JSON.stringify(GetLocalStorage("otp"));
   const [otpDigits, setOtpDigits] = useState(Array(6).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [showError, setShowError] = useState(false);
@@ -27,6 +20,20 @@ const OtpVerification = () => {
   const { email, data } = location.state || {};
   const [currentOtp, setCurrentOtp] = useState(data?.otp || "");
   const [currenttoken, setCurrentToken] = useState(data?.token || "");
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobileOrTablet(window.innerWidth < 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   const handleOtpChange = (index: number, value: string) => {
     setShowError(false);
@@ -101,6 +108,7 @@ const OtpVerification = () => {
       });
     }
   };
+
   const [isResending, setIsResending] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
 
@@ -144,25 +152,32 @@ const OtpVerification = () => {
   }, [resendTimer]);
 
   return (
-    <div className="flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4">
-      <div className="w-1/2 h-full">
+    <div
+      className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${
+        isMobileOrTablet ? "justify-center" : ""
+      }`}
+    >
+      {/* OTP Form Card - Always visible */}
+      <div
+        className={`${isMobileOrTablet ? "w-full max-w-md" : "w-1/2"} h-full`}
+      >
         <Card
           className="bg-[#ebeff3] w-full h-full px-4 rounded-md flex justify-center cursor-pointer"
           style={{
             boxShadow: `
-					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
-					  rgba(189, 194, 199, 0.75) 5px 5px 4px
-					`,
+              rgba(255, 255, 255, 0.7) -4px -4px 4px,
+              rgba(189, 194, 199, 0.75) 5px 5px 4px
+            `,
           }}
         >
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center w-full">
             <Card
               className="bg-[#ebeff3] w-[50px] h-[50px] rounded-full flex items-center justify-center cursor-pointer"
               style={{
                 boxShadow: `
-					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
-					  rgba(189, 194, 199, 0.75) 5px 5px 4px
-					`,
+                  rgba(255, 255, 255, 0.7) -4px -4px 4px,
+                  rgba(189, 194, 199, 0.75) 5px 5px 4px
+                `,
               }}
             >
               <img src={Logo} alt="logo" style={{ width: 20, height: 20 }} />
@@ -173,20 +188,29 @@ const OtpVerification = () => {
             >
               OTP Verifications
             </p>
-            <p style={{ ...FONTS.heading_06 }}>
+            <p style={{ ...FONTS.heading_06 }} className="text-center">
               Enter the 6 digit OTP sent to your Email Address
             </p>
             <div>
-              <p className="my-3 text-red-600 text-md font-semibold">
+              <p className="my-3 text-red-600 text-md font-semibold text-center">
                 OTP: {currentOtp}
               </p>
             </div>
-            <div className="flex gap-3 justify-center my-3">
+            <div
+              className={`flex ${
+                isMobileOrTablet ? "gap-2" : "gap-3"
+              } justify-center my-3 w-full`}
+            >
               {otpDigits.map((digit, idx) => (
                 <input
                   key={idx}
                   type="tel"
-                  style={{ ...FONTS.heading_02 }}
+                  style={{
+                    ...FONTS.heading_02,
+                    fontSize: isMobileOrTablet
+                      ? "1rem"
+                      : FONTS.heading_02.fontSize,
+                  }}
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleOtpChange(idx, e.target.value)}
@@ -194,7 +218,9 @@ const OtpVerification = () => {
                   ref={(el) => {
                     if (el) otpRefs.current[idx] = el;
                   }}
-                  className="w-16 h-16 text-center rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none"
+                  className={`text-center rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none ${
+                    isMobileOrTablet ? "w-12 h-12" : "w-16 h-16"
+                  }`}
                 />
               ))}
             </div>
@@ -202,7 +228,7 @@ const OtpVerification = () => {
             {showError && (
               <p
                 style={{ ...FONTS.para_03, color: COLORS.light_red }}
-                className="my-3"
+                className="my-3 text-center"
               >
                 Please enter your otp
               </p>
@@ -220,10 +246,11 @@ const OtpVerification = () => {
             <div className="flex justify-center">
               <p
                 style={{ ...FONTS.heading_06, color: COLORS.blue_02 }}
-                className={`hover:underline cursor-pointer ${isResending || resendTimer > 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-                  }`}
+                className={`hover:underline cursor-pointer text-center ${
+                  isResending || resendTimer > 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
                 onClick={() => {
                   if (!isResending && resendTimer === 0) handleResendOtp();
                 }}
@@ -231,24 +258,28 @@ const OtpVerification = () => {
                 {resendTimer > 0
                   ? `Resend OTP in ${resendTimer}s`
                   : isResending
-                    ? "Resending..."
-                    : "Resend OTP"}
+                  ? "Resending..."
+                  : "Resend OTP"}
               </p>
             </div>
           </div>
         </Card>
       </div>
-      <div className="w-1/2 h-full">
-        <Card
-          className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center cursor-pointer"
-          style={{
-            boxShadow: `
-					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
-					  rgba(189, 194, 199, 0.75) 5px 5px 4px
-					`,
-          }}
-        ></Card>
-      </div>
+
+      {/* Gradient Card - Hidden on mobile/tablet, visible on desktop */}
+      {!isMobileOrTablet && (
+        <div className="w-1/2 h-full">
+          <Card
+            className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center cursor-pointer"
+            style={{
+              boxShadow: `
+                rgba(255, 255, 255, 0.7) -4px -4px 4px,
+                rgba(189, 194, 199, 0.75) 5px 5px 4px
+              `,
+            }}
+          ></Card>
+        </div>
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import Logo from '../../../assets/icons/navbar/icons8-ionic-50.png';
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { IoMdArrowRoundBack } from 'react-icons/io';
@@ -24,7 +24,19 @@ const Login = () => {
 	const location = useLocation();
 	const { email } = location.state || {};
 	const navigate = useNavigate();
+	const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+	useEffect(() => {
+		const checkScreenSize = () => {
+			setIsMobileOrTablet(window.innerWidth < 1024);
+		};
 
+		checkScreenSize();
+		window.addEventListener('resize', checkScreenSize);
+
+		return () => {
+			window.removeEventListener('resize', checkScreenSize);
+		};
+	}, []);
 
 	const onSubmit = async (formData: ChangePassword) => {
 		try {
@@ -52,8 +64,9 @@ const Login = () => {
 	};
 
 	return (
-		<div className='flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4'>
-			<div className='w-1/2 h-full'>
+		<div className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${isMobileOrTablet ? 'justify-center' : ''}`}>
+			{/* Form Card - Always visible */}
+			<div className={`${isMobileOrTablet ? 'w-full max-w-md' : 'w-1/2'} h-full`}>
 				<Card
 					className='bg-[#ebeff3] w-full h-full rounded-md flex px-4 justify-center cursor-pointer'
 					style={{
@@ -91,10 +104,10 @@ const Login = () => {
 										{...register('newPassword', {
 											required: 'Please Enter Your New Password',
 										})}
-										className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none'
+										className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none xl:h-15 xl:text-lg 2xl:text-xl'
 									/>
 									<span
-										className='absolute top-5.5 right-3 text-gray-500 cursor-pointer'
+										className='absolute top-5 right-3 text-gray-500 cursor-pointer xl:top-7'
 										onClick={() => setShowPassword(!showPassword)}
 									>
 										{showPassword ? (
@@ -122,10 +135,10 @@ const Login = () => {
 										{...register('confirmPassword', {
 											required: 'Enter Same as New Password',
 										})}
-										className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none'
+										className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none xl:h-15 xl:text-lg 2xl:text-xl'
 									/>
 									<span
-										className='absolute top-5.5 right-3 text-gray-500 cursor-pointer'
+										className='absolute top-5 right-3 text-gray-500 cursor-pointer xl:top-7'
 										onClick={() => setShowPassword(!showPassword)}
 									>
 										{showPassword ? (
@@ -163,17 +176,21 @@ const Login = () => {
 					</div>
 				</Card>
 			</div>
-			<div className='w-1/2 h-full'>
-				<Card
-					className='bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center cursor-pointer'
-					style={{
-						boxShadow: `
-					  rgba(255, 255, 255, 0.7) -4px -4px 4px,
-					  rgba(189, 194, 199, 0.75) 5px 5px 4px
-					`,
-					}}
-				></Card>
-			</div>
+
+			{/* Gradient Card - Hidden on mobile/tablet, visible on desktop */}
+			{!isMobileOrTablet && (
+				<div className='w-1/2 h-full'>
+					<Card
+						className='bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center cursor-pointer'
+						style={{
+							boxShadow: `
+						  rgba(255, 255, 255, 0.7) -4px -4px 4px,
+						  rgba(189, 194, 199, 0.75) 5px 5px 4px
+						`,
+						}}
+					></Card>
+				</div>
+			)}
 		</div>
 	);
 };

@@ -176,8 +176,9 @@ const ProfileInformation: React.FC = () => {
 
 	return (
 		<div className='min-h-fit' style={{ fontFamily: FONTS.para_01.fontFamily }}>
-			<div className='flex flex-col xl:flex-row gap-4 p-2 sm:p-4 max-w-[1400px] mx-auto'>
-				<div className='w-full xl:w-[320px] 2xl:w-[380px] flex-shrink-0'>
+			<div className='flex flex-col xs:flex-col sm:flex-col md:flex-col lg:flex-row xl:flex-row 2xl:flex-row gap-3 xs:gap-3 sm:gap-4 md:gap-4 lg:gap-6 xl:gap-6 2xl:gap-8 p-2 xs:p-2 sm:p-3 md:p-4 lg:p-4 xl:p-6 2xl:p-8 max-w-[1400px] mx-auto w-full'>
+				{/* Sidebar - Responsive width adjustments */}
+				<div className='w-full xs:w-full sm:w-full md:w-full lg:w-[280px] xl:w-[320px] 2xl:w-[380px] flex-shrink-0'>
 					<ProfileSidebar
 						name={profileData?.name}
 						traineeId={profileData?.traineeId}
@@ -191,7 +192,8 @@ const ProfileInformation: React.FC = () => {
 					/>
 				</div>
 
-				<div className='flex-1 min-w-0'>
+				{/* Main Content - Responsive width adjustments */}
+				<div className='flex-1 min-w-0 w-full xs:w-full sm:w-full md:w-full lg:flex-1 xl:flex-1 2xl:flex-1'>
 					<ProfileContent
 						personalInfo={personalInfo}
 						instituteInfo={instituteInfo}

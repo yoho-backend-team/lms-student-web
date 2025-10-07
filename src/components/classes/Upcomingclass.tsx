@@ -2,58 +2,31 @@
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { COLORS, FONTS } from '@/constants/uiConstants';
-//import { useEffect } from 'react';
-
-// interface ClassItem {
-//   day: string;
-//   topic: string;
-//   joinLink: string;
-//   duration: string;
-// }
 
 interface LiveclassProps {
-  data: any[]; 
+  data: any[];
 }
 
 const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
-
-  // const classes: ClassItem[] = [
-  //   {
-  //     day: 'Day 1',
-  //     topic: 'HTML',
-  //     joinLink: 'www.google.com',
-  //     duration: '45 min'
-  //   },
-  //   {
-  //     day: 'Day 2',
-  //     topic: 'CSS',
-  //     joinLink: 'www.example.com',
-  //     duration: '60 min'
-  //   }
-  // ];
-
-  // Header data
   const headers = ['Day', 'Topic', 'Join Link', 'Duration', 'Action'];
 
   return (
     <div className='mt-2 w-full'>
       <Card style={{ backgroundColor: COLORS.bg_Colour }}>
-        {/* Header Card */}
-        <Card className='bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-4 p-4' >
-          <table className="w-full">
-            <thead>
-              <tr className='flex justify-around items-center !text-white' style={{ ...FONTS.heading_03 }}>
-                  {headers.map((header, index) => (
-                  <td key={index}>{header}</td>
-                ))}
-              </tr>
-            </thead>
-          </table>
+        {/* Header Card - Hidden on mobile, shown on md+ */}
+        <Card className='hidden md:block bg-gradient-to-r from-[#7B00FF] to-[#B200FF] !text-white mx-2 sm:mx-3 lg:mx-4 p-2 sm:p-3 lg:p-4'>
+          <div className="w-full">
+            <div className='flex justify-around items-center !text-white text-[10px] sm:text-xs lg:text-sm xl:text-base' style={{ ...FONTS.heading_03 }}>
+              {headers.map((header, index) => (
+                <div key={index} className='flex-1 text-center px-1'>{header}</div>
+              ))}
+            </div>
+          </div>
         </Card>
 
         {/* Class Items */}
         {data.map((classItem, index) => (
-          <Card 
+          <Card
             key={index}
             className='overflow-y-auto scrollbar-hide bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black mx-4 p-4
                         transition-all duration-300 ease-in-out
@@ -62,8 +35,8 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
                         cursor-pointer"'          >
             <table className="">
               <tbody>
-                <tr className='flex justify-center items-center gap-24'  style={{ ...FONTS.heading_06 }}>
-                  <td className='w-32 text-center'>{index + 1 }</td>
+                <tr className='flex justify-center items-center gap-24' style={{ ...FONTS.heading_06 }}>
+                  <td className='w-32 text-center'>{index + 1}</td>
                   <td className='w-52'>{classItem.courseDetails.course_name}</td>
                   <td className='w-72'>
                     <a className='!text-[#0400ff] text-wrap' href={classItem.joinLink}>
@@ -90,20 +63,3 @@ const Liveclass: React.FC<LiveclassProps> = ({ data }) => {
 };
 
 export default Liveclass;
-
-// import bgImg from '../../assets/classes/Group 197.png'
-
-// const Upcomingclass = () => {
-
-//   return (
-
-    
-
-//     <div className='bg-[#ebeff3]'>
-
-//         <img className="w-[250px] mx-auto my-auto" src={bgImg} alt="" />
-//     </div>
-//   )
-// }
-
-// export default Upcomingclass;

@@ -55,7 +55,7 @@ const ProfileCard: React.FC = () => {
     ];
 
     return (
-        <div className='flex flex-col w-full h-[365px] gap-4 p-[20px] divshadow shadow-xl rounded-[16px]'>
+        <div className='flex flex-col w-full h-[550px] sm:h-[365px] gap-4 p-[20px] divshadow shadow-xl rounded-[16px]'>
             <h2 style={{ ...FONTS.heading_02 }}>Classes</h2>
             <div className="flex flex-row justify-between">
                 <div className='flex flex-row gap-5'>
@@ -74,11 +74,11 @@ const ProfileCard: React.FC = () => {
                     className='items-center w-[104px] h-[48px] rounded-xl btnshadow text-[#716F6F] text-[14px] hover:text-white btnhovershadow'
                 >View Profile</button>
             </div>
-            <div className="grid grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
                 {
                     data?.map((item, index) => {
                         return (
-                            <div key={index} className="w-full h-24 rounded-xl divshadow">
+                            <div key={index} className="w-full h-28 sm:h-24 rounded-xl divshadow">
                                 <Gridprofile title={item.title} value={item.total} icon={item.icon} />
                             </div>
                         )

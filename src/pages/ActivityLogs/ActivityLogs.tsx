@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backBtn from '../../assets/icons/common/back_arrow.png';
 import vector_H from '../../assets/icons/activitylog/Vector-H.png';
 import User from '../../assets/icons/activitylog/User.png';
 import filter from '../../assets/icons/common/filter.png';
 import { useEffect, useState } from 'react';
-// import { Calendar } from '@/components/ui/calendar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActivityLogs } from '@/features/ActivityLog/reducers/selectors';
@@ -22,8 +20,6 @@ const ActivityLogs = () => {
   const [showFromCalendar, setShowFromCalendar] = useState(false);
   const [showToCalendar, setShowToCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [selectedDate, setselectedDate] = useState<Date | undefined>(undefined);
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -59,8 +55,8 @@ const ActivityLogs = () => {
   const filteredLogs = allLogs.filter((log: any) => {
     const logDate = new Date(log.createdAt);
 
-    const from = fromDate ? new Date(fromDate) : null;
-    const to = toDate ? new Date(toDate) : null;
+    let from = fromDate ? new Date(fromDate) : null;
+    let to = toDate ? new Date(toDate) : null;
 
     if (from) {
       from.setHours(0, 0, 0, 0);
@@ -74,7 +70,6 @@ const ActivityLogs = () => {
 
     return true;
   });
-
 
   const totalPages = activityLogs1?.pagination?.totalPages ?? 1;
 
@@ -111,9 +106,9 @@ const ActivityLogs = () => {
       </div>
 
       {/* Main Layout */}
-      <div className="flex lg:flex-row gap-5 md:flex-col-reverse">
+      <div className="flex lg:flex-row flex-col-reverse gap-5">
         {/* Logs */}
-        <div className="lg:w-3/4 md:w-full relative mt-15">
+        <div className="lg:w-3/4 w-full relative mt-15">
           {filteredLogs.length > 0 ? (
             filteredLogs.map((data: any) => (
               <section
@@ -126,7 +121,8 @@ const ActivityLogs = () => {
                   </p>
                 </div>
                 <div className="grid gap-6 w-3/4 relative pb-10">
-                  <div className="btnshadow h-full w-3 rounded-2xl absolute left-0 text-transparent"></div>
+                  <div className="btnshadow h-full w-3 rounded-2xl absolute left-0 text-transparent
+                    sm:left-[-5px] xs:left-[-8px]"></div>
                   <h3
                     className="pl-14"
                     style={{ ...FONTS.heading_05, color: COLORS.text_title }}
@@ -136,7 +132,8 @@ const ActivityLogs = () => {
                   <section className="flex items-center gap-6 relative">
                     <div className="relative">
                       <div
-                        className="h-8 w-8 rounded-full flex p-1 absolute left-[-10px] top-[-5px]"
+                        className="h-8 w-8 rounded-full flex p-1 absolute left-[-10px] top-[-5px]
+                     sm:left-[-8px] xs:left-[-6px]"
                         style={{
                           background: COLORS.blue_user,
                           boxShadow:
@@ -214,11 +211,10 @@ const ActivityLogs = () => {
           )}
         </div>
 
-        {/* Filter Panel */}
-        <div className="lg:w-[500px] md:w-fit">
+        <div className="lg:w-[500px] w-full">
           {handleFilter && (
-            <div className="lg:grid md:flex lg:gap-0 md:gap-12 lg:grid-cols-1">
-              <section className="flex gap-6 lg:justify-end mt-4">
+            <div className="flex flex-col  lg:items-end md:items-end sm:items-end items-center w-full ">
+              <section className="flex gap-6 justify-end mt-2">
                 <div>
                   <p style={{ ...FONTS.heading_07 }}>From</p>
                   <button
@@ -279,65 +275,25 @@ const ActivityLogs = () => {
                   </button>
                 </div>
               </section>
-
-              {/* Fixed Calendar Rendering */}
               {showFromCalendar && (
-                <div
-                  className="mt-6 p-1 rounded-lg"
-                  style={{
-                    boxShadow:
-                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
-                  }}
-                >
+                <div className="mt-3 p-1 rounded-lg sm:pr-[25%] md:pr-[29%] flex justify-center xl:pr-[0%] md:justify-end">
                   <DashCalender
                     setSelectDate={setFromDate}
                     setShowFromCalendar={setShowFromCalendar}
                   />
-                  {/* <Calendar
-                    mode="single"
-                    required
-                    selected={fromDate}
-                    onSelect={(selectedDate) => {
-                      if (selectedDate) {
-                        setFromDate(selectedDate);
-                        setShowFromCalendar(false);
-                        setCurrentPage(1);
-                      }
-                    }}
-                    month={fromDate} 
-                    showOutsideDays={false} 
-                    onMonthChange={() => { }} 
-                    className="rounded-lg bg-gray-100 w-full"
-                  /> */}
                 </div>
               )}
 
               {showToCalendar && (
-                <div
-                  className="mt-6 p-1 rounded-lg"
-                  style={{
-                    boxShadow:
-                      "rgba(189, 194, 199, 0.7) 2px 5px 4px, rgba(255, 255, 255, 0.4) 3px 2px 2px inset",
-                  }}
-                >
+                <div className="mt-3 p-1 rounded-lg sm:pr-[25%] md:pr-[29%] flex justify-center xl:pr-[0%] md:justify-end">
                   <DashCalender
                     setSelectDate={setToDate}
                     setShowFromCalendar={setShowToCalendar}
                   />
-                  {/* <Calendar
-                    mode="single"
-                    selected={toDate}
-                    onSelect={(selectedDate) => {
-                      if (selectedDate) {
-                        setToDate(selectedDate);
-                        setShowToCalendar(false);
-                        setCurrentPage(1);
-                      }
-                    }}
-                    className="rounded-lg bg-gray-100 w-full"
-                  /> */}
                 </div>
               )}
+
+
             </div>
           )}
         </div>
