@@ -15,6 +15,16 @@ import { getStudentProfileThunk } from "@/features/Profile/reducers/thunks";
 import type { AppDispatch } from "@/store/store";
 import { useInstituteData } from "@/hooks/DashboardData/useInstitute";
 import { MdManageAccounts } from "react-icons/md";
+
+import { SiEngadget } from "react-icons/si";
+import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { MdGroups } from "react-icons/md";
+import { GoClockFill } from "react-icons/go";
+import { FaCalendarAlt } from "react-icons/fa";
+import { MdPayment } from "react-icons/md";
+import { IoBriefcase } from "react-icons/io5";
+import { IoLogoWechat } from "react-icons/io5";
+
 import {
   Tooltip,
   TooltipContent,
@@ -41,50 +51,50 @@ const Navbar = () => {
     {
       path: "",
       name: "Dashboard",
-      iconActive: NavbarIcons.DashboardActiveImg,
-      iconInactive: NavbarIcons.DashboardInActiveImg,
+      iconActive: <RiDashboardHorizontalFill style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <RiDashboardHorizontalFill style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "classes",
       name: "Classes",
-      iconActive: NavbarIcons.ClassActiveImg,
-      iconInactive: NavbarIcons.ClassInActiveImg,
+      iconActive: <MdGroups style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <MdGroups style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "courses",
       name: "Courses",
-      iconActive: NavbarIcons.CourseActiveImg,
-      iconInactive: NavbarIcons.CourseInActiveImg,
+      iconActive: <GoClockFill style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <GoClockFill style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "attendance",
       name: "Attendance",
-      iconActive: NavbarIcons.AttendanceActiveImg,
-      iconInactive: NavbarIcons.AttendanceInActiveImg,
+      iconActive: <FaCalendarAlt style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <FaCalendarAlt style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "payment",
       name: "Payment",
-      iconActive: NavbarIcons.PaymentActiveImg,
-      iconInactive: NavbarIcons.PaymentInActiveImg,
+      iconActive: <MdPayment style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <MdPayment style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "community",
       name: "Community",
-      iconActive: NavbarIcons.CommunityActiveImg,
-      iconInactive: NavbarIcons.CommunityInActiveImg,
+      iconActive: <IoLogoWechat style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <IoLogoWechat style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "placement",
       name: "Placement",
-      iconActive: NavbarIcons.PlacementActiveImg,
-      iconInactive: NavbarIcons.PlacementInActiveImg,
+      iconActive: <IoBriefcase style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <IoBriefcase style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
     {
       path: "spoken-english",
       name: "Spoken English",
-      iconActive: NavbarIcons.CommunityActiveImg,
-      iconInactive: NavbarIcons.CommunityInActiveImg,
+      iconActive: <SiEngadget style={{ width: 24, height: 24, color: "#7B00FF" }} />,
+      iconInactive: <SiEngadget style={{ width: 24, height: 24, color: "#716F6F" }} />,
     },
   ];
 
@@ -170,7 +180,10 @@ const Navbar = () => {
                           : undefined,
                       }}
                     >
-                      <img
+                      <div>
+                        {isNavActive(item.path) ? item.iconActive : item.iconInactive}
+                      </div>
+                      {/* <img
                         src={
                           isNavActive(item.path)
                             ? item.iconActive
@@ -178,7 +191,7 @@ const Navbar = () => {
                         }
                         alt="nav-icon"
                         style={{ width: 24, height: 24 }}
-                      />
+                      /> */}
                     </Card>
                   </Link>
                 </TooltipTrigger>
