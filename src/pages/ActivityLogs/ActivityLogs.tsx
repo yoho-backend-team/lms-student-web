@@ -213,7 +213,7 @@ const ActivityLogs = () => {
 
         <div className="lg:w-[500px] w-full">
           {handleFilter && (
-            <div className="flex flex-col lg:items-end md:items-end sm:items-end items-center w-full pr-6">
+            <div className="flex flex-col  lg:items-end md:items-end sm:items-end items-center w-full ">
               <section className="flex gap-6 justify-end mt-2">
                 <div>
                   <p style={{ ...FONTS.heading_07 }}>From</p>
@@ -275,9 +275,8 @@ const ActivityLogs = () => {
                   </button>
                 </div>
               </section>
-
               {showFromCalendar && (
-                <div className="mt-3 sm:pr-[21%] md:pr[25%]  p-1 rounded-lg flex justify-start">
+                <div className="mt-3 p-1 rounded-lg sm:pr-[25%] md:pr-[29%] flex justify-center xl:pr-[0%] md:justify-end">
                   <DashCalender
                     setSelectDate={setFromDate}
                     setShowFromCalendar={setShowFromCalendar}
@@ -286,13 +285,15 @@ const ActivityLogs = () => {
               )}
 
               {showToCalendar && (
-                <div className="mt-3 sm:pr-[21%] md:pr[25%] p-1 rounded-lg flex justify-center">
+                <div className="mt-3 p-1 rounded-lg sm:pr-[25%] md:pr-[29%] flex justify-center xl:pr-[0%] md:justify-end">
                   <DashCalender
                     setSelectDate={setToDate}
                     setShowFromCalendar={setShowToCalendar}
                   />
                 </div>
               )}
+
+
             </div>
           )}
         </div>
