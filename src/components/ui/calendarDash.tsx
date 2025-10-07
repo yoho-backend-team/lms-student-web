@@ -82,7 +82,7 @@ export const DashCalender: React.FC<props> = ({
 
   return (
     <div>
-      <Card className="flex flex-col w-full h-[380px] items-start gap-2.5 p-5 bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
+      <Card className="flex flex-col w-full h-[420px] items-start gap-2.5 p-5 bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
         <CardContent className="flex flex-col w-full items-start gap-5 p-0">
           <CardTitle className="font-bold text-dark text-xl">
             Calendar
@@ -146,13 +146,12 @@ export const DashCalender: React.FC<props> = ({
                   <div
                     key={`day-${index}`}
                     onClick={() => handelSelectDate?.(day)}
-                    className={`h-8 w-8 flex items-center justify-center rounded-full transition ${
-                      isToday
-                        ? "bg-[linear-gradient(135deg,rgba(123,0,255,1)_0%,rgba(178,0,255,1)_100%)] text-white font-bold"
-                        : day
+                    className={`h-8 w-8 flex items-center justify-center rounded-full transition ${isToday
+                      ? "bg-[linear-gradient(135deg,rgba(123,0,255,1)_0%,rgba(178,0,255,1)_100%)] text-white font-bold"
+                      : day
                         ? "text-[#706f6f] text-sm font-medium hover:bg-gray-200"
                         : "text-transparent"
-                    }`}
+                      }`}
                   >
                     {day || ""}
                   </div>
