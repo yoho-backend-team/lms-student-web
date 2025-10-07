@@ -30,7 +30,7 @@ export function useCommunityChat({
   const selectChat = (chat: Community) => {
     const selected: Chat = {
       _id: chat._id,
-      name: chat.batch?.batch_name || chat.group,
+      name: chat.batch?.name || chat.group,
       lastMessage: chat.last_message?.message || '',
       time: chat.last_message?.timestamp || '',
       members: `${chat.users.length} members`,
