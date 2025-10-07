@@ -216,7 +216,7 @@ const Payment = () => {
 
 							{/* Fees Details */}
 							<div className='w-full'>
-								<section className='flex flex-col xs:flex-row xs:justify-between xs:items-center py-4 xs:py-5 sm:py-6 gap-3 xs:gap-0'>
+								<section className='flex justify-between xs:flex-row xs:justify-between xs:items-center py-4 xs:py-5 sm:py-6 gap-3 xs:gap-0'>
 									<h1
 										className='font-semibold text-xl xs:text-2xl'
 										style={{ ...FONTS.heading_02 }}
@@ -224,8 +224,8 @@ const Payment = () => {
 										Fees Details
 									</h1>
 									<Button
-										className='p-2 px-3 xs:px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white text-sm xs:text-base
-                      shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]'
+										className='p-2 px-3 w-34 xs:px-4 rounded-lg cursor-pointer bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white text-sm xs:text-base
+                      shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)] flex'
 										style={{
 											...FONTS.para_02,
 											color: 'white',
@@ -236,7 +236,7 @@ const Payment = () => {
 									</Button>
 								</section>
 								<div className='p-3 xs:p-4 sm:p-5 grid gap-2 xs:gap-3 custom-inset-shadow'>
-									<div className='flex flex-col xs:flex-row justify-between gap-3 xs:gap-4'>
+									<div className='flex xs:flex-row justify-between gap-3 xs:gap-4'>
 										<section className='flex-1'>
 											<h1 className='text-sm xs:text-base' style={{ ...FONTS.heading_07 }}>Student :</h1>
 											<p className='text-xs xs:text-sm' style={{ ...FONTS.para_03 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.student?.full_name : "NA"}</p>
