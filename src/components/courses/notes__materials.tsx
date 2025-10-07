@@ -18,8 +18,8 @@ interface NoteData {
   date: string;
   time: string;
   fileName?: string;
-  fileUrl?: string; // Add this for actual file URLs
-  pdfBlob?: Blob; // Add this for generated PDFs
+  fileUrl?: string;
+  pdfBlob?: Blob;
 }
 
 const NotesMaterials = () => {
@@ -45,15 +45,14 @@ const NotesMaterials = () => {
     { date: '21-06-2025', time: '09.30 AM', fileName: 'Class_Notes_21_06_2025.pdf' },
   ]
 
-  // Function to generate a sample PDF blob (you can replace this with actual PDF generation)
- const generateSamplePDF = (date: string, time: string): Blob => {
-  const content = `BT
+  const generateSamplePDF = (date: string, time: string): Blob => {
+    const content = `BT
 /F1 24 Tf
 100 700 Td
 (Class Notes - ${date} at ${time}) Tj
 ET`;
 
-  const pdf = `%PDF-1.4
+    const pdf = `%PDF-1.4
 1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
 3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]/Contents 4 0 R/Resources<</Font<</F1 5 0 R>>>>>>endobj
@@ -75,10 +74,9 @@ startxref
 420
 %%EOF`;
 
-  return new Blob([pdf], { type: "application/pdf" });
-};
+    return new Blob([pdf], { type: "application/pdf" });
+  };
 
-  // Function to handle download
   const handleDownload = (note: NoteData, _index: number) => {
     try {
       let blob: Blob;
@@ -121,67 +119,103 @@ startxref
   };
 
   return (
-    <div className="w-full mx-auto p-4">
-      <div className="flex items-center gap-3 mb-6">
+    <div className="w-full mx-auto p-3 xs:p-4 sm:p-6">
+      {/* Header Section */}
+      <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 mb-4 xs:mb-5 sm:mb-6">
         <Button
-          onClick={() => {
-            navigate(-1)
-          }}
-          className="bg-[#EBEFF3] text-[#333] cursor-pointer hover:bg-[#e0e0e0] px-1 py-1 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
+          onClick={() => navigate(-1)}
+          className="bg-[#EBEFF3] text-[#333] cursor-pointer hover:bg-[#e0e0e0] px-1 py-1 xs:px-2 xs:py-2 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
         >
-          <img src={navigationicon} alt="Back" />
+          <img src={navigationicon} alt="Back" className="w-4 h-4 xs:w-5 xs:h-5" />
         </Button>
-        <h1 className="text-black text-2xl font-semibold">Class Notes & Materials</h1>
+        <h1 className="text-black text-lg xs:text-xl sm:text-2xl lg:text-3xl font-semibold">Class Notes & Materials</h1>
       </div>
       
       <Mainbutton activeTabs={"notes"} />
 
-      <h1 className="text-black text-2xl font-semibold mb-6">Upload Notes</h1>
+      {/* Page Title */}
+      <h1 className="text-black text-lg xs:text-xl sm:text-2xl lg:text-3xl font-semibold mb-4 xs:mb-5 sm:mb-6">Upload Notes</h1>
 
+      {/* Main Content Card */}
       <Card className="overflow-hidden bg-[#EBEFF3]">
         <div className="flex flex-col">
-          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-6 sticky top-0 z-10 ml-4 mr-4 mb-4">
-            <div className="grid grid-cols-4 gap-4">
-              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>File</div>
-              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Date</div>
-              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Chapter</div>
-              <div className="text-center !text-white" style={{ ...FONTS.heading_02 }}>Download</div>
+          {/* Header Row - Full headers for tablet and above */}
+          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-3 xs:p-4 sm:p-6 sticky top-0 z-10 mx-2 xs:mx-3 sm:mx-4 mb-2 xs:mb-3 sm:mb-4 hidden sm:block">
+            <div className="grid grid-cols-4 gap-2 xs:gap-3 sm:gap-4">
+              <div className="text-center !text-white text-xs xs:text-sm sm:text-base lg:text-lg" style={{ ...FONTS.heading_02 }}>File</div>
+              <div className="text-center !text-white text-xs xs:text-sm sm:text-base lg:text-lg" style={{ ...FONTS.heading_02 }}>Date</div>
+              <div className="text-center !text-white text-xs xs:text-sm sm:text-base lg:text-lg" style={{ ...FONTS.heading_02 }}>Time</div>
+              <div className="text-center !text-white text-xs xs:text-sm sm:text-base lg:text-lg" style={{ ...FONTS.heading_02 }}>Download</div>
             </div>
           </Card>
 
-          <div className="max-h-[500px] overflow-y-auto mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100" style={{ scrollbarWidth: "none" }}>
+          {/* Mobile Header - Visible only on small screens with all headings */}
+          <Card className="bg-gradient-to-r from-[#7B00FF] to-[#B200FF] text-white p-2 xs:p-3 mx-2 xs:mx-3 mb-2 xs:mb-3 sm:hidden">
+            <div className="grid grid-cols-4 gap-2 xs:gap-3">
+              <div className="text-center !text-white text-xs xs:text-sm" style={{ ...FONTS.heading_02 }}>File</div>
+              <div className="text-center !text-white text-xs xs:text-sm" style={{ ...FONTS.heading_02 }}>Date</div>
+              <div className="text-center !text-white text-xs xs:text-sm" style={{ ...FONTS.heading_02 }}>Time</div>
+              <div className="text-center !text-white text-xs xs:text-sm" style={{ ...FONTS.heading_02 }}>Action</div>
+            </div>
+          </Card>
+
+          {/* Notes List */}
+          <div className="max-h-[400px] xs:max-h-[450px] sm:max-h-[500px] overflow-y-auto mx-2 xs:mx-3 sm:mx-4 scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100" style={{ scrollbarWidth: "none" }}>
             {courses?.notes && courses.notes.length > 0 ? (
               notesData.map((note, index) => (
                 <Card
                   key={index}
-                  className="bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black p-4 mb-2 hover:shadow-lg transition-shadow duration-300"
+                  className="bg-[#ebeff3] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] text-black p-2 xs:p-3 sm:p-4 mb-2 hover:shadow-lg transition-shadow duration-300"
                 >
-                  <div className="grid grid-cols-4 gap-4 items-center">
+                  {/* Desktop/Tablet View */}
+                  <div className="hidden sm:grid sm:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 items-center">
                     <div className="flex justify-center">
-                      <img src={pdfimage} className="w-10 h-12" alt="PDF icon" />
+                      <img src={pdfimage} className="w-8 h-10 xs:w-9 xs:h-11 sm:w-10 sm:h-12" alt="PDF icon" />
                     </div>
-                    <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>
+                    <div className="text-center !text-gray-600 text-xs xs:text-sm sm:text-base" style={{ ...FONTS.para_01 }}>
                       {note.date}
                     </div>
-                    <div className="text-center !text-gray-600" style={{ ...FONTS.para_01 }}>
+                    <div className="text-center !text-gray-600 text-xs xs:text-sm sm:text-base" style={{ ...FONTS.para_01 }}>
                       {note.time}
                     </div>
-                
                     <div className="flex justify-center">
                       <Button
                         onClick={() => handleDownload(note, index)}
-                        className="bg-[#EBEFF3] w-20 h-14 hover:bg-[#dde3e9] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] transition-colors"
+                        className="bg-[#EBEFF3] w-16 h-12 xs:w-18 xs:h-14 sm:w-20 sm:h-14 hover:bg-[#dde3e9] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] transition-colors"
                         variant="outline"
                         title="Download PDF"
                       >
-                        <img src={downloadimg} className="w-8 h-10" alt="Download" />
+                        <img src={downloadimg} className="w-6 h-8 xs:w-7 xs:h-9 sm:w-8 sm:h-10" alt="Download" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Mobile View */}
+                  <div className="sm:hidden grid grid-cols-4 gap-1 xs:gap-2 items-center">
+                    <div className="flex justify-center">
+                      <img src={pdfimage} className="w-6 h-8 xs:w-7 xs:h-9" alt="PDF icon" />
+                    </div>
+                    <div className="text-center !text-gray-600 text-xs xs:text-sm" style={{ ...FONTS.para_01 }}>
+                      {note.date}
+                    </div>
+                    <div className="text-center !text-gray-600 text-xs xs:text-sm" style={{ ...FONTS.para_01 }}>
+                      {note.time}
+                    </div>
+                    <div className="flex justify-center">
+                      <Button
+                        onClick={() => handleDownload(note, index)}
+                        className="bg-[#EBEFF3] w-12 h-10 xs:w-14 xs:h-12 hover:bg-[#dde3e9] shadow-[5px_5px_4px_rgba(255,255,255,0.7),2px_2px_3px_rgba(189,194,199,0.75)_inset] transition-colors"
+                        variant="outline"
+                        title="Download PDF"
+                      >
+                        <img src={downloadimg} className="w-4 h-6 xs:w-5 xs:h-7" alt="Download" />
                       </Button>
                     </div>
                   </div>
                 </Card>
               ))
             ) : (
-              <div className="text-center text-gray-500 mt-4">No notes available.</div>
+              <div className="text-center text-gray-500 mt-4 text-sm xs:text-base">No notes available.</div>
             )}
           </div>
         </div>
