@@ -4,7 +4,6 @@ import { COLORS, FONTS } from "@/constants/uiConstants";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
-
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { forgotPasswordClient } from "@/features/Authentication/services";
@@ -26,10 +25,7 @@ const EmailVerification = () => {
   const onSubmit = async (data: EmailData) => {
     try {
       setIsLoading(true);
-
       const response = await forgotPasswordClient({ email: data.email }, {});
-      console.log("first", response);
-
       if (response) {
         toast.success("Verification email sent successfully!", {
           style: { backgroundColor: "green", color: "white" },
@@ -42,7 +38,6 @@ const EmailVerification = () => {
         });
       }
     } catch (error: any) {
-      console.error("Verification error:", error);
       toast.error(
         error.response?.data?.message || "Failed to send verification email",
         { style: { backgroundColor: "red", color: "white" } }
@@ -51,12 +46,11 @@ const EmailVerification = () => {
       setIsLoading(false);
     }
   };
-  
 
   return (
-    <div className="flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4">
+    <div className="flex flex-col-reverse md:flex-row bg-[#ebeff3] w-full min-h-screen p-4 gap-4">
       {/* Form Section */}
-      <div className="w-full md:w-1/2 h-full">
+      <div className="w-full md:w-1/2 flex justify-center items-center">
         <Card
           className="bg-[#ebeff3] w-full h-full rounded-md px-4 flex justify-center items-center"
           style={{
@@ -82,7 +76,7 @@ const EmailVerification = () => {
 
             {/* Title */}
             <h1
-              className="text-2xl font-bold mb-8"
+              className="text-2xl font-bold mb-8 text-center"
               style={{ ...FONTS.heading_02 }}
             >
               Email Verification
@@ -134,33 +128,7 @@ const EmailVerification = () => {
                 }`}
                 style={{ ...FONTS.heading_04, color: COLORS.white }}
               >
-                {isLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg
-                      className="animate-spin h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Sending...
-                  </span>
-                ) : (
-                  "Send Verification Code"
-                )}
+                {isLoading ? "Sending..." : "Send Verification Code"}
               </button>
 
               <div
@@ -177,10 +145,10 @@ const EmailVerification = () => {
         </Card>
       </div>
 
-      {/* Graphic Section - Hidden on mobile */}
-      <div className="hidden md:block md:w-1/2 h-full">
+      {/* Graphic Section */}
+      <div className="w-full md:w-1/2 flex justify-center items-center mb-4 md:mb-0">
         <Card
-          className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center"
+          className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-60 md:h-full rounded-md flex items-center justify-center"
           style={{
             boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px,
