@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Card } from "../ui/card";
 import { NavbarIcons } from "@/assets/icons/navbar";
@@ -13,6 +14,7 @@ import { selectProfile } from "@/features/Profile/reducers/selectors";
 import { getStudentProfileThunk } from "@/features/Profile/reducers/thunks";
 import type { AppDispatch } from "@/store/store";
 import { useInstituteData } from "@/hooks/DashboardData/useInstitute";
+import { MdManageAccounts } from "react-icons/md";
 import {
   Tooltip,
   TooltipContent,
@@ -253,18 +255,14 @@ const Navbar = () => {
                 boxShadow: `rgba(255, 255, 255, 0.7) -4px -4px 4px, rgba(189, 194, 199, 0.75) 5px 5px 4px`,
               }}
             >
-              <Card className="bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] cursor-pointer flex gap-2 justify-center">
+              <Card style={{ ...FONTS.para_01 }} className="bg-[#ebeff3] shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] h-[48px] w-[160px] cursor-pointer flex gap-2 justify-center btnhovershadow hover:!text-white">
                 <Link
                   className="flex justify-center gap-2"
                   to="profile"
                   onClick={() => setshowProfileSection(false)}
                 >
-                  <img
-                    src={NavbarIcons.CommunityInActiveImg}
-                    alt="profile-icon"
-                    style={{ width: 28, height: 28 }}
-                  />
-                  <p style={{ ...FONTS.para_01 }}>Profile</p>
+                  <MdManageAccounts style={{ width: 28, height: 28 }} />
+                  <p className=" hover:!text-white">Profile</p>
                 </Link>
               </Card>
               <Button

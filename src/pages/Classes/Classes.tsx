@@ -43,7 +43,7 @@ const Classes = () => {
     (async (tab: "live" | "upcoming" | "completed") => {
       setActiveTab(tab);
       showLoader()
-      const response = await dispatch(
+      await dispatch(
         getClassDetails({
           courseId: coursesDetails?.map((id: any) => id?.course?._id)[0],
           userType: "online",
@@ -51,9 +51,7 @@ const Classes = () => {
           page: 1,
         })
       );
-      if (response) {
-        hideLoader()
-      }
+      hideLoader()
 
     })(activeTab);
   }, [activeTab, coursesDetails, dispatch, hideLoader, showLoader]);
