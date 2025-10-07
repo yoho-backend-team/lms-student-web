@@ -217,21 +217,25 @@ const Chatbot: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-3 z-[9999] chatbot-container
-                    xs:bottom-3 xs:right-2
-                    sm:bottom-4 sm:right-3
-                    md:bottom-5 md:right-4
-                    lg:bottom-6 lg:right-5
-                    xl:bottom-8 xl:right-6
-                    2xl:bottom-10 2xl:right-8">
+    <div className="fixed z-[9999] chatbot-container
+                    bottom-4 right-4
+                    xs:bottom-4 xs:right-4
+                    sm:bottom-5 sm:right-5
+                    md:bottom-6 md:right-6
+                    lg:bottom-7 lg:right-7
+                    xl:bottom-8 xl:right-8
+                    2xl:bottom-10 2xl:right-10">
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
           className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-full animate-professional hover:scale-105 hover:shadow-2xl transition-all
-                     p-2.5 xs:p-2.5
-                     sm:p-3
-                     md:p-3.5
-                     lg:p-4
+                     p-3
+                     mb-60
+                     mr-29
+                     xs:p-3
+                     sm:p-3.5
+                     md:p-4 md:mb-9 md:mr-0
+                     lg:p-4 
                      xl:p-4
                      2xl:p-5"
         >
@@ -242,51 +246,48 @@ const Chatbot: React.FC = () => {
       {isOpen && (
         <div 
           className="bg-[#ebeff3] rounded-lg flex flex-col shadow-xl
-                     w-[calc(100vw-24px)] h-[70vh] max-w-[340px]
-                     xs:w-[calc(100vw-32px)] xs:h-[65vh] xs:max-w-[360px]
-                     sm:w-80 sm:h-96 sm:max-w-none
-                     md:w-[22rem] md:h-[26rem]
-                     lg:w-96 lg:h-[28rem]
-                     xl:w-[26rem] xl:h-[32rem]
-                     2xl:w-[28rem] 2xl:h-[36rem]"
+                     w-[320px] h-[400px]
+                     xs:w-[340px] xs:h-[420px]
+                     sm:w-[360px] sm:h-[440px]
+                     md:w-[380px] md:h-[460px]
+                     lg:w-[400px] lg:h-[480px]
+                     xl:w-[420px] xl:h-[500px]
+                     2xl:w-[440px] 2xl:h-[520px]"
         >
           <div className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-t-lg flex justify-between items-center
-                          p-3 xs:p-3
-                          sm:p-3.5
-                          md:p-4
-                          lg:p-4
-                          xl:p-5
+                          p-4
+                          xs:p-4
+                          sm:p-4
+                          md:p-5
+                          lg:p-5
+                          xl:p-6
                           2xl:p-6">
             <h3 className="font-semibold
-                           text-sm xs:text-sm
-                           sm:text-base
-                           md:text-base
-                           lg:text-lg
-                           xl:text-lg
-                           2xl:text-xl">
+                           text-base
+                           xs:text-base
+                           sm:text-lg
+                           md:text-lg
+                           lg:text-xl
+                           xl:text-xl
+                           2xl:text-2xl">
               LMS Assistant
             </h3>
             <button
               onClick={() => setIsOpen(false)}
               className="hover:opacity-80 p-1 rounded transition-opacity"
             >
-              <X className="w-4 h-4 xs:w-4 xs:h-4 sm:w-[18px] sm:h-[18px] md:w-5 md:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6 2xl:w-6 2xl:h-6" />
+              <X className="w-5 h-5 xs:w-5 xs:h-5 sm:w-6 sm:h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
             </button>
           </div>
 
           <div className="flex-1 overflow-y-auto space-y-3 scrollbar-hide
-                          p-3 xs:p-3
-                          sm:p-3.5
-                          md:p-4
-                          lg:p-4
-                          xl:p-5
-                          2xl:p-6
-                           xs:space-y-2
-                          sm:space-y-2.5
-                          md:space-y-3
-                          lg:space-y-3
-                          xl:space-y-3.5
-                          2xl:space-y-4">
+                          p-4
+                          xs:p-4
+                          sm:p-4
+                          md:p-5
+                          lg:p-5
+                          xl:p-6
+                          2xl:p-6">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -294,18 +295,20 @@ const Chatbot: React.FC = () => {
               >
                 <div
                   className={`rounded-lg
-                              max-w-[75%] xs:max-w-[75%]
-                              sm:max-w-xs
-                              md:max-w-[260px]
-                              lg:max-w-[280px]
-                              xl:max-w-[320px]
-                              2xl:max-w-[360px]
-                              p-2 xs:p-2
-                              sm:p-2.5
-                              md:p-3
-                              lg:p-3
-                              xl:p-3.5
-                              2xl:p-4
+                              max-w-[85%]
+                              xs:max-w-[85%]
+                              sm:max-w-[85%]
+                              md:max-w-[85%]
+                              lg:max-w-[85%]
+                              xl:max-w-[85%]
+                              2xl:max-w-[85%]
+                              p-3
+                              xs:p-3
+                              sm:p-3
+                              md:p-4
+                              lg:p-4
+                              xl:p-4
+                              2xl:p-5
                               ${
                                 message.isUser
                                   ? 'bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white'
@@ -318,12 +321,13 @@ const Chatbot: React.FC = () => {
                     `
                   } : {}}
                 >
-                  <p className="text-xs xs:text-xs
-                                sm:text-sm
-                                md:text-sm
-                                lg:text-sm
-                                xl:text-base
-                                2xl:text-base
+                  <p className="text-sm
+                                xs:text-sm
+                                sm:text-base
+                                md:text-base
+                                lg:text-base
+                                xl:text-lg
+                                2xl:text-lg
                                 leading-relaxed" 
                      dangerouslySetInnerHTML={{ __html: message.text }}>
                   </p>
@@ -333,18 +337,20 @@ const Chatbot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-3 xs:p-3
-                          sm:p-3.5
-                          md:p-4
-                          lg:p-4
-                          xl:p-5
+          <div className="p-4
+                          xs:p-4
+                          sm:p-4
+                          md:p-5
+                          lg:p-5
+                          xl:p-6
                           2xl:p-6">
-            <div className="flex gap-2 xs:gap-2
-                            sm:gap-2
-                            md:gap-2
-                            lg:gap-2.5
-                            xl:gap-3
-                            2xl:gap-3">
+            <div className="flex gap-3
+                            xs:gap-3
+                            sm:gap-3
+                            md:gap-4
+                            lg:gap-4
+                            xl:gap-5
+                            2xl:gap-5">
               <input
                 type="text"
                 value={inputText}
@@ -352,12 +358,13 @@ const Chatbot: React.FC = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 className="flex-1 bg-white rounded-lg focus:outline-none
-                           px-2.5 py-1.5 text-xs xs:px-2.5 xs:py-1.5 xs:text-xs
-                           sm:px-3 sm:py-2 sm:text-sm
-                           md:px-3 md:py-2 md:text-sm
-                           lg:px-3.5 lg:py-2.5 lg:text-sm
-                           xl:px-4 xl:py-2.5 xl:text-base
-                           2xl:px-4 2xl:py-3 2xl:text-base"
+                           px-3 py-2 text-sm
+                           xs:px-3 xs:py-2 xs:text-sm
+                           sm:px-4 sm:py-2.5 sm:text-base
+                           md:px-4 md:py-2.5 md:text-base
+                           lg:px-4 lg:py-2.5 lg:text-base
+                           xl:px-5 xl:py-3 xl:text-lg
+                           2xl:px-5 2xl:py-3 2xl:text-lg"
                 style={{
                   boxShadow: `
                     rgba(255, 255, 255, 0.7) -2px -2px 2px inset,
@@ -368,12 +375,13 @@ const Chatbot: React.FC = () => {
               <button
                 onClick={handleSendMessage}
                 className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg transition-all hover:scale-105
-                           p-1.5 xs:p-1.5
-                           sm:p-2
-                           md:p-2
-                           lg:p-2.5
-                           xl:p-2.5
-                           2xl:p-3"
+                           p-2
+                           xs:p-2
+                           sm:p-2.5
+                           md:p-2.5
+                           lg:p-3
+                           xl:p-3
+                           2xl:p-3.5"
                 style={{
                   boxShadow: `
                     rgba(255, 255, 255, 0.7) -2px -2px 2px,
@@ -381,7 +389,7 @@ const Chatbot: React.FC = () => {
                   `
                 }}
               >
-                <Send className="w-4 h-4 xs:w-4 xs:h-4 sm:w-4 sm:h-4 md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6" />
+                <Send className="w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
               </button>
             </div>
           </div>
