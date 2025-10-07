@@ -124,7 +124,7 @@ const CourseTrack: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="absolute right-0 top-30 mt-6 mr-4 transform  z-30">
+                  <div className="absolute right-10 top-40 mt-6 mr-4 transform">
                     <div className="relative">
                       <div
                         className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${item?.status === 'completed'
