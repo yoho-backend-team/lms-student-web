@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react'
 import { Card } from '../ui/card'
 import { Button } from '../ui/button'
@@ -10,6 +9,7 @@ interface TaskModalProps {
   show: boolean
   onClose: () => void
   task: any
+  
 }
 
 const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
@@ -29,70 +29,75 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
     }
   }
 
-  const handleSubmit = async () => {
-    if (!selectedFile) {
-      setError('Please select a file to upload')
-      return
-    }
-
-    if (!task._id && !task.id) {
-      setError('Task ID is missing. Cannot update task.')
-      return
-    }
-
-    setIsSubmitting(true)
-    setError(null)
-
-    try {
-      let fileUrl: string | null = null
-      const fileFormData = new FormData()
-      fileFormData.append('file', selectedFile)
-
-      const uploadResponse = await uploadticketfile(fileFormData)
-      if (uploadResponse?.data?.file) {
-        fileUrl = uploadResponse.data.file
-      }
-
-      const taskUpdateData = {
-        student: user?._id,
-        taskid: task.id,
-        file: fileUrl,
-        status: 'completed',
-        submittedAt: new Date().toISOString(),
-      }
-
-      console.log(taskUpdateData, "fata")
-      const response = await updatetaskdata(taskUpdateData)
-      console.log(response, 'update api response')
-
-      if (response && response.success) {
-        alert(`File "${selectedFile.name}" uploaded successfully!`)
-        setSelectedFile(null)
-        onClose()
-      } else {
-        throw new Error(response?.message || 'Failed to update task')
-      }
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit task. Please try again.')
-      console.error('Submission error:', err)
-    } finally {
-      setIsSubmitting(false)
-    }
+ const handleSubmit = async () => {
+  if (!selectedFile) {
+    setError('Please select a file to upload')
+    return
   }
+
+  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
+  if (!allowedTypes.includes(selectedFile.type)) {
+    setError('Only PDF or image files (jpg, jpeg, png) are allowed')
+    return
+  }
+
+  if (!task._id && !task.id) {
+    setError('Task ID is missing. Cannot update task.')
+    return
+  }
+
+  setIsSubmitting(true)
+  setError(null)
+
+  try {
+    let fileUrl: string | null = null
+    const fileFormData = new FormData()
+    fileFormData.append('file', selectedFile)
+
+    const uploadResponse = await uploadticketfile(fileFormData)
+    if (uploadResponse?.data?.file) {
+      fileUrl = uploadResponse.data.file
+    }
+
+    const taskUpdateData = {
+      student: user?._id,
+      taskid: task.id,
+      file: fileUrl,
+      status: 'completed',
+      submittedAt: new Date().toISOString(),
+    }
+
+    const response = await updatetaskdata(taskUpdateData)
+
+    if (response && response.success) {
+      alert(`File "${selectedFile.name}" uploaded successfully!`)
+      setSelectedFile(null)
+      onClose()
+    } else {
+      throw new Error(response?.message || 'Failed to update task')
+    }
+  } catch (err: any) {
+    setError(err.message || 'Failed to submit task. Please try again.')
+    console.error('Submission error:', err)
+  } finally {
+    setIsSubmitting(false)
+  }
+}
+
+
+console.log(task,"task")
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
       <Card className="w-[800px] bg-[#EBEFF3] p-6 rounded-2xl shadow-lg">
         <h2 className="text-xl font-semibold mb-6">Assessment Page</h2>
 
-        {/* Error message */}
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
             {error}
           </div>
         )}
 
-        {/* Details */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-600 mb-1">Instructor Name</label>
@@ -141,7 +146,7 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
                     : 'bg-gray-200 text-[#716F6F]'
                   }`}
               >
-                {task.status}
+                {task?.answers[0]?.status}
               </Button>
             </div>
           </div>
@@ -158,7 +163,6 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
           </div>
         </div>
 
-        {/* Question Popup */}
         {showQuestion && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <Card className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
@@ -171,7 +175,6 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
           </div>
         )}
 
-        {/* Note Popup */}
         {showNote && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <Card className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
@@ -184,9 +187,8 @@ const TaskModal = ({ show, onClose, task }: TaskModalProps) => {
           </div>
         )}
 
-        {/* File Upload */}
         <div className="mt-6 flex justify-between items-center">
-          {task.status === 'pending' && (
+          {task.answers.status === 'pending' && (
             <div className="flex items-center gap-3">
               <input
                 type="file"
