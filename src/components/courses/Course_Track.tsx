@@ -80,7 +80,7 @@ const CourseTrack: React.FC = () => {
 
               return (
                 <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl ">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow2 rounded-full"></div>
+                  <div className="absolute left-1/2 transform -translate-x-1/2 h-[500px] w-5 bg-gray-100 btnshadow2 rounded-full"></div>
 
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
