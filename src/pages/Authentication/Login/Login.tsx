@@ -74,9 +74,9 @@ const Login = () => {
   return (
     <div className="flex flex-col-reverse md:flex-row bg-[#ebeff3] w-full min-h-screen p-4 gap-4">
       {/* Left side - Form */}
-      <div className="w-full md:w-1/2 flex justify-center items-center">
+      <div className="w-full md:w-1/2 flex justify-center items-center ">
         <Card
-          className="bg-[#ebeff3] w-full  px-4 py-6 rounded-md flex flex-col items-center"
+          className="bg-[#ebeff3] w-full min-h-screen  px-6 rounded-md flex flex-col justify-center"
           style={{
             boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px,
@@ -84,45 +84,57 @@ const Login = () => {
             `,
           }}
         >
-          <Card
-            className="bg-[#ebeff3] w-12 h-12 rounded-full flex items-center justify-center mb-4"
-            style={{
-              boxShadow: `
-                rgba(255, 255, 255, 0.7) -4px -4px 4px,
-                rgba(189, 194, 199, 0.75) 5px 5px 4px
-              `,
-            }}
-          >
-            <img src={Logo} alt="logo" className="w-6 h-6" />
-          </Card>
+          {/* Logo Container */}
+          <div className="flex justify-center mb-6">
+            <div
+              className="bg-[#ebeff3] w-12 h-12 rounded-full flex items-center justify-center"
+              style={{
+                boxShadow: `
+                  rgba(255, 255, 255, 0.7) -4px -4px 4px,
+                  rgba(189, 194, 199, 0.75) 5px 5px 4px
+                `,
+              }}
+            >
+              <img src={Logo} alt="logo" className="w-6 h-6" />
+            </div>
+          </div>
 
+          {/* Heading */}
           <p
-            className="text-center mb-4 text-lg md:text-xl"
+            className="text-center mb-8 text-lg md:text-xl"
             style={{ ...FONTS.heading_02 }}
           >
             Join & Connect the Fastest Growing <br /> Online Community
           </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          {/* Form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
             {/* Email */}
-            <div className="w-full mb-3  ">
-              <label style={{ ...FONTS.heading_04 }}>Email Or Username</label>
+            <div className="w-full">
+              <label style={{ ...FONTS.heading_04 }} className="block mb-2">
+                Email Or Username
+              </label>
               <input
                 type="email"
                 style={{ ...FONTS.heading_06 }}
                 {...register("email", { required: "Email is required" })}
-                className="w-full mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none text-sm md:text-base xl:h-15 xl:text-lg 2xl:text-xl"
+                className="w-full rounded-md px-4 py-3 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none text-sm md:text-base"
               />
               {errors.email && (
-                <span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
+                <span 
+                  className="block mt-1"
+                  style={{ ...FONTS.para_03, color: COLORS.light_red }}
+                >
                   {errors.email.message}
                 </span>
               )}
             </div>
 
             {/* Password */}
-            <div className="w-full mb-3">
-              <label style={{ ...FONTS.heading_04 }}>Password</label>
+            <div className="w-full">
+              <label style={{ ...FONTS.heading_04 }} className="block mb-2">
+                Password
+              </label>
               <div className="relative">
                 <input
                   style={{ ...FONTS.heading_06 }}
@@ -130,10 +142,11 @@ const Login = () => {
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  className="w-full mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none text-sm md:text-base xl:h-15 xl:text-lg 2xl:text-xl"
+                  className="w-full rounded-md px-4 py-3 pr-10 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none text-sm md:text-base"
                 />
-                <span
-                  className="absolute top-5 right-3 text-gray-500 cursor-pointer xl:top-7"
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -141,34 +154,40 @@ const Login = () => {
                   ) : (
                     <EyeIcon className="w-5 h-5 text-[#716F6F]" />
                   )}
-                </span>
+                </button>
               </div>
               {errors.password && (
-                <span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
+                <span 
+                  className="block mt-1"
+                  style={{ ...FONTS.para_03, color: COLORS.light_red }}
+                >
                   {errors.password.message}
                 </span>
               )}
             </div>
 
-            <div className="text-right mb-4">
+            {/* Forgot Password */}
+            <div className="text-right">
               <Link
                 to="/forgot-password"
-                className="hover:underline"
+                className="hover:underline inline-block"
                 style={{ ...FONTS.heading_06 }}
               >
                 Forgot Password?
               </Link>
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full mb-4 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md text-white text-base md:text-lg"
+              className="w-full bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-3 rounded-md !text-white text-base md:text-lg font-semibold mt-2"
               style={{ ...FONTS.heading_04 }}
             >
               Sign In
             </button>
 
-            <div className="flex items-center justify-center gap-2 text-center">
+            {/* Info Message */}
+            <div className="flex items-center justify-center gap-2 text-center pt-2">
               <BsInfoCircle color={COLORS.text_desc} />
               <p style={FONTS.heading_07}>
                 Enter the mail ID & Password given by LMS
@@ -179,9 +198,9 @@ const Login = () => {
       </div>
 
       {/* Right side - Animation */}
-      <div className="w-full md:w-1/2 flex justify-center items-center mb-4 md:mb-0">
+      <div className="w-full md:w-1/2 flex justify-center items-center">
         <Card
-          className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full rounded-md flex items-center justify-center"
+          className="bg-gradient-to-l from-[#B200FF] to-[#7B00FF] w-full h-full rounded-md flex items-center justify-center"
           style={{
             boxShadow: `
               rgba(255, 255, 255, 0.7) -4px -4px 4px,
@@ -193,7 +212,7 @@ const Login = () => {
             src="https://lottie.host/da5bd43c-0c42-4618-9ddf-f01f243d01ab/ZSX7ZLvOxy.lottie"
             loop
             autoplay
-            className="w-full h-60 sm:h-80 md:h-screen lg:h-screen"
+            className="w-full h-60 sm:h-80 md:h-96 lg:h-[500px]"
           />
         </Card>
       </div>

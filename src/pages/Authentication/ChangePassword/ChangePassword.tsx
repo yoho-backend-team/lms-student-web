@@ -25,11 +25,9 @@ const Login = () => {
 	const { email } = location.state || {};
 	const navigate = useNavigate();
 	const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-
-	// Check screen size on component mount and resize
 	useEffect(() => {
 		const checkScreenSize = () => {
-			setIsMobileOrTablet(window.innerWidth < 1024); // 1024px is typical breakpoint for laptop/desktop
+			setIsMobileOrTablet(window.innerWidth < 1024);
 		};
 
 		checkScreenSize();

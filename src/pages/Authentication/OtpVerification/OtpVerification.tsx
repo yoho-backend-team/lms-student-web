@@ -9,10 +9,7 @@ import {
   updateVerifyOtpClient,
 } from "@/features/Authentication/services";
 import { toast } from "react-toastify";
-import {
-  RemoveLocalStorage,
-  StoreLocalStorage,
-} from "@/utils/helper";
+import { RemoveLocalStorage, StoreLocalStorage } from "@/utils/helper";
 
 const OtpVerification = () => {
   const navigate = useNavigate();
@@ -27,14 +24,14 @@ const OtpVerification = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobileOrTablet(window.innerWidth < 1024); 
+      setIsMobileOrTablet(window.innerWidth < 1024);
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
 
     return () => {
-      window.removeEventListener('resize', checkScreenSize);
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
@@ -155,9 +152,15 @@ const OtpVerification = () => {
   }, [resendTimer]);
 
   return (
-    <div className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${isMobileOrTablet ? 'justify-center' : ''}`}>
+    <div
+      className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${
+        isMobileOrTablet ? "justify-center" : ""
+      }`}
+    >
       {/* OTP Form Card - Always visible */}
-      <div className={`${isMobileOrTablet ? 'w-full max-w-md' : 'w-1/2'} h-full`}>
+      <div
+        className={`${isMobileOrTablet ? "w-full max-w-md" : "w-1/2"} h-full`}
+      >
         <Card
           className="bg-[#ebeff3] w-full h-full px-4 rounded-md flex justify-center cursor-pointer"
           style={{
@@ -193,14 +196,20 @@ const OtpVerification = () => {
                 OTP: {currentOtp}
               </p>
             </div>
-            <div className={`flex ${isMobileOrTablet ? 'gap-2' : 'gap-3'} justify-center my-3 w-full`}>
+            <div
+              className={`flex ${
+                isMobileOrTablet ? "gap-2" : "gap-3"
+              } justify-center my-3 w-full`}
+            >
               {otpDigits.map((digit, idx) => (
                 <input
                   key={idx}
                   type="tel"
-                  style={{ 
+                  style={{
                     ...FONTS.heading_02,
-                    fontSize: isMobileOrTablet ? '1rem' : FONTS.heading_02.fontSize
+                    fontSize: isMobileOrTablet
+                      ? "1rem"
+                      : FONTS.heading_02.fontSize,
                   }}
                   maxLength={1}
                   value={digit}
@@ -210,7 +219,7 @@ const OtpVerification = () => {
                     if (el) otpRefs.current[idx] = el;
                   }}
                   className={`text-center rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none ${
-                    isMobileOrTablet ? 'w-12 h-12' : 'w-16 h-16'
+                    isMobileOrTablet ? "w-12 h-12" : "w-16 h-16"
                   }`}
                 />
               ))}
@@ -249,8 +258,8 @@ const OtpVerification = () => {
                 {resendTimer > 0
                   ? `Resend OTP in ${resendTimer}s`
                   : isResending
-                    ? "Resending..."
-                    : "Resend OTP"}
+                  ? "Resending..."
+                  : "Resend OTP"}
               </p>
             </div>
           </div>
