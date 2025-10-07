@@ -133,6 +133,56 @@ export const Attendance = () => {
   const dashData = useSelector(selectDashBoard)
   const attendanceByDate = useSelector(selectAttendanceByDate)
 
+  const getBadgeColor = (color: string) => {
+    if (color === COLORS.light_blue) return 'bg-purple-600';
+    if (color === COLORS.light_pink) return 'bg-pink-600';
+    return 'bg-cyan-500';
+  };
+
+  // const attendanceData = [
+  //   {
+  //     title: 'Classes Atten',
+  //     value: 32,
+  //     total: 40,
+  //     bgColor: 'bg-purple-50',
+  //     lineColor: '#a855f7',
+  //     textColor: 'text-purple-600',
+  //     badgeColor: 'bg-purple-600'
+  //   },
+  //   {
+  //     title: 'Present Days',
+  //     value: 12,
+  //     total: 40,
+  //     bgColor: 'bg-pink-50',
+  //     lineColor: '#ec4899',
+  //     textColor: 'text-pink-600',
+  //     badgeColor: 'bg-pink-600'
+  //   },
+  //   {
+  //     title: 'Absent Days',
+  //     value: 23,
+  //     total: 40,
+  //     bgColor: 'bg-cyan-50',
+  //     lineColor: '#22d3ee',
+  //     textColor: 'text-cyan-500',
+  //     badgeColor: 'bg-cyan-500'
+  //   }
+  // ];
+
+  // Generate smooth wave path
+  const generateWavePath = (index: number) => {
+    const amplitude = 20;
+    const frequency = 0.015;
+    const offset = index * 2;
+
+    let path = 'M 0,50 ';
+    for (let x = 0; x <= 400; x += 5) {
+      const y = 50 + Math.sin((x + offset) * frequency) * amplitude;
+      path += `L ${x},${y} `;
+    }
+    return path;
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -273,15 +323,17 @@ export const Attendance = () => {
         </div>
 
         <div className="flex flex-row gap-4 justify-center pt-6">
-          {attendanceCards.map((card) => (
-            <Card
+          {attendanceCards.map((card, index) => {
+            const percentage = card.total > 0 ? (card.current / card.total) * 100 : 0;
+            const markerX = 80 + (percentage * 2.2);
+            const markerY = 50 + Math.sin((markerX + index * 2) * 0.015) * 20;
+            return (<Card
               key={card.label}
               className="
               relative 
               w-full 
               md:max-w-full
-              md:h-[150px]
-              h-auto 
+              h-56
               shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),5px_5px_4px_rgba(189,194,199,0.75)] 
               overflow-hidden
             "
@@ -324,8 +376,67 @@ export const Attendance = () => {
                   </LineChart>
                 </ChartContainer>
               </CardContent>
+              <div className="absolute bottom-0 left-0 mt-20 right-0 h-28 ">
+                <svg
+                  viewBox="0 0 400 100"
+                  className="w-full h-full"
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <filter id={'shadow-' + index} x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+                      <feOffset dx="0" dy="2" result="offsetblur" />
+                      <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.3" />
+                      </feComponentTransfer>
+                      <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Wave line with shadow */}
+                  <path
+                    d={generateWavePath(index)}
+                    fill="none"
+                    stroke={card.color}
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter={'url(#shadow-' + index + ')'}
+                  />
+
+                  {/* Marker dot */}
+                  <circle
+                    cx={markerX}
+                    cy={markerY}
+                    r="7"
+                    fill={card.color}
+                    filter={'url(#shadow-' + index + ')'}
+                  />
+                </svg>
+
+                {/* Value badge */}
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: (markerX / 400) * 100 + '%',
+                    bottom: ((100 - markerY) / 100) * 100 + '%',
+                    transform: 'translate(-50%, -120%)'
+                  }}
+                >
+                  <div className={`${getBadgeColor(card.color)} text-white rounded-lg px-3 py-2 shadow-lg font-bold text-sm`}>
+                    {card.current}
+                  </div>
+                  <div
+                    className={`${getBadgeColor(card.color)} w-2.5 h-2.5 rotate-45 mx-auto -mt-1.5`}
+                  />
+                </div>
+              </div>
             </Card>
-          ))}
+            )
+          })}
         </div>
 
         <div className="flex flex-row gap-6 pt-6 ">
