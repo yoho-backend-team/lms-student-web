@@ -1,47 +1,42 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import icons from "../../assets/courses icons/demo human.png"
 import navigationicon from "../../assets/courses icons/navigation arrow.svg";
 import CourseButton from './coursebutton';
-
-
-interface TimelineItem {
-  icon: string;
-  title: string;
-  side: "left" | "right";
-  color?: string;
-}
-
- const techTimeline: TimelineItem[] = [
-  {
-    icon: "https://www.shutterstock.com/image-vector/html5-css3-js-icon-set-260nw-1621463065.jpg",
-    title: "HTML, CSS, Javascript",
-    side: "right",
-    color: "bg-purple-600",
-  },
-  {
-    icon: "https://miro.medium.com/1*gt7D9sVdfvyp3TR63C9_Rg.jpeg",
-    title: "Mangodb, Express, Node.js",
-    side: "left",
-  },
-  {
-    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcR5U16C8yXgBpl7-Bc7Itjx3_LRl425zINA&s",
-    title: "React",
-    side: "right",
-  },
-  {
-    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA58mH1EAjc2uEChw2pMg-Lkm9iUhR1U6Fbw&s",
-    title: "python",
-    side: "left",
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '@/store/store';
+import { getCourseTrackThunks } from '@/features/Course/reducer/thunks';
+import { GetLocalStorage } from '@/utils/helper';
 
 
 const CourseTrack: React.FC = () => {
+  const { course } = useParams();
+
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [] = useState<number | null>(null);
+  const [timelineStatus,] = useState<string[]>([]);
+
+  const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
 
-  
+  console.log(courseTrack?.course_modules, "checking")
+  const dispatch = useDispatch<AppDispatch>()
+  const user = GetLocalStorage("user")
+
+  useEffect(() => {
+    const params = {
+      instituteuuid: GetLocalStorage("instituteId"),
+      branchuuid: GetLocalStorage("branchId"),
+      courseid: course,
+      studentid: user?._id
+    }
+    dispatch(getCourseTrackThunks(params))
+  }, [course, dispatch, user?._id]);
+
+
 
   return (
     <div className="w-full mx-auto p-4">
@@ -78,45 +73,62 @@ const CourseTrack: React.FC = () => {
 
 
         <div className="flex justify-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md w-full">
-          <div className="relative flex flex-col items-center overflow-auto h-[500px]" style={{ scrollbarWidth: 'none' }}>
+          <div className="relative flex flex-col items-center overflow-auto h-[500px] w-full" style={{ scrollbarWidth: 'none' }}>
 
 
-            {techTimeline.map((item, index) => {
+            {courseTrack?.course_modules?.map((item: any, index: number) => {
               const isEven = index % 2 === 0;
+              const status = timelineStatus[index];
+
               return (
                 <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl">
                   <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow rounded-full"></div>
 
-                  {/* Left Section */}
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
                       <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={icons} alt={item?.module?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-2xl p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
-                        <span className="text-base font-medium text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] rounded-2xl flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-2xl font-medium text-gray-700">{item?.module?.title}</span>
+                        <span className="text-base font-medium text-gray-700">{item?.module?.description}</span>
                       </div>
                     )}
                   </div>
 
-                  {/* Middle Connector */}
                   <div className="relative w-0">
-                    <div className="w-10 h-10 rounded-full border-4 border-white bg-gradient-to-br from-[#B200FF] to-[#7B00FF] shadow-[0_0_15px_rgba(178,0,255,0.5)] absolute left-1/2 transform -translate-x-1/2 z-20"></div>
+                    <div className={`w-10 h-10 rounded-full border-4 border-white absolute left-1/2 transform -translate-x-1/2 z-20 ${status === 'completed'
+                      ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-[0_0_15px_rgba(34,197,94,0.5)]'
+                      : 'bg-gradient-to-br from-[#B200FF] to-[#7B00FF] shadow-[0_0_15px_rgba(178,0,255,0.5)]'
+                      }`}></div>
                     <div className="absolute w-1 h-full bg-gradient-to-b from-[#ccc] to-[#eee] left-1/2 transform -translate-x-1/2 z-0 rounded-full"></div>
                   </div>
 
-                  {/* Right Section */}
                   <div className="w-1/2 flex justify-start pl-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
-                        <span className="text-base font-medium text-gray-700">{item.title}</span>
+                      <div className="bg-[#EBEFF3] flex flex-col rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                        <span className="text-2xl font-medium text-gray-700">{item?.module?.title}</span>
+                        <span className="text-base font-medium text-gray-700">{item?.module?.description}</span>
                       </div>
                     ) : (
                       <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={item.icon} alt={item.title} className="w-20 h-20 rounded-xl object-contain" />
+                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       </div>
                     )}
+                  </div>
+
+                  <div className="absolute right-0 top-30 mt-6 mr-4 transform  z-30">
+                    <div className="relative">
+                      <div
+                        className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${item?.status === 'completed'
+                          ? 'bg-green-500 text-white shadow-lg'
+                          : 'bg-[#EBEFF3] text-gray-700 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]'
+                          } hover:scale-105`}
+                      >
+                        {item?.status === 'completed' ? '✓ Completed' : (item?.status === 'in-progress' ? 'in-progress' : 'Pending')}
+                      </div>
+                    </div>
                   </div>
                 </div>
 

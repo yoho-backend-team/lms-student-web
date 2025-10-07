@@ -617,7 +617,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                     </div>
 
                     {/* Right side - View and Download buttons */}
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 ">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -629,7 +629,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                       >
                         <Eye className="w-5 h-5" />
                       </button>
-                      <button
+                      {/* <button
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDownload(certificate);
@@ -639,7 +639,7 @@ const Certificate: React.FC<CertificateProps> = ({ data }) => {
                         title="Download Certificate"
                       >
                         <Download className="w-5 h-5" />
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

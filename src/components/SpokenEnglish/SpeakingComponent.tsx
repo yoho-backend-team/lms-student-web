@@ -14,6 +14,7 @@ interface SpeakingComponentProps {
 	setUnlockedLevels: (levels: string[]) => void;
 	unlockedTopics: Record<string, string[]>;
 	setUnlockedTopics: (topics: Record<string, string[]>) => void;
+	onLevelCompletion?: (level: string, score: number) => void;
 }
 
 const SpeakingComponent = ({
@@ -40,6 +41,7 @@ const SpeakingComponent = ({
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const lastTranscriptRef = useRef<string>('');
+	
 
 	useEffect(() => {
 		const savedBestScore = localStorage.getItem(`bestScore-${currentLevel}-${currentTopic}`);

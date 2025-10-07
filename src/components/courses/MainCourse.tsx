@@ -12,6 +12,7 @@ interface Course {
 	coursemodules: string;
 	duration: string;
 	uuid: string;
+	_id: string;
 }
 
 const MainCourse = () => {
@@ -35,7 +36,7 @@ const MainCourse = () => {
 					image={courses?.image ?? ''}
 					modules={courses?.coursemodules?.length ?? 0}
 					duration={courses?.duration ?? ''}
-					onClick={() => navigate(`about/${courses?.uuid}`)} // if you have route
+					onClick={() => navigate(`${courses?._id}/about`)}
 				/>
 			</div>
 		</div>

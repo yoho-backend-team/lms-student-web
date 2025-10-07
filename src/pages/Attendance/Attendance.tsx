@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants'
 import { Line, LineChart, XAxis } from 'recharts'
 import {
@@ -136,14 +137,23 @@ export const Attendance = () => {
 
 
   useEffect(() => {
-    dispatch(getDashBoardReports())
-    if (selectedDate?.toISOString().split('T')[0] == new Date().toISOString().split('T')[0]) {
-      dispatch(getattendanceByDate({ date: selectedDate?.toISOString().split('T')[0] }));
-    } else {
-      const nextDay = new Date(selectedDate).setDate(selectedDate.getDate() + 1)
-      dispatch(getattendanceByDate({ date: new Date(nextDay).toISOString().split('T')[0] }));
-    }
-  }, [dispatch, selectedDate])
+    (async () => {
+      dispatch(getDashBoardReports())
+      showLoader()
+      if (selectedDate?.toISOString().split('T')[0] == new Date().toISOString().split('T')[0]) {
+        const response = await dispatch(getattendanceByDate({ date: selectedDate?.toISOString().split('T')[0] }));
+        if (response) {
+          hideLoader()
+        }
+      } else {
+        const nextDay = new Date(selectedDate).setDate(selectedDate.getDate() + 1)
+        const response = await dispatch(getattendanceByDate({ date: new Date(nextDay).toISOString().split('T')[0] }));
+        if (response) {
+          hideLoader()
+        }
+      }
+    })()
+  }, [dispatch, hideLoader, selectedDate, showLoader])
 
 
   useEffect(() => {
@@ -387,22 +397,22 @@ export const Attendance = () => {
 
               <button
                 className={`w-max-sm mt-4 self-start px-4 py-2 rounded-md text-[14px] btnshadow cursor-pointer ${attendanceByDate && attendanceByDate.length > 0
-                  ? "bg-gray text-white hover:!text-white btnhovershadow"
-                  : " bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white cursor-not-allowed "
+                  ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white hover:!text-white btnhovershadow"
+                  : "bg-gray-400 text-white cursor-not-allowed"
                   }`}
                 onClick={() =>
                   attendanceByDate && attendanceByDate.length > 0 && navigate("/classes")
                 }
                 style={{
-                  fontFamily: 'Quicksand',
+                  fontFamily: "Quicksand",
                   fontWeight: 600,
-                  fontSize: '16px',
-                  
+                  fontSize: "16px",
                 }}
                 disabled={!attendanceByDate || attendanceByDate.length === 0}
               >
                 View Details
               </button>
+
             </div>
           </div>
 

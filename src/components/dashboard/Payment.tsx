@@ -14,7 +14,7 @@ const Payment: React.FC = () => {
 
   useEffect(() => {
     const storedData = GetLocalStorage("user");
-    console.log("first", storedData);  
+    console.log("StoreData", storedData);  
     setStudent(storedData);
   }, []);
 
@@ -25,7 +25,7 @@ const Payment: React.FC = () => {
   }, [dispatch, student]);
 
   const paymentData: any = useSelector((state: any) => state.PaymentSlice.data);
-  console.log("first", paymentData);
+  // console.log("payment", paymentData);
   const paymentHistory = paymentData?.payment_history ?? [];
   const currentPending = paymentHistory[paymentHistory.length - 1] || null;
 
@@ -34,7 +34,7 @@ const Payment: React.FC = () => {
       <div className="flex flex-col justify-between">
         <div className="flex flex-col gap-4">
           <h1 style={{ ...FONTS.heading_02 }}>Payment</h1>
-          <p style={{ ...FONTS.heading_06 }}>
+          <p style={{ ...FONTS.heading_06 }} className="w-[300px] ">
             Due date:{" "}
             <span style={{ ...FONTS.heading_04 }}>
               {currentPending?.duepaymentdate || "N/A"}

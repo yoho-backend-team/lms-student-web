@@ -5,7 +5,7 @@ import Client from '../../../api/index'
 export const getDashBoardData = async () => {
     try {
         const response = await Client.student.reports.get()
-        const branch = response?.data?.branch?.uuid
+        const branch = response?.data?.branch?._id
         const institute = response?.data?.institute?.uuid
         StoreLocalStorage("branchId", branch)
         StoreLocalStorage("instituteId", institute)

@@ -10,6 +10,24 @@ export const getcoursedata = async (params: any) => {
     throw error;
   }
 }
+export const getcoursedataUUID = async (params: any) => {
+  try {
+    const response = await Client.student.course.getById(params);
+    return response?.data;
+  } catch (error) {
+    console.error('Error in getcoursedata:', error);
+    throw error;
+  }
+}
+export const getCourseTrackData = async (params: any) => {
+  try {
+    const response = await Client.student.course.coursetrack(params);
+    return response?.data;
+  } catch (error) {
+    console.error('Error in getcoursedata:', error);
+    throw error;
+  }
+}
 
 export const taskdataget = async (params: any) => {
   try {
@@ -31,5 +49,4 @@ export const updatetaskdata = async (data: any) => {
     console.log(' Failed updated task is error', error)
   }
 }
-
 

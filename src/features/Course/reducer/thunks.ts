@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getcoursedata, taskdataget } from '../services/Course';
-import { getcoursedetails, getcousetask } from '../reducer/CourseSlice';
+import { getcoursedata, getcoursedataUUID, getCourseTrackData, taskdataget } from '../services/Course';
+import { getcoursedetails, getcousetask, selectedCourse } from '../reducer/CourseSlice';
 
 
 export const getStudentcourse = (params: any = {}) => async (dispatch: any) => {
@@ -15,14 +15,35 @@ export const getStudentcourse = (params: any = {}) => async (dispatch: any) => {
   }
 };
 
-export const getStudentTask =(params:any)=>async (dispatch:any)=>{
-  try{
+export const getcourseUUIDThunks = (params: any) => async (dispatch: any) => {
+  try {
+    const response = await getcoursedataUUID(params);
+    dispatch(selectedCourse(response));
+    return response;
+  } catch (error) {
+    console.error('Error in getStudentcourse:', error);
+    throw error;
+  }
+};
+export const getCourseTrackThunks = (params: any) => async (dispatch: any) => {
+  try {
+    const response = await getCourseTrackData(params);
+    dispatch(selectedCourse(response));
+    return response;
+  } catch (error) {
+    console.error('Error in getStudentcourse:', error);
+    throw error;
+  }
+};
+
+export const getStudentTask = (params: any) => async (dispatch: any) => {
+  try {
     const response = await taskdataget(params)
     dispatch(getcousetask(response))
-    console.log(response,'thunks course data')
+    console.log(response, 'thunks course data')
     return response;
   }
-  catch(error){
-    console.log('error fetching course data task',error)
+  catch (error) {
+    console.log('error fetching course data task', error)
   }
 }

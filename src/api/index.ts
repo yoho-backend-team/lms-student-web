@@ -35,11 +35,20 @@ class Client {
     logouts: (data: any) =>
       httpClient.post(HTTP_END_POINTS.auth.log_out, {}, data, "student"),
     course: {
+
       get: (params: any) =>
         httpClient.get(
           HTTP_END_POINTS.course.get.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid), {}, "student"
         ),
-
+      getByBatch: (params: any) =>
+        httpClient.get(
+          HTTP_END_POINTS.course.getByBatch.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid).replace(":batchId", params.batchid), params, "student"
+        ),
+      getById: (params: any) =>
+        httpClient.get(
+          HTTP_END_POINTS.course.getById.replace(":instituteuuid", params.instituteuuid).replace(":branchuuid", params.branchuuid).replace(":courseId", params.courseid), params, "student"
+        ),
+      coursetrack: (params: any) => httpClient.get(HTTP_END_POINTS.course.getcoursetract.replace(":instituteId", params.instituteuuid).replace(":branchId", params.branchuuid).replace(":studentId", params.studentid).replace(":courseId", params.courseid)),
       gettask: (params: any) => httpClient.get(HTTP_END_POINTS.course.get_task.replace(":courseid", params.courseid), {}, 'student'),
       updatetask: (data: any) => httpClient.patch(HTTP_END_POINTS.course.updatetask.replace(":taskid", data.taskid), data, 'student')
     },

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from "@/components/ui/card";
 import { COLORS, FONTS } from "@/constants/uiConstants";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,11 +14,11 @@ import {
   RemoveLocalStorage,
   StoreLocalStorage,
 } from "@/utils/helper";
-import { useAuth } from "@/context/AuthContext/AuthContext";
+// import { useAuth } from "@/context/AuthContext/AuthContext";
 
 const OtpVerification = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  // const { login } = useAuth();
   //   const otpData = JSON.stringify(GetLocalStorage("otp"));
   const [otpDigits, setOtpDigits] = useState(Array(6).fill(""));
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -25,6 +26,7 @@ const OtpVerification = () => {
   const location = useLocation();
   const { email, data } = location.state || {};
   const [currentOtp, setCurrentOtp] = useState(data?.otp || "");
+  const [currenttoken, setCurrentToken] = useState(data?.token || "");
 
   const handleOtpChange = (index: number, value: string) => {
     setShowError(false);
@@ -67,7 +69,7 @@ const OtpVerification = () => {
     try {
       const params_data: any = {
         email: email,
-        token: data?.token,
+        token: currenttoken,
         otp: enteredOtp,
       };
 
@@ -78,7 +80,6 @@ const OtpVerification = () => {
           style: { backgroundColor: "green", color: "white" },
         });
         if (data?.step === "otp") {
-          login(response?.data?.token);
           StoreLocalStorage("userId", response?.data?.userId);
           RemoveLocalStorage("otp");
           RemoveLocalStorage("otptoken");
@@ -109,19 +110,16 @@ const OtpVerification = () => {
     try {
       setIsResending(true);
       const response = await forgotPasswordClient({ email }, {});
-      console.log("Resend OTP response:", response);
-
       if (response) {
         toast.success("OTP resent successfully!", {
           style: { backgroundColor: "green", color: "white" },
         });
 
-        // Update OTP display
-        setCurrentOtp(response?.data?.otp); // <-- new OTP from backend
-        setOtpDigits(Array(6).fill("")); // Clear input fields
-        otpRefs.current[0]?.focus(); // Focus first input
+        setCurrentOtp(response?.data?.otp);
+        setCurrentToken(response?.data?.token);
+        setOtpDigits(Array(6).fill(""));
+        otpRefs.current[0]?.focus();
 
-        // Start 30-sec timer
         setResendTimer(60);
       }
     } catch (error) {
@@ -222,11 +220,10 @@ const OtpVerification = () => {
             <div className="flex justify-center">
               <p
                 style={{ ...FONTS.heading_06, color: COLORS.blue_02 }}
-                className={`hover:underline cursor-pointer ${
-                  isResending || resendTimer > 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
+                className={`hover:underline cursor-pointer ${isResending || resendTimer > 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+                  }`}
                 onClick={() => {
                   if (!isResending && resendTimer === 0) handleResendOtp();
                 }}
@@ -234,8 +231,8 @@ const OtpVerification = () => {
                 {resendTimer > 0
                   ? `Resend OTP in ${resendTimer}s`
                   : isResending
-                  ? "Resending..."
-                  : "Resend OTP"}
+                    ? "Resending..."
+                    : "Resend OTP"}
               </p>
             </div>
           </div>

@@ -1,33 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CourseCard from './CourseCard';
 import navigationicon from "../../assets/courses icons/navigation arrow.svg"
 import CourseButton from './coursebutton';
 import { FONTS } from '@/constants/uiConstants';
-import { useSelector } from 'react-redux';
-import { selectCourse } from '@/features/Course/reducer/selector';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '@/store/store';
+import { GetLocalStorage } from '@/utils/helper';
+import { getcourseUUIDThunks } from '@/features/Course/reducer/thunks';
 
-interface Course {
-  course_name: string;
-  description: string;
-  image: string;
-  slug: string;
-  coursemodules: string;
-  duration: string;
-}
 const AboutCourse: React.FC = () => {
-  // const { course } = useParams<{ course: string }>();
+  const { course } = useParams();
   const navigate = useNavigate();
-  // const selected = courseData[course?.toLowerCase() as keyof typeof courseData];
+  const dispatch = useDispatch<AppDispatch>()
 
-  const [courses, setCourses] = useState<Course | null>(null);
-
-  const coursedata = useSelector(selectCourse);
+  const coursedata: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse);
 
   useEffect(() => {
-    setCourses(coursedata)
-  }, [coursedata])
+    (async () => {
+      const params = {
+        instituteuuid: GetLocalStorage("instituteId"),
+        branchuuid: GetLocalStorage("branchId"),
+        courseid: course,
+      }
+      dispatch(getcourseUUIDThunks(params))
+    })()
+  }, [course, dispatch]);
+
+
 
   return (
     <div className="w-full mx-auto p-4">
@@ -48,11 +50,11 @@ const AboutCourse: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-screen-xl mx-auto items-start">
         <CourseCard
-          title={courses?.course_name ?? ''}
-          description={courses?.description ?? ''}
-          image={courses?.image ?? ''}
-          modules={courses?.coursemodules?.length ?? 0}
-          duration={courses?.duration ?? ''}
+          title={coursedata?.course_name ?? ''}
+          description={coursedata?.description ?? ''}
+          image={coursedata?.image ?? ''}
+          modules={coursedata?.coursemodules?.length ?? 0}
+          duration={coursedata?.duration ?? ''}
         />
 
         <div className="bg-[#EBEFF3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] p-6 rounded-lg w-full">
@@ -60,19 +62,19 @@ const AboutCourse: React.FC = () => {
             <div>
               <h3 className=" mb-2" style={FONTS.heading_02}>Course Name</h3>
               <Button className="w-full bg-[#EBEFF3] hover:bg-[#EBEFF3] text-left justify-start  py-3 px-4 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={FONTS.para_02}>
-                {courses?.course_name ?? ''}
+                {coursedata?.course_name ?? ''}
               </Button>
             </div>
             <div>
               <h3 className=" mb-2" style={FONTS.heading_02}>Course Durations</h3>
               <Button className="w-full bg-[#EBEFF3] hover:bg-[#EBEFF3] text-left justify-start  py-3 px-4 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]" style={FONTS.para_02}>
-                {courses?.duration ?? ''}
+                {coursedata?.duration ?? ''}
               </Button>
             </div>
             <div>
               <h3 className=" mb-2" style={FONTS.heading_02}>Total Hours</h3>
               <Button className="w-full bg-[#EBEFF3] hover:bg-[#EBEFF3] text-left justify-start  py-3 px-4 rounded-md shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] truncate" style={FONTS.para_02}>
-                {courses?.duration ?? ''}
+                {coursedata?.duration ?? ''}
               </Button>
             </div>
           </div>

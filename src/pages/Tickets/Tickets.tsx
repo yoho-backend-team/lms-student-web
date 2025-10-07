@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -35,7 +36,7 @@ const Tickets = () => {
   const itemsPerPage = 10;
   const dispatch = useDispatch<AppDispatch>();
   const ticketData = useSelector(selectTicket);
-  
+
   const memoizedTickets = useMemo(() => {
     return ticketData?.data?.tickets || [];
   }, [ticketData]);
@@ -46,7 +47,7 @@ const Tickets = () => {
     navigate("/tickets/create-ticket");
   };
 
-   const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page)
     }
@@ -54,14 +55,14 @@ const Tickets = () => {
 
   const handleFilterChange = (newFilter: string) => {
     setFilter(newFilter)
-    setCurrentPage(1) 
+    setCurrentPage(1)
   }
 
-  
 
-  
 
- useEffect(() => {
+
+
+  useEffect(() => {
     dispatch(
       getStudentticket({
         page: currentPage,
@@ -96,14 +97,13 @@ const Tickets = () => {
         {["all", "open", "closed"].map((label) => (
           <Button
             key={label}
-            className={`cursor-pointer rounded-sm ${
-              filter === label
+            className={`cursor-pointer rounded-sm ${filter === label
                 ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]"
                 : "bg-[#ebeff3] !text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
-            }`}
+              }`}
             style={FONTS.heading_05}
             variant="outline"
-           onClick={() => handleFilterChange(label)}
+            onClick={() => handleFilterChange(label)}
           >
             {label.charAt(0).toUpperCase() + label.slice(1)}
           </Button>
@@ -159,11 +159,10 @@ const Tickets = () => {
                   <Dialog>
                     <DialogTrigger>
                       <Button
-                        className={`rounded-sm cursor-pointer ${
-                          ticket.status === "opened"
+                        className={`rounded-sm cursor-pointer ${ticket.status === "opened"
                             ? "bg-gradient-to-l from-[#7B00FF] to-[#B200FF] !text-white shadow-[0px_2px_4px_0px_rgba(255,255,255,0.75)_inset,3px_3px_3px_0px_rgba(255,255,255,0.25)_inset,-8px_-8px_12px_0px_#7B00FF_inset,-4px_-8px_10px_0px_#B200FF_inset,4px_4px_8px_0px_rgba(189,194,199,0.75),8px_8px_12px_0px_rgba(189,194,199,0.25),-4px_-4px_12px_0px_rgba(255,255,255,0.75),-8px_-8px_12px_1px_rgba(255,255,255,0.25)]"
                             : "bg-[#ebeff3] !text-black shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)]"
-                        }`}
+                          }`}
                         style={FONTS.heading_04}
                         variant="outline"
                       >
@@ -178,7 +177,7 @@ const Tickets = () => {
         ))}
       </div>
 
-       {totalPages > 1 && (
+      {totalPages > 1 && (
         <div className="flex justify-end items-center mt-10 gap-4">
           <Button
             onClick={() => handlePageChange(currentPage - 1)}

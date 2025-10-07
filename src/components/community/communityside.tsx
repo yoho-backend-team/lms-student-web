@@ -86,7 +86,7 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
     });
   };
 
-
+  console.log(selectedChat, 'chat ')
   return (
     <div className="flex flex-col h-full sticky lg:flex-row position-sticky pt-4 gap-4">
       {/* Sidebar */}

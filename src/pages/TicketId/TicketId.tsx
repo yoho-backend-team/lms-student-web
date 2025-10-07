@@ -1,7 +1,7 @@
-import  { useEffect, useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ticketicon from "../../assets/icons/Tickets/back.png";
-import messageicon from "../../assets/icons/Tickets/Frame 301.png";
 import sendicon from "../../assets/icons/Tickets/Frame 5386.png";
 import { Button } from "@/components/ui/button";
 import { COLORS, FONTS } from "@/constants/uiConstants";
@@ -53,7 +53,6 @@ const TicketId = () => {
     }
   };
 
-  // --- SOCKET HOOKS ---
   useEffect(() => {
     if (!socket) return;
 
@@ -74,7 +73,7 @@ const TicketId = () => {
       socket.disconnect();
       socket.off("receiveStudentTicketMessage");
     };
-  }, [ticket?.uuid]);
+  }, [socket, ticket?.uuid]);
 
   useEffect(() => {
     if (endOfMessageRef.current) {
@@ -92,6 +91,8 @@ const TicketId = () => {
           senderType: "Instituteuserlist",
           user: studentData?._id,
         };
+        console.log(ticket)
+        console.log(new_message)
         socket.emit("sendStudentTicketMessage", new_message);
         setMessage("");
       } else {
@@ -151,11 +152,10 @@ const TicketId = () => {
               {ticket?.messages?.map((msg: any, index: number) => (
                 <Card
                   key={msg._id || index}
-                  className={`w-[250px] h-auto ${
-                    msg.senderType === "InstituteAdmin"
-                      ? "self-start ml-10"
-                      : "self-end mr-10"
-                  } bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]`}
+                  className={`w-[250px] h-auto ${msg.senderType === "InstituteAdmin"
+                    ? "self-start ml-10"
+                    : "self-end mr-10"
+                    } bg-[#ebeff3] shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)]`}
                 >
                   <CardContent className="pb-3 ">
                     <div className="flex justify-between items-center mb-2 ">
@@ -279,7 +279,7 @@ const TicketId = () => {
                   hover:opacity-90 transition">
                   {ticket?.status
                     ? ticket.status.charAt(0).toUpperCase() +
-                      ticket.status.slice(1)
+                    ticket.status.slice(1)
                     : "Unknown"}
                 </Button>
               </div>
