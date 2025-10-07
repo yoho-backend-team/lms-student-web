@@ -11,9 +11,11 @@ export type Community = {
   admin?: { first_name: string }[];
   batch?: {
     _id: string;
-    batch_name: string;
+    name: string;
     groupImage?: string;
   };
+  name: string;
+  members?: string;
 };
 
 export type Chat = {
