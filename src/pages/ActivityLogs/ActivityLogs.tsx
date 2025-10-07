@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COLORS, FONTS } from '@/constants/uiConstants';
 import backBtn from '../../assets/icons/common/back_arrow.png';
 import vector_H from '../../assets/icons/activitylog/Vector-H.png';
 import User from '../../assets/icons/activitylog/User.png';
 import filter from '../../assets/icons/common/filter.png';
 import { useEffect, useState } from 'react';
-// import { Calendar } from '@/components/ui/calendar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActivityLogs } from '@/features/ActivityLog/reducers/selectors';
@@ -22,8 +20,6 @@ const ActivityLogs = () => {
   const [showFromCalendar, setShowFromCalendar] = useState(false);
   const [showToCalendar, setShowToCalendar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [selectedDate, setselectedDate] = useState<Date | undefined>(undefined);
-
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -56,25 +52,24 @@ const ActivityLogs = () => {
 
   const allLogs = activityLogs1?.data ?? [];
 
- const filteredLogs = allLogs.filter((log: any) => {
-  const logDate = new Date(log.createdAt);
+  const filteredLogs = allLogs.filter((log: any) => {
+    const logDate = new Date(log.createdAt);
 
-  let from = fromDate ? new Date(fromDate) : null;
-  let to = toDate ? new Date(toDate) : null;
+    let from = fromDate ? new Date(fromDate) : null;
+    let to = toDate ? new Date(toDate) : null;
 
     if (from) {
-    from.setHours(0, 0, 0, 0);
-  }
-  if (to) {
-    to.setHours(23, 59, 59, 999);
-  }
+      from.setHours(0, 0, 0, 0);
+    }
+    if (to) {
+      to.setHours(23, 59, 59, 999);
+    }
 
-  if (from && logDate < from) return false;
-  if (to && logDate > to) return false;
+    if (from && logDate < from) return false;
+    if (to && logDate > to) return false;
 
-  return true;
-});
-
+    return true;
+  });
 
   const totalPages = activityLogs1?.pagination?.totalPages ?? 1;
 
@@ -111,9 +106,9 @@ const ActivityLogs = () => {
       </div>
 
       {/* Main Layout */}
-      <div className="flex lg:flex-row gap-5 md:flex-col-reverse">
+      <div className="flex lg:flex-row flex-col-reverse gap-5">
         {/* Logs */}
-        <div className="lg:w-3/4 md:w-full relative mt-15">
+        <div className="lg:w-3/4 w-full relative mt-15">
           {filteredLogs.length > 0 ? (
             filteredLogs.map((data: any) => (
               <section
@@ -215,9 +210,9 @@ const ActivityLogs = () => {
         </div>
 
         {/* Filter Panel */}
-        <div className="lg:w-[500px] md:w-fit">
+        <div className="lg:w-[500px] w-fit">
           {handleFilter && (
-            <div className="lg:grid md:flex lg:gap-0 md:gap-12 lg:grid-cols-1">
+            <div className="lg:grid lg:gap-0 lg:grid-cols-1 flex flex-col gap-12">
               <section className="flex gap-6 lg:justify-end mt-4">
                 <div>
                   <p style={{ ...FONTS.heading_07 }}>From</p>
@@ -293,22 +288,6 @@ const ActivityLogs = () => {
                     setSelectDate={setFromDate}
                     setShowFromCalendar={setShowFromCalendar}
                   />
-                  {/* <Calendar
-                    mode="single"
-                    required
-                    selected={fromDate}
-                    onSelect={(selectedDate) => {
-                      if (selectedDate) {
-                        setFromDate(selectedDate);
-                        setShowFromCalendar(false);
-                        setCurrentPage(1);
-                      }
-                    }}
-                    month={fromDate} 
-                    showOutsideDays={false} 
-                    onMonthChange={() => { }} 
-                    className="rounded-lg bg-gray-100 w-full"
-                  /> */}
                 </div>
               )}
 
@@ -324,18 +303,6 @@ const ActivityLogs = () => {
                     setSelectDate={setToDate}
                     setShowFromCalendar={setShowToCalendar}
                   />
-                  {/* <Calendar
-                    mode="single"
-                    selected={toDate}
-                    onSelect={(selectedDate) => {
-                      if (selectedDate) {
-                        setToDate(selectedDate);
-                        setShowToCalendar(false);
-                        setCurrentPage(1);
-                      }
-                    }}
-                    className="rounded-lg bg-gray-100 w-full"
-                  /> */}
                 </div>
               )}
             </div>
