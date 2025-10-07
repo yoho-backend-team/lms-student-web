@@ -84,7 +84,7 @@ const CourseTrack: React.FC = () => {
 
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
-                      <div className=''>
+                      <div className='mr-10'>
                         <img src={bgimg} alt="" className='relative' />
                         <img src={icons} alt={item?.module?.title} className="w-28 h-28 absolute top-8 ml-5 rounded-xl object-contain" />
                       </div>
@@ -92,7 +92,7 @@ const CourseTrack: React.FC = () => {
                       //   <img src={icons} alt={item?.module?.title} className="w-20 h-20 rounded-xl object-contain" />
                       // </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-2xl flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                      <div className="bg-[#EBEFF3] rounded-2xl ml-10 flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
                         <span className="text-2xl font-medium text-gray-700">{item?.module?.title}</span>
                         <span className="text-base font-medium text-gray-700">{item?.module?.description}</span>
                       </div>
@@ -109,7 +109,7 @@ const CourseTrack: React.FC = () => {
 
                   <div className="w-1/2 flex justify-start pl-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] flex flex-col rounded-2xl ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
+                      <div className="bg-[#EBEFF3] flex flex-col rounded-2xl mr-10 ml-10 p-6 text-left shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
                         <span className="text-2xl font-medium text-gray-700">{item?.module?.title}</span>
                         <span className="text-base font-medium text-gray-700">{item?.module?.description}</span>
                       </div>
@@ -117,7 +117,7 @@ const CourseTrack: React.FC = () => {
                       // <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
                       //   <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
                       // </div>
-                      <div className=''>
+                      <div className='ml-10'>
                         <img src={bgimg2} alt="" className='relative' />
                         <img src={icons} alt={item?.module?.title} className="w-28 h-28 absolute top-9 ml-12 rounded-xl object-contain" />
                       </div>
