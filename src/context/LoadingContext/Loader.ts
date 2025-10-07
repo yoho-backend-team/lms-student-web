@@ -1,4 +1,4 @@
-// useLoader.ts
+
 import { useContext } from 'react';
 import { LoadingContext } from './LodingCon';
 
