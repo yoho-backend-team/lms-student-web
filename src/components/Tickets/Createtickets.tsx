@@ -7,6 +7,7 @@ import {
 import ticketicon from '../../assets/icons/Tickets/back.png';
 import ticketsicon from '../../assets/icons/Tickets/image.png';
 import uploadicon from '../../assets/icons/Tickets/Frame 5226.png';
+
 import {
   Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
 } from "@/components/ui/select";
