@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { FONTS } from "@/constants/uiConstants";
 import { Card, CardContent } from "../ui/card";
@@ -36,10 +37,9 @@ const Attendance: React.FC = () => {
           "shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40,inset_4px_4px_8px_#34a9b1bf,inset_8px_8px_12px_#34aab140,inset_-4px_-4px_8px_#34aab1bf,inset_-8px_-8px_12px_#34aab140]",
       },
       {
-        height: `${
-          Attendance?.[0]?.total?.percentage -
+        height: `${Attendance?.[0]?.total?.percentage -
           Attendance?.[0]?.present?.percentage
-        }%`,
+          }%`,
         top: "bottom-0",
         color:
           "bg-[linear-gradient(90deg,rgba(85,133,255,1)_0%,rgba(85,133,255,0.92)_53%,rgba(85,133,255,1)_100%)]",
@@ -60,10 +60,9 @@ const Attendance: React.FC = () => {
     },
     {
       icon: close,
-      text: `${
-        Attendance?.[0]?.total?.percentage -
+      text: `${Attendance?.[0]?.total?.percentage -
         Attendance?.[0]?.present?.percentage
-      }% Days Absent`,
+        }% Days Absent`,
     },
   ];
 
