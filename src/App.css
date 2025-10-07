@@ -25,3 +25,7 @@
     @apply bg-gradient-to-l from-[#6AE1B7] via-[#6AE1B7EB] to-[#6AE1B7]
  }
  
+ .btnshadow2{
+    box-shadow:rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+    rgba(189, 194, 199, 0.75) 2px 2px 3px inset;
+}

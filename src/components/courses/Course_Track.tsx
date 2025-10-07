@@ -9,14 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '@/store/store';
 import { getCourseTrackThunks } from '@/features/Course/reducer/thunks';
 import { GetLocalStorage } from '@/utils/helper';
+import bgimg from "../../assets/courses icons/Vector.png"
+import bgimg2 from "../../assets/courses icons/Vector (1).png"
 
 
 const CourseTrack: React.FC = () => {
   const { course } = useParams();
 
   const [showVideoModal, setShowVideoModal] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-  const [timelineStatus, setTimelineStatus] = useState<string[]>([]);
 
   const courseTrack: any = useSelector((state: RootState) => state.CourseSlice.selectedCourse)
   const navigate = useNavigate();
@@ -35,16 +35,6 @@ const CourseTrack: React.FC = () => {
     dispatch(getCourseTrackThunks(params))
   }, [course, dispatch, user?._id]);
 
-  const toggleDropdown = (index: number): void => {
-    setActiveDropdown(activeDropdown === index ? null : index);
-  };
-
-  const handleStatusChange = (index: number, status: string): void => {
-    const newStatus = [...timelineStatus];
-    newStatus[index] = status;
-    setTimelineStatus(newStatus);
-    setActiveDropdown(null);
-  };
 
   return (
     <div className="w-full mx-auto p-4">
@@ -80,23 +70,27 @@ const CourseTrack: React.FC = () => {
         </div>
 
 
-        <div className="flex justify-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md w-full">
-          <div className="relative flex flex-col items-center overflow-auto h-[500px] w-full" style={{ scrollbarWidth: 'none' }}>
+        <div className="flex justify-center shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] rounded-md w-full h-full">
+          <div className="relative flex flex-col items-center overflow-auto h-[700px] w-full" style={{ scrollbarWidth: 'none' }}>
 
 
             {courseTrack?.course_modules?.map((item: any, index: number) => {
               const isEven = index % 2 === 0;
-              const status = timelineStatus[index];
+              // const status = timelineStatus[index];
 
               return (
-                <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow rounded-full"></div>
+                <div key={index} className="relative z-10 flex items-center my-14 w-full max-w-4xl ">
+                  <div className="absolute left-1/2 transform -translate-x-1/2 h-[400px] w-5 bg-gray-100 btnshadow2 rounded-full"></div>
 
                   <div className="w-1/2 flex justify-end pr-6">
                     {isEven ? (
-                      <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={icons} alt={item?.module?.title} className="w-20 h-20 rounded-xl object-contain" />
+                      <div className=''>
+                        <img src={bgimg} alt="" className='relative' />
+                        <img src={icons} alt={item?.module?.title} className="w-28 h-28 absolute top-8 ml-5 rounded-xl object-contain" />
                       </div>
+                      // <div className="bg-[#EBEFF3] rounded-full mr-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
+                      //   <img src={icons} alt={item?.module?.title} className="w-20 h-20 rounded-xl object-contain" />
+                      // </div>
                     ) : (
                       <div className="bg-[#EBEFF3] rounded-2xl flex flex-col p-6 mr-10 text-right shadow-[12px_12px_20px_rgba(189,194,199,0.5),-10px_-10px_15px_rgba(255,255,255,0.7)] transition-transform hover:scale-105 duration-300 ease-in-out">
                         <span className="text-2xl font-medium text-gray-700">{item?.module?.title}</span>
@@ -120,8 +114,12 @@ const CourseTrack: React.FC = () => {
                         <span className="text-base font-medium text-gray-700">{item?.module?.description}</span>
                       </div>
                     ) : (
-                      <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
-                        <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
+                      // <div className="bg-[#EBEFF3] rounded-full ml-10 p-6 shadow-[inset_8px_8px_12px_rgba(189,194,199,0.4),inset_-8px_-8px_12px_rgba(255,255,255,0.7)] transition-transform hover:scale-110 duration-300 ease-in-out">
+                      //   <img src={icons} alt={item?.title} className="w-20 h-20 rounded-xl object-contain" />
+                      // </div>
+                      <div className=''>
+                        <img src={bgimg2} alt="" className='relative' />
+                        <img src={icons} alt={item?.module?.title} className="w-28 h-28 absolute top-9 ml-12 rounded-xl object-contain" />
                       </div>
                     )}
                   </div>
