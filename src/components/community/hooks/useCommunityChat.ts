@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/community/CommunitySide/hooks/useCommunityChat.ts
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { getMessage } from '@/features/community/services/communityservices';
 import type { Chat, Community, Message } from '../type';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import type { RootState } from '@/store/store';
 import { GetLocalStorage } from '@/utils/helper';
+import type { AppDispatch } from '@/store/store';
+import { setMsgList, updateMsgList } from '@/features/community/redux/communitySlice';
 
 type UseCommunityChatArgs = {
   socket: any;
@@ -26,6 +27,7 @@ export function useCommunityChat({
   const [isConnected, setIsConnected] = useState<boolean>(false)
   const selectedMsg: any = useSelector((state: any) => state.community.selectedMsg)
   const user: any = GetLocalStorage('user')
+  const dispatch = useDispatch<AppDispatch>()
 
   const selectChat = (chat: Community) => {
     const selected: Chat = {
@@ -40,21 +42,22 @@ export function useCommunityChat({
     setSelectedChat(selected);
   };
 
-  const fetchMessages = async (chatId?: string) => {
-    try {
-      if (!chatId) return;
-      const params = { community: chatId };
-      const data = await getMessage(params);
-      setMessages(data?.data?.reverse() || []);
-    } catch (error: any) {
-      toast.error(error?.message || 'Error fetching messages');
-    }
-  };
 
   useEffect(() => {
+    const fetchMessages = async (chatId?: string) => {
+      try {
+        if (!chatId) return;
+        const params = { community: chatId };
+        const data = await getMessage(params);
+        const msg = data?.data || []
+        dispatch(setMsgList(msg))
+        setMessages(data?.data || []);
+      } catch (error: any) {
+        console.log(error)
+      }
+    };
     fetchMessages(selectedChat?._id);
-    // }, [selectedChat?._id,messages, userId]);
-  }, [selectedChat?._id, userId]);
+  }, [dispatch, selectedChat?._id, userId]);
 
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export function useCommunityChat({
     const handleMessage = (message: Message) => {
       console.log(message, 'mess')
       setMessages((prev) => [...prev, message]);
+      dispatch(updateMsgList(message))
     };
 
     const handleConnection = () => {
@@ -84,7 +88,7 @@ export function useCommunityChat({
       socket.off("disconnect", handleDisconnection);
 
     };
-  }, [socket, setMessages, messages]);
+  }, [socket, setMessages, messages, dispatch]);
 
   const sendMessage = (text: string) => {
 
@@ -97,6 +101,8 @@ export function useCommunityChat({
       message: text
     };
 
+
+    dispatch(updateMsgList({ ...message, sender_name: user?.first_name }))
     socket.emit('sendMessage', message);
     setMessages((prev) => [...prev, message]);
   };

@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice } from "@reduxjs/toolkit";
 
-
+const data: any[] = []
 const communitySlice = createSlice({
   name: 'communities',
   initialState: {
     data: [],
     loading: true,
-    selectedMsg: {}
+    selectedMsg: {},
+    messages: data
   },
   reducers: {
     setCommunities: (state, action) => {
@@ -17,9 +19,16 @@ const communitySlice = createSlice({
     },
     setSelctedMsg: (state, action) => {
       state.selectedMsg = action.payload
+    },
+    setMsgList: (state, action) => {
+      state.messages = action.payload
+      state.messages.reverse()
+    },
+    updateMsgList: (state, action) => {
+      state.messages.push(action.payload)
     }
   }
 });
 
-export const { setCommunities, setMessage, setSelctedMsg } = communitySlice.actions;
+export const { setCommunities, setMessage, setSelctedMsg, setMsgList, updateMsgList } = communitySlice.actions;
 export default communitySlice.reducer;

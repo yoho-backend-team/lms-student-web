@@ -11,6 +11,8 @@ import { useCommunityChat } from './hooks/useCommunityChat';
 import { useAutoScroll } from './hooks/useAutoScroll';
 import { useStudentSocket } from '@/context/socketContext.tsx';
 import { GetLocalStorage } from '@/utils/helper.ts';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/store/store.ts';
 
 type Props = {
   communities?: any;
@@ -20,12 +22,12 @@ const CommunitySide: React.FC<Props> = ({ communities }) => {
   const socket = useStudentSocket();
   const user: any = GetLocalStorage('user')
   const [searchTerm, setSearchTerm] = useState('');
-  // const [isConnected, setIsConnected] = useState(false)
+  const messages = useSelector((state: RootState) => state.community.messages)
 
   const {
     selectedChat,
     selectChat,
-    messages,
+    // messages,
     // sendMessage,
     isMine,
   } = useCommunityChat({
