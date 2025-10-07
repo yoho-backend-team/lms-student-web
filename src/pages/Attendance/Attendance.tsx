@@ -106,9 +106,7 @@ export const Attendance = () => {
       color: COLORS.light_green_02,
     }
   ]
-  console.log(attendanceCards, 'datacon attendance data')
 
-  console.log(attendancedata?.data?.totalAbsentDays, 'absenttotal days ')
   const handleMonthChange = (newMonth: typeof months[number]) => {
     const monthIndex = months.indexOf(newMonth)
     const updatedDate = startOfMonth(setMonth(selectedDate, monthIndex))

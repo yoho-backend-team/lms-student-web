@@ -53,8 +53,8 @@ export function useCommunityChat({
 
   useEffect(() => {
     fetchMessages(selectedChat?._id);
-  // }, [selectedChat?._id,messages, userId]);
-    }, [selectedChat?._id, userId]);
+    // }, [selectedChat?._id,messages, userId]);
+  }, [selectedChat?._id, userId]);
 
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export function useCommunityChat({
     socket.on("connect", handleConnection);
     socket.on("disconnect", handleDisconnection);
 
-    
+
     return () => {
       socket.off("newMessage", handleMessage);
       socket.off("connect", handleConnection);

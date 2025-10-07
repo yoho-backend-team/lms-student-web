@@ -84,17 +84,16 @@ const Updates: React.FC = () => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-4 h-[40vh] overflow-y-scroll">
+            <div className="flex flex-col gap-4 h-[26vh] overflow-y-scroll">
               {data?.map((item, index) => {
                 return (
                   <Card
                     key={index}
-                    className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${
-                      item?.status === "unread"
-                        ? "border-l-4 border-[#7b00ff]"
-                        : "border-none"
-                    }`}
-                    // onClick={() => handleNotificationClick(notification)}
+                    className={`relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${item?.status === "unread"
+                      ? "border-l-4 border-[#7b00ff]"
+                      : "border-none"
+                      }`}
+                  // onClick={() => handleNotificationClick(notification)}
                   >
                     <CardHeader>
                       <div className="flex lg:flex-row md:flex-col-reverse lg:justify-between md:items-start md:gap-4 lg:items-center">
@@ -139,17 +138,16 @@ const Updates: React.FC = () => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col gap-4 h-[40vh] overflow-y-scroll">
+            <div className="flex flex-col gap-4 h-[26vh] overflow-y-scroll">
               {prev?.map((item, index) => {
                 return (
                   <Card
                     key={index}
-                    className={` relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${
-                      item?.status === "unread"
-                        ? "border-l-4 border-[#7b00ff]"
-                        : "border-none"
-                    }`}
-                    // onClick={() => handleNotificationClick(notification)}
+                    className={` relative bg-[#ebeff3] lg:h-[165px] cursor-pointer shadow-[-4px_-4px_4px_rgba(255,255,255,0.7),_5px_5px_4px_rgba(189,194,199,0.75)] ${item?.status === "unread"
+                      ? "border-l-4 border-[#7b00ff]"
+                      : "border-none"
+                      }`}
+                  // onClick={() => handleNotificationClick(notification)}
                   >
                     <CardHeader>
                       <div className="flex lg:flex-row md:flex-col-reverse lg:justify-between md:items-start md:gap-4 lg:items-center">
