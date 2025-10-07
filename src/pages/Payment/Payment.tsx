@@ -82,7 +82,7 @@ const Payment = () => {
 						>
 							Payment
 						</h1>
-						<div className='p-5 h-[76vh] lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
+						<div className='p-5 h-[76vh] 2xl:h-[88vh] lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
 							<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
 								<div className='flex gap-3'>
 									<img src={Profile1} alt='Profile' />
@@ -306,7 +306,7 @@ const Payment = () => {
 							>
 								Payment History
 							</h1>
-							<div className='p-5 flex flex-col gap-2 h-[76vh] custom-inset-shadow overflow-y-scroll'>
+							<div className='p-5 flex flex-col gap-2 2xl:h-[88vh] h-[76vh] custom-inset-shadow overflow-y-scroll'>
 								<div ref={dropdownRef} className="relative flex-1">
 									<div className="flex items-center gap-4 w-full">
 										<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
