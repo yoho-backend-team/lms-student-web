@@ -82,7 +82,7 @@ export const DashCalender: React.FC<props> = ({
 
   return (
     <div>
-      <Card className="flex flex-col w-full h-[426px] items-start gap-2.5 p-5 bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
+      <Card className="flex flex-col w-full h-[380px] items-start gap-2.5 p-5 bg-[#ebeff3] rounded-2xl shadow-[4px_4px_8px_#bdc2c7bf,8px_8px_12px_#bdc2c740,-4px_-4px_8px_#ffffffbf,-8px_-8px_12px_#ffffff40]">
         <CardContent className="flex flex-col w-full items-start gap-5 p-0">
           <CardTitle className="font-bold text-dark text-xl">
             Calendar
