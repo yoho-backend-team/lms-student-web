@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Profile1 from '../../assets/icons/payments/profile-1.png';
 import Profile2 from '../../assets/icons/payments/profile-2.png';
 import Profile3 from '../../assets/icons/payments/profile-3.png';
@@ -73,23 +72,24 @@ const Payment = () => {
 
 	return (
 		<>
-			<div>
-				<div className=' lg:flex md:grid gap-8 mb-2'>
-					<div className='lg:w-1/4 md'>
+			<div className='p-3 xs:p-4 sm:p-5 lg:p-6'>
+				<div className='flex flex-col xl:flex-row gap-4 xs:gap-5 sm:gap-6 lg:gap-8'>
+					{/* Left Side - Payment Cards */}
+					<div className='w-full xl:w-1/4'>
 						<h1
-							className='font-semibold text-2xl py-6'
+							className='font-semibold text-xl xs:text-2xl py-4 xs:py-5 sm:py-6'
 							style={{ ...FONTS.heading_02 }}
 						>
 							Payment
 						</h1>
-						<div className='p-5 h-[76vh] 2xl:h-[88vh] lg:grid lg:grid-cols-1 md:flex md:flex-wrap md:justify-evenly sm:grid sm:grid-cols-2  gap-6 custom-inset-shadow'>
-							<section className='custom-inset-shadow p-3 md:w-1/4 grow lg:w-full grid gap-4'>
-								<div className='flex gap-3'>
-									<img src={Profile1} alt='Profile' />
-									<p style={{ ...FONTS.heading_07 }}>Course Fees</p>
+						<div className='p-3 xs:p-4 sm:p-5 h-auto xl:h-[75vh] grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3 xs:gap-4 sm:gap-5 custom-inset-shadow overflow-y-auto'>
+							<section className='custom-inset-shadow p-3 xs:p-4 grid gap-3 xs:gap-4'>
+								<div className='flex gap-2 xs:gap-3'>
+									<img src={Profile1} alt='Profile' className='w-6 h-6 xs:w-7 xs:h-7' />
+									<p className='text-sm xs:text-base' style={{ ...FONTS.heading_07 }}>Course Fees</p>
 								</div>
 								<p
-									className='text-end'
+									className='text-end text-base xs:text-lg'
 									style={{ ...FONTS.heading_03, color: COLORS.light_green_01 }}
 								>
 									{paymentDetails.length !== 0 ? paymentDetails?.course_fees : 0}
@@ -150,58 +150,61 @@ const Payment = () => {
 						</div>
 					</div>
 
-					<div className='lg:w-3/4 flex gap-8'>
-						<div className='w-1/2 sm:w-2/3 h-[75vh]'>
+					{/* Right Side - Main Content */}
+					<div className='w-full xl:w-3/4 flex flex-col lg:flex-row gap-4 xs:gap-5 sm:gap-6 lg:gap-8'>
+						{/* Course Details and Fees Details */}
+						<div className='w-full lg:w-2/3 xl:w-1/2 2xl:w-2/3 flex flex-col gap-4 xs:gap-5 sm:gap-6'>
+							{/* Course Details */}
 							<div>
 								<h1
-									className='font-semibold text-2xl py-6'
+									className='font-semibold text-xl xs:text-2xl py-4 xs:py-5 sm:py-6'
 									style={{ ...FONTS.heading_02 }}
 								>
 									Courses Details
 								</h1>
-								<div className='p-5 grid gap-2 custom-inset-shadow'>
+								<div className='p-3 xs:p-4 sm:p-5 grid gap-2 xs:gap-3 custom-inset-shadow'>
 									<section className='custom-inset-shadow'>
-										<img src={Group} alt='Group' className='m-auto w-full h-60' />
+										<img src={Group} alt='Group' className='m-auto w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24' />
 									</section>
 									<h1
-										className='font-semibold mt-4'
+										className='font-semibold mt-3 xs:mt-4 text-base xs:text-lg'
 										style={{ ...FONTS.heading_05 }}
 									>
 										{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.course_name : "NA"}
 									</h1>
-									<p style={{ ...FONTS.para_02 }}>
+									<p className='text-sm xs:text-base' style={{ ...FONTS.para_02 }}>
 										{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.institute_id?.institute_name : "NA"}
 									</p>
-									<div className='flex justify-between mt-2'>
-										<section className='flex items-center gap-3 '>
+									<div className='flex justify-between mt-2 xs:mt-3'>
+										<section className='flex items-center gap-2 xs:gap-3'>
 											<div
-												className='p-3 rounded-lg'
+												className='p-2 xs:p-3 rounded-lg'
 												style={{
 													boxShadow: `
-                        rgba(255, 255, 255, 0.7) 5px 5px 4px, 
-                        rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
+                          rgba(255, 255, 255, 0.7) 5px 5px 4px, 
+                          rgba(189, 194, 199, 0.75) 2px 2px 3px inset`,
 												}}
 											>
-												<img src={Frame} alt='Frame' className='' />
+												<img src={Frame} alt='Frame' className='w-5 h-5 xs:w-6 xs:h-6' />
 											</div>
 											<h2
-												className='font-semibold '
+												className='font-semibold text-sm xs:text-base'
 												style={{ ...FONTS.heading_06 }}
 											>
 												{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.coursemodules.length : 0} Modules
 											</h2>
 										</section>
-										<section className='mt-5'>
-											<div className="flex items-center justify-between gap-2">
+										<section className='mt-3 xs:mt-5'>
+											<div className="flex items-center justify-between gap-1 xs:gap-2">
 												<div className="flex justify-end items-center">
 													{Array.from({ length: fullStars }).map((_, i) => (
-														<img key={`full-${i}`} src={Star} alt="Star" />
+														<img key={`full-${i}`} src={Star} alt="Star" className='w-4 h-4 xs:w-5 xs:h-5' />
 													))}
 												</div>
-												<p style={{ ...FONTS.heading_06 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0}</p>
+												<p className='text-sm xs:text-base' style={{ ...FONTS.heading_06 }}>{paymentDetails.length !== 0 ? paymentDetails?.fees[0]?.course_id?.rating : 0}</p>
 											</div>
 											<p
-												className='text-end font-semibold'
+												className='text-end font-semibold text-sm xs:text-base mt-1'
 												style={{ ...FONTS.heading_05, color: COLORS.light_green }}
 											>
 												&#8377; {paymentDetails.length !== 0 ? paymentDetails?.course?.actual_price : 0}
@@ -299,17 +302,18 @@ const Payment = () => {
 							</div>
 						</div>
 
-						<div className='w-1/2 '>
+						{/* Payment History */}
+						<div className='w-full lg:w-1/3 xl:w-1/2 2xl:w-1/3'>
 							<h1
-								className='font-semibold text-2xl py-6'
+								className='font-semibold text-xl xs:text-2xl py-4 xs:py-5 sm:py-6'
 								style={{ ...FONTS.heading_02 }}
 							>
 								Payment History
 							</h1>
-							<div className='p-5 flex flex-col gap-2 2xl:h-[88vh] h-[76vh] custom-inset-shadow overflow-y-scroll'>
+							<div className='p-3 xs:p-4 sm:p-5 flex flex-col gap-2 xs:gap-3 h-auto xl:h-[84vh] custom-inset-shadow overflow-y-auto'>
 								<div ref={dropdownRef} className="relative flex-1">
-									<div className="flex items-center gap-4 w-full">
-										<h1 className='font-semibold' style={{ ...FONTS.heading_05 }}>
+									<div className="flex flex-col xs:flex-row xs:items-center gap-2 xs:gap-4 w-full">
+										<h1 className='font-semibold text-sm xs:text-base' style={{ ...FONTS.heading_05 }}>
 											View PDF
 										</h1>
 
@@ -424,7 +428,7 @@ const Payment = () => {
 						</div>
 					</div>
 				</div>
-			</div >
+			</div>
 			<InvoiceReceipt open={open} onClose={() => setOpen(false)} paymentDetails={paymentDetails} />
 		</>
 	);
