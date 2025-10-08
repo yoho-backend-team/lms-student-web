@@ -81,7 +81,7 @@ startxref
     try {
       let blob: Blob;
       let fileName: string;
-      console.log(index)
+      console.log(_index)
 
       if (note.fileUrl) {
         fetch(note.fileUrl)
