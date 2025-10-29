@@ -6,60 +6,56 @@ import { useCommunityChat } from './hooks/useCommunityChat';
 import { useStudentSocket } from '@/context/socketContext';
 
 type Props = {
-  onSend?: (text: string) => void;
-  communities: any;
+	onSend?: (text: string) => void;
+	communities: any;
 };
 
 const ChatInput: React.FC<Props> = ({ communities }) => {
-  const [inputMessage, setInputMessage] = useState('');
-  const socket = useStudentSocket();
-  const user: any = JSON.parse(localStorage.getItem('user') || '{}');
+	const [inputMessage, setInputMessage] = useState('');
+	const socket = useStudentSocket();
+	const user: any = JSON.parse(localStorage.getItem('user') || '{}');
 
-  const { sendMessage } = useCommunityChat({
-    socket,
-    userId: user?._id,
-    userName: user?.full_name,
-    communities: communities.data,
-    receiveEventName: 'newMessage',
-  });
+	const { sendMessage } = useCommunityChat({
+		socket,
+		userId: user?._id,
+		userName: user?.full_name,
+		communities: communities.data,
+		receiveEventName: 'newMessage',
+	});
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleSend();
-  };
+	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') handleSend();
+	};
 
-  const handleSend = () => {
-    if (!inputMessage.trim()) return;
-    sendMessage(inputMessage);
-    setInputMessage('');
-  };
+	const handleSend = () => {
+		if (!inputMessage.trim()) return;
+		sendMessage(inputMessage);
+		setInputMessage('');
+	};
 
-  return (
-    <div className="relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2 mr-4">
-      <input
-        type="text"
-        placeholder="Type a Message"
-        className="flex-1 border border-[#F4F7F9] rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-200"
-        value={inputMessage}
-        onChange={(e) => setInputMessage(e.target.value)}
-        onKeyDown={handleKeyPress}
-      />
+	return (
+		<div className='relative p-4 border-t bg-[#EBEFF3] flex items-center gap-2 mr-16'>
+			<input
+				type='text'
+				placeholder='Type a Message'
+				className='flex-1 border border-[#F4F7F9] rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-200'
+				value={inputMessage}
+				onChange={(e) => setInputMessage(e.target.value)}
+				onKeyDown={handleKeyPress}
+			/>
 
-      <button
-        className="bg-gray-300 hover:bg-gray-500 ml-2 text-white rounded-md p-2 transition"
-        onClick={handleSend}
-        type="button"
-      >
-        <img src={cursor} className="h-5 w-5 invert" alt="Send" />
-      </button>
-    </div>
-  );
+			<button
+				className='bg-gray-300 hover:bg-gray-300 ml-2 text-white rounded-md p-2 transition'
+				onClick={handleSend}
+				type='button'
+			>
+				<img src={cursor} className='h-5 w-5 invert' alt='Send' />
+			</button>
+		</div>
+	);
 };
 
 export default ChatInput;
-
-
-
-
 
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // // src/components/community/CommunitySide/ChatInputWithEmojiPicker.tsx
@@ -104,7 +100,6 @@ export default ChatInput;
 //   setInputMessage((prev) => prev + selectedEmoji);
 //   setShowPicker(false);
 // };
-
 
 //   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 //     if (e.key === 'Enter') handleSend();

@@ -7,115 +7,114 @@ import { useDispatch, useSelector } from 'react-redux';
 // import type { RootState } from '@/store/store';
 import { GetLocalStorage } from '@/utils/helper';
 import type { AppDispatch } from '@/store/store';
-import { setMsgList, updateMsgList } from '@/features/community/redux/communitySlice';
+import {
+	setMsgList,
+	updateMsgList,
+} from '@/features/community/redux/communitySlice';
 
 type UseCommunityChatArgs = {
-  socket: any;
-  userId?: string;
-  communities?: Community[];
-  receiveEventName?: string;
-  userName: string;
+	socket: any;
+	userId?: string;
+	communities?: Community[];
+	receiveEventName?: string;
+	userName: string;
 };
 
 export function useCommunityChat({
-  socket,
-  userId,
-  // userName,
-}: UseCommunityChatArgs) {
-  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isConnected, setIsConnected] = useState<boolean>(false)
-  const selectedMsg: any = useSelector((state: any) => state.community.selectedMsg)
-  const user: any = GetLocalStorage('user')
-  const dispatch = useDispatch<AppDispatch>()
+	socket,
+	userId,
+}: // userName,
+UseCommunityChatArgs) {
+	const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+	const [messages, setMessages] = useState<Message[]>([]);
+	const [isConnected, setIsConnected] = useState<boolean>(false);
+	const selectedMsg: any = useSelector(
+		(state: any) => state.community.selectedMsg
+	);
+	const user: any = GetLocalStorage('user');
+	const dispatch = useDispatch<AppDispatch>();
 
-  const selectChat = (chat: Community) => {
-    const selected: Chat = {
-      _id: chat._id,
-      name: chat.batch?.name || chat.group,
-      lastMessage: chat.last_message?.message || '',
-      time: chat.last_message?.timestamp || '',
-      members: `${chat.users.length} members`,
-      groupImage: chat.batch?.groupImage,
-      admin: chat.admin?.[0]?.first_name || '',
-    };
-    setSelectedChat(selected);
-  };
+	const selectChat = (chat: Community) => {
+		const selected: Chat = {
+			_id: chat._id,
+			name: chat.group,
+			lastMessage: chat.last_message?.message || '',
+			time: chat.last_message?.timestamp || '',
+			members: `${chat.users.length} members`,
+			groupImage: chat?.groupimage,
+			admin: chat.admin?.[0]?.first_name || '',
+		};
+		setSelectedChat(selected);
+	};
 
+	useEffect(() => {
+		const fetchMessages = async (chatId?: string) => {
+			try {
+				if (!chatId) return;
+				const params = { community: chatId };
+				const data = await getMessage(params);
+				const msg = data?.data || [];
+				dispatch(setMsgList(msg));
+				setMessages(data?.data || []);
+			} catch (error: any) {
+				console.log(error);
+			}
+		};
+		fetchMessages(selectedChat?._id);
+	}, [dispatch, selectedChat?._id, userId]);
 
-  useEffect(() => {
-    const fetchMessages = async (chatId?: string) => {
-      try {
-        if (!chatId) return;
-        const params = { community: chatId };
-        const data = await getMessage(params);
-        const msg = data?.data || []
-        dispatch(setMsgList(msg))
-        setMessages(data?.data || []);
-      } catch (error: any) {
-        console.log(error)
-      }
-    };
-    fetchMessages(selectedChat?._id);
-  }, [dispatch, selectedChat?._id, userId]);
+	useEffect(() => {
+		// if (!socket) return;
 
+		const handleMessage = (message: Message) => {
+			console.log(message, 'mess');
+			setMessages((prev) => [...prev, message]);
+			dispatch(updateMsgList(message));
+		};
 
-  useEffect(() => {
-    // if (!socket) return;
+		const handleConnection = () => {
+			setIsConnected(true);
+		};
 
-    const handleMessage = (message: Message) => {
-      console.log(message, 'mess')
-      setMessages((prev) => [...prev, message]);
-      dispatch(updateMsgList(message))
-    };
+		const handleDisconnection = () => {
+			setIsConnected(false);
+		};
 
-    const handleConnection = () => {
-      setIsConnected(true);
-    };
+		socket.on('newMessage', handleMessage);
+		socket.on('connect', handleConnection);
+		socket.on('disconnect', handleDisconnection);
 
-    const handleDisconnection = () => {
-      setIsConnected(false);
-    };
+		return () => {
+			socket.off('newMessage', handleMessage);
+			socket.off('connect', handleConnection);
+			socket.off('disconnect', handleDisconnection);
+		};
+	}, [socket, setMessages, messages, dispatch]);
 
-    socket.on("newMessage", handleMessage);
-    socket.on("connect", handleConnection);
-    socket.on("disconnect", handleDisconnection);
+	const sendMessage = (text: string) => {
+		const message: Message = {
+			content: text,
+			groupId: selectedMsg?._id,
+			senderId: user?._id,
+			name: user?.first_name,
+			time: new Date().toISOString(),
+			message: text,
+		};
 
+		dispatch(updateMsgList({ ...message, sender_name: user?.first_name }));
+		socket.emit('sendMessage', message);
+		setMessages((prev) => [...prev, message]);
+	};
 
-    return () => {
-      socket.off("newMessage", handleMessage);
-      socket.off("connect", handleConnection);
-      socket.off("disconnect", handleDisconnection);
+	const isMine = (m: Message) => (m.sender ?? m.senderId) === userId;
 
-    };
-  }, [socket, setMessages, messages, dispatch]);
-
-  const sendMessage = (text: string) => {
-
-    const message: Message = {
-      content: text,
-      groupId: selectedMsg?._id,
-      senderId: user?._id,
-      name: user?.first_name,
-      time: new Date().toISOString(),
-      message: text
-    };
-
-
-    dispatch(updateMsgList({ ...message, sender_name: user?.first_name }))
-    socket.emit('sendMessage', message);
-    setMessages((prev) => [...prev, message]);
-  };
-
-  const isMine = (m: Message) => (m.sender ?? m.senderId) === userId;
-
-  return {
-    selectedChat,
-    selectChat,
-    messages,
-    setMessages,
-    sendMessage,
-    isMine,
-    isConnected,
-  };
+	return {
+		selectedChat,
+		selectChat,
+		messages,
+		setMessages,
+		sendMessage,
+		isMine,
+		isConnected,
+	};
 }

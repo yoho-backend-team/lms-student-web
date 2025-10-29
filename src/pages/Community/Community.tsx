@@ -15,7 +15,7 @@ const Community = () => {
 	const communities: any = useSelector(selectCommunities);
 	const dispatch = useDispatch<AppDispatch>();
 	const { showLoader, hideLoader } = useLoader();
-	const user = GetLocalStorage("user")
+	const user = GetLocalStorage('user');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -29,13 +29,12 @@ const Community = () => {
 		fetchData();
 	}, [dispatch, user?._id]);
 
-
-	const data: any = { data: [] }
+	const data: any = { data: [] };
 	communities?.data?.forEach((item: any) => {
-		if (item?.batch?.student?.includes(user?._id)) {
-			data?.data?.push(item)
+		if (item?.users) {
+			data?.data?.push(item);
 		}
-	})
+	});
 
 	useEffect(() => {
 		(async () => {
@@ -54,14 +53,12 @@ const Community = () => {
 		})();
 	}, [dispatch, hideLoader, showLoader]);
 
-
 	return (
 		<>
 			<div className=' sticky ml-2 mt-2'>
 				<p className='text-2xl font-semibold'>Community</p>
 				<Communityside communities={data} />
 			</div>
-
 		</>
 	);
 };

@@ -19,23 +19,39 @@ const Login = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<ChangePassword>({});
-	const [showPassword, setShowPassword] = useState(false);
 	const location = useLocation();
 	const { email } = location.state || {};
 	const navigate = useNavigate();
 	const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [showNewPassword, setShowNewPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [passwordStrength, setPasswordStrength] = useState<
+		'strong' | 'weak' | ''
+	>('');
+
+	const checkPasswordStrength = (password: string) => {
+		const strongRegex =
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?{}[\]~])[A-Za-z\d!@#$%^&*()_\-+=<>?{}[\]~]{8,}$/;
+		if (!password) return '';
+		return strongRegex.test(password) ? 'strong' : 'weak';
+	};
+
+	const newPassword = watch('newPassword');
+
+	useEffect(() => {
+		setPasswordStrength(checkPasswordStrength(newPassword || ''));
+	}, [newPassword]);
+
 	useEffect(() => {
 		const checkScreenSize = () => {
 			setIsMobileOrTablet(window.innerWidth < 1024);
 		};
-
 		checkScreenSize();
 		window.addEventListener('resize', checkScreenSize);
-
-		return () => {
-			window.removeEventListener('resize', checkScreenSize);
-		};
+		return () => window.removeEventListener('resize', checkScreenSize);
 	}, []);
 
 	const onSubmit = async (formData: ChangePassword) => {
@@ -44,6 +60,18 @@ const Login = () => {
 				toast.error('Passwords do not match');
 				return;
 			}
+
+			if (passwordStrength !== 'strong') {
+				toast.error(
+					'Password is weak. It must contain uppercase, lowercase, number, and special character.',
+					{
+						style: { backgroundColor: 'red', color: 'white' },
+					}
+				);
+				return;
+			}
+
+			setIsLoading(true);
 			const payload = {
 				email,
 				new_password: formData.newPassword,
@@ -51,22 +79,33 @@ const Login = () => {
 			};
 
 			const response = await resetpasswordClient(payload, {});
+			setIsLoading(false);
 
 			if (response) {
-				toast.success('Password reset successfully', { style: { backgroundColor: 'green', color: 'white' } });
+				toast.success('Password reset successfully', {
+					style: { backgroundColor: 'green', color: 'white' },
+				});
 				navigate('/login');
 			}
-
 		} catch (error) {
+			setIsLoading(false);
 			console.error('Reset Password Error:', error);
-			toast.error('Something went wrong', { style: { backgroundColor: 'red', color: 'white' } });
+			toast.error('Something went wrong', {
+				style: { backgroundColor: 'red', color: 'white' },
+			});
 		}
 	};
 
 	return (
-		<div className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${isMobileOrTablet ? 'justify-center' : ''}`}>
-			{/* Form Card - Always visible */}
-			<div className={`${isMobileOrTablet ? 'w-full max-w-md' : 'w-1/2'} h-full`}>
+		<div
+			className={`flex bg-[#ebeff3] w-full h-[100vh] p-4 gap-4 ${
+				isMobileOrTablet ? 'justify-center' : ''
+			}`}
+		>
+			{/* Form Card */}
+			<div
+				className={`${isMobileOrTablet ? 'w-full max-w-md' : 'w-1/2'} h-full`}
+			>
 				<Card
 					className='bg-[#ebeff3] w-full h-full rounded-md flex px-4 justify-center cursor-pointer'
 					style={{
@@ -100,38 +139,59 @@ const Login = () => {
 								<div className='relative'>
 									<input
 										style={{ ...FONTS.heading_06 }}
-										type={showPassword ? 'text' : 'password'}
+										type={showNewPassword ? 'text' : 'password'}
 										{...register('newPassword', {
 											required: 'Please Enter Your New Password',
 										})}
-										className='w-full mb-3 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none xl:h-15 xl:text-lg 2xl:text-xl'
+										className='w-full mb-1 mt-2 rounded-md px-4 py-2 shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] outline-none xl:h-15 xl:text-lg 2xl:text-xl'
 									/>
 									<span
 										className='absolute top-5 right-3 text-gray-500 cursor-pointer xl:top-7'
-										onClick={() => setShowPassword(!showPassword)}
+										onClick={() => setShowNewPassword(!showNewPassword)}
 									>
-										{showPassword ? (
+										{showNewPassword ? (
 											<EyeSlashIcon className='w-5 h-5 text-[#716F6F]' />
 										) : (
 											<EyeIcon className='w-5 h-5 text-[#716F6F]' />
 										)}
 									</span>
 								</div>
+
+								{/* Password Strength Indicator */}
+								{passwordStrength && (
+									<p
+										className={`text-sm ${
+											passwordStrength === 'strong'
+												? '!text-green-600'
+												: '!text-red-500'
+										}`}
+										style={{ ...FONTS.para_03 }}
+									>
+										{passwordStrength === 'strong'
+											? 'Strong Password'
+											: 'Weak Password — Must contain uppercase, lowercase, number, and special character'}
+									</p>
+								)}
+
 								{errors.newPassword && (
-									<span style={{ ...FONTS.para_03, color: COLORS.light_red }}>
+									<span
+										style={{
+											...FONTS.para_03,
+											color: COLORS.light_red,
+										}}
+									>
 										{errors.newPassword.message}
 									</span>
 								)}
 							</div>
 
-							{/* Confirm Password  */}
-
-							<div className='flex flex-col space-y-2'>
+							{/* Confirm Password */}
+							<div className='flex flex-col space-y-2 mt-2'>
 								<label style={{ ...FONTS.heading_04 }}>Confirm Password</label>
 								<div className='relative'>
 									<input
 										style={{ ...FONTS.heading_06 }}
-										type={showPassword ? 'text' : 'password'}
+										type={showConfirmPassword ? 'text' : 'password'}
 										{...register('confirmPassword', {
 											required: 'Enter Same as New Password',
 										})}
@@ -139,9 +199,9 @@ const Login = () => {
 									/>
 									<span
 										className='absolute top-5 right-3 text-gray-500 cursor-pointer xl:top-7'
-										onClick={() => setShowPassword(!showPassword)}
+										onClick={() => setShowConfirmPassword(!showConfirmPassword)}
 									>
-										{showPassword ? (
+										{showConfirmPassword ? (
 											<EyeSlashIcon className='w-5 h-5 text-[#716F6F]' />
 										) : (
 											<EyeIcon className='w-5 h-5 text-[#716F6F]' />
@@ -155,16 +215,22 @@ const Login = () => {
 								)}
 							</div>
 
-							{/* Submit */}
+							{/* Submit Button */}
 							<button
 								type='submit'
-								className={`w-full my-6 mt-8 bg-gradient-to-r from-[#7B00FF] to-[#B200FF] py-2 rounded-md transition cursor-pointer`}
+								className={`w-full my-6 mt-8 py-2 rounded-md transition cursor-pointer ${
+									isLoading
+										? 'bg-gray-400'
+										: 'bg-gradient-to-r from-[#7B00FF] to-[#B200FF]'
+								}`}
 								style={{ ...FONTS.heading_04, color: COLORS.white }}
+								disabled={isLoading}
 							>
-								Submit
+								{isLoading ? 'Submitting...' : 'Submit'}
 							</button>
+
 							<div
-								className='flex items-center gap-2 justify-center'
+								className='flex items-center gap-2 justify-center cursor-pointer'
 								onClick={() => navigate('/login')}
 							>
 								<IoMdArrowRoundBack color={COLORS.blue_02} />
@@ -177,7 +243,7 @@ const Login = () => {
 				</Card>
 			</div>
 
-			{/* Gradient Card - Hidden on mobile/tablet, visible on desktop */}
+			{/* Gradient Right Card */}
 			{!isMobileOrTablet && (
 				<div className='w-1/2 h-full'>
 					<Card

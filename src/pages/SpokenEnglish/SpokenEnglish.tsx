@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
-
 import React, { useEffect } from 'react';
 import SpokenEnglishLearning from '@/components/SpokenEnglish/SpokenEnglishLearning';
 import { useLoader } from '@/context/LoadingContext/Loader';
 import { useDispatch } from 'react-redux';
 import { getDashBoardReports } from '@/features/Dashboard/reducers/thunks';
-
-
 
 const SpokenEnglish: React.FC = () => {
 	const dispatch = useDispatch<any>();
@@ -31,10 +27,7 @@ const SpokenEnglish: React.FC = () => {
 		})();
 	}, [dispatch, hideLoader, showLoader]);
 
-
-
 	return (
-
 		<>
 			<div className='w-full h-full relative'>
 				<SpokenEnglishLearning />
