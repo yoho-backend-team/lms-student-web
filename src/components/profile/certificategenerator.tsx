@@ -8,6 +8,7 @@ export interface Certificate {
   student: string;
   email: string;
 }
+
 export const downloadCertificate = async (certificate: Certificate) => {
   try {
     const html2canvas = (await import('html2canvas')).default;

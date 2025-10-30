@@ -10,6 +10,7 @@ interface PersonalInfo {
   name: string;
   gender: string;
   contactNumber: string;
+  alternatecontactNumber: string;
   dateOfBirth: string;
   pinCode: string;
   address: string;

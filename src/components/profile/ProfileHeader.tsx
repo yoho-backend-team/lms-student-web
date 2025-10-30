@@ -96,7 +96,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 								{name}
 							</h3>
 							<p
-								className='text-xs leading-relaxed'
+								className='!text-xs leading-relaxed w-[140px]'
 								style={{
 									color: COLORS.text_desc,
 									fontFamily: FONTS.para_01.fontFamily,
@@ -108,19 +108,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 					</div>
 
 					{/* Right side - Edit button */}
-			{showEditButton && (
+					{showEditButton && (
 						<div className='flex-shrink-0'>
 							<button
 								onClick={onEditClick}
-								className={`cursor-pointer border-none rounded-md px-2 py-2 flex items-center gap-1 text-xs font-medium transition-all duration-200 ${isEditing
-									? 'shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
-									: 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
-									}`}
+								className={`cursor-pointer border-none rounded-md px-2 py-2 flex items-center gap-1 text-xs font-medium transition-all duration-200 relative -top-5 left-1 ${
+									isEditing
+										? 'shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
+										: 'shadow-[3px_3px_5px_rgba(255,255,255,0.7),inset_2px_2px_3px_rgba(189,194,199,0.75)] hover:shadow-[inset_3px_3px_5px_rgba(189,194,199,0.75),inset_-3px_-3px_5px_rgba(255,255,255,0.7)]'
+								}`}
 								style={{
 									backgroundColor: COLORS.bg_Colour,
 									fontFamily: FONTS.para_01.fontFamily,
 									color: isEditing ? COLORS.light_blue : COLORS.text_desc,
-									
 								}}
 							>
 								<Edit className='w-3 h-3' />
@@ -128,12 +128,8 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 									{isEditing ? 'Close' : 'Edit'}
 								</span>
 							</button>
-
-					</div>
+						</div>
 					)}
-
-
-
 				</div>
 			</CardContent>
 		</Card>

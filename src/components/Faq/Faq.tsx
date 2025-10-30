@@ -12,54 +12,49 @@ import type { FAQItem } from './types';
 import { useSelector } from 'react-redux';
 
 const FAQInterface: React.FC = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const FaqData = useSelector((state: any) => state.FaqSlice)
+	const FaqData = useSelector((state: any) => state.FaqSlice);
 
-  const faqItems: FAQItem[] = FaqData?.data?.map((items: any) => (
-    {
-      id: items.title,
-      question: items.title,
-      content: items.description
-    }
-  ))
+	const faqItems: FAQItem[] = FaqData?.data?.map((items: any) => ({
+		id: items?.title || '-',
+		question: items?.title || '-',
+		content: items?.description || '-',
+	}));
 
-  const {
-    expandedItems,
-    searchQuery,
-    filteredItems,
-    toggleExpand,
-    setSearchQuery,
-    expandAll,
-    collapseAll
-  } = useFAQ(faqItems);
+	const {
+		expandedItems,
+		searchQuery,
+		filteredItems,
+		toggleExpand,
+		setSearchQuery,
+		expandAll,
+		collapseAll,
+	} = useFAQ(faqItems);
 
-  const handleContactSupport = () => {
-    // Navigate to tickets page
-    navigate('/help-center');
-  };
+	const handleContactSupport = () => {
+		// Navigate to tickets page
+		navigate('/tickets');
+	};
 
-  return (
-    <FAQContainer>
-      <FAQHeader />
-      <FAQSearch
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
-      <FAQActions
-        onExpandAll={expandAll}
-        onCollapseAll={collapseAll}
-        totalItems={filteredItems.length}
-        expandedCount={expandedItems.size}
-      />
-      <FAQList
-        items={filteredItems}
-        expandedItems={expandedItems}
-        onToggleItem={toggleExpand}
-      />
-      <FAQSupport onContactSupport={handleContactSupport} />
-    </FAQContainer>
-  );
+	return (
+		<FAQContainer>
+			<FAQHeader />
+			<FAQSearch searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+			<FAQActions
+				onExpandAll={expandAll}
+				onCollapseAll={collapseAll}
+				totalItems={filteredItems.length}
+				expandedCount={expandedItems.size}
+			/>
+			<FAQList
+				items={filteredItems}
+				expandedItems={expandedItems}
+				onToggleItem={toggleExpand}
+			/>
+			<FAQSupport onContactSupport={handleContactSupport} />
+		</FAQContainer>
+	);
 };
 
 export default FAQInterface;

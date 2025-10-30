@@ -2,7 +2,7 @@ import React from 'react';
 import { HelpCenterMain } from './index';
 
 const HelpCentre: React.FC = () => {
-  return <HelpCenterMain />;
+	return <HelpCenterMain />;
 };
 
 export default HelpCentre;

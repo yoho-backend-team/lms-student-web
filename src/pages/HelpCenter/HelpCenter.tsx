@@ -6,15 +6,14 @@ import { useDispatch } from 'react-redux';
 import { GetLocalStorage } from '@/utils/helper';
 
 const HelpCenter = () => {
+	const dispatch = useDispatch<any>();
+	const userDetail: any = GetLocalStorage('user');
 
-  const dispatch = useDispatch<any>();
-  const userDetail: any = GetLocalStorage('user');
+	useEffect(() => {
+		dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
+	}, [dispatch, userDetail?.institute_id?.uuid]);
 
-  useEffect(() => {
-    dispatch(getHelpThunk({ instituteid: userDetail?.institute_id?.uuid }));
-  }, [dispatch, userDetail?.institute_id?.uuid]);
-
-  return <HelpCentre />;
+	return <HelpCentre />;
 };
 
 export default HelpCenter;

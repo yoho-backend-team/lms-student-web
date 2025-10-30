@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ProfileSidebar from './ProfileSidebar';
 import ProfileContent from './ProfileContent';
 import { FONTS } from '@/constants/uiConstants';
@@ -7,7 +7,12 @@ import { useToast } from '@/components/ui/toast';
 import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '@/features/Profile/reducers/selectors';
-import { getStudentProfileThunk, updateStudentProfileThunk } from '@/features/Profile/reducers/thunks';
+import {
+	getStudentProfileThunk,
+	updateStudentProfileThunk,
+} from '@/features/Profile/reducers/thunks';
+import { toast } from 'react-toastify';
+import { uploadticketfile } from '@/features/Tickets/services/Tickets';
 
 const ProfileInformation: React.FC = () => {
 	const [activeMenuItem, setActiveMenuItem] = useState('profile');
@@ -15,53 +20,85 @@ const ProfileInformation: React.FC = () => {
 	const [showCancelDialog, setShowCancelDialog] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 	const { showToast } = useToast();
-
 	const dispatch = useDispatch<any>();
 	const profileDetails = useSelector(selectProfile);
 
-	console.log(profileDetails, "checking the data")
+	// Use refs to track the original data that won't change with re-renders
+	const originalPersonalInfoRef = useRef<any>(null);
+	const originalProfileImageRef = useRef<string>('');
 
 	useEffect(() => {
 		dispatch(getStudentProfileThunk({}));
 	}, [dispatch]);
 
-	// Sample data - replace with actual data from props or API
+	// Initialize profile data from profileDetails
 	const [profileData, setProfileData] = useState({
-		name: profileDetails?.length != 0 ? profileDetails?.full_name : 'NA',
-		traineeId:
-			profileDetails?.length != 0 ? profileDetails?.userDetail?.studentId : 'NA',
-		profileImage: profileDetails?.length != 0 ? profileDetails?.image : 'NA',
+		name: profileDetails?.full_name || '-',
+		traineeId: profileDetails?.userDetail?.studentId || '-',
+		profileImage: profileDetails?.image || null,
 	});
 
 	const [personalInfo, setPersonalInfo] = useState({
-		mailAddress: profileDetails?.length != 0 ? profileDetails?.email : 'NA',
-		name: profileDetails?.length != 0 ? profileDetails?.full_name : 'NA',
-		gender: profileDetails?.length != 0 ? profileDetails.gender : 'NA',
-		contactNumber:
-			profileDetails?.length != 0
-				? profileDetails?.contact_info?.phone_number
-				: 'NA',
-		dateOfBirth: profileDetails?.length != 0 ? profileDetails?.dob : 'NA',
-		pinCode:
-			profileDetails?.length != 0 ? profileDetails?.contact_info?.pincode : 'NA',
+		mailAddress: profileDetails?.email || '-',
+		name: profileDetails?.full_name || '',
+		gender: profileDetails?.gender || '-',
+		contactNumber: profileDetails?.contact_info?.phone_number || '-',
+		alternatecontactNumber:
+			profileDetails?.contact_info?.alternate_phone_number || '-',
+		dateOfBirth: profileDetails?.dob || '-',
+		pinCode: profileDetails?.contact_info?.pincode || '-',
 		address:
-			profileDetails?.length != 0 ? profileDetails?.contact_info?.address2 : 'NA',
+			`${profileDetails?.contact_info?.address1}, ${profileDetails?.contact_info?.address2}` ||
+			'-',
 	});
 
 	const [instituteInfo, setInstituteInfo] = useState({
-		course: 'Theoretical Physics',
-		batch: 'Batch 2024-25',
-		rollNumber: profileDetails?.length != 0 ? profileDetails?.roll_no : 'NA',
-		studentId:
-			profileDetails?.length != 0 ? profileDetails?.userDetail?.studentId : 'NA',
+		course: profileDetails?.userDetail?.course?.course_name || '-',
+		batch: profileDetails?.userDetail?.course?.batches?.[0]?.batch_name || '-',
+		rollNumber: profileDetails?.roll_no || '-',
+		studentId: profileDetails?.userDetail?.studentId || '-',
 	});
 
-	// Store original data to compare changes
-	const [originalPersonalInfo, setOriginalPersonalInfo] =
-		useState(personalInfo);
-	const [originalProfileImage, setOriginalProfileImage] = useState(
-		profileData?.profileImage
-	);
+	// Update states when profileDetails changes
+	useEffect(() => {
+		if (profileDetails) {
+			const newProfileData = {
+				name: profileDetails?.full_name || '-',
+				traineeId: profileDetails?.userDetail?.studentId || '-',
+				profileImage: profileDetails?.image || null,
+			};
+
+			const newPersonalInfo = {
+				mailAddress: profileDetails?.email || '-',
+				name: profileDetails?.full_name || '-',
+				gender: profileDetails?.gender || '-',
+				contactNumber: profileDetails?.contact_info?.phone_number || '-',
+				alternatecontactNumber:
+					profileDetails?.contact_info?.alternate_phone_number || '-',
+				dateOfBirth: profileDetails?.dob || '-',
+				pinCode: profileDetails?.contact_info?.pincode || '-',
+				address:
+					`${profileDetails?.contact_info?.address1}, ${profileDetails?.contact_info?.address2}` ||
+					'-',
+			};
+
+			const newInstituteInfo = {
+				course: profileDetails?.userDetail?.course?.course_name || '-',
+				batch:
+					profileDetails?.userDetail?.course?.batches?.[0]?.batch_name || '-',
+				rollNumber: profileDetails?.roll_no || '-',
+				studentId: profileDetails?.userDetail?.studentId || '-',
+			};
+
+			setProfileData(newProfileData);
+			setPersonalInfo(newPersonalInfo);
+			setInstituteInfo(newInstituteInfo);
+
+			// Update refs with current data
+			originalPersonalInfoRef.current = { ...newPersonalInfo };
+			originalProfileImageRef.current = newProfileData.profileImage;
+		}
+	}, [profileDetails]);
 
 	const handleMenuItemClick = (itemId: string) => {
 		if (isEditing && itemId !== 'profile') {
@@ -70,7 +107,7 @@ const ProfileInformation: React.FC = () => {
 		setActiveMenuItem(itemId);
 	};
 
-	const handleGoBack = () => { };
+	const handleGoBack = () => {};
 
 	const handlePersonalInfoChange = (data: typeof personalInfo) => {
 		setPersonalInfo(data);
@@ -85,22 +122,38 @@ const ProfileInformation: React.FC = () => {
 
 	const handleEditClick = () => {
 		if (!isEditing) {
-			// Store original data when starting to edit
-			setOriginalPersonalInfo(personalInfo);
-			setOriginalProfileImage(profileData.profileImage);
+			// Store current data as original when starting to edit
+			originalPersonalInfoRef.current = { ...personalInfo };
+			originalProfileImageRef.current = profileData.profileImage;
 		}
 		setIsEditing(!isEditing);
 	};
 
-	const handleImageChange = (imageFile: File) => {
-		const imageUrl = URL.createObjectURL(imageFile);
-		setProfileData((prev) => ({ ...prev, profileImage: imageUrl }));
+	const handleImageChange = async (imageFile: File) => {
+		const formData = new FormData();
+		formData.append('file', imageFile);
+
+		try {
+			const response = await uploadticketfile(formData);
+			if (response) {
+				setProfileData((prev) => ({
+					...prev,
+					profileImage: response?.data?.file,
+				}));
+			}
+		} catch (error) {
+			toast.error('Failed to upload the image');
+		}
 	};
 
 	const hasChanges = () => {
+		if (!originalPersonalInfoRef.current) return false;
+
 		const personalInfoChanged =
-			JSON.stringify(personalInfo) !== JSON.stringify(originalPersonalInfo);
-		const imageChanged = profileData.profileImage !== originalProfileImage;
+			JSON.stringify(personalInfo) !==
+			JSON.stringify(originalPersonalInfoRef.current);
+		const imageChanged =
+			profileData.profileImage !== originalProfileImageRef.current;
 		return personalInfoChanged || imageChanged;
 	};
 
@@ -116,36 +169,47 @@ const ProfileInformation: React.FC = () => {
 			// Prepare data for API update
 			const updateData = {
 				full_name: personalInfo?.name,
+				first_name: personalInfo?.name.split(' ')[0],
+				last_name: personalInfo?.name.split(' ')[1],
 				gender: personalInfo?.gender,
 				dob: personalInfo?.dateOfBirth,
 				contact_info: {
 					phone_number: personalInfo?.contactNumber,
+					alternate_phone_number: personalInfo?.alternatecontactNumber,
 					pincode: personalInfo?.pinCode,
-					address2: personalInfo?.address,
-					alternate_phone_number: personalInfo?.contactNumber || "0000000000"
-				}
+					address1: personalInfo?.address.split(',')[0],
+					address2: personalInfo?.address.split(',')[1],
+				},
+				image: profileData?.profileImage,
 			};
 
 			// Call the update profile thunk
 			await dispatch(updateStudentProfileThunk(updateData));
 
-			// Update local state
-			setOriginalPersonalInfo(personalInfo);
-			setOriginalProfileImage(profileData?.profileImage);
+			// Update refs with the saved data
+			originalPersonalInfoRef.current = { ...personalInfo };
+			originalProfileImageRef.current = profileData?.profileImage;
+
 			showToast('Profile updated successfully!', 'success');
 			setIsEditing(false);
 		} catch (error: any) {
 			console.error('Profile update error:', error);
-			// Extract error message from different possible error structures
-			const errorMessage = error?.response?.data?.message ||
-				(typeof error === 'object' && error !== null && 'message' in error ?
-					String(error.message) : 'Unknown error');
+			const errorMessage =
+				error?.response?.data?.message ||
+				(typeof error === 'object' && error !== null && 'message' in error
+					? String(error.message)
+					: 'Unknown error');
 
-			// Handle specific error cases
 			if (errorMessage.includes('duplicate key error')) {
-				showToast('Error: There was a conflict with existing data. Please try with different information.', 'error');
+				showToast(
+					'Error: There was a conflict with existing data. Please try with different information.',
+					'error'
+				);
 			} else if (errorMessage.includes('is not allowed to be empty')) {
-				showToast('Error: Some required fields cannot be empty. Please fill in all required information.', 'error');
+				showToast(
+					'Error: Some required fields cannot be empty. Please fill in all required information.',
+					'error'
+				);
 			} else {
 				showToast(`Failed to update profile: ${errorMessage}`, 'error');
 			}
@@ -164,12 +228,15 @@ const ProfileInformation: React.FC = () => {
 	};
 
 	const confirmCancel = () => {
-		setPersonalInfo(originalPersonalInfo);
-		setProfileData((prev) => ({
-			...prev,
-			profileImage: originalProfileImage,
-			name: originalPersonalInfo?.name,
-		}));
+		// Reset to the original data stored in refs
+		if (originalPersonalInfoRef.current) {
+			setPersonalInfo(originalPersonalInfoRef.current);
+			setProfileData((prev) => ({
+				...prev,
+				profileImage: originalProfileImageRef.current,
+				name: originalPersonalInfoRef.current?.name,
+			}));
+		}
 		setIsEditing(false);
 		setShowCancelDialog(false);
 	};

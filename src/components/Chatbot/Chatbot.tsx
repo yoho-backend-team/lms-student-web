@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageCircle, X, Send, WifiOff } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -19,8 +19,23 @@ const Chatbot: React.FC = () => {
     }
   ]);
   const [inputText, setInputText] = useState('');
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const clearHistoryTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Check for online/offline status
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -52,7 +67,61 @@ const Chatbot: React.FC = () => {
     };
   }, [messages]);
 
+  // Function to check if message is meaningful (contains at least some real words)
+  const isMeaningfulMessage = (message: string): boolean => {
+    const trimmedMessage = message.trim().toLowerCase();
+    
+    // Check if message is too short to be meaningful
+    if (trimmedMessage.length < 2) return false;
+    
+    // Common meaningless patterns (repeated characters, random keyboard mashing)
+    const meaninglessPatterns = [
+      /^[asdfghjkl]+$/i, // Common keyboard mashing
+      /^[qwertyuiop]+$/i, // Keyboard rows
+      /^[zxcvbnm]+$/i, // Keyboard bottom row
+      /^([a-z])\1+$/i, // Single character repeated
+      /^[0-9]+$/, // Only numbers
+      /^[^a-zA-Z0-9]+$/, // Only special characters
+    ];
+
+    // Check against meaningless patterns
+    if (meaninglessPatterns.some(pattern => pattern.test(trimmedMessage))) {
+      return false;
+    }
+
+    // List of common English words to check against
+    const commonWords = [
+      'hello', 'hi', 'hey', 'help', 'course', 'class', 'payment', 'fee', 
+      'profile', 'account', 'attendance', 'notification', 'community',
+      'spoken', 'english', 'assignment', 'quiz', 'exam', 'schedule',
+      'thank', 'thanks', 'bye', 'goodbye', 'what', 'when', 'where',
+      'how', 'why', 'who', 'which', 'can', 'could', 'would', 'should',
+      'please', 'sorry', 'yes', 'no', 'not', 'the', 'and', 'but', 'or',
+      'for', 'with', 'about', 'from', 'have', 'has', 'had', 'do', 'does',
+      'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must'
+    ];
+
+    // Check if message contains at least one common word
+    const words = trimmedMessage.split(/\s+/);
+    const hasCommonWord = words.some(word => 
+      commonWords.some(commonWord => 
+        word.includes(commonWord) || commonWord.includes(word)
+      )
+    );
+
+    // Also check for meaningful patterns like questions
+    const hasQuestionWords = /(what|when|where|why|how|who|which|can|could|would|should)/i.test(trimmedMessage);
+    const hasGreeting = /(hello|hi|hey|greetings|good morning|good afternoon|good evening)/i.test(trimmedMessage);
+    
+    return hasCommonWord || hasQuestionWords || hasGreeting || words.length >= 3;
+  };
+
   const getBotResponse = (userMessage: string): string => {
+    // First check if message is meaningful
+    if (!isMeaningfulMessage(userMessage)) {
+      return 'Sorry, I didn\'t understand that message. Could you please rephrase your question? I\'m here to help with courses, payments, profile, attendance, and other LMS-related topics.';
+    }
+
     const message = userMessage.toLowerCase();
     
     // Course and Class related queries
@@ -189,6 +258,19 @@ const Chatbot: React.FC = () => {
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
 
+    // Check if user is offline
+    if (!isOnline) {
+      const offlineMessage: Message = {
+        id: Date.now().toString(),
+        text: 'No Internet Connection. Please check your network.',
+        isUser: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, offlineMessage]);
+      setInputText('');
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       text: inputText,
@@ -237,9 +319,14 @@ const Chatbot: React.FC = () => {
                      md:p-4 md:mb-9 md:mr-0
                      lg:p-4 
                      xl:p-4
-                     2xl:p-5"
+                     2xl:p-5 relative"
         >
           <MessageCircle className="w-5 h-5 xs:w-5 xs:h-5 sm:w-6 sm:h-6 md:w-6 md:h-6 lg:w-7 lg:h-7 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8" />
+          {!isOnline && (
+            <div className="absolute -top-1 -right-1 bg-red-500 rounded-full p-1">
+              <WifiOff className="w-3 h-3 text-white" />
+            </div>
+          )}
         </button>
       )}
 
@@ -262,16 +349,24 @@ const Chatbot: React.FC = () => {
                           lg:p-5
                           xl:p-6
                           2xl:p-6">
-            <h3 className="font-semibold
-                           text-base
-                           xs:text-base
-                           sm:text-lg
-                           md:text-lg
-                           lg:text-xl
-                           xl:text-xl
-                           2xl:text-2xl">
-              LMS Assistant
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold
+                             text-base
+                             xs:text-base
+                             sm:text-lg
+                             md:text-lg
+                             lg:text-xl
+                             xl:text-xl
+                             2xl:text-2xl">
+                LMS Assistant
+              </h3>
+              {!isOnline && (
+                <div className="flex items-center gap-1 bg-red-500 px-2 py-1 rounded-full text-xs">
+                  <WifiOff className="w-3 h-3" />
+                  <span>Offline</span>
+                </div>
+              )}
+            </div>
             <button
               onClick={() => setIsOpen(false)}
               className="hover:opacity-80 p-1 rounded transition-opacity"
@@ -356,7 +451,8 @@ const Chatbot: React.FC = () => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
+                placeholder={isOnline ? "Type your message..." : "No internet connection..."}
+                disabled={!isOnline}
                 className="flex-1 bg-white rounded-lg focus:outline-none
                            px-3 py-2 text-sm
                            xs:px-3 xs:py-2 xs:text-sm
@@ -364,7 +460,8 @@ const Chatbot: React.FC = () => {
                            md:px-4 md:py-2.5 md:text-base
                            lg:px-4 lg:py-2.5 lg:text-base
                            xl:px-5 xl:py-3 xl:text-lg
-                           2xl:px-5 2xl:py-3 2xl:text-lg"
+                           2xl:px-5 2xl:py-3 2xl:text-lg
+                           disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   boxShadow: `
                     rgba(255, 255, 255, 0.7) -2px -2px 2px inset,
@@ -374,7 +471,8 @@ const Chatbot: React.FC = () => {
               />
               <button
                 onClick={handleSendMessage}
-                className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg transition-all hover:scale-105
+                disabled={!isOnline || !inputText.trim()}
+                className="bg-gradient-to-l from-[#7B00FF] to-[#B200FF] text-white rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
                            p-2
                            xs:p-2
                            sm:p-2.5
@@ -383,15 +481,21 @@ const Chatbot: React.FC = () => {
                            xl:p-3
                            2xl:p-3.5"
                 style={{
-                  boxShadow: `
+                  boxShadow: isOnline ? `
                     rgba(255, 255, 255, 0.7) -2px -2px 2px,
                     rgba(189, 194, 199, 0.75) 2px 2px 2px
-                  `
+                  ` : 'none'
                 }}
               >
                 <Send className="w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-6 xl:h-6 2xl:w-7 2xl:h-7" />
               </button>
             </div>
+            {!isOnline && (
+              <div className="flex items-center justify-center gap-2 mt-2 text-red-500 text-xs">
+                <WifiOff className="w-3 h-3" />
+                <span>No internet connection</span>
+              </div>
+            )}
           </div>
         </div>
       )}
